@@ -141,14 +141,16 @@ class BertCRFNER(nn.Module):
 
     def decode(
         self,
-        input_ids: torch.Tensor,
-        attention_mask: torch.Tensor,
-        token_type_ids: torch.Tensor,
+        input_ids: torch.Tensor = None,
+        attention_mask: torch.Tensor = None,
+        token_type_ids: torch.Tensor = None,
+        emissions: torch.Tensor = None,
     ) -> list[list[int]]:
         """Viterbi 解码，返回 list[list[int]]，每条序列长度等于实际token数（不含PAD）。"""
-        emissions = self._get_emissions(input_ids, attention_mask, token_type_ids)
+        if emissions is None:
+            emissions = self._get_emissions(input_ids, attention_mask, token_type_ids)
         mask = attention_mask.bool()
-        return self.crf.decode(emissions, mask=mask)
+        return self.crf.decode(emissions=emissions, mask=mask)
 
 
 def build_model(

@@ -65,9 +65,11 @@ def evaluate_epoch(
 
             if use_crf:
                 emissions, loss = model(input_ids, attention_mask, token_type_ids, labels)
-                pred_ids_list = model.decode(input_ids, attention_mask, token_type_ids)
+                # 只返回真实token的预测labels
+                pred_ids_list = model.decode(emissions=emissions, mask=attention_mask)
             else:
                 logits, loss = model(input_ids, attention_mask, token_type_ids, labels)
+                # 返回标准长度max_len的预测labels
                 pred_ids_list = logits.argmax(dim=-1).tolist()  # (B, L)
 
             total_loss += loss.item()
@@ -76,11 +78,11 @@ def evaluate_epoch(
             for i in range(len(input_ids)):     # batch
                 gold_seq = []
                 pred_seq = []
-                token_labels = labels_np[i]     # (L,)
+                token_labels = labels_np[i]
                 if use_crf:
                     pred_ids = pred_ids_list[i]
                 else:
-                    pred_ids = pred_ids_list[i] # (L,)
+                    pred_ids = pred_ids_list[i]
 
                 for j, gold_id in enumerate(token_labels):
                     if gold_id == -100:
