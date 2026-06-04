@@ -1,0 +1,17 @@
+# 完成一个多分类任务训练：随机生成一个十维向量，向量中的每一个数字代表中国随机的一个城市的今年春天的衣服的流行色，街上那种色彩的衣服颜色最多，就确定为这个城市今年春天的衣服的流行色就是那种颜色。
+# probs是对应的每个城市穿每种颜色的人的数量。
+# 首先计算每个城市穿每种颜色的人的权重，根据输入的十维向量自动计算权重，自动输出流行色，根据权重各个城市的流行色命名，如 ["粉色", "青色", "黑色"]。
+classes = ['红色', '黄色', '绿色', "白色", "紫色", "橙色", "蓝色", "粉色", "青色", "黑色"]
+probs = [103, 65, 300, 980, 203, 10, 100, 1060, 20, 10]
+max_class_label = classes[probs.index(max(probs))]
+import torch
+import numpy
+def softmax(probs):
+    res = []
+    for i in probs:
+        res.append(numpy.exp(i))
+    res = [r / sum(res) for r in res]
+    return res
+print(torch.softmax(torch.Tensor(probs), 0))
+max_torch_softmax_label = classes[probs.index(max(torch.Tensor(probs)))]
+print(max_torch_softmax_label)

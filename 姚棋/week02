@@ -1,0 +1,84 @@
+# 第二周作业：
+# 尝试完成一个多分类任务的训练:一个随机向量，哪一维数字最大就属于第几类。
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader, TensorDataset
+import numpy as np
+
+# 超参数
+DIM = 10                     # 向量维度（也是类别数）
+BATCH_SIZE = 64
+EPOCHS = 20
+LEARNING_RATE = 0.01
+TRAIN_SIZE = 5000
+TEST_SIZE = 1000
+
+# 生成数据：随机向量，标签为最大值索引
+def generate_data(num_samples, dim):
+    # 从均匀分布 U(0,1) 中采样，也可以使用正态分布
+    X = torch.rand(num_samples, dim)
+    y = torch.argmax(X, dim=1)   # 最大值所在维度的索引
+    return X, y
+
+# 训练集和测试集
+X_train, y_train = generate_data(TRAIN_SIZE, DIM)
+X_test, y_test = generate_data(TEST_SIZE, DIM)
+
+train_dataset = TensorDataset(X_train, y_train)
+test_dataset = TensorDataset(X_test, y_test)
+train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE)
+
+# 定义模型：简单的线性分类器（相当于多分类逻辑回归）
+class LinearClassifier(nn.Module):
+    def __init__(self, input_dim, num_classes):
+        super().__init__()
+        self.linear = nn.Linear(input_dim, num_classes)
+    
+    def forward(self, x):
+        return self.linear(x)   # 输出 logits
+
+model = LinearClassifier(DIM, DIM)
+
+# 损失函数和优化器
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
+
+# 训练循环
+for epoch in range(1, EPOCHS+1):
+    model.train()
+    total_loss = 0.0
+    for X_batch, y_batch in train_loader:
+        optimizer.zero_grad()
+        outputs = model(X_batch)
+        loss = criterion(outputs, y_batch)
+        loss.backward()
+        optimizer.step()
+        total_loss += loss.item() * X_batch.size(0)
+    
+    avg_loss = total_loss / TRAIN_SIZE
+    
+    # 评估
+    model.eval()
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for X_batch, y_batch in test_loader:
+            outputs = model(X_batch)
+            preds = torch.argmax(outputs, dim=1)
+            correct += (preds == y_batch).sum().item()
+            total += y_batch.size(0)
+    accuracy = correct / total
+    
+    print(f"Epoch {epoch:2d} | Loss: {avg_loss:.4f} | Test Acc: {accuracy:.4f}")
+
+# 最终测试
+model.eval()
+with torch.no_grad():
+    outputs = model(X_test)
+    preds = torch.argmax(outputs, dim=1)
+    final_acc = (preds == y_test).float().mean().item()
+print(f"\n最终测试准确率: {final_acc:.4f} ({final_acc*100:.2f}%)")
+
