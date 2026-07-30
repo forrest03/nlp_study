@@ -10,6 +10,7 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from .logging import log_event, log_error
 from .whitelist import normalize_program
 
 _BLOCK_SCALARS = {">", ">-", ">+", "|", "|-", "|+"}
@@ -156,7 +157,8 @@ class SkillLoader:
             if not isinstance(arr, list):
                 return None
             return [ToolSpec.from_dict(x) for x in arr if isinstance(x, dict)]
-        except (ValueError, TypeError):
+        except (ValueError, TypeError) as e:
+            log_error("tools_block_parse_failed", error=repr(e))
             return None
 
     def extract_tools(self, client, model: str, body: str, skill_name: str) -> list[ToolSpec]:
@@ -179,6 +181,7 @@ class SkillLoader:
             f"技能：{skill_name}\n\n主体：\n{body}"
         )
         try:
+            log_event("llm_request", purpose="extract_tools", skill=skill_name)
             resp = client.chat.completions.create(
                 model=model,
                 messages=[{"role": "user", "content": prompt}],
@@ -189,6 +192,10 @@ class SkillLoader:
             arr = data.get("tools", data) if isinstance(data, dict) else data
             if not isinstance(arr, list):
                 return []
-            return [ToolSpec.from_dict(x) for x in arr if isinstance(x, dict)]
-        except (ValueError, AttributeError, TypeError):
+            tools = [ToolSpec.from_dict(x) for x in arr if isinstance(x, dict)]
+            log_event("llm_response", purpose="extract_tools", skill=skill_name,
+                      tools=len(tools))
+            return tools
+        except (ValueError, AttributeError, TypeError) as e:
+            log_error("tool_extract_failed", skill=skill_name, error=repr(e))
             return []

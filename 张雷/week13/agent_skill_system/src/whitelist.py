@@ -6,9 +6,10 @@
 from __future__ import annotations
 
 import re
-import shlex
 from dataclasses import dataclass, field
 from enum import Enum
+
+from .logging import log_error
 
 
 class Reason(str, Enum):
@@ -84,14 +85,76 @@ def _has_redirect(tokens: list[str]) -> bool:
     return any(_REDIRECT_RE.match(t) for t in tokens)
 
 
+def _tokenize(command: str) -> list[str]:
+    """quote-aware 分词：仅以空白与操作符 ``;`` ``&`` ``|`` 切分，引号内不切分（posix 去引号）。
+
+    非 ASCII 字符（如 CJK 路径 ``张雷``）随所属 token 整体保留，不被拆成单字--
+    ``shlex(punctuation_chars=...)`` 会把 CJK 拆成单字 token，破坏含非 ASCII 的路径
+    （T029）。``;`` ``&`` ``|`` ``&&`` ``||`` 作为独立操作符 token 返回。
+    """
+    tokens: list[str] = []
+    cur: list[str] = []
+    quote: str | None = None
+    i, n = 0, len(command)
+    while i < n:
+        c = command[i]
+        if quote == "'":  # posix 单引号：内容字面，不转义
+            if c == "'":
+                quote = None
+            else:
+                cur.append(c)
+            i += 1
+            continue
+        if quote == '"':  # posix 双引号：仅 \ 转义下一字符
+            if c == '"':
+                quote = None
+            elif c == "\\" and i + 1 < n:
+                cur.append(command[i + 1])
+                i += 2
+                continue
+            else:
+                cur.append(c)
+            i += 1
+            continue
+        if c in ("'", '"'):
+            quote = c
+            i += 1
+            continue
+        if c in ";&|":
+            if cur:
+                tokens.append("".join(cur))
+                cur = []
+            if c == "&" and i + 1 < n and command[i + 1] == "&":
+                tokens.append("&&")
+                i += 2
+                continue
+            if c == "|" and i + 1 < n and command[i + 1] == "|":
+                tokens.append("||")
+                i += 2
+                continue
+            tokens.append(c)
+            i += 1
+            continue
+        if c.isspace():
+            if cur:
+                tokens.append("".join(cur))
+                cur = []
+            i += 1
+            continue
+        cur.append(c)
+        i += 1
+    if cur:
+        tokens.append("".join(cur))
+    return tokens
+
+
 def parse_segments(command: str) -> tuple[list[list[str]], list[str]]:
     """拆分组合命令（FR-003）。
 
     返回 (segments, ops)：segments 为各子命令的 token 列表；ops 为子命令间的操作符
     （'|' 表示管道，';' 表示顺序，含 ; && || &）。quote-aware（引号内的 ; 等不拆分）。
     """
-    lexer = shlex.shlex(command.strip(), posix=True, punctuation_chars=";&|")
-    tokens = list(lexer)
+    tokens = _tokenize(command.strip())
     _DELIMITERS = {";", "&", "|", "&&", "||"}
     segments: list[list[str]] = [[]]
     ops: list[str] = []
@@ -145,7 +208,8 @@ def validate(command: str, whitelist: Whitelist,
     # 2. 解析拆分（quote-aware）
     try:
         segments, _ = parse_segments(raw)
-    except ValueError:
+    except ValueError as e:
+        log_error("parse_segments_failed", command=command, error=repr(e))
         return BlockResult(True, command, Reason.NOT_IN_WHITELIST, BLOCK_MESSAGE)
     # 3. 重定向：token 扫描
     all_tokens = [t for seg in segments for t in seg]
