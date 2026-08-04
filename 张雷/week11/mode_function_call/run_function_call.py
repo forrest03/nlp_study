@@ -40,7 +40,7 @@ from openai import OpenAI
 # 把项目根目录加入 sys.path，让 src 可 import（直接 python 运行本脚本也能找到）
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.weather_backend import get_weather  # noqa: E402
+from src.weather_backend import geocode, get_weather_by_coords  # noqa: E402
 
 # ── LLM 配置 ───────────────────────────────────────────────────────────────
 
@@ -74,14 +74,32 @@ TOOLS_SCHEMA = [
     {
         "type": "function",
         "function": {
-            "name": "get_weather",
-            "description": "查询指定城市的当前天气及未来3天预报。城市用中文名，如 '宁德'、'北京'。",
+            "name": "geocode",
+            "description": "城市名 -> 经纬度。返回 JSON 字符串 {lat, lon, name, country, admin1}；未找到返回 'null'。",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "city": {"type": "string", "description": "城市中文名，如 '宁德'"},
                 },
                 "required": ["city"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_weather_by_coords",
+            "description": "经纬度 -> 当前天气及未来3天预报。lat/lon 必填；name/country/admin1 选填（用于报告标题，可从 geocode 结果转发）。",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "lat": {"type": "number", "description": "纬度（来自 geocode）"},
+                    "lon": {"type": "number", "description": "经度（来自 geocode）"},
+                    "name": {"type": "string", "description": "城市名（可选，用于报告标题）"},
+                    "country": {"type": "string", "description": "国家（可选）"},
+                    "admin1": {"type": "string", "description": "省/州（可选）"},
+                },
+                "required": ["lat", "lon"],
             },
         },
     },
@@ -92,15 +110,17 @@ TOOLS_SCHEMA = [
 # 新增工具只需：1) 在上面写 schema；2) 在这里加一行映射。这是 Function Call 的扩展方式。
 
 TOOL_DISPATCH = {
-    "get_weather": get_weather,
+    "geocode": geocode,
+    "get_weather_by_coords": get_weather_by_coords,
 }
 
 
 # ── 多轮循环 ────────────────────────────────────────────────────────────────
 
 SYSTEM_PROMPT = (
-    "你是一名天气查询助手。需要查天气时调用 get_weather 工具（城市用中文名，如 '宁德'、'北京'）。"
-    "本回合你可以一次调用多个工具。"
+    "你是一名天气查询助手。查天气分两步：先调 geocode(city) 拿到城市的经纬度"
+    "（返回 JSON：lat/lon/name/country/admin1），再调 get_weather_by_coords(lat, lon, name, country, admin1) 取天气预报。"
+    "本回合你可以一次调用多个工具（如同时 geocode 两个城市）。"
     "天气查询支持多轮：若问题需要基于一次天气结果做条件判断（如'若气温低于20度则查A城，否则查B城'），"
     "请先查条件所需的城市，看到结果后再决定下一步查哪个城市，不要预先把所有候选城市一次查完。"
 )
@@ -154,6 +174,9 @@ def run(client, model: str, question: str, verbose: bool = True) -> dict:
                 try:
                     # 工具执行！！
                     result = fn(**args)
+                    # 后端函数可能返回结构化数据（如 geocode 返回 dict），统一序列化成字符串喂给 LLM
+                    if not isinstance(result, str):
+                        result = json.dumps(result, ensure_ascii=False)
                 except TypeError as e:
                     result = f"参数错误：{e}"
                 except Exception as e:

@@ -63,8 +63,8 @@
 
 ### 3.4 方式三 CLI（选型原因：复用现成命令生态，零封装）
 - `mode_cli/cli/main.py`：argparse 子命令，把后端包成统一入口；`pyproject.toml` 用 `[project.scripts]` 注册为 `fincli`，`pip install -e .` 后是 PATH 上的真实命令（和 `git`/`ls` 一样），而非 `python xxx.py`。
-- **形态 A `run_cli`**：白名单 enum 限定可执行命令集，host 拼出 `fincli weather ...` 执行，安全；模型只能调预批准命令。
-- **形态 B `run_bash`**：模型自己拼 shell 命令字符串（如 `fincli weather --city 宁德`），最灵活最危险，靠沙箱（黑名单正则 + 命令头白名单含 fincli + 超时 + 工作目录锁定）兜底。
+- **形态 A `run_cli`**：白名单 enum 限定可执行命令集，host 拼出 `fincli geocode`/`fincli weather ...` 执行，安全；模型只能调预批准命令。
+- **形态 B `run_bash`**：模型自己拼 shell 命令字符串（如先 `fincli geocode --city 宁德` 再 `fincli weather --lat .. --lon ..`），最灵活最危险，靠沙箱（黑名单正则 + 命令头白名单含 fincli + 超时 + 工作目录锁定）兜底。
 - 与模型完全无关（任意能生成文本的 LLM 都能用），跨模型复用性最高。
 - **降级**：`run_cli.py` 启动时 `shutil.which("fincli")` 探测，未安装则自动退回 `python mode_cli/cli/main.py`，功能不变。
 
@@ -80,14 +80,14 @@
 **结果解读**：
 1. **能力一致**：四方式对同一问题调用的工具与参数基本一致--说明底层能力相同，差异在"接入方式"而非"能力"。
 2. **延迟**：Function Call 最快（进程内直调）；MCP 多一层 stdio IPC + Server 启动开销；CLI 多一层 subprocess 启动开销。后两者普遍高于 Function Call，具体排序随问题规模而异。
-3. **多轮循环**：天气条件题（如"若气温低于20度则查A城，否则查B城"）迫使四方式都跨多轮完成--模型须先查一个城市、看到结果再决定查哪个，无法并行一把梭。
+3. **多轮循环**：查天气分两步（`geocode` 拿坐标 -> `get_weather_by_coords` 取天气），坐标数据依赖使单城市查询也跨 2 轮；天气条件题（如"若气温低于20度则查A城，否则查B城"）迫使四方式都跨多轮完成--模型须先查一个城市、看到结果再决定查哪个，无法并行一把梭。
 4. **触顶保护**：极端情况下模型连续调工具 8 轮仍不给最终答案时，`MAX_ROUNDS` 用 `tool_choice="none"` 强制收尾，不静默截断。
 
 ## 5. 关键工程决策与踩坑
 
 | 问题 | 根因 | 解法 |
 |------|------|------|
-| MCP tool 函数递归调用自己（RecursionError） | `from src.weather_backend import get_weather` 后又 `def get_weather`，同名 tool 函数遮蔽了导入的后端函数，函数体内 `return get_weather(...)` 调到自己 | 用 `as` 别名导入：`from src.weather_backend import get_weather as _get_weather`，tool 函数体调 `_get_weather` |
+| MCP tool 函数递归调用自己（RecursionError） | `from src.weather_backend import geocode` 后又 `def geocode`，同名 tool 函数遮蔽了导入的后端函数，函数体内 `return geocode(...)` 调到自己 | 用 `as` 别名导入：`from src.weather_backend import geocode as _geocode`，tool 函数体调 `_geocode` |
 | MCP Server stdout 混入普通 print 破坏协议 | stdout 是 JSON-RPC 通道 | 所有 log 写 `file=sys.stderr` |
 | ClientSession 生命周期管理 | async context manager 一旦 `__aexit__` 连接就关 | `AsyncExitStack` 在 main 顶层持有连接 |
 | "宁德"天气查到西藏那曲的村而非福建宁德 | Open-Meteo geocoding 裸"宁德"命中西藏 PPL 点（feature_code=PPL），福建宁德是"宁德市"（PPLA2）| count=10 取候选；若全是低级行政点且用户没带"市/县/区"后缀，用 `city+"市"` 重查；候选里按行政级别（PPLA/ADM）+ 人口排序 |
@@ -101,7 +101,7 @@
 ```
 week11/
 ├── src/                              # 共享业务后端（三方式都复用）
-│   └── weather_backend.py            # Open-Meteo：get_weather（含地名歧义处理）
+│   └── weather_backend.py            # Open-Meteo：geocode（地名歧义）+ get_weather_by_coords（预报）
 ├── mode_function_call/
 │   └── run_function_call.py          # 方式一：手写 schema + 多轮循环
 ├── mode_mcp/
@@ -110,7 +110,7 @@ week11/
 │   └── run_mcp.py                    # 方式二：Host 连接 Server + 工具发现 + 多轮循环
 ├── mode_cli/
 │   ├── cli/
-│   │   └── main.py                   # fincli 统一入口：argparse 子命令 weather
+│   │   └── main.py                   # fincli 统一入口：argparse 子命令 geocode / weather
 │   └── run_cli.py                    # 方式三：形态A run_cli(白名单) + 形态B run_bash(沙箱)
 ├── output/                           # compare.py 输出
 │   └── compare_result.md

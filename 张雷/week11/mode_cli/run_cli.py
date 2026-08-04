@@ -81,9 +81,14 @@ def build_client(provider: str):
 
 # command 名 -> 实际执行的 argv 模板（参数由 LLM 通过 args JSON 提供）
 NAMED_COMMANDS = {
+    "geocode": {
+        "argv": FINCLI_ARGV + ["geocode"],
+        "arg_map": {"city": "--city"},
+    },
     "weather": {
         "argv": FINCLI_ARGV + ["weather"],
-        "arg_map": {"city": "--city"},
+        "arg_map": {"lat": "--lat", "lon": "--lon", "name": "--name",
+                    "country": "--country", "admin1": "--admin1"},
     },
 }
 
@@ -182,7 +187,7 @@ NAMED_TOOLS_SCHEMA = [
             "name": "run_cli",
             "description": (
                 "执行预批准的命令行工具。command 只能取白名单内的值。"
-                "可查天气（weather）。"
+                "查天气分两步：geocode（城市名->经纬度，需 city）+ weather（经纬度->预报，需 lat/lon）。"
             ),
             "parameters": {
                 "type": "object",
@@ -190,11 +195,11 @@ NAMED_TOOLS_SCHEMA = [
                     "command": {
                         "type": "string",
                         "enum": list(NAMED_COMMANDS.keys()),
-                        "description": "weather（查天气，需 city）",
+                        "description": "geocode（需 city）/ weather（需 lat/lon）",
                     },
                     "args": {
                         "type": "object",
-                        "description": "命令参数。weather: {city}",
+                        "description": "命令参数。geocode: {city}；weather: {lat, lon, name?, country?, admin1?}",
                     },
                 },
                 "required": ["command"],
@@ -210,7 +215,8 @@ BASH_TOOLS_SCHEMA = [
             "name": "run_bash",
             "description": (
                 "在沙箱里执行一条 shell 命令并返回 stdout。"
-                "可用工具 fincli（一条真实命令）：fincli weather --city 宁德。"
+                "可用工具 fincli：先 fincli geocode --city 宁德（输出 JSON 坐标），"
+                "再 fincli weather --lat .. --lon .. [--name .. --country .. --admin1 ..]。"
                 "危险命令（rm/del/format/sudo/curl|sh 等）会被拦截；只允许白名单可执行文件。"
             ),
             "parameters": {
@@ -234,15 +240,17 @@ MODE_DISPATCH = {
 # ── 多轮循环 ────────────────────────────────────────────────────────────────
 
 SYSTEM_PROMPT_NAMED = (
-    "你是一名天气查询助手。通过 run_cli 工具调用预批准命令查天气：run_cli(command='weather', args={city: '宁德'})。"
-    "本回合可一次调用多个工具。"
+    "你是一名天气查询助手。查天气分两步：先 run_cli(command='geocode', args={city: '宁德'}) 拿坐标（JSON），"
+    "再 run_cli(command='weather', args={lat, lon, name, country, admin1}) 取预报。"
+    "本回合可一次调用多个工具（如同时 geocode 两个城市）。"
     "天气查询支持多轮：若问题需要基于一次天气结果做条件判断（如'若气温低于20度则查A城，否则查B城'），"
     "请先查条件所需的城市，看到结果后再决定下一步查哪个城市，不要预先把所有候选城市一次查完。"
 )
 
 SYSTEM_PROMPT_BASH = (
-    "你是一名天气查询助手。通过 run_bash 工具在沙箱里执行 fincli 命令查天气：fincli weather --city 南京。"
-    "本回合可一次调用多个工具。"
+    "你是一名天气查询助手。查天气分两步：先 run_bash 执行 `fincli geocode --city 南京` 拿坐标（JSON），"
+    "再 run_bash 执行 `fincli weather --lat .. --lon .. --name .. --country .. --admin1 ..` 取预报。"
+    "本回合可一次调用多个工具（如同时 geocode 两个城市）。"
     "天气查询支持多轮：若问题需要基于一次天气结果做条件判断（如'若气温低于20度则查A城，否则查B城'），"
     "请先查条件所需的城市，看到结果后再决定下一步查哪个城市，不要预先把所有候选城市一次查完。"
 )
