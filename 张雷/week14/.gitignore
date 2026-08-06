@@ -1,0 +1,9 @@
+# 生成的周报样例（LLM 实验产物，不入库）
+sample_report*.md
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
