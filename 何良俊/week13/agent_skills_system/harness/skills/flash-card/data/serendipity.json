@@ -1,0 +1,28 @@
+{
+  "word": "serendipity",
+  "phonetic": "/ˌserənˈdɪpəti/",
+  "pos": "n.",
+  "definition": "意外发现美好事物的运气；机缘巧合",
+  "examples": [
+    {
+      "en": "Finding that book in the used bookstore was pure serendipity.",
+      "zh": "在那家二手书店找到那本书纯属机缘巧合。"
+    },
+    {
+      "en": "Their meeting was a serendipity that changed both their lives.",
+      "zh": "他们的相遇是一次意外之喜，改变了他们两人的生活。"
+    },
+    {
+      "en": "The discovery of penicillin was a famous example of serendipity in science.",
+      "zh": "青霉素的发现是科学史上一个著名的意外发现案例。"
+    }
+  ],
+  "synonyms": [
+    "luck",
+    "fortune",
+    "chance",
+    "fluke",
+    "accident",
+    "happenstance"
+  ]
+}

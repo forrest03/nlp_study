@@ -1,0 +1,27 @@
+{
+  "word": "cat",
+  "phonetic": "/kæt/",
+  "pos": "n.",
+  "definition": "猫；猫科动物",
+  "examples": [
+    {
+      "en": "My cat loves to sleep on the sofa all day.",
+      "zh": "我的猫喜欢整天在沙发上睡觉。"
+    },
+    {
+      "en": "The cat chased a mouse across the kitchen floor.",
+      "zh": "猫追着一只老鼠跑过了厨房地板。"
+    },
+    {
+      "en": "She adopted a stray cat from the animal shelter.",
+      "zh": "她从动物收容所领养了一只流浪猫。"
+    }
+  ],
+  "synonyms": [
+    "feline",
+    "kitten",
+    "kitty",
+    "tomcat",
+    "mouser"
+  ]
+}

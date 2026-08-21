@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 1020">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap');
+      text { 
+        font-family: 'JetBrains Mono', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', monospace; 
+      }
+    </style>
+
+    <!-- 网格图案 -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+    </pattern>
+
+    <!-- 箭头标记 -->
+    <marker id="arrow-cyan" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#22d3ee"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#34d399"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#fbbf24"/>
+    </marker>
+    <marker id="arrow-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#fb923c"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a78bfa"/>
+    </marker>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="100%" height="100%" fill="#0f172a"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <!-- 标题块 -->
+  <text x="40" y="50" fill="white" font-size="16" font-weight="700">LLM Function Calling 流程图</text>
+
+  <!-- 连接线（先绘制，使其位于节点下方） -->
+  <g id="connectors">
+    <!-- 用户提问 -> 解析用户意图 -->
+    <path d="M 450 150 L 450 185" fill="none" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrow-cyan)"/>
+    
+    <!-- 解析用户意图 -> 判断是否需要调用函数 -->
+    <path d="M 450 240 L 450 295" fill="none" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrow-amber)"/>
+    
+    <!-- 判断 -> 直接回复用户（否） -->
+    <path d="M 390 340 L 230 340 L 230 415" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)"/>
+    <text x="300" y="335" fill="#34d399" font-size="10" font-weight="600" text-anchor="middle">否</text>
+    
+    <!-- 判断 -> 选择匹配函数（是） -->
+    <path d="M 510 340 L 630 340 L 630 415" fill="none" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrow-cyan)"/>
+    <text x="560" y="335" fill="#22d3ee" font-size="10" font-weight="600" text-anchor="middle">是</text>
+    
+    <!-- 选择匹配函数 -> 调用外部工具/API -->
+    <path d="M 630 470 L 630 515" fill="none" stroke="#fb923c" stroke-width="2" marker-end="url(#arrow-orange)"/>
+    
+    <!-- 调用外部工具/API -> 工具返回结果 -->
+    <path d="M 620 570 L 620 605" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)"/>
+    
+    <!-- 工具返回结果 -> 将结果注入上下文 -->
+    <path d="M 620 660 L 620 695" fill="none" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrow-purple)"/>
+    
+    <!-- 将结果注入上下文 -> 模型生成最终回复 -->
+    <path d="M 620 750 L 620 785" fill="none" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrow-cyan)"/>
+    
+    <!-- 模型生成最终回复 -> 回复用户 -->
+    <path d="M 620 840 L 620 865 L 450 865 L 450 875" fill="none" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrow-cyan)"/>
+    
+    <!-- 直接回复用户 -> 回复用户 -->
+    <path d="M 230 470 L 230 865 L 370 865 L 370 875" fill="none" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)"/>
+  </g>
+
+  <!-- 不透明遮罩层（防止箭头透过半透明节点显示） -->
+  <g id="masks">
+    <rect x="370" y="100" width="160" height="50" rx="25" fill="#0f172a"/>
+    <rect x="360" y="190" width="180" height="50" rx="6" fill="#0f172a"/>
+    <polygon points="450,300 510,340 450,380 390,340" fill="#0f172a"/>
+    <rect x="150" y="420" width="160" height="50" rx="25" fill="#0f172a"/>
+    <rect x="530" y="420" width="200" height="50" rx="6" fill="#0f172a"/>
+    <rect x="530" y="520" width="180" height="50" rx="6" fill="#0f172a"/>
+    <rect x="530" y="610" width="180" height="50" rx="6" fill="#0f172a"/>
+    <rect x="530" y="700" width="180" height="50" rx="6" fill="#0f172a"/>
+    <rect x="520" y="790" width="200" height="50" rx="6" fill="#0f172a"/>
+    <rect x="370" y="880" width="160" height="50" rx="25" fill="#0f172a"/>
+  </g>
+
+  <!-- 节点与文本 -->
+  <g id="nodes">
+    <!-- 1. 用户提问 -->
+    <rect x="370" y="100" width="160" height="50" rx="25" fill="rgba(59,130,246,0.3)" stroke="#60a5fa" stroke-width="1.5"/>
+    <text x="450" y="124" fill="white" font-size="11" font-weight="600" text-anchor="middle">用户提问</text>
+    <text x="450" y="140" fill="#94a3b8" font-size="9" text-anchor="middle">输入问题 / 指令</text>
+
+    <!-- 2. 解析用户意图 -->
+    <rect x="360" y="190" width="180" height="50" rx="6" fill="rgba(8,51,68,0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+    <text x="450" y="214" fill="white" font-size="11" font-weight="600" text-anchor="middle">解析用户意图</text>
+    <text x="450" y="230" fill="#94a3b8" font-size="9" text-anchor="middle">理解语义 / 提取关键信息</text>
+
+    <!-- 3. 是否需要调用函数？ -->
+    <g transform="translate(450, 340)">
+      <polygon points="0,-40 60,0 0,40 -60,0" fill="rgba(120,53,15,0.3)" stroke="#fbbf24" stroke-width="1.5"/>
+      <text x="0" y="-5" fill="white" font-size="10" font-weight="600" text-anchor="middle">判断是否需要</text>
+      <text x="0" y="10" fill="white" font-size="10" font-weight="600" text-anchor="middle">调用函数？</text>
+    </g>
+
+    <!-- 4. 直接回复用户（否） -->
+    <rect x="150" y="420" width="160" height="50" rx="25" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1.5"/>
+    <text x="230" y="444" fill="white" font-size="11" font-weight="600" text-anchor="middle">直接回复用户</text>
+    <text x="230" y="460" fill="#94a3b8" font-size="9" text-anchor="middle">无需调用函数</text>
+
+    <!-- 5. 选择匹配函数并生成参数（是） -->
+    <rect x="530" y="420" width="200" height="50" rx="6" fill="rgba(8,51,68,0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+    <text x="630" y="444" fill="white" font-size="11" font-weight="600" text-anchor="middle">选择匹配函数并生成参数</text>
+    <text x="630" y="460" fill="#94a3b8" font-size="9" text-anchor="middle">匹配函数签名 / 填充参数</text>
+
+    <!-- 6. 调用外部工具/API -->
+    <rect x="530" y="520" width="180" height="50" rx="6" fill="rgba(251,146,60,0.3)" stroke="#fb923c" stroke-width="1.5"/>
+    <text x="620" y="544" fill="white" font-size="11" font-weight="600" text-anchor="middle">调用外部工具/API</text>
+    <text x="620" y="560" fill="#94a3b8" font-size="9" text-anchor="middle">执行外部函数调用</text>
+
+    <!-- 7. 工具返回结果 -->
+    <rect x="530" y="610" width="180" height="50" rx="6" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1.5"/>
+    <text x="620" y="634" fill="white" font-size="11" font-weight="600" text-anchor="middle">工具返回结果</text>
+    <text x="620" y="650" fill="#94a3b8" font-size="9" text-anchor="middle">获取函数执行结果</text>
+
+    <!-- 8. 将结果注入上下文 -->
+    <rect x="530" y="700" width="180" height="50" rx="6" fill="rgba(76,29,149,0.4)" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="620" y="724" fill="white" font-size="11" font-weight="600" text-anchor="middle">将结果注入上下文</text>
+    <text x="620" y="740" fill="#94a3b8" font-size="9" text-anchor="middle">融合工具输出与对话</text>
+
+    <!-- 9. 模型生成最终回复 -->
+    <rect x="520" y="790" width="200" height="50" rx="6" fill="rgba(8,51,68,0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+    <text x="620" y="814" fill="white" font-size="11" font-weight="600" text-anchor="middle">模型生成最终回复</text>
+    <text x="620" y="830" fill="#94a3b8" font-size="9" text-anchor="middle">基于完整上下文推理</text>
+
+    <!-- 10. 回复用户 -->
+    <rect x="370" y="880" width="160" height="50" rx="25" fill="rgba(59,130,246,0.3)" stroke="#60a5fa" stroke-width="1.5"/>
+    <text x="450" y="904" fill="white" font-size="11" font-weight="600" text-anchor="middle">回复用户</text>
+    <text x="450" y="920" fill="#94a3b8" font-size="9" text-anchor="middle">输出最终答案</text>
+  </g>
+
+  <!-- 图例 -->
+  <g id="legend">
+    <rect x="700" y="60" width="190" height="150" rx="6" fill="rgba(30,41,59,0.9)" stroke="#475569" stroke-width="1"/>
+    <text x="795" y="80" fill="white" font-size="12" font-weight="600" text-anchor="middle">图 例</text>
+
+    <rect x="715" y="95" width="12" height="12" rx="2" fill="rgba(59,130,246,0.3)" stroke="#60a5fa"/>
+    <text x="735" y="105" fill="#94a3b8" font-size="10">用户 / 起止</text>
+
+    <rect x="715" y="120" width="12" height="12" rx="2" fill="rgba(8,51,68,0.4)" stroke="#22d3ee"/>
+    <text x="735" y="130" fill="#94a3b8" font-size="10">处理节点</text>
+
+    <rect x="715" y="145" width="12" height="12" rx="2" fill="rgba(120,53,15,0.3)" stroke="#fbbf24"/>
+    <text x="735" y="155" fill="#94a3b8" font-size="10">决策节点</text>
+
+    <rect x="715" y="170" width="12" height="12" rx="2" fill="rgba(251,146,60,0.3)" stroke="#fb923c"/>
+    <text x="735" y="180" fill="#94a3b8" font-size="10">工具 / API</text>
+
+    <rect x="715" y="195" width="12" height="12" rx="2" fill="rgba(6,78,59,0.4)" stroke="#34d399"/>
+    <text x="735" y="205" fill="#94a3b8" font-size="10">数据 / 返回</text>
+  </g>
+</svg>

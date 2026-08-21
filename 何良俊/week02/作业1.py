@@ -17,6 +17,7 @@ output_dim = 5  # 输出类别数（与输入维度相同）
 batch_size = 32
 accept_loss = 0.01
 learning_rate = 0.1
+epoches = 1000
 
 # 生成训练数据
 def generate_data(num_samples, input_dim):
@@ -64,8 +65,7 @@ optimizer = optim.SGD(model.parameters(), lr=learning_rate)
 def train(model, train_loader, criterion, optimizer, accept_loss):
     model.train()
     epoch = 0
-    while True:
-        epoch += 1
+    for epoch in range(epoches):
         running_loss = 0.0
         correct = 0
         total = 0
@@ -126,6 +126,8 @@ if __name__ == "__main__":
         print(test_labels)
         print("预测标签:")
         print(sample_predicted)
+        print("sample_outputs:")
+        print(sample_outputs)
 
         mask = sample_predicted != test_labels
         wrong_data = test_data[mask]

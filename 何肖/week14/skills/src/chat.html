@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harness · Skill Agent</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+background:linear-gradient(135deg,#0f0c29 0%,#302b63 50%,#24243e 100%);
+color:#e0e0e0;height:100vh;display:flex;flex-direction:column;}
+.header{padding:14px 20px;background:rgba(0,0,0,0.3);border-bottom:1px solid rgba(0,229,255,0.2);
+display:flex;justify-content:space-between;align-items:center;}
+.header h1{font-size:16px;color:#00e5ff;}
+.header .sub{font-size:11px;color:#888;margin-top:2px;}
+.container{display:flex;flex:1;overflow:hidden;}
+.sidebar{width:260px;background:rgba(0,0,0,0.3);border-right:1px solid rgba(255,255,255,0.08);
+padding:14px 12px;overflow-y:auto;flex-shrink:0;}
+.sidebar h3{font-size:12px;color:#00e5ff;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;}
+.skill-card{margin-bottom:8px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;
+overflow:hidden;background:rgba(255,255,255,0.03);transition:all 0.2s;}
+.skill-header{padding:10px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+transition:background 0.2s;}
+.skill-header:hover{background:rgba(0,229,255,0.08);}
+.skill-header .name{font-size:13px;color:#fff;font-weight:500;}
+.skill-header .chevron{font-size:10px;color:#888;transition:transform 0.2s;}
+.skill-card.open .skill-header .chevron{transform:rotate(90deg);}
+.skill-body{max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;}
+.skill-card.open .skill-body{max-height:600px;overflow-y:auto;}
+.skill-body-inner{padding:8px 12px 10px 12px;}
+.skill-desc{font-size:12px;color:#aaa;line-height:1.5;margin-bottom:6px;}
+.skill-steps-title,.skill-params-title{font-size:11px;color:#00e5ff;margin:6px 0 3px;text-transform:uppercase;letter-spacing:0.5px;}
+.skill-steps{font-size:11px;color:#999;}
+.skill-steps div{padding:2px 0;}
+.skill-steps .step-title{color:#00e5ff;margin-right:4px;}
+.skill-params{font-size:11px;color:#888;}
+.skill-params div{padding:2px 0;}
+.skill-params code{background:rgba(0,0,0,0.3);padding:1px 5px;border-radius:3px;color:#ffcc00;font-size:11px;font-family:Consolas,monospace;}
+.chat-area{flex:1;display:flex;flex-direction:column;max-width:860px;margin:0 auto;width:100%;}
+.chat-messages{flex:1;padding:20px;overflow-y:auto;}
+.msg{margin-bottom:14px;display:flex;gap:10px;}
+.msg .avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;
+justify-content:center;font-size:11px;font-weight:bold;flex-shrink:0;}
+.msg.user .avatar{background:#00e5ff;color:#000;}
+.msg.assistant .avatar{background:rgba(255,255,255,0.2);color:#fff;}
+.msg .content{flex:1;max-width:85%;}
+.msg.user .bubble{background:rgba(0,229,255,0.15);border:1px solid rgba(0,229,255,0.3);
+padding:10px 14px;border-radius:8px;border-top-right-radius:2px;}
+.msg.assistant .bubble{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+padding:10px 14px;border-radius:8px;border-top-left-radius:2px;}
+.bubble{white-space:pre-wrap;font-size:13px;line-height:1.7;}
+.bubble a{color:#00e5ff;text-decoration:underline;word-break:break-all;}
+.bubble a:hover{color:#fff;}
+.bubble code{background:rgba(0,0,0,0.3);padding:1px 5px;border-radius:3px;color:#ffcc00;
+font-family:Consolas,monospace;font-size:12px;}
+.bubble pre{background:rgba(0,0,0,0.4);padding:10px;border-radius:6px;overflow-x:auto;margin:6px 0;}
+.bubble pre code{background:none;color:#b5cea8;}
+.tool-indicator{display:flex;gap:5px;margin-bottom:6px;flex-wrap:wrap;}
+.tool-chip{display:inline-flex;align-items:center;gap:3px;background:rgba(0,229,255,0.12);
+border:1px solid rgba(0,229,255,0.25);color:#00e5ff;padding:2px 8px;border-radius:10px;font-size:11px;}
+.tool-chip .dot{width:5px;height:5px;border-radius:50%;background:#00e5ff;}
+.tool-chip .dot.done{background:#4ade80;}
+.tool-chip .dot.fail{background:#f87171;}
+.tool-chip .dot.timeout{background:#fbbf24;}
+.skill-badge{display:inline-block;background:rgba(255,200,0,0.12);border:1px solid rgba(255,200,0,0.3);
+color:#fbbf24;padding:1px 6px;border-radius:4px;font-size:10px;margin-left:6px;}
+.metrics-bar{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;}
+.metric-item{display:inline-flex;align-items:center;gap:4px;background:rgba(0,229,255,0.08);
+border:1px solid rgba(0,229,255,0.2);color:#00e5ff;padding:3px 10px;border-radius:6px;font-size:11px;
+font-family:'Consolas',monospace;}
+.metric-item .label{color:#888;}
+.metric-item .value{color:#00e5ff;font-weight:bold;}
+.metric-item.optimized{background:rgba(74,222,128,0.1);border-color:rgba(74,222,128,0.3);color:#4ade80;}
+.metric-item.optimized .value{color:#4ade80;}
+.metric-item.compare{background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.3);color:#fbbf24;}
+.metric-item.compare .value{color:#fbbf24;}
+.tool-summary{margin-top:6px;padding:8px 12px;background:rgba(0,229,255,0.06);
+border:1px solid rgba(0,229,255,0.15);border-radius:6px;font-size:11px;color:#8899aa;
+font-family:'Consolas',monospace;line-height:1.5;}
+.chat-input{padding:12px 20px;background:rgba(0,0,0,0.3);border-top:1px solid rgba(255,255,255,0.08);
+display:flex;gap:10px;align-items:flex-end;}
+.input-wrapper{flex:1;position:relative;}
+textarea{width:100%;min-height:40px;max-height:120px;padding:10px 12px;
+background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+border-radius:8px;color:#fff;font-size:13px;resize:vertical;outline:none;
+font-family:inherit;}
+textarea:focus{border-color:#00e5ff;}
+.send-btn{background:#00e5ff;color:#000;border:none;padding:10px 22px;border-radius:8px;
+font-size:13px;font-weight:bold;cursor:pointer;transition:all 0.2s;}
+.send-btn:hover{background:#00b8d4;}
+.send-btn:disabled{opacity:0.5;cursor:not-allowed;}
+.empty-chat{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+color:#666;gap:14px;}
+.empty-chat .icon{font-size:42px;}
+.empty-chat .hint{font-size:14px;color:#aaa;}
+.empty-chat .hint2{font-size:11px;color:#666;max-width:380px;text-align:center;line-height:1.5;}
+.loading{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,229,255,0.3);
+border-top-color:#00e5ff;border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:rgba(0,0,0,0.2);}
+::-webkit-scrollbar-thumb{background:rgba(0,229,255,0.2);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:rgba(0,229,255,0.4);}
+.comp-card{margin:8px 0;background:rgba(0,0,0,0.4);border:1px solid rgba(0,229,255,0.2);
+border-radius:10px;overflow:hidden;font-size:12px;font-family:'Consolas',monospace;}
+.comp-header{background:linear-gradient(90deg,rgba(0,229,255,0.15),rgba(74,222,128,0.1));
+color:#00e5ff;padding:8px 14px;font-weight:bold;display:flex;justify-content:space-between;align-items:center;font-size:13px;}
+.comp-speedup{background:rgba(74,222,128,0.2);border:1px solid rgba(74,222,128,0.4);color:#4ade80;
+padding:2px 8px;border-radius:4px;font-size:11px;}
+.comp-tokens{background:rgba(0,229,255,0.15);border:1px solid rgba(0,229,255,0.3);color:#00e5ff;
+padding:2px 8px;border-radius:4px;font-size:11px;margin-left:8px;}
+.comp-body{display:flex;padding:10px 14px;gap:10px;}
+.comp-col{flex:1;padding:8px;border-radius:6px;min-width:0;}
+.comp-orig{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);}
+.comp-opt{background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.15);}
+.col-divider{width:1px;background:rgba(255,255,255,0.1);}
+.comp-col-title{font-size:11px;color:#888;margin-bottom:6px;font-weight:bold;letter-spacing:0.5px;}
+.comp-orig .comp-col-title{color:#aaa;}
+.comp-opt .comp-col-title{color:#4ade80;}
+.comp-row{display:flex;justify-content:space-between;padding:2px 0;font-size:11px;}
+.comp-label{color:#666;}
+.comp-val{color:#d8e3f2;font-weight:bold;}
+.comp-highlight{color:#4ade80;font-weight:bold;}
+.comp-err{margin-top:6px;color:#f87171;font-size:10px;background:rgba(248,113,113,0.1);
+padding:4px 8px;border-radius:4px;}
+.comp-token-bar{display:flex;gap:10px;padding:10px 14px;background:rgba(0,0,0,0.3);
+border-top:1px solid rgba(0,229,255,0.1);}
+.comp-token-item{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;}
+.comp-token-item .label{font-size:10px;color:#666;letter-spacing:0.5px;}
+.comp-token-item .value{font-size:14px;color:#00e5ff;font-weight:bold;font-family:'Consolas',monospace;}
+.comp-highlight-item .value{color:#4ade80;}
+</style>
+</head>
+<body>
+<div class="header">
+    <div>
+        <h1>◆ Harness · Skill Agent</h1>
+        <div class="sub">自动识别意图 · 调用工具 · 总结执行结果</div>
+    </div>
+</div>
+<div class="container">
+    <div class="sidebar">
+        <h3>Available Skills</h3>
+        <div id="skill-list">加载中...</div>
+    </div>
+    <div class="chat-area">
+        <div class="chat-messages" id="messages">
+            <div class="empty-chat" id="empty-hint">
+                <div class="icon">🤖</div>
+                <div class="hint">我是 Skill Agent，有什么可以帮你的？</div>
+                <div class="hint2">直接用自然语言描述你的需求，我会自动识别并调用对应的工具完成任务。<br>例如："查询贵州茅台2026-07-24股票信息" 或 "做一个crazy的闪卡"</div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <div class="input-wrapper">
+                <textarea id="user-input" placeholder="描述你的需求...（Enter 发送，Shift+Enter 换行）"></textarea>
+            </div>
+            <button class="send-btn" id="send-btn">发送</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let messages = [];
+let availableSkills = [];
+
+async function loadSkills() {
+    try {
+        const resp = await fetch('/api/skills');
+        const data = await resp.json();
+        availableSkills = data.skills || [];
+        renderSidebar();
+    } catch(e) {
+        document.getElementById('skill-list').innerHTML = '<div style="color:#f66;font-size:11px;">加载失败</div>';
+    }
+}
+
+function renderSidebar() {
+    const list = document.getElementById('skill-list');
+    if (!availableSkills.length) {
+        list.innerHTML = '<div style="color:#666;font-size:11px;text-align:center;">暂无 Skill</div>';
+        return;
+    }
+    list.innerHTML = availableSkills.map((s, idx) => {
+        const desc = (s.description || '无描述').replace(/\s+/g, ' ').trim();
+        const shortDesc = desc.length > 150 ? desc.substring(0, 150) + '...' : desc;
+        let stepsHtml = '';
+        if (s.steps && s.steps.length) {
+            stepsHtml = '<div class="skill-steps-title">执行步骤：</div><div class="skill-steps">' + s.steps.map(st => 
+                `<div><span class="step-title">Step ${st.step_num}:</span> ${st.title}</div>`
+            ).join('') + '</div>';
+        }
+        let paramsHtml = '';
+        if (s.parameters && Object.keys(s.parameters).length) {
+            paramsHtml = '<div class="skill-params-title">参数：</div><div class="skill-params">' + 
+                Object.entries(s.parameters).map(([k, v]) => {
+                    const ex = v && v.example ? `（例：${v.example}）` : '';
+                    return `<div><code>${k}</code>${ex}</div>`;
+                }).join('') + '</div>';
+        }
+        return `
+        <div class="skill-card" data-idx="${idx}">
+            <div class="skill-header">
+                <span class="name">${s.name}</span>
+                <span class="chevron">▶</span>
+            </div>
+            <div class="skill-body"><div class="skill-body-inner">
+                <div class="skill-desc">${shortDesc}</div>
+                ${stepsHtml}
+                ${paramsHtml}
+            </div></div>
+        </div>`;
+    }).join('');
+
+    list.querySelectorAll('.skill-card').forEach(card => {
+        const header = card.querySelector('.skill-header');
+        header.addEventListener('click', () => {
+            card.classList.toggle('open');
+        });
+    });
+}
+
+function renderContent(text) {
+    if (!text) return '';
+    // Convert markdown-style links [text](url) to HTML
+    let html = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    // Convert bare /files/ paths to clickable links
+    html = html.replace(/(^|\s)(\/files\/[^\s，,，。\)\]]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+    return html;
+}
+
+function addMsg(role, content, toolCalls, skillUsed, metrics) {
+    const msgs = document.getElementById('messages');
+    const div = document.createElement('div');
+    div.className = `msg ${role}`;
+
+    let toolHtml = '';
+    if (toolCalls && toolCalls.length) {
+        toolHtml = '<div class="tool-indicator">';
+        toolCalls.forEach(tc => {
+            const dotClass = tc.status === 'completed' ? 'done' :
+                tc.status === 'failed' ? 'fail' :
+                tc.status === 'timeout' ? 'timeout' : '';
+            const icon = tc.status === 'completed' ? '✓' :
+                tc.status === 'failed' ? '✗' :
+                tc.status === 'timeout' ? '⏱' : '●';
+            const isOptimized = tc.tool_name && tc.tool_name.includes('optimized');
+            const isCompare = tc.tool_name && tc.tool_name.includes('compare');
+            const prefix = isOptimized ? '[优化]' : (isCompare ? '[对比]' : '');
+            toolHtml += `<span class="tool-chip"><span class="dot ${dotClass}"></span>${icon} ${prefix}${tc.tool_name} · ${tc.duration_ms}ms</span>`;
+            if (tc.summary) {
+                toolHtml += `<div class="tool-summary">${tc.summary}</div>`;
+            }
+            if (tc.comparison) {
+                toolHtml += renderComparisonCard(tc.comparison);
+            }
+        });
+        toolHtml += '</div>';
+    }
+
+    let skillHtml = '';
+    if (skillUsed) {
+        skillHtml = `<span class="skill-badge">✦ ${skillUsed}</span>`;
+    }
+
+    // 指标展示
+    let metricsHtml = '';
+    if (metrics && (metrics.total_time_ms || metrics.token_usage)) {
+        metricsHtml = '<div class="metrics-bar">';
+        if (metrics.total_time_ms) {
+            const seconds = (metrics.total_time_ms / 1000).toFixed(2);
+            metricsHtml += `<span class="metric-item"><span class="label">⏱ 执行时间:</span><span class="value">${seconds}s</span></span>`;
+        }
+        if (metrics.token_usage) {
+            const totalTokens = metrics.token_usage.total_tokens || 0;
+            metricsHtml += `<span class="metric-item"><span class="label">🔢 Token消耗:</span><span class="value">${totalTokens}</span></span>`;
+            if (metrics.token_usage.prompt_tokens) {
+                metricsHtml += `<span class="metric-item"><span class="label">📥 Prompt:</span><span class="value">${metrics.token_usage.prompt_tokens}</span></span>`;
+            }
+            if (metrics.token_usage.completion_tokens) {
+                metricsHtml += `<span class="metric-item"><span class="label">📤 Completion:</span><span class="value">${metrics.token_usage.completion_tokens}</span></span>`;
+            }
+        }
+        metricsHtml += '</div>';
+    }
+
+    div.innerHTML = `
+        <div class="avatar">${role === 'user' ? 'U' : 'AI'}</div>
+        <div class="content">
+            ${toolHtml}
+            ${skillHtml}
+            ${metricsHtml}
+            <div class="bubble"></div>
+        </div>
+    `;
+    const bubble = div.querySelector('.bubble');
+    bubble.innerHTML = renderContent(content);
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+}
+
+function renderComparisonCard(comp) {
+    const orig = comp.original || {};
+    const opt = comp.optimized || {};
+    const speedup = comp.speedup || 'N/A';
+    const tokenUsage = comp.token_usage || {};
+    const origTime = orig.elapsed_seconds || 0;
+    const optTime = opt.elapsed_seconds || 0;
+    const origStatus = orig.status || '-';
+    const optStatus = opt.status || '-';
+    const origKline = orig.kline_count || 0;
+    const optKline = opt.kline_count || 0;
+    const origVerdict = orig.verdict || '-';
+    const optVerdict = opt.verdict || '-';
+    const origOutSize = orig.output_size || 0;
+    const optOutSize = opt.output_size || 0;
+
+    const statusIcon = s => s === 'completed' ? '✓' : s === 'failed' ? '✗' : '●';
+    const statusColor = s => s === 'completed' ? '#4ade80' : s === 'failed' ? '#f87171' : '#fbbf24';
+    const fmtSize = b => b < 1024 ? `${b}B` : b < 10240 ? `${(b/1024).toFixed(1)}KB` : `${(b/1024).toFixed(0)}KB`;
+    const tokenCount = tokenUsage.total_tokens || 0;
+    const promptTokens = tokenUsage.prompt_tokens || 0;
+    const completionTokens = tokenUsage.completion_tokens || 0;
+
+    const origErr = orig.error ? `<div class="comp-err">${orig.error}</div>` : '';
+    const optErr = opt.error ? `<div class="comp-err">${opt.error}</div>` : '';
+
+    return `
+    <div class="comp-card">
+        <div class="comp-header">📊 优化对比
+            <span class="comp-speedup">加速 ${speedup}</span>
+            <span class="comp-tokens">🔢 ${tokenCount} tokens</span>
+        </div>
+        <div class="comp-body">
+            <div class="comp-col comp-orig">
+                <div class="comp-col-title">📦 原版 (subprocess)</div>
+                <div class="comp-row"><span class="comp-label">状态</span><span style="color:${statusColor(origStatus)}">${statusIcon(origStatus)} ${origStatus}</span></div>
+                <div class="comp-row"><span class="comp-label">耗时</span><span class="comp-val">${origTime}s</span></div>
+                <div class="comp-row"><span class="comp-label">K线</span><span class="comp-val">${origKline} 根</span></div>
+                <div class="comp-row"><span class="comp-label">判定</span><span class="comp-val">${origVerdict}</span></div>
+                <div class="comp-row"><span class="comp-label">输出</span><span class="comp-val">${fmtSize(origOutSize)}</span></div>
+                ${origErr}
+            </div>
+            <div class="comp-col-divider"></div>
+            <div class="comp-col comp-opt">
+                <div class="comp-col-title">⚡ 优化版 (直接调用)</div>
+                <div class="comp-row"><span class="comp-label">状态</span><span style="color:${statusColor(optStatus)}">${statusIcon(optStatus)} ${optStatus}</span></div>
+                <div class="comp-row"><span class="comp-label">耗时</span><span class="comp-val comp-highlight">${optTime}s</span></div>
+                <div class="comp-row"><span class="comp-label">K线</span><span class="comp-val">${optKline} 根</span></div>
+                <div class="comp-row"><span class="comp-label">判定</span><span class="comp-val">${optVerdict}</span></div>
+                <div class="comp-row"><span class="comp-label">输出</span><span class="comp-val comp-highlight">${fmtSize(optOutSize)}</span></div>
+                ${optErr}
+            </div>
+        </div>
+        <div class="comp-token-bar">
+            <div class="comp-token-item"><span class="label">总Token</span><span class="value">${tokenCount}</span></div>
+            <div class="comp-token-item"><span class="label">Prompt</span><span class="value">${promptTokens}</span></div>
+            <div class="comp-token-item"><span class="label">Completion</span><span class="value">${completionTokens}</span></div>
+            <div class="comp-token-item comp-highlight-item"><span class="label">压缩率</span><span class="value">${origOutSize > 0 ? ((1 - optOutSize / origOutSize) * 100).toFixed(0) + '%' : '-'}</span></div>
+        </div>
+    </div>`;
+}
+
+async function sendMessage() {
+    const input = document.getElementById('user-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    document.getElementById('empty-hint').style.display = 'none';
+
+    addMsg('user', text);
+    input.value = '';
+
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'msg assistant';
+    loadingDiv.innerHTML = '<div class="avatar">AI</div><div class="content"><div class="bubble"><span class="loading"></span></div></div>';
+    document.getElementById('messages').appendChild(loadingDiv);
+
+    try {
+        const resp = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                user_input: text,
+                messages: messages.slice(-10)
+            })
+        });
+        const data = await resp.json();
+        loadingDiv.remove();
+
+        messages.push({role:'user', content:text});
+        messages.push({role:'assistant', content:data.reply});
+
+        const metrics = {
+            total_time_ms: data.total_time_ms,
+            token_usage: data.token_usage
+        };
+        addMsg('assistant', data.reply, data.tool_calls, data.skill_used, metrics);
+    } catch(e) {
+        loadingDiv.remove();
+        addMsg('assistant', '请求失败: ' + e.message);
+    }
+}
+
+document.getElementById('send-btn').addEventListener('click', sendMessage);
+document.getElementById('user-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+
+loadSkills();
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "word": "resilient",
+  "phonetic": "/rɪˈzɪliənt/",
+  "pos": "adj.",
+  "definition": "有弹性的；坚韧的；能复原的",
+  "examples": [
+    {
+      "en": "Children are remarkably resilient; they can bounce back from adversity.",
+      "zh": "孩子们有惊人的韧性，能从逆境中恢复过来。"
+    },
+    {
+      "en": "This material is resilient to wear and tear.",
+      "zh": "这种材料耐磨损，有弹性。"
+    },
+    {
+      "en": "The economy proved resilient despite the global recession.",
+      "zh": "尽管全球经济衰退，该国经济仍表现出韧性。"
+    }
+  ],
+  "synonyms": [
+    "tough",
+    "flexible",
+    "hardy",
+    "adaptable",
+    "strong",
+    "durable"
+  ]
+}

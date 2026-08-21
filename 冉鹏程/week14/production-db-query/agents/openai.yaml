@@ -1,0 +1,4 @@
+interface:
+  display_name: "生产数据库安全查询"
+  short_description: "DMS 生产库只读查询、EXPLAIN 审阅与执行闸门"
+  default_prompt: "使用 $production-db-query 安全查询 DMS 生产数据库：先建立临时会话并审阅 EXPLAIN，再执行只读 SQL。"

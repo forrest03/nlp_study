@@ -1,0 +1,73 @@
+[
+  {
+    "timestamp": "2026-08-04 16:23:19",
+    "target": "all",
+    "results": [
+      {
+        "skill": "integration_management",
+        "success": false,
+        "error": "LLM 调用失败：请求异常: HTTPSConnectionPool(host='dashscope.aliyuncs.com', port=443): Max retries exceeded with url: /compatible-mode/v1/chat/completions (Caused by NewConnectionError(\"HTTPSConnection(host='dashscope.aliyuncs.com', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\"))"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-08-04 16:27:07",
+    "target": "all",
+    "results": [
+      {
+        "skill": "integration_management",
+        "success": true,
+        "analysis": "LLM在INT-001回答中未准确强调‘发起人签发’这一关键责任主体，且遗漏‘正式批准项目成立’的法定效力表述；在敏捷角色问题中错误否定Scrum Master和Product Owner与PMBOK的关联性——PMBOK第6版附录X3及第7版原则与模型明确将Scrum作为典型敏捷框架，其角色虽非PMBOK原生定义，但在‘适应型生命周期’语境下被认可为实践角色，需区分‘PMBOK未定义’与‘PMBOK不承认’。",
+        "suggestions": [
+          "在INT-001标准答案中强化‘必须由发起人（而非项目经理或PMO）签发’的权责归属；在所有涉及敏捷的内容中，需严格区分PMBOK过程框架角色（如项目经理）与敏捷框架角色（如Scrum Master），引用PMBOK第6版附录X3或第7版‘模型与方法’章节作为依据；补充‘项目章程是启动过程组唯一输入来源的输出’这一属性以增强准确性；对配置管理与变更控制的对比说明应增加‘配置管理关注产品基线，变更控制关注项目基准’的精准表述。"
+        ],
+        "updates": {
+          "triggers_added": 5,
+          "qa_added": 1,
+          "total_triggers": 120,
+          "total_records": 33
+        },
+        "error_count": 2
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-08-06 15:43:31",
+    "target": "all",
+    "results": [
+      {
+        "skill": "integration_management",
+        "success": true,
+        "analysis": "LLM频繁回答了PMBOK未定义的敏捷角色（Scrum Master、Product Owner）和PMO类型等超出PMP考试范围的内容，混淆了PMBOK标准知识与行业实践/其他框架（如Scrum指南、OPM3）；同时对项目章程等基础概念的回答缺失关键要素（如‘由发起人签发’），违反PMBOK第6版及第7版明确定义的过程责任人要求；所有错误均源于未严格锚定PMBOK知识体系边界，尤其混淆了‘PMP认证考试考点’与‘广义项目管理实践’。",
+        "suggestions": [
+          "在所有标准答案中强化PMBOK版本依据（明确标注'依据PMBOK第6版/第7版'）；删除任何暗示Scrum Master/Product Owner为PMBOK角色的表述；将PMO相关内容严格限定在PMBOK原文定义范围内，禁止引入OPM3或行业分类；对项目章程等关键概念的答案必须包含'发起人签发'这一强制性责任主体；在关键词字段中增加'PMBOK第6版'或'PMBOK第7版'以锚定知识来源。"
+        ],
+        "updates": {
+          "triggers_added": 5,
+          "qa_added": 2,
+          "total_triggers": 133,
+          "total_records": 40
+        },
+        "error_count": 7
+      },
+      {
+        "skill": "resource_management",
+        "success": true,
+        "analysis": "情境领导理论虽在项目管理实践中被部分项目经理参考，但PMBOK指南第七版及第六版均未将其列为项目资源管理知识领域的正式内容或推荐工具与技术；该理论属于组织行为学/领导力发展范畴，超出PMBOK定义的项目管理标准知识体系，因此LLM正确拒绝回答。",
+        "suggestions": [
+          "明确界定PMP考试及PMBOK指南覆盖范围，剔除所有非PMBOK官方认可的领导力模型（如情境领导理论、变革型领导等）作为考点或标准答案依据；",
+          "在Skill文档头部增加‘知识边界声明’：本Skill严格遵循PMBOK指南（第6/7版）及PMP考试大纲，仅涵盖PMI官方定义的过程、输入、工具与技术、输出；",
+          "对RES-016中‘激励理论’问答进行修订，聚焦PMBOK提及的赫茨伯格双因素理论（作为团队激励的参考），并注明‘马斯洛需求层次为背景知识，非PMBOK指定工具’；",
+          "在‘过程组’字段统一补充对应PMBOK过程组英文缩写（如Planning→PLN, Executing→EXE, Monitoring and Controlling→M&C），增强专业一致性。"
+        ],
+        "updates": {
+          "triggers_added": 0,
+          "qa_added": 0,
+          "total_triggers": 146,
+          "total_records": 30
+        },
+        "error_count": 1
+      }
+    ]
+  }
+]

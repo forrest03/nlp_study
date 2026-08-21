@@ -1,0 +1,28 @@
+{
+  "word": "awesome",
+  "phonetic": "/ˈɔːsəm/",
+  "pos": "adj.",
+  "definition": "令人敬畏的，极好的",
+  "examples": [
+    {
+      "en": "The concert was awesome!",
+      "zh": "那场音乐会太棒了！"
+    },
+    {
+      "en": "She has an awesome responsibility.",
+      "zh": "她肩负着令人敬畏的责任。"
+    },
+    {
+      "en": "That's an awesome view!",
+      "zh": "那景色太壮观了！"
+    }
+  ],
+  "synonyms": [
+    "amazing",
+    "incredible",
+    "fantastic",
+    "wonderful",
+    "astounding",
+    "remarkable"
+  ]
+}

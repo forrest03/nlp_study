@@ -1,0 +1,3016 @@
+{
+  "test_metrics": {
+    "accuracy": 0.5493333333333333,
+    "precision": 0.5493333333333333,
+    "recall": 1.0,
+    "f1": 0.7091222030981067
+  },
+  "predictions": [
+    {
+      "similarity": 0.8269540667533875,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.77517169713974,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9503857493400574,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9612946510314941,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8127456307411194,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9455907344818115,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8345764875411987,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9854183197021484,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9517127275466919,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9405441284179688,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9568748474121094,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9816648960113525,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9450749158859253,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8877161741256714,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9708014726638794,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9231938123703003,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8919510841369629,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8749228119850159,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8926803469657898,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9048186540603638,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9238326549530029,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.82537442445755,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9756028056144714,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9066856503486633,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9942129254341125,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.943079948425293,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9505967497825623,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9112223982810974,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9589168429374695,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9804500341415405,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9637206792831421,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9615743160247803,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9246344566345215,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9651536345481873,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9526601433753967,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9173757433891296,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9671967029571533,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9361194968223572,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8465909957885742,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9472545981407166,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9611295461654663,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9352718591690063,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9388713836669922,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9439904689788818,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9233127236366272,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9033997058868408,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9781069755554199,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9673508405685425,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9789551496505737,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.7433763146400452,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9166754484176636,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8982288837432861,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8973388671875,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.989342451095581,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8670522570610046,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9838635325431824,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9598450660705566,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9698302745819092,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9149898290634155,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9616058468818665,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9409639239311218,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.970297634601593,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9593681693077087,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.983626663684845,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.858389139175415,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.968528687953949,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9795286059379578,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.7888073921203613,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.974585771560669,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9425396919250488,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.984362006187439,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9868184924125671,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8818456530570984,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9782010316848755,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9740760922431946,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8653875589370728,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9644964337348938,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9736611843109131,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9219364523887634,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9126142263412476,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9671107530593872,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9558628797531128,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9119226932525635,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.929633617401123,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8443160653114319,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8699464201927185,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8894531726837158,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9388763904571533,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9380569458007812,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9503949880599976,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9222292900085449,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.921369731426239,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8457716703414917,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9522135853767395,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9779480695724487,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9478800296783447,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.896366536617279,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9684231877326965,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9753578901290894,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8995620012283325,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9648746848106384,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9481133222579956,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9512307047843933,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9135938882827759,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8419497013092041,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9163308143615723,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8508944511413574,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9108525514602661,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9797645807266235,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9212247133255005,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9496620297431946,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.975618839263916,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9660930633544922,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.977124035358429,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.929003894329071,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9465152025222778,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8558043241500854,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9746459722518921,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8829823732376099,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9394493699073792,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9644548296928406,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8203347325325012,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9127707481384277,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8660218119621277,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9551218748092651,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9088883996009827,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9512984752655029,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9572814702987671,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.925358772277832,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8146848082542419,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8910215497016907,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9079400300979614,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9163281917572021,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9580295085906982,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8375593423843384,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9432529807090759,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9768085479736328,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9580396413803101,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9475317001342773,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9568887948989868,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9817850589752197,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9427369236946106,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9087742567062378,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9475698471069336,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.7781558632850647,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9870656728744507,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9539039134979248,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.921857476234436,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8986947536468506,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9660378694534302,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8144620656967163,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8878762722015381,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9556233286857605,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8997035026550293,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8640961647033691,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9196736216545105,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8426693677902222,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8036094903945923,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9399662017822266,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9659791588783264,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9916502237319946,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8604660034179688,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9793570637702942,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9441291093826294,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9888591766357422,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8514572381973267,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9268856048583984,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9482083320617676,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9498007297515869,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9732094407081604,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8722125291824341,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8870434761047363,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9040659666061401,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8139748573303223,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9576189517974854,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9651031494140625,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9897739887237549,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8171349167823792,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8474951386451721,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9807153940200806,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8885589838027954,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9104242324829102,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9415702819824219,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9205367565155029,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8219150304794312,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9674782156944275,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9391587972640991,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9869550466537476,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9078708291053772,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9344216585159302,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9575481414794922,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.981926679611206,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9257426857948303,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.918097734451294,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9332094192504883,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8877822160720825,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9053134322166443,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8581175804138184,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9424166679382324,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9647932648658752,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9668025374412537,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9662360548973083,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9735168814659119,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9787147045135498,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.7612571716308594,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9535531997680664,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9704573750495911,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9545734524726868,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9776673316955566,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9263310432434082,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9579001069068909,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9458268880844116,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8763024806976318,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8412259817123413,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9738742113113403,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9274903535842896,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.7816399335861206,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.929017186164856,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9019765257835388,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9298469424247742,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9106907248497009,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8984361290931702,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9680819511413574,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9831615090370178,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9041330814361572,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9566263556480408,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9725838899612427,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9732834100723267,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.975058913230896,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9726581573486328,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9124472141265869,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8813682198524475,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9435569047927856,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9083513617515564,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9868087768554688,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8242679238319397,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9507138133049011,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9908766150474548,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9094739556312561,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.989822506904602,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8968027830123901,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9623987078666687,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9151920676231384,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9383276700973511,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9536488652229309,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9271036386489868,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8958681225776672,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9577243328094482,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9469170570373535,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8788203001022339,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.939659595489502,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8205220103263855,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8210206031799316,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9914783239364624,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8570606112480164,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8624657988548279,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9049507975578308,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.925719141960144,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9780700206756592,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9211272597312927,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8916974663734436,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9450795650482178,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9348751902580261,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9301233887672424,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9177917242050171,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9526481628417969,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8355200886726379,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9656849503517151,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9220329523086548,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9714865684509277,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9471676349639893,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9893112182617188,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9426193237304688,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8450799584388733,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.980948805809021,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.912241518497467,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9462522268295288,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9808706045150757,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9448160529136658,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8887394666671753,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9705625772476196,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.7412638664245605,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9918124675750732,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8940882682800293,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8051488995552063,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.977096438407898,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9789630770683289,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9616841077804565,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.940756618976593,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9662439823150635,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9389166831970215,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8816848397254944,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9458545446395874,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9540048837661743,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9543629884719849,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8518178462982178,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9369027018547058,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9189284443855286,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9650207757949829,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9094914197921753,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9118989706039429,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.7742526531219482,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9554198384284973,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9168738126754761,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9085875749588013,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9477900862693787,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8471651077270508,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9816327095031738,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9299497604370117,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9494708776473999,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9848005771636963,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9008729457855225,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9106301665306091,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9358755946159363,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9365830421447754,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9759378433227539,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9535989761352539,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9654378890991211,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9422605037689209,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9675800800323486,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9406254291534424,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9574387669563293,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.823814868927002,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9509286880493164,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8873953819274902,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9783318042755127,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9630022644996643,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.975963830947876,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9793374538421631,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9486711025238037,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.7583631873130798,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.843490719795227,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8993828296661377,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9835124611854553,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9664033651351929,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8967524766921997,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9230670928955078,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.7241913080215454,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9619401097297668,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8896348476409912,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8917346000671387,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9043110609054565,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9704360961914062,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9557063579559326,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9055988192558289,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9858152866363525,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9600532054901123,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9772841930389404,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8988758325576782,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.815398097038269,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9553685188293457,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9634113311767578,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.86551833152771,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9251824021339417,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8165895938873291,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9823087453842163,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9546481370925903,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8994378447532654,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.8714734315872192,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.911888599395752,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8918672800064087,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9825452566146851,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9387840628623962,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9427424073219299,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9692734479904175,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9332764148712158,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.958280086517334,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.8748565316200256,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9754024744033813,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9685637950897217,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9808022379875183,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9357908964157104,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9041499495506287,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    },
+    {
+      "similarity": 0.9905641674995422,
+      "prediction": 1,
+      "label": 1,
+      "prediction_label": "相似",
+      "true_label": "相似",
+      "correct": true
+    },
+    {
+      "similarity": 0.9398512244224548,
+      "prediction": 1,
+      "label": 0,
+      "prediction_label": "相似",
+      "true_label": "不相似",
+      "correct": false
+    }
+  ],
+  "similarity_distribution": {
+    "mean": 0.925807774066925,
+    "std": 0.052310794591903687,
+    "min": 0.7241913080215454,
+    "max": 0.9942129254341125
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "word": "bold",
+  "phonetic": "/boʊld/",
+  "pos": "adj.",
+  "definition": "勇敢的；无畏的；大胆的",
+  "examples": [
+    {
+      "en": "She made a bold decision to start her own company.",
+      "zh": "她做了一个大胆的决定，创办自己的公司。"
+    },
+    {
+      "en": "The artist used bold colors in her painting.",
+      "zh": "这位艺术家在画作中使用了大胆的色彩。"
+    },
+    {
+      "en": "He was bold enough to speak the truth.",
+      "zh": "他足够勇敢，敢于说出真相。"
+    }
+  ],
+  "synonyms": [
+    "brave",
+    "courageous",
+    "daring",
+    "audacious",
+    "fearless",
+    "intrepid"
+  ]
+}

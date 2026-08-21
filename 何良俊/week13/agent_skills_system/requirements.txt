@@ -1,0 +1,21 @@
+# Harness 本体依赖
+# ==================
+# 两个第三方包：
+#   - requests：调用 DeepSeek API
+#   - pyyaml：解析 SKILL.md frontmatter
+# 其余均为 Python 标准库:
+#   argparse, json, html, pathlib, uuid, datetime, re, dataclasses,
+#   subprocess, sys, typing, __future__, shutil, time
+#
+# Python 版本要求: >=3.8
+
+requests>=2.28
+pyyaml>=6.0
+
+# 可选 skill 运行时依赖（不属于 harness 本身）：
+#   - harness/skills/baoyu-diagram/scripts/main.ts 需要 Node.js + bun
+#     推荐安装 bun:   https://bun.sh
+#     或通过 npx:    npx -y bun
+#     若未安装 bun/npx，diagram skill 仍会产出 SVG 文件，跳过 PNG 转换
+#   - harness/skills/flash-card/scripts/make_flashcard.py 无外部依赖
+#   - harness/skills/commit-message/scripts/format_commit.py 无外部依赖

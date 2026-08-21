@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>brave · 单词闪卡</title>
+  <style>
+    :root {
+      --bg1: #000000;
+      --bg2: #1a1a2e;
+      --card: #ffffff;
+      --ink: #1f2330;
+      --muted: #6b7280;
+      --accent: #6a5af9;
+      --accent-soft: #eee9ff;
+      --line: #eceaf3;
+      --pos: #ff7043;
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      font-family: -apple-system, "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      display: flex; align-items: center; justify-content: center;
+      padding: 40px 16px; color: var(--ink);
+    }
+    .stage { perspective: 1600px; width: 100%; max-width: 640px; }
+    .card {
+      position: relative; width: 100%; min-height: 560px;
+      transform-style: preserve-3d;
+      transition: transform .7s cubic-bezier(.4,.2,.2,1);
+      cursor: pointer;
+    }
+    .card.flipped { transform: rotateY(180deg); }
+    .face {
+      position: absolute; inset: 0; backface-visibility: hidden;
+      background: var(--card); border-radius: 20px; box-shadow: var(--shadow);
+      padding: 30px 30px 26px; overflow-y: auto;
+    }
+    .face.back { transform: rotateY(180deg); }
+    .front .word-row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    .front .word { font-size: 44px; font-weight: 800; letter-spacing: .5px; }
+    .front .phonetic { color: var(--muted); font-size: 17px; }
+    .audio-btn {
+      border: none; background: var(--accent-soft); color: var(--accent);
+      width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 17px;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .audio-btn:hover { background: var(--accent); color: #fff; }
+    .translation-box {
+      margin: 26px 0 0; padding: 18px 20px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent-soft), #f3efff);
+      border: 1px solid var(--line);
+    }
+    .translation-box .label { font-size: 12px; color: var(--muted); margin-bottom: 6px; letter-spacing: 1px; }
+    .translation-box .value { font-size: 24px; font-weight: 700; color: var(--accent); }
+    .quick-tags { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .quick-tags .chip { font-size: 13px; padding: 5px 12px; border-radius: 20px; background: #f4f3f8; color: var(--ink); }
+    .flip-hint { position: absolute; bottom: 18px; left: 0; right: 0; text-align: center; color: var(--muted); font-size: 13px; }
+    .back .section { margin-bottom: 20px; }
+    .back .section:last-child { margin-bottom: 0; }
+    .back h3 {
+      margin: 0 0 10px; font-size: 14px; color: var(--accent);
+      letter-spacing: 1px; display: flex; align-items: center; gap: 8px;
+    }
+    .back h3::before { content: ""; width: 4px; height: 14px; background: var(--accent); border-radius: 2px; }
+    .def-item { margin-bottom: 10px; }
+    .def-item .pos {
+      display: inline-block; font-size: 11px; color: #fff; background: var(--pos);
+      padding: 2px 8px; border-radius: 10px; margin-right: 8px; vertical-align: middle;
+    }
+    .def-item .en { font-size: 14px; }
+    .def-item .zh { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chips .chip { font-size: 13px; padding: 5px 12px; border-radius: 20px; background: var(--accent-soft); color: var(--accent); }
+    .chips .chip.near { background: #fff3e8; color: #ff7043; }
+    .empty { color: var(--muted); font-size: 13px; font-style: italic; }
+    .example { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed var(--line); }
+    .example:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .example .en { font-size: 14px; font-weight: 600; }
+    .example .en mark { background: #fff59d; padding: 0 3px; border-radius: 3px; }
+    .example .zh { font-size: 13px; color: var(--muted); margin-top: 3px; }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="card" id="card">
+      <div class="face front">
+        <div class="word-row">
+          <span class="word">brave</span>
+          <span class="phonetic">/breɪv/</span>
+          
+        </div>
+        <div class="translation-box">
+          <div class="label">中文释义</div>
+          <div class="value">勇敢的</div>
+        </div>
+        <div class="quick-tags"><div class="chips"><span class="chip ">courageous</span><span class="chip ">valiant</span><span class="chip ">fearless</span><span class="chip ">bold</span><span class="chip ">intrepid</span></div></div>
+        <div class="flip-hint">点击卡片翻转查看详情 →</div>
+      </div>
+      <div class="face back">
+        <div class="section">
+          <h3>详细释义</h3>
+          <div class="def-item"><span class="pos">adj</span><span class="en">Ready to face and endure danger or pain; showing courage.</span><div class="zh">准备面对并忍受危险或痛苦；表现出勇气。</div></div><div class="def-item"><span class="pos">noun</span><span class="en">A Native American warrior.</span><div class="zh">美洲原住民战士。</div></div><div class="def-item"><span class="pos">verb</span><span class="en">To endure or face unpleasant conditions without showing fear.</span><div class="zh">无畏地忍受或面对令人不快的情况。</div></div>
+        </div>
+        <div class="section">
+          <h3>同义词</h3>
+          <div class="chips"><span class="chip ">courageous</span><span class="chip ">valiant</span><span class="chip ">fearless</span><span class="chip ">bold</span><span class="chip ">intrepid</span></div>
+        </div>
+        <div class="section">
+          <h3>近义词</h3>
+          <div class="chips"><span class="chip near">heroic</span><span class="chip near">daring</span><span class="chip near">audacious</span><span class="chip near">gallant</span><span class="chip near">stalwart</span></div>
+        </div>
+        <div class="section">
+          <h3>例句</h3>
+          <div class="example"><div class="en">He was a <mark>brave</mark> soldier who never backed down from a fight.</div><div class="zh">他是一名勇敢的士兵，从不退缩于战斗。</div></div><div class="example"><div class="en">It was <mark>brave</mark> of her to speak out against the injustice.</div><div class="zh">她敢于公开反对不公，十分勇敢。</div></div><div class="example"><div class="en">They <mark>brave</mark>d the storm to rescue the stranded hikers.</div><div class="zh">他们冒着暴风雨去营救被困的登山者。</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('card').addEventListener('click', function() {
+      this.classList.toggle('flipped');
+    });
+    
+  </script>
+</body>
+</html>

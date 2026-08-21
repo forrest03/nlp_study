@@ -1,0 +1,12 @@
+{
+  "word": "think",
+  "phonetic": "/θɪŋk/",
+  "pos": "v.",
+  "definition": "思考，思索；认为，以为",
+  "examples": [
+    {"en": "I need some time to think about your proposal.", "zh": "我需要一些时间来思考你的提议。"},
+    {"en": "What do you think of the new design?", "zh": "你觉得这个新设计怎么样？"},
+    {"en": "She always thinks carefully before making a decision.", "zh": "她在做决定之前总是仔细思考。"}
+  ],
+  "synonyms": ["believe", "consider", "ponder", "reflect", "deliberate", "reason"]
+}

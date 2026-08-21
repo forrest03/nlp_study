@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang='zh-CN'><head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>PPT 课件</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif;background:#1a1a2e;color:#e0e0e0}
+.layout{display:flex;height:100vh}
+.sidebar{width:320px;min-width:320px;background:#16213e;overflow-y:auto;border-right:2px solid #0f3460}
+.sidebar-header{padding:18px 16px;background:#0f3460;position:sticky;top:0;z-index:10}
+.sidebar-header h1{font-size:17px;color:#e94560}
+.sidebar-header p{font-size:12px;color:#8899aa;margin-top:3px}
+.group-title{padding:10px 16px;font-size:14px;font-weight:700;color:#e94560;background:#1a2744;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.group-title:hover{background:#233256}
+.group-title .arrow{transition:transform .2s;font-size:12px}
+.group-title.collapsed .arrow{transform:rotate(-90deg)}
+.slide-link{display:block;padding:7px 16px 7px 28px;font-size:13px;color:#aabbcc;text-decoration:none;cursor:pointer;border-left:3px solid transparent;transition:all .12s}
+.slide-link:hover{background:#1a2744;color:#fff}
+.slide-link.active{background:#0f3460;color:#fff;border-left-color:#e94560;font-weight:600}
+.slide-group.collapsed .slide-link{display:none}
+.main{flex:1;display:flex;align-items:center;justify-content:center;background:#1a1a2e;padding:20px;overflow:hidden}
+.main img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.placeholder{color:#555;font-size:16px}
+.nav-hint{position:fixed;bottom:16px;right:16px;background:rgba(15,52,96,.8);color:#8899aa;padding:8px 14px;border-radius:8px;font-size:12px;z-index:100}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#16213e}
+::-webkit-scrollbar-thumb{background:#0f3460;border-radius:3px}
+</style></head><body>
+<div class='layout'>
+<div class='sidebar'><div class='sidebar-header'>
+<h1>📖 PPT 课件</h1><p>1 个课件 · 30 页</p></div>
+<div class='group-title' onclick='toggleGroup(this)'><span>📂 7_序列标注任务</span><span class='arrow'>▼</span></div>
+<div class='slide-group'>
+<a class='slide-link' href='#' onclick='show(0);return false'>001</a>
+<a class='slide-link' href='#' onclick='show(1);return false'>002</a>
+<a class='slide-link' href='#' onclick='show(2);return false'>003</a>
+<a class='slide-link' href='#' onclick='show(3);return false'>004</a>
+<a class='slide-link' href='#' onclick='show(4);return false'>005</a>
+<a class='slide-link' href='#' onclick='show(5);return false'>006</a>
+<a class='slide-link' href='#' onclick='show(6);return false'>007</a>
+<a class='slide-link' href='#' onclick='show(7);return false'>008</a>
+<a class='slide-link' href='#' onclick='show(8);return false'>009</a>
+<a class='slide-link' href='#' onclick='show(9);return false'>010</a>
+<a class='slide-link' href='#' onclick='show(10);return false'>011</a>
+<a class='slide-link' href='#' onclick='show(11);return false'>012</a>
+<a class='slide-link' href='#' onclick='show(12);return false'>013</a>
+<a class='slide-link' href='#' onclick='show(13);return false'>014</a>
+<a class='slide-link' href='#' onclick='show(14);return false'>015</a>
+<a class='slide-link' href='#' onclick='show(15);return false'>016</a>
+<a class='slide-link' href='#' onclick='show(16);return false'>017</a>
+<a class='slide-link' href='#' onclick='show(17);return false'>018</a>
+<a class='slide-link' href='#' onclick='show(18);return false'>019</a>
+<a class='slide-link' href='#' onclick='show(19);return false'>020</a>
+<a class='slide-link' href='#' onclick='show(20);return false'>021</a>
+<a class='slide-link' href='#' onclick='show(21);return false'>022</a>
+<a class='slide-link' href='#' onclick='show(22);return false'>023</a>
+<a class='slide-link' href='#' onclick='show(23);return false'>024</a>
+<a class='slide-link' href='#' onclick='show(24);return false'>025</a>
+<a class='slide-link' href='#' onclick='show(25);return false'>026</a>
+<a class='slide-link' href='#' onclick='show(26);return false'>027</a>
+<a class='slide-link' href='#' onclick='show(27);return false'>028</a>
+<a class='slide-link' href='#' onclick='show(28);return false'>029</a>
+<a class='slide-link' href='#' onclick='show(29);return false'>030</a>
+</div>
+</div>
+<div class='main'><div class='placeholder' id='viewer'>← 点击左侧选择页面</div></div>
+<div class='nav-hint'>↑↓ 切换 · 点击课件名折叠</div></div>
+<script>const slides=['7_序列标注任务/slide_001.png','7_序列标注任务/slide_002.png','7_序列标注任务/slide_003.png','7_序列标注任务/slide_004.png','7_序列标注任务/slide_005.png','7_序列标注任务/slide_006.png','7_序列标注任务/slide_007.png','7_序列标注任务/slide_008.png','7_序列标注任务/slide_009.png','7_序列标注任务/slide_010.png','7_序列标注任务/slide_011.png','7_序列标注任务/slide_012.png','7_序列标注任务/slide_013.png','7_序列标注任务/slide_014.png','7_序列标注任务/slide_015.png','7_序列标注任务/slide_016.png','7_序列标注任务/slide_017.png','7_序列标注任务/slide_018.png','7_序列标注任务/slide_019.png','7_序列标注任务/slide_020.png','7_序列标注任务/slide_021.png','7_序列标注任务/slide_022.png','7_序列标注任务/slide_023.png','7_序列标注任务/slide_024.png','7_序列标注任务/slide_025.png','7_序列标注任务/slide_026.png','7_序列标注任务/slide_027.png','7_序列标注任务/slide_028.png','7_序列标注任务/slide_029.png','7_序列标注任务/slide_030.png'];let cur=-1;
+function show(i){cur=i;document.querySelectorAll('.slide-link').forEach(e=>e.classList.remove('active'));const a=document.querySelectorAll('.slide-link');if(a[i]){a[i].classList.add('active');a[i].scrollIntoView({block:'nearest',behavior:'smooth'})}document.getElementById('viewer').innerHTML=`<img src='${slides[i]}'>`}
+function toggleGroup(e){e.classList.toggle('collapsed');const b=e.nextElementSibling;if(b&&b.classList.contains('slide-group'))b.classList.toggle('collapsed')}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowDown'){if(cur<0)show(0);else if(cur<slides.length-1)show(cur+1)}if(e.key==='ArrowUp'){if(cur<0)show(0);else if(cur>0)show(cur-1)}})
+</script></body></html>

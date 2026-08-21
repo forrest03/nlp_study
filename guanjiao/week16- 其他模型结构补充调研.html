@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Jamba-1.5、Falcon-H1、RWKV-7 与 MiniMax-Text-01 的架构特点调研与课程补充建议。">
+  <title>开源模型结构补充调研</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18212f;
+      --muted: #657083;
+      --paper: #f4f1ea;
+      --surface: #fffdf8;
+      --line: #d9d4ca;
+      --blue: #2657a7;
+      --blue-soft: #eaf1fc;
+      --green: #26705a;
+      --orange: #a34e19;
+      --purple: #694fa3;
+      --shadow: 0 18px 50px rgba(48, 40, 26, .09);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 0%, rgba(38, 87, 167, .09), transparent 28rem),
+        radial-gradient(circle at 90% 13%, rgba(163, 78, 25, .07), transparent 25rem),
+        var(--paper);
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+      line-height: 1.75;
+    }
+
+    a {
+      color: var(--blue);
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      text-decoration-thickness: 2px;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 74px 0 44px;
+      border-bottom: 1px solid rgba(24, 33, 47, .12);
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.23;
+      letter-spacing: -.025em;
+    }
+
+    h1 {
+      max-width: 850px;
+      margin: 0;
+      font-size: clamp(40px, 7vw, 78px);
+      font-weight: 850;
+    }
+
+    .hero-lead {
+      max-width: 780px;
+      margin: 26px 0 0;
+      color: #465268;
+      font-size: clamp(17px, 2vw, 22px);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 4px 11px;
+      border: 1px solid rgba(38, 87, 167, .2);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .58);
+      color: #324563;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 42px;
+      padding: 38px 0 80px;
+    }
+
+    .toc {
+      position: sticky;
+      top: 20px;
+      align-self: start;
+      padding: 18px;
+      border: 1px solid rgba(24, 33, 47, .1);
+      border-radius: 15px;
+      background: rgba(255, 253, 248, .78);
+      backdrop-filter: blur(14px);
+    }
+
+    .toc strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 13px;
+      letter-spacing: .08em;
+    }
+
+    .toc a {
+      display: block;
+      padding: 7px 0;
+      color: var(--muted);
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .toc a:hover,
+    .toc a.active {
+      color: var(--blue);
+      font-weight: 750;
+    }
+
+    main {
+      min-width: 0;
+    }
+
+    section {
+      scroll-margin-top: 24px;
+    }
+
+    section+section {
+      margin-top: 64px;
+    }
+
+    h2 {
+      margin: 0 0 22px;
+      font-size: clamp(29px, 4vw, 42px);
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 24px;
+    }
+
+    .section-lead {
+      max-width: 780px;
+      margin: -8px 0 26px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .summary-card {
+      min-height: 220px;
+      padding: 24px;
+      border: 1px solid rgba(24, 33, 47, .11);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .summary-card .index {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .15em;
+    }
+
+    .summary-card p {
+      margin: 12px 0 0;
+      color: #4c586b;
+    }
+
+    .signature {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 3px 9px;
+      border-radius: 7px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font: 700 13px/1.8 ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    .model {
+      overflow: hidden;
+      border: 1px solid rgba(24, 33, 47, .12);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .model-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: start;
+      padding: 30px 30px 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .model-head p {
+      max-width: 720px;
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    .model-number {
+      color: rgba(24, 33, 47, .17);
+      font-size: 52px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .model-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(250px, .75fr);
+      gap: 30px;
+      padding: 28px 30px 32px;
+    }
+
+    .model-body p {
+      margin-top: 0;
+    }
+
+    .facts {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-left: 3px solid var(--blue);
+    }
+
+    .facts li {
+      padding: 9px 0 9px 16px;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .facts li:last-child {
+      border-bottom: 0;
+    }
+
+    .facts b {
+      display: block;
+      font-size: 14px;
+    }
+
+    .facts span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .architecture {
+      margin: 20px 0;
+      padding: 18px 20px;
+      overflow-x: auto;
+      border: 1px solid rgba(38, 87, 167, .14);
+      border-radius: 14px;
+      background: #f7f9fd;
+      color: #263a59;
+      font: 700 14px/1.8 ui-monospace, SFMono-Regular, Consolas, monospace;
+      white-space: pre;
+    }
+
+    .takeaway {
+      margin-top: 20px;
+      padding: 17px 19px;
+      border-radius: 13px;
+      background: #fff4e9;
+      color: #6e3717;
+    }
+
+    .takeaway strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    details {
+      margin-top: 20px;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+
+    summary {
+      cursor: pointer;
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    details p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .compare-wrap {
+      overflow-x: auto;
+      border: 1px solid rgba(24, 33, 47, .12);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef2f8;
+      color: #344561;
+      font-size: 13px;
+    }
+
+    td {
+      font-size: 14px;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .priority {
+      counter-reset: priority;
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .priority li {
+      counter-increment: priority;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 18px 20px;
+      border: 1px solid rgba(24, 33, 47, .1);
+      border-radius: 14px;
+      background: rgba(255, 253, 248, .82);
+    }
+
+    .priority li::before {
+      content: counter(priority, decimal-leading-zero);
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    .source-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .source-list li {
+      padding: 13px 16px;
+      border-left: 3px solid #aab9d1;
+      background: rgba(255, 255, 255, .55);
+    }
+
+    .note {
+      margin-top: 22px;
+      padding: 16px 18px;
+      border: 1px solid rgba(105, 79, 163, .18);
+      border-radius: 12px;
+      background: #f4effd;
+      color: #4c3c70;
+      font-size: 14px;
+    }
+
+    footer {
+      padding: 28px 0 44px;
+      border-top: 1px solid rgba(24, 33, 47, .12);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .back-top {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(24, 33, 47, .13);
+      border-radius: 50%;
+      background: rgba(255, 253, 248, .9);
+      box-shadow: 0 8px 25px rgba(24, 33, 47, .12);
+      color: var(--blue);
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    @media (max-width: 860px) {
+      .hero {
+        padding-top: 48px;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .toc {
+        position: static;
+        display: flex;
+        gap: 14px;
+        overflow-x: auto;
+      }
+
+      .toc strong {
+        display: none;
+      }
+
+      .toc a {
+        flex: 0 0 auto;
+      }
+
+      .summary-grid,
+      .model-body {
+        grid-template-columns: 1fr;
+      }
+
+      .model-head {
+        grid-template-columns: 1fr;
+      }
+
+      .model-number {
+        display: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(100% - 24px, 1180px);
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+
+      .model-head,
+      .model-body {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .summary-card {
+        min-height: 0;
+      }
+
+      .back-top {
+        display: none;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4;
+        margin: 14mm;
+      }
+
+      body {
+        background: #fff;
+        font-size: 10.5pt;
+      }
+
+      .page {
+        width: 100%;
+      }
+
+      .hero {
+        padding: 0 0 18px;
+      }
+
+      .layout {
+        display: block;
+        padding-top: 24px;
+      }
+
+      .toc,
+      .back-top {
+        display: none;
+      }
+
+      section+section {
+        margin-top: 34px;
+      }
+
+      .model,
+      .summary-card,
+      .compare-wrap {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      details>* {
+        display: block !important;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="hero" id="top">
+    <div class="page">
+      <p class="eyebrow">LLM Architecture Research · 2026</p>
+      <h1>开源模型结构补充调研</h1>
+      <p class="hero-lead">在 DeepSeek、GLM、Kimi 与 Qwen 之外，补上四条有代表性的架构路线：按层交错、同层并行、纯递归状态，以及 Lightning Attention 混合。</p>
+      <div class="hero-meta" aria-label="报告标签">
+        <span class="chip">Jamba‑1.5</span>
+        <span class="chip">Falcon‑H1</span>
+        <span class="chip">RWKV‑7 Goose</span>
+        <span class="chip">MiniMax‑Text‑01</span>
+        <span class="chip">更新：2026‑08‑20</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="page layout">
+    <nav class="toc" aria-label="页面目录">
+      <strong>内容导航</strong>
+      <a href="#overview">结论概览</a>
+      <a href="#jamba">Jamba‑1.5</a>
+      <a href="#falcon">Falcon‑H1</a>
+      <a href="#rwkv">RWKV‑7</a>
+      <a href="#minimax">MiniMax‑01</a>
+      <a href="#comparison">横向对比</a>
+    </nav>
+
+    <main>
+      <section id="overview">
+        <p class="eyebrow">Executive Summary</p>
+        <h2>四种架构，四种“怎么记住上下文”</h2>
+        <p class="section-lead">它们的主要差异不在参数规模，而在于精确 token 寻址与压缩状态记忆如何分工。</p>
+        <div class="summary-grid">
+          <article class="summary-card">
+            <span class="index">01 · INTER-LAYER</span>
+            <h3>Jamba‑1.5</h3>
+            <p>Transformer、Mamba 与 MoE 三者组合；大部分层用固定状态处理序列，少数全注意力层负责精确读取。</p>
+            <span class="signature">7× Mamba → 1× Attention</span>
+          </article>
+          <article class="summary-card">
+            <span class="index">02 · INTRA-LAYER</span>
+            <h3>Falcon‑H1</h3>
+            <p>每个 block 中 Attention heads 与 Mamba‑2 heads 并行工作，以可调头数控制精确寻址与状态记忆的比例。</p>
+            <span class="signature">Attention ∥ Mamba‑2</span>
+          </article>
+          <article class="summary-card">
+            <span class="index">03 · RECURRENT</span>
+            <h3>RWKV‑7 Goose</h3>
+            <p>完全取消 Attention 和 KV cache，把上下文写入固定大小的矩阵状态，形成随 token 动态更新的 fast weights。</p>
+            <span class="signature">stateₜ = update(stateₜ₋₁, xₜ)</span>
+          </article>
+          <article class="summary-card">
+            <span class="index">04 · LINEAR HYBRID</span>
+            <h3>MiniMax‑Text‑01</h3>
+            <p>以 Lightning Attention 承担大部分层，仅周期性插入 Softmax Attention，并通过 MoE 扩大参数容量。</p>
+            <span class="signature">7× Lightning → 1× Softmax</span>
+          </article>
+        </div>
+      </section>
+
+      <section id="jamba">
+        <article class="model">
+          <header class="model-head">
+            <div>
+              <p class="eyebrow">Inter-layer Hybrid</p>
+              <h2>Jamba‑1.5：三种稀疏同时出现</h2>
+              <p>把时间维压缩、精确检索和参数容量分别交给 Mamba、Attention 与 MoE。</p>
+            </div>
+            <span class="model-number">01</span>
+          </header>
+          <div class="model-body">
+            <div>
+              <p>Jamba‑1.5 Large 由 9 个 block 组成，每个 block 8 层；Attention 与 Mamba 的层数比例为 1:7。每两层用一次 MoE 代替普通 MLP，配置为 16
+                个专家、Top‑2 路由。</p>
+              <div class="architecture" role="img" aria-label="Jamba按层交错结构">[ Mamba × 7 → Full Attention × 1 ] × 9
+                └─ 每 2 层：16 Experts / Top‑2 MoE</div>
+              <p>模型把三类成本拆开：Mamba 以固定状态连续处理历史；全注意力层保留原始 token 的精确寻址；MoE 在不同比例增加单 token 计算的前提下扩大知识容量。</p>
+              <div class="takeaway"><strong>关键观察</strong>官方消融中，纯 Mamba‑2 优于纯 Mamba‑1，但放进混合架构后，Mamba‑1 + Attention
+                反而更好。局部最优算子并不保证系统组合最优。</div>
+              <details>
+                <summary>它与 Kimi / Qwen 混合架构的关系</summary>
+                <p>Jamba 更接近“SSM + Transformer”的早期成熟范式，可以作为 KDA、Gated DeltaNet 等混合线性架构的前史：都依赖少量全注意力层弥补固定状态模型的精确检索损失。</p>
+              </details>
+            </div>
+            <ul class="facts" aria-label="Jamba关键参数">
+              <li><b>层组织</b><span>9 blocks × 8 layers</span></li>
+              <li><b>Attention : Mamba</b><span>1 : 7</span></li>
+              <li><b>MoE</b><span>16 experts / Top‑2，每 2 层一次</span></li>
+              <li><b>参数</b><span>398B 总参数 / 94B 激活</span></li>
+              <li><b>上下文</b><span>256K</span></li>
+              <li><b>KV cache</b><span>只在少量 Attention 层增长</span></li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <section id="falcon">
+        <article class="model">
+          <header class="model-head">
+            <div>
+              <p class="eyebrow">Intra-layer Hybrid</p>
+              <h2>Falcon‑H1：同层并行的 Hybrid Heads</h2>
+              <p>Attention 和 Mamba‑2 不再轮流出现，而是在同一 block 内并行处理输入。</p>
+            </div>
+            <span class="model-number">02</span>
+          </header>
+          <div class="model-body">
+            <div>
+              <p>Falcon‑H1 将完整注意力头与 Mamba‑2 头放在同一个 mixer block 中，两路输出融合后进入输出投影。两类头的数量可独立调节，因此“注意力预算”从层比例变成了头比例。</p>
+              <div class="architecture" role="img" aria-label="Falcon同层并行结构"> ┌─ Full Attention heads ─┐
+                Input → RMSNorm ─┤ ├→ Fuse / O-Proj → FFN
+                └─ Mamba‑2 heads ───────┘</div>
+              <p>以 34B 版本为例，每层有 20 个 Attention Q 头和 32 个 Mamba‑2 头。它不像 Jamba 那样周期性“刷新”全局信息，而是让精确寻址和状态记忆在每一层持续协作。</p>
+              <div class="takeaway"><strong>设计边界</strong>因为每层仍存在部分 Attention heads，KV cache 依旧随上下文增长；节省来自 KV 头较少和 SSM
+                分担计算，而非完全实现常数内存。</div>
+              <details>
+                <summary>为什么超大的 RoPE theta 值值得注意</summary>
+                <p>34B 配置使用 1e11 的 RoPE theta。团队推测，SSM 已原生承担一部分顺序信息，因此注意力分支可以使用更缓慢的位置旋转，把更多维度留给长距离内容匹配。</p>
+              </details>
+            </div>
+            <ul class="facts" aria-label="Falcon关键参数">
+              <li><b>规模</b><span>34B dense</span></li>
+              <li><b>层数 / 隐藏维</b><span>72 / 5120</span></li>
+              <li><b>Attention heads</b><span>20 Q / 4 KV</span></li>
+              <li><b>Mamba‑2 heads</b><span>32，state size 256</span></li>
+              <li><b>位置编码</b><span>RoPE theta = 1e11</span></li>
+              <li><b>上下文</b><span>256K</span></li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <section id="rwkv">
+        <article class="model">
+          <header class="model-head">
+            <div>
+              <p class="eyebrow">Attention-free Recurrent</p>
+              <h2>RWKV‑7 Goose：彻底取消 Attention</h2>
+              <p>把上下文压缩成持续演化的矩阵状态，同时保留训练时的序列并行能力。</p>
+            </div>
+            <span class="model-number">03</span>
+          </header>
+          <div class="model-body">
+            <div>
+              <p>RWKV‑7 是纯 RNN 架构，没有 Softmax Attention 和 KV cache。每层维护固定大小的多头矩阵状态，用 Generalized Delta Rule
+                决定忘掉什么、覆盖什么以及写入什么。</p>
+              <div class="architecture" role="img" aria-label="RWKV状态更新结构">Stateₜ₋₁ ── decay / remove ──┐
+                ├→ Stateₜ → receptance read → output
+                Tokenₜ ───── key / value write ┘</div>
+              <p>其中逐通道的 <code>wₜ</code> 类似遗忘门，<code>aₜ</code> 类似上下文内部更新的学习率；删除旧记忆与写入新记忆还可以使用不同的
+                key。状态因此可理解为模型在推理时不断更新的“小型键值模型”。</p>
+              <div class="takeaway"><strong>核心取舍</strong>推理每 token
+                的计算时间和状态大小不随已有上下文长度增长，但固定状态必然压缩历史，对逐字回看和高精度检索的天然支持弱于保留全注意力层的混合模型。</div>
+              <details>
+                <summary>为什么它又像 RNN，又像线性注意力</summary>
+                <p>训练时，状态更新可以重写成可并行的矩阵前缀计算；推理时则按 token 递归更新。因此它兼具 Transformer 式训练并行和 RNN 式常数状态推理，但信息表示仍属于有损压缩。</p>
+              </details>
+            </div>
+            <ul class="facts" aria-label="RWKV关键参数">
+              <li><b>Token mixer</b><span>Generalized Delta Rule</span></li>
+              <li><b>Attention</b><span>无</span></li>
+              <li><b>KV cache</b><span>无</span></li>
+              <li><b>推理状态</b><span>固定大小的矩阵 fast weights</span></li>
+              <li><b>公开规模</b><span>0.19B–2.9B（论文系列）</span></li>
+              <li><b>许可</b><span>Apache 2.0</span></li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <section id="minimax">
+        <article class="model">
+          <header class="model-head">
+            <div>
+              <p class="eyebrow">Linear Attention at Scale</p>
+              <h2>MiniMax‑Text‑01：规模化实验与架构回撤</h2>
+              <p>它既证明了线性注意力能扩展到商业级模型，也揭示了理论效率之外的隐藏成本。</p>
+            </div>
+            <span class="model-number">04</span>
+          </header>
+          <div class="model-body">
+            <div>
+              <p>MiniMax‑Text‑01 共 80 层，每 7 个 Lightning Attention 层后插入 1 个 Softmax Attention 层；FFN 使用 32 专家 Top‑2
+                MoE。训练上下文达到 1M，推理声明可外推到 4M。</p>
+              <div class="architecture" role="img" aria-label="MiniMax注意力混合结构">[ Lightning Attention × 7 → Softmax
+                Attention × 1 ] × 10
+                └─ 32 Experts / Top‑2 MoE</div>
+              <p>Lightning Attention 将计算拆为块内和块间：块内保留因果 token 交互，块间只传递累积的 <code>KᵀV</code> 状态；配合分块和 IO-aware
+                kernel，避免传统线性注意力的串行累加与频繁显存访问。</p>
+              <div class="takeaway"><strong>最值得讲的后续</strong>MiniMax 后续在 M2 上回到全注意力，原因包括复杂多跳推理的隐性损失、低精度状态敏感、Prefix Cache
+                与投机解码基础设施不成熟。低理论复杂度并不自动等于更低线上成本。</div>
+              <details>
+                <summary>“没有免费午餐”体现在哪里</summary>
+                <p>线性状态擅长低成本概括历史，但精确 token-to-token 关系可能被压缩。增加全注意力比例可以补质量，却又会重新引入 KV cache
+                  与二次复杂度；最终需要在能力、硬件利用率和服务生态之间共同优化。</p>
+              </details>
+            </div>
+            <ul class="facts" aria-label="MiniMax关键参数">
+              <li><b>参数</b><span>456B 总参数 / 45.9B 激活</span></li>
+              <li><b>层数</b><span>80</span></li>
+              <li><b>Attention 比例</b><span>7 Lightning : 1 Softmax</span></li>
+              <li><b>MoE</b><span>32 experts / Top‑2</span></li>
+              <li><b>Attention heads</b><span>64 × 128</span></li>
+              <li><b>上下文</b><span>1M 训练 / 4M 推理外推</span></li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <section id="comparison">
+        <p class="eyebrow">Comparison</p>
+        <h2>横向对比：差异在“混合发生在哪里”</h2>
+        <div class="compare-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>模型</th>
+                <th>混合位置</th>
+                <th>精确寻址</th>
+                <th>压缩状态</th>
+                <th>FFN</th>
+                <th>主要代价</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Jamba‑1.5</b></td>
+                <td>层间交替</td>
+                <td>1/8 全注意力层</td>
+                <td>Mamba‑1</td>
+                <td>16 选 2 MoE</td>
+                <td>多种算子导致部署复杂</td>
+              </tr>
+              <tr>
+                <td><b>Falcon‑H1</b></td>
+                <td>同层按头并行</td>
+                <td>每层部分 Attention heads</td>
+                <td>Mamba‑2 heads</td>
+                <td>Dense</td>
+                <td>KV cache 仍随长度增长</td>
+              </tr>
+              <tr>
+                <td><b>RWKV‑7</b></td>
+                <td>不混合</td>
+                <td>无显式 token 寻址</td>
+                <td>矩阵状态</td>
+                <td>ReLU² FFN</td>
+                <td>历史精确回看能力受限</td>
+              </tr>
+              <tr>
+                <td><b>MiniMax‑01</b></td>
+                <td>层间交替</td>
+                <td>1/8 Softmax 层</td>
+                <td>Lightning KᵀV 状态</td>
+                <td>32 选 2 MoE</td>
+                <td>多跳推理与基础设施风险</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <div class="page">大模型结构演进 · 补充调研材料 · 2026</div>
+  </footer>
+
+  <button class="back-top" type="button" aria-label="返回顶部" title="返回顶部">↑</button>
+  <script>
+    const links = [...document.querySelectorAll('.toc a')];
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${visible.target.id}`));
+    }, {rootMargin: '-12% 0px -72% 0px', threshold: [0, .15, .5]});
+
+    sections.forEach(section => observer.observe(section));
+    document.querySelector('.back-top').addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+  </script>
+</body>
+
+</html>

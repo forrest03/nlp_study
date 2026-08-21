@@ -1,0 +1,4 @@
+interface:
+  display_name: "Setup FFmpeg"
+  short_description: "Check and install FFmpeg from the terminal"
+  default_prompt: "Use $setup-ffmpeg to check whether FFmpeg is ready and help me install it if needed."

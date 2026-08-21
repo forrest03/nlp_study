@@ -1,0 +1,226 @@
+import json
+import os
+import httpx
+from openai import OpenAI
+
+# ===== Open-Meteo 接口常量 =====
+GEOCODING_URL = "https://geocoding-api.open-meteo.com/v1/search"
+WEATHER_URL = "https://api.open-meteo.com/v1/forecast"
+
+WEATHER_CODE_MAP = {
+    0: "晴天", 1: "大致晴朗", 2: "局部多云", 3: "阴天",
+    45: "雾", 48: "冻雾",
+    51: "小毛毛雨", 53: "中毛毛雨", 55: "大毛毛雨",
+    61: "小雨", 63: "中雨", 65: "大雨",
+    71: "小雪", 73: "中雪", 75: "大雪",
+    80: "小阵雨", 81: "中阵雨", 82: "大阵雨",
+    95: "雷暴", 96: "雷暴伴小冰雹", 99: "雷暴伴大冰雹",
+}
+
+
+# ===== 工具1：城市名 → 经纬度 =====
+def geocode(city: str) -> str:
+    """
+    Args:
+        city: 城市名称，支持中文，如 "宁德"、"北京"
+    Returns:
+        JSON 字符串，含 latitude / longitude / name / country / admin1
+    """
+    def _geocode(name: str):
+        resp = httpx.get(GEOCODING_URL, params={
+            "name": name, "count": 10, "language": "zh", "format": "json",
+        }, timeout=10.0)
+        resp.raise_for_status()
+        return resp.json().get("results") or []
+
+    results = _geocode(city)
+
+    # 同名低级行政点兜底
+    is_low_admin = all(
+        str(r.get("feature_code", "")).startswith("PPL")
+        and not str(r.get("feature_code", "")).startswith("PPLA")
+        for r in results
+    ) if results else True
+    has_suffix = any(city.endswith(s) for s in ("市", "县", "区", "镇"))
+    if is_low_admin and not has_suffix:
+        retry = _geocode(city + "市")
+        if retry:
+            results = retry
+
+    if not results:
+        return json.dumps({"error": f"未找到城市 '{city}'"}, ensure_ascii=False)
+
+    def _rank(r):
+        fc = str(r.get("feature_code", ""))
+        admin_priority = 1 if fc.startswith("PPLA") or fc.startswith("ADM") else 0
+        pop = r.get("population") or 0
+        return (admin_priority, pop)
+
+    loc = max(results, key=_rank)
+    return json.dumps({
+        "latitude": loc["latitude"],
+        "longitude": loc["longitude"],
+        "name": loc.get("name", city),
+        "country": loc.get("country", ""),
+        "admin1": loc.get("admin1", ""),
+    }, ensure_ascii=False)
+
+
+# ===== 工具2：经纬度 → 天气报告 =====
+def get_weather_by_coords(latitude: float, longitude: float,
+                          location_name: str = "") -> str:
+    try:
+        resp = httpx.get(WEATHER_URL, params={
+            "latitude": latitude,
+            "longitude": longitude,
+            "current": "temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code",
+            "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code",
+            "timezone": "Asia/Shanghai",
+            "forecast_days": 3,
+        }, timeout=10.0)
+        resp.raise_for_status()
+    except httpx.RequestError as e:
+        return f"天气数据获取失败：{e}"
+
+    data = resp.json()
+    cur = data["current"]
+    daily = data["daily"]
+
+    weather_desc = WEATHER_CODE_MAP.get(cur["weather_code"], f"代码{cur['weather_code']}")
+    title = location_name or f"({latitude:.2f}°N, {longitude:.2f}°E)"
+
+    lines = [
+        f"【{title}】天气报告",
+        f"坐标：{latitude:.2f}°N, {longitude:.2f}°E",
+        "",
+        f"当前天气：{weather_desc}",
+        f"  温度：{cur['temperature_2m']}°C",
+        f"  相对湿度：{cur['relative_humidity_2m']}%",
+        f"  风速：{cur['wind_speed_10m']} km/h",
+        "",
+        "未来3天预报：",
+    ]
+    for i in range(3):
+        day_desc = WEATHER_CODE_MAP.get(daily["weather_code"][i], "")
+        lines.append(
+            f"  {daily['time'][i]}：{day_desc}，"
+            f"{daily['temperature_2m_max'][i]}°C / {daily['temperature_2m_min'][i]}°C，"
+            f"降水 {daily['precipitation_sum'][i]} mm"
+        )
+    return "\n".join(lines)
+
+
+# ===== 工具描述 Schema =====
+TOOL_SCHEMAS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "geocode",
+            "description": "把城市名（支持中文）转换为经纬度坐标。当用户只给了城市名、还没有经纬度时调用。",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "city": {"type": "string", "description": "城市名，如 '宁德'、'北京'"},
+                },
+                "required": ["city"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_weather_by_coords",
+            "description": "根据经纬度查询当前天气及未来3天预报。必须先用 geocode 拿到经纬度后再调用。",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "latitude": {"type": "number", "description": "纬度"},
+                    "longitude": {"type": "number", "description": "经度"},
+                    "location_name": {"type": "string", "description": "可选，地名标签，用于报告标题"},
+                },
+                "required": ["latitude", "longitude"],
+            },
+        },
+    },
+]
+
+
+def dispatch_tool(name: str, arguments: dict) -> str:
+    """根据工具名路由到对应函数并执行。"""
+    try:
+        if name == "geocode":
+            return geocode(**arguments)
+        elif name == "get_weather_by_coords":
+            return get_weather_by_coords(**arguments)
+        else:
+            return json.dumps({"error": f"未知工具: {name}"}, ensure_ascii=False)
+    except Exception as e:
+        return f"工具执行出错: {e}"
+
+
+# ===== Agent 循环主逻辑 =====
+BASE_URL = os.getenv("LLM_BASE_URL", "https://api.deepseek.com/v1")
+MODEL = os.getenv("LLM_MODEL", "deepseek-chat")
+API_KEY = os.getenv("LLM_API_KEY", "sk-我个人的API")
+
+client = OpenAI(base_url=BASE_URL, api_key=API_KEY)
+
+SYSTEM_PROMPT = (
+    "你是一个天气查询助手。可调用两个工具：\n"
+    "1) geocode：城市名 → 经纬度；\n"
+    "2) get_weather_by_coords：经纬度 → 天气报告。\n"
+    "查询某城市天气时，请先调用 geocode 拿到经纬度，"
+    "再把经纬度传给 get_weather_by_coords 查询天气，"
+    "最后用自然语言总结结果。"
+)
+
+MAX_ITER = 8  # 防止无限循环的安全阀
+
+
+def run_agent(user_query: str) -> str:
+    messages = [
+        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "user", "content": user_query},
+    ]
+
+    for i in range(MAX_ITER):
+        resp = client.chat.completions.create(
+            model=MODEL,
+            messages=messages,
+            tools=TOOL_SCHEMAS,
+            tool_choice="auto",
+        )
+        msg = resp.choices[0].message
+        messages.append(msg)
+
+        # 没有 tool_calls → LLM 已给出最终答案
+        if not msg.tool_calls:
+            return msg.content
+
+        # 执行每一个工具调用，结果作为 tool 消息回灌
+        for call in msg.tool_calls:
+            name = call.function.name
+            try:
+                arguments = json.loads(call.function.arguments or "{}")
+            except json.JSONDecodeError:
+                arguments = {}
+
+            print(f"[第{i+1}轮] 调用工具 {name}({arguments})")
+            result = dispatch_tool(name, arguments)
+            print(f"[第{i+1}轮] 观察结果：{result[:120]}...")
+
+            messages.append({
+                "role": "tool",
+                "tool_call_id": call.id,
+                "content": result,
+            })
+        # 进入下一轮，让 LLM 看到 observation 后继续推理
+
+    return "已达最大循环次数，未能给出最终答案。"
+
+
+if __name__ == "__main__":
+    query = input("请输入问题：")  # 例如：帮我查一下宁德市的天气
+    answer = run_agent(query)
+    print("\n===== 最终答案 =====")
+    print(answer)

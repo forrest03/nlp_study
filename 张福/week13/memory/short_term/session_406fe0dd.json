@@ -1,0 +1,11 @@
+{
+  "session_id": "406fe0dd",
+  "updated_at": 1785117358,
+  "turns": [
+    {
+      "question": "你还记得我的编程偏好吗？",
+      "answer": "记得，你主要使用 **Python**，常用 IDE 是 **Cursor** 和 **VS Code**。",
+      "timestamp": 1785117358
+    }
+  ]
+}

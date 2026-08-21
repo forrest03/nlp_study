@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMP 专家问答系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --success: #16a34a;
+            --error: #dc2626;
+            --warning: #d97706;
+            --bg: #f0f2f5;
+            --card: #ffffff;
+            --border: #e4e7eb;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --user-bubble: #1a73e8;
+            --bot-bubble: #ffffff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                         "Microsoft YaHei", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        /* 顶部栏 */
+        header {
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+            color: #fff;
+            padding: 14px 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        header h1 { font-size: 20px; font-weight: 600; }
+        header .subtitle { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+        header .tabs { display: flex; gap: 6px; }
+        header .tabs button {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background .2s;
+        }
+        header .tabs button:hover { background: rgba(255,255,255,0.3); }
+        header .tabs button.active { background: #fff; color: var(--primary-dark); font-weight: 600; }
+
+        /* 主容器 */
+        .layout { flex: 1; display: flex; overflow: hidden; }
+        .main-panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .side-panel {
+            width: 340px;
+            background: var(--card);
+            border-left: 1px solid var(--border);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .side-panel.show { display: flex; }
+
+        /* 聊天区 */
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .msg { display: flex; gap: 12px; max-width: 85%; }
+        .msg.user { align-self: flex-end; flex-direction: row-reverse; }
+        .avatar {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; flex-shrink: 0;
+        }
+        .msg.bot .avatar { background: var(--primary); color: #fff; }
+        .msg.user .avatar { background: #6b7280; color: #fff; }
+        .bubble {
+            padding: 12px 16px;
+            border-radius: 14px;
+            line-height: 1.7;
+            font-size: 14px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+        }
+        .msg.bot .bubble {
+            background: var(--bot-bubble);
+            border: 1px solid var(--border);
+            border-top-left-radius: 4px;
+        }
+        .msg.user .bubble {
+            background: var(--user-bubble);
+            color: #fff;
+            border-top-right-radius: 4px;
+        }
+        .bubble .meta { font-size: 11px; color: var(--text-light); margin-top: 6px; }
+        .msg.user .bubble .meta { color: rgba(255,255,255,0.8); }
+
+        /* 验证标签 */
+        .eval-badge {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+        .eval-badge.valid { background: #dcfce7; color: #166534; }
+        .eval-badge.invalid { background: #fee2e2; color: #991b1b; }
+        .eval-badge.nonpmp { background: #fef3c7; color: #92400e; }
+        .eval-detail {
+            font-size: 12px; color: var(--text-light);
+            margin-top: 4px; line-height: 1.5;
+        }
+        .standard-ref {
+            margin-top: 6px; padding: 8px 10px;
+            background: #f8fafc; border-left: 3px solid var(--primary);
+            border-radius: 4px; font-size: 12px; color: var(--text);
+        }
+        .standard-ref .label { font-weight: 600; color: var(--primary-dark); }
+
+        /* 输入区 */
+        .input-area {
+            padding: 16px 24px;
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+        .input-area textarea {
+            flex: 1;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: none;
+            max-height: 120px;
+            line-height: 1.5;
+            outline: none;
+            transition: border-color .2s;
+        }
+        .input-area textarea:focus { border-color: var(--primary); }
+        .input-area button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background .2s;
+            white-space: nowrap;
+        }
+        .input-area button:hover:not(:disabled) { background: var(--primary-dark); }
+        .input-area button:disabled { background: #9ca3af; cursor: not-allowed; }
+
+        /* 欢迎提示 */
+        .welcome {
+            text-align: center; padding: 40px 20px; color: var(--text-light);
+        }
+        .welcome .icon { font-size: 48px; margin-bottom: 12px; }
+        .welcome h2 { font-size: 18px; color: var(--text); margin-bottom: 8px; }
+        .welcome p { font-size: 14px; line-height: 1.6; max-width: 480px; margin: 0 auto; }
+        .suggestions {
+            display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 20px;
+        }
+        .suggestions button {
+            background: #fff; border: 1px solid var(--border); color: var(--primary-dark);
+            padding: 8px 14px; border-radius: 18px; cursor: pointer; font-size: 13px;
+            transition: all .2s;
+        }
+        .suggestions button:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        /* 打字指示 */
+        .typing { display: flex; gap: 4px; padding: 4px 0; }
+        .typing span {
+            width: 8px; height: 8px; background: var(--text-light); border-radius: 50%;
+            animation: blink 1.4s infinite both;
+        }
+        .typing span:nth-child(2) { animation-delay: .2s; }
+        .typing span:nth-child(3) { animation-delay: .4s; }
+        @keyframes blink { 0%,80%,100% { opacity: .3; } 40% { opacity: 1; } }
+
+        /* 侧边栏 */
+        .side-header {
+            padding: 14px 18px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .side-header h3 { font-size: 15px; }
+        .side-header .close-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-light); }
+        .side-body { flex: 1; overflow-y: auto; padding: 12px; }
+        .stat-card {
+            background: #f8fafc; border-radius: 8px; padding: 12px; margin-bottom: 10px;
+        }
+        .stat-card .title { font-size: 12px; color: var(--text-light); margin-bottom: 4px; }
+        .stat-card .value { font-size: 22px; font-weight: 700; color: var(--primary); }
+        .area-list { list-style: none; }
+        .area-list li {
+            display: flex; justify-content: space-between;
+            padding: 8px 10px; border-bottom: 1px solid var(--border); font-size: 13px;
+        }
+        .area-list li:last-child { border-bottom: none; }
+        .area-list .count { color: var(--primary); font-weight: 600; }
+        .date-list button {
+            display: block; width: 100%; text-align: left;
+            background: #f8fafc; border: 1px solid var(--border);
+            padding: 8px 12px; border-radius: 6px; margin-bottom: 6px;
+            cursor: pointer; font-size: 13px;
+        }
+        .date-list button:hover { background: #eff6ff; border-color: var(--primary); }
+        .record-item {
+            background: #f8fafc; border-radius: 6px; padding: 10px; margin-bottom: 8px;
+            font-size: 12px; line-height: 1.5;
+        }
+        .record-item .q { color: var(--text); font-weight: 500; }
+        .record-item .a { color: var(--text-light); margin-top: 4px; max-height: 80px; overflow: hidden; }
+        .record-item .time { font-size: 11px; color: var(--text-light); }
+        .empty-hint { text-align: center; color: var(--text-light); font-size: 13px; padding: 30px 10px; }
+
+        .loading { text-align: center; padding: 20px; color: var(--text-light); }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>📋 PMP 专家问答系统</h1>
+            <div class="subtitle">基于 DASHSCOPE_API_KEY · 通义千问 · PMBOK 十大知识领域 300 条标准问答</div>
+        </div>
+        <div class="tabs">
+            <button class="active" data-view="chat">💬 实时问答</button>
+            <button data-view="stats">📊 统计概览</button>
+            <button data-view="history">📜 历史记录</button>
+            <button data-view="errors">⚠️ 错误记录</button>
+            <button data-view="standard">📚 标准体系</button>
+            <button data-view="optimize">🛠️ Skill 优化</button>
+            <button data-view="tokens">📈 Token 监控</button>
+        </div>
+    </header>
+
+    <div class="layout">
+        <div class="main-panel">
+            <div class="chat-area" id="chatArea">
+                <div class="welcome" id="welcome">
+                    <div class="icon">📋</div>
+                    <h2>欢迎使用 PMP 专家问答系统</h2>
+                    <p>我是您的 PMP 项目管理专家，精通 PMBOK 十大知识领域。请提出项目管理相关问题，我将为您提供专业指导。与 PMP 无关的问题将无法回答。</p>
+                    <div class="suggestions">
+                        <button onclick="askSample('什么是项目章程？')">什么是项目章程？</button>
+                        <button onclick="askSample('请介绍关键路径法')">关键路径法</button>
+                        <button onclick="askSample('挣值管理EVM是什么？')">挣值管理EVM</button>
+                        <button onclick="askSample('威胁的四种应对策略是什么？')">风险应对策略</button>
+                    </div>
+                </div>
+            </div>
+            <div class="input-area">
+                <textarea id="inputBox" rows="1" placeholder="请输入您的项目管理问题…" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+                <button id="sendBtn" onclick="sendQuestion()">发送</button>
+            </div>
+        </div>
+
+        <div class="side-panel" id="sidePanel">
+            <div class="side-header">
+                <h3 id="sideTitle">统计概览</h3>
+                <button class="close-btn" onclick="closeSide()">×</button>
+            </div>
+            <div class="side-body" id="sideBody"></div>
+        </div>
+    </div>
+
+<script>
+    const chatArea = document.getElementById('chatArea');
+    const inputBox = document.getElementById('inputBox');
+    const sendBtn = document.getElementById('sendBtn');
+    const sidePanel = document.getElementById('sidePanel');
+    const sideTitle = document.getElementById('sideTitle');
+    const sideBody = document.getElementById('sideBody');
+    let isSending = false;
+
+    function autoResize(el) {
+        el.style.height = 'auto';
+        el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+    }
+    function handleKey(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendQuestion();
+        }
+    }
+    function askSample(q) {
+        inputBox.value = q;
+        sendQuestion();
+    }
+
+    function scrollBottom() {
+        chatArea.scrollTop = chatArea.scrollHeight;
+    }
+
+    function addUserMsg(text) {
+        const el = document.createElement('div');
+        el.className = 'msg user';
+        el.innerHTML = `<div class="avatar">我</div><div class="bubble">${escapeHtml(text)}</div>`;
+        chatArea.appendChild(el);
+        scrollBottom();
+    }
+
+    function addBotMsg(answer, evaluation, model, skillName, tokens, phase) {
+        const el = document.createElement('div');
+        el.className = 'msg bot';
+        let badge = '';
+        let detail = '';
+        let stdRef = '';
+        if (evaluation) {
+            if (evaluation.is_pmp === false) {
+                badge = `<div class="eval-badge nonpmp">非PMP领域</div>`;
+                detail = `<div class="eval-detail">${evaluation.reason}</div>`;
+            } else if (evaluation.valid) {
+                badge = `<div class="eval-badge valid">✓ 符合标准体系</div>`;
+                detail = `<div class="eval-detail">${evaluation.reason}</div>`;
+            } else {
+                badge = `<div class="eval-badge invalid">✗ 未满足标准体系</div>`;
+                detail = `<div class="eval-detail">${evaluation.reason}</div>`;
+            }
+            if (evaluation.standard_answer) {
+                stdRef = `<div class="standard-ref"><span class="label">📚 标准参考 [${evaluation.standard_id || ''}] ${evaluation.area || ''}：</span><br>${escapeHtml(evaluation.standard_answer)}</div>`;
+            }
+        }
+        const skillTag = skillName ? `<span style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:#eff6ff;color:var(--primary-dark);margin-top:6px;margin-right:4px;">🎯 Skill: ${skillName}</span>` : '';
+        const phaseTag = phase === 'post-optimization' ? `<span style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:#dcfce7;color:#166534;margin-top:6px;margin-right:4px;">✨ 优化后</span>` : (phase === 'pre-optimization' ? `<span style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:#fef3c7;color:#92400e;margin-top:6px;margin-right:4px;">📋 优化前</span>` : '');
+        const tokenInfo = tokens && tokens.total > 0 ? `<span style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:#f3e8ff;color:#7c3aed;margin-top:6px;margin-right:4px;">🔤 ${tokens.total} tokens (P:${tokens.prompt} C:${tokens.completion})</span>` : '';
+        const meta = model ? `<div class="meta">模型: ${model}</div>` : '';
+        el.innerHTML = `<div class="avatar">📋</div>
+            <div class="bubble">
+                <div>${formatAnswer(answer)}</div>
+                ${skillTag}${phaseTag}${tokenInfo}${badge}${detail}${stdRef}${meta}
+            </div>`;
+        chatArea.appendChild(el);
+        scrollBottom();
+    }
+
+    function addTyping() {
+        const el = document.createElement('div');
+        el.className = 'msg bot';
+        el.id = 'typingMsg';
+        el.innerHTML = `<div class="avatar">📋</div><div class="bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+        chatArea.appendChild(el);
+        scrollBottom();
+    }
+    function removeTyping() {
+        const t = document.getElementById('typingMsg');
+        if (t) t.remove();
+    }
+
+    function formatAnswer(text) {
+        // 简单的 Markdown 处理：换行、加粗、代码块
+        if (!text) return '';
+        let html = escapeHtml(text);
+        html = html.replace(/```([\s\S]*?)```/g, '<pre style="background:#f1f5f9;padding:8px;border-radius:4px;overflow-x:auto;margin:6px 0;font-size:12px;">$1</pre>');
+        html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\n/g, '<br>');
+        return html;
+    }
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    async function sendQuestion() {
+        const q = inputBox.value.trim();
+        if (!q || isSending) return;
+        isSending = true;
+        sendBtn.disabled = true;
+        // 隐藏欢迎语
+        const welcome = document.getElementById('welcome');
+        if (welcome) welcome.remove();
+
+        addUserMsg(q);
+        inputBox.value = '';
+        inputBox.style.height = 'auto';
+        addTyping();
+
+        try {
+            const resp = await fetch('/api/ask', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({question: q})
+            });
+            const data = await resp.json();
+            removeTyping();
+            if (data.success) {
+                addBotMsg(data.answer, data.evaluation, data.model, data.skill, data.tokens, data.phase);
+            } else {
+                addBotMsg('⚠️ 请求失败：' + (data.error || '未知错误'), null, null);
+            }
+        } catch (err) {
+            removeTyping();
+            addBotMsg('⚠️ 网络错误：' + err.message, null, null);
+        } finally {
+            isSending = false;
+            sendBtn.disabled = false;
+            inputBox.focus();
+        }
+    }
+
+    // ===== 侧边栏切换 =====
+    document.querySelectorAll('.tabs button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const view = btn.dataset.view;
+            if (view === 'chat') {
+                closeSide();
+            } else {
+                openSide(view);
+            }
+        });
+    });
+
+    function closeSide() {
+        sidePanel.classList.remove('show');
+        document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+        document.querySelector('.tabs button[data-view="chat"]').classList.add('active');
+    }
+
+    async function openSide(view) {
+        sidePanel.classList.add('show');
+        sideBody.innerHTML = '<div class="loading">加载中…</div>';
+        if (view === 'stats') { sideTitle.textContent = '📊 统计概览'; await loadStats(); }
+        else if (view === 'history') { sideTitle.textContent = '📜 历史记录'; await loadHistory(); }
+        else if (view === 'errors') { sideTitle.textContent = '⚠️ 错误记录（未满足标准体系）'; await loadErrors(); }
+        else if (view === 'standard') { sideTitle.textContent = '📚 PMP 标准体系'; await loadStandard(); }
+        else if (view === 'optimize') { sideTitle.textContent = '🛠️ Skill 优化中心'; await loadOptimize(); }
+        else if (view === 'tokens') { sideTitle.textContent = '📈 Token 消耗监控'; await loadTokenMonitor(); }
+    }
+
+    async function loadStats() {
+        try {
+            const r = await fetch('/api/stats');
+            const d = await r.json();
+            if (!d.success) throw new Error('加载失败');
+            let html = `
+                <div class="stat-card"><div class="title">PMP 标准记录总数</div><div class="value">${d.standard.total} 条</div></div>
+                <div class="stat-card"><div class="title">历史问答总数</div><div class="value">${d.history_total} 条</div></div>
+                <div class="stat-card"><div class="title">未满足标准体系记录</div><div class="value" style="color:var(--error)">${d.error_total} 条</div></div>
+                <h4 style="margin:12px 0 6px;font-size:13px;">十大知识领域分布</h4>
+                <ul class="area-list">`;
+            for (const [area, count] of Object.entries(d.standard.areas)) {
+                html += `<li><span>${area}</span><span class="count">${count} 条</span></li>`;
+            }
+            html += `</ul>`;
+            sideBody.innerHTML = html;
+        } catch (e) { sideBody.innerHTML = `<div class="empty-hint">${e.message}</div>`; }
+    }
+
+    async function loadHistory() {
+        try {
+            const r = await fetch('/api/history');
+            const d = await r.json();
+            if (!d.dates.length) { sideBody.innerHTML = '<div class="empty-hint">暂无历史记录</div>'; return; }
+            let html = '<div class="date-list">';
+            for (const date of d.dates) {
+                html += `<button onclick="loadRecords('history','${date}')">${date}</button>`;
+            }
+            html += '</div><div id="recordList"><div class="empty-hint">请选择日期查看记录</div></div>';
+            sideBody.innerHTML = html;
+        } catch (e) { sideBody.innerHTML = `<div class="empty-hint">${e.message}</div>`; }
+    }
+
+    async function loadErrors() {
+        try {
+            const r = await fetch('/api/errors');
+            const d = await r.json();
+            if (!d.dates.length) { sideBody.innerHTML = '<div class="empty-hint">暂无错误记录 ✅</div>'; return; }
+            let html = '<div class="date-list">';
+            for (const date of d.dates) {
+                html += `<button onclick="loadRecords('errors','${date}')">${date}</button>`;
+            }
+            html += '</div><div id="recordList"><div class="empty-hint">请选择日期查看记录</div></div>';
+            sideBody.innerHTML = html;
+        } catch (e) { sideBody.innerHTML = `<div class="empty-hint">${e.message}</div>`; }
+    }
+
+    async function loadRecords(type, date) {
+        const list = document.getElementById('recordList');
+        list.innerHTML = '<div class="loading">加载中…</div>';
+        const url = type === 'history' ? `/api/history/${date}` : `/api/errors/${date}`;
+        const r = await fetch(url);
+        const d = await r.json();
+        if (!d.records.length) { list.innerHTML = '<div class="empty-hint">该日期暂无记录</div>'; return; }
+        let html = `<h4 style="margin:6px 0 8px;font-size:13px;">${date}（${d.records.length} 条）</h4>`;
+        for (const rec of d.records) {
+            const ev = rec.evaluation || {};
+            const badge = ev.valid ? '<span style="color:var(--success)">✓符合</span>'
+                         : (ev.is_pmp === false ? '<span style="color:var(--warning)">非PMP</span>'
+                         : '<span style="color:var(--error)">✗未满足</span>');
+            html += `<div class="record-item">
+                <div class="time">${rec.timestamp} ${badge}</div>
+                <div class="q">Q: ${escapeHtml(rec.question)}</div>
+                <div class="a">A: ${escapeHtml(rec.answer ? rec.answer.substring(0,120) : '')}...</div>
+            </div>`;
+        }
+        list.innerHTML = html;
+    }
+
+    async function loadStandard() {
+        try {
+            const r = await fetch('/api/standard');
+            const d = await r.json();
+            let html = `<div class="stat-card"><div class="title">标准记录总数</div><div class="value">${d.total} 条</div></div>`;
+            for (const [area, recs] of Object.entries(d.areas)) {
+                html += `<details style="margin-bottom:6px;"><summary style="cursor:pointer;font-size:13px;font-weight:600;padding:6px;background:#f8fafc;border-radius:4px;">${area}（${recs.length} 条）</summary><div style="padding:6px 0;">`;
+                for (const rec of recs) {
+                    html += `<div class="record-item"><div class="q">[${rec.id}] ${escapeHtml(rec.question)}</div><div class="a">${escapeHtml(rec.standard_answer)}</div></div>`;
+                }
+                html += `</div></details>`;
+            }
+            sideBody.innerHTML = html;
+        } catch (e) { sideBody.innerHTML = `<div class="empty-hint">${e.message}</div>`; }
+    }
+
+    async function loadOptimize() {
+        try {
+            const r = await fetch('/api/optimize-status');
+            const d = await r.json();
+            if (!d.success) throw new Error('加载失败');
+
+            let html = `
+                <div class="stat-card">
+                    <div class="title">待优化错误总数</div>
+                    <div class="value" style="color:var(--warning)">${d.total_errors} 条</div>
+                </div>`;
+
+            if (d.error_by_skill && d.error_by_skill.length > 0) {
+                html += `<h4 style="margin:12px 0 6px;font-size:13px;">按 Skill 分布</h4>`;
+                for (const item of d.error_by_skill) {
+                    html += `<div style="display:flex;justify-content:space-between;padding:6px 10px;background:#fef3c7;border-radius:4px;margin-bottom:4px;font-size:13px;">
+                        <span>🎯 ${item.skill}</span>
+                        <span style="color:var(--error);font-weight:600;">${item.error_count} 条</span>
+                    </div>`;
+                }
+            } else {
+                html += `<div class="empty-hint">✅ 暂无待优化的错误记录</div>`;
+            }
+
+            // 优化按钮
+            html += `<div style="margin-top:16px;display:flex;gap:8px;">
+                <button id="btnOptimize" onclick="runOptimize()" style="flex:1;background:var(--warning);color:#fff;border:none;padding:10px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">🔧 一键优化所有 Skill</button>
+            </div>
+            <div id="optimizeResult" style="margin-top:10px;"></div>`;
+
+            // Skill 列表
+            if (d.skills && d.skills.length > 0) {
+                html += `<h4 style="margin:16px 0 6px;font-size:13px;">当前 Skill 状态</h4>`;
+                for (const s of d.skills) {
+                    html += `<div style="padding:8px 10px;background:#f8fafc;border-radius:6px;margin-bottom:4px;font-size:12px;">
+                        <div style="font-weight:600;color:var(--primary-dark);">${s.name} (${s.area})</div>
+                        <div style="color:var(--text-light);margin-top:3px;">
+                            问答: ${s.record_count} 条 | 
+                            触发词: ${s.trigger_count} 个 | 
+                            ${s.backup_count > 0 ? '<span style="color:var(--success);">备份: ' + s.backup_count + ' 次</span>' : ''}
+                        </div>
+                    </div>`;
+                }
+            }
+
+            // 最近日志
+            if (d.recent_logs && d.recent_logs.length > 0) {
+                html += `<h4 style="margin:16px 0 6px;font-size:13px;">最近优化日志</h4>`;
+                for (const log of d.recent_logs) {
+                    const skillCount = log.results ? log.results.length : 0;
+                    const totalQa = (log.results || []).reduce((s, r) => s + (r.updates?.qa_added || 0), 0);
+                    const totalTg = (log.results || []).reduce((s, r) => s + (r.updates?.triggers_added || 0), 0);
+                    html += `<div style="padding:6px 10px;background:#f8fafc;border-radius:4px;margin-bottom:4px;font-size:12px;">
+                        <div style="color:var(--text-light);">${log.timestamp}</div>
+                        <div>优化 ${skillCount} 个 Skill，新增 ${totalQa} 问答、${totalTg} 触发词</div>
+                    </div>`;
+                }
+            }
+
+            sideBody.innerHTML = html;
+        } catch (e) { sideBody.innerHTML = `<div class="empty-hint">${e.message}</div>`; }
+    }
+
+    async function runOptimize() {
+        const btn = document.getElementById('btnOptimize');
+        if (!btn) return;
+        btn.disabled = true;
+        btn.textContent = '优化中...';
+
+        const resultDiv = document.getElementById('optimizeResult');
+        if (resultDiv) {
+            resultDiv.innerHTML = '<div class="loading">正在分析错误记录并优化 Skill，请稍候...</div>';
+        }
+
+        try {
+            const resp = await fetch('/api/optimize', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({})
+            });
+            const data = await resp.json();
+
+            if (resultDiv && data.success) {
+                const r = data.results[0];
+                resultDiv.innerHTML = `<div style="padding:10px;background:#dcfce7;border-radius:6px;border:1px solid var(--success);font-size:13px;">
+                    <div style="color:var(--success);font-weight:600;">✅ ${data.message}</div>
+                    <div style="margin-top:6px;color:var(--text);">
+                        ${data.results.map(item => `
+                            <div style="margin-top:4px;">
+                                📁 <strong>${item.skill}</strong>: 
+                                新增 ${item.updates?.qa_added || 0} 问答对，
+                                ${item.updates?.triggers_added || 0} 个触发词
+                                ${item.error_count > 0 ? `<span style="color:var(--text-light);">(分析 ${item.error_count} 条错误)</span>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>`;
+            } else if (resultDiv) {
+                resultDiv.innerHTML = `<div style="padding:10px;background:#fee2e2;border-radius:6px;font-size:13px;color:var(--error);">
+                    ❌ ${data.message || '优化失败'}
+                </div>`;
+            }
+        } catch (err) {
+            if (resultDiv) {
+                resultDiv.innerHTML = `<div style="padding:10px;background:#fee2e2;border-radius:6px;font-size:13px;color:var(--error);">
+                    ❌ 请求失败: ${err.message}
+                </div>`;
+            }
+        } finally {
+            btn.disabled = false;
+            btn.textContent = '🔧 一键优化所有 Skill';
+            // 刷新 Skill 状态
+            setTimeout(() => loadOptimize(), 2000);
+        }
+    }
+
+    async function loadTokenMonitor() {
+        try {
+            sideBody.innerHTML = '<div class="loading">加载 Token 数据…</div>';
+            const r = await fetch('/api/token-stats');
+            const d = await r.json();
+            if (!d.success) throw new Error('加载失败');
+
+            const s = d.summary;
+            const improvement = s.optimization_improvement;
+            const improvementColor = improvement > 0 ? 'var(--success)' : (improvement < 0 ? 'var(--error)' : 'var(--text-light)');
+            const improvementIcon = improvement > 0 ? '↓' : (improvement < 0 ? '↑' : '→');
+
+            let html = `
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                    <div class="stat-card"><div class="title">总 Token 消耗</div><div class="value">${s.total_tokens.toLocaleString()}</div></div>
+                    <div class="stat-card"><div class="title">查询次数</div><div class="value">${s.total_queries}</div></div>
+                    <div class="stat-card"><div class="title">平均每次</div><div class="value">${s.avg_tokens_per_query}</div></div>
+                    <div class="stat-card"><div class="title">优化效果</div><div class="value" style="color:${improvementColor}">${improvementIcon} ${Math.abs(improvement)}%</div></div>
+                </div>
+                <div style="padding:8px 10px;background:#f8fafc;border-radius:6px;margin-bottom:12px;font-size:12px;">
+                    <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                        <span>📋 优化前总消耗</span><span style="font-weight:600;">${s.pre_optimization_total.toLocaleString()} tokens</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;">
+                        <span>✨ 优化后总消耗</span><span style="font-weight:600;color:var(--success);">${s.post_optimization_total.toLocaleString()} tokens</span>
+                    </div>
+                </div>
+                <div style="display:flex;gap:8px;margin-bottom:12px;">
+                    <button onclick="loadTokenMonitor()" style="flex:1;background:var(--primary);color:#fff;border:none;padding:8px;border-radius:6px;font-size:12px;cursor:pointer;">🔄 刷新数据</button>
+                    <button onclick="exportTokenData()" style="flex:1;background:#f8fafc;color:var(--text);border:1px solid var(--border);padding:8px;border-radius:6px;font-size:12px;cursor:pointer;">📥 导出JSON</button>
+                </div>
+                <div id="tokenTrendChart" style="width:100%;height:220px;margin-bottom:12px;"></div>
+                <div id="tokenBarChart" style="width:100%;height:180px;margin-bottom:12px;"></div>
+            `;
+            sideBody.innerHTML = html;
+
+            // 渲染趋势图
+            setTimeout(() => renderTrendChart(d.trend), 100);
+            setTimeout(() => renderBarChart(d.by_skill), 200);
+
+            // 存储数据用于导出
+            window._tokenStatsData = d;
+
+        } catch (e) { sideBody.innerHTML = `<div class="empty-hint">${e.message}</div>`; }
+    }
+
+    function renderTrendChart(trend) {
+        const chartDom = document.getElementById('tokenTrendChart');
+        if (!chartDom || !window.echarts) return;
+        const chart = echarts.init(chartDom);
+
+        // 准备数据
+        const times = [];
+        const scatterData = [];
+
+        for (const p of trend) {
+            const label = `${p.date} ${p.time}`;
+            times.push(label);
+            const color = p.phase === 'post-optimization' ? '#16a34a' : '#92400e';
+            scatterData.push({
+                value: p.total_tokens,
+                itemStyle: { color: color },
+                tooltip: {
+                    formatter: () => `<div style="font-size:12px;padding:4px;">
+                        <b>${p.phase === 'post-optimization' ? '✨ 优化后' : '📋 优化前'}</b><br/>
+                        ${label}<br/>
+                        <b>${p.total_tokens} tokens</b><br/>
+                        Skill: ${p.skill}<br/>
+                        ${p.question_preview ? 'Q: ' + p.question_preview : ''}
+                    </div>`
+                }
+            });
+        }
+
+        const option = {
+            title: { text: 'Token 消耗趋势', left: 'center', textStyle: { fontSize: 13 } },
+            tooltip: { trigger: 'item' },
+            grid: { left: '50px', right: '20px', top: '30px', bottom: '40px' },
+            xAxis: {
+                type: 'category',
+                data: times,
+                axisLabel: { rotate: 45, fontSize: 10 },
+                axisLine: { lineStyle: { color: '#ccc' } }
+            },
+            yAxis: {
+                type: 'value',
+                name: 'Tokens',
+                axisLabel: { fontSize: 10 },
+                splitLine: { lineStyle: { color: '#eee' } }
+            },
+            series: [{
+                type: 'bar',
+                data: scatterData,
+                barMaxWidth: 20
+            }],
+            dataZoom: [{ type: 'inside' }]
+        };
+        chart.setOption(option);
+        window.addEventListener('resize', () => chart.resize());
+    }
+
+    function renderBarChart(bySkill) {
+        const chartDom = document.getElementById('tokenBarChart');
+        if (!chartDom || !window.echarts) return;
+        const chart = echarts.init(chartDom);
+
+        const skills = Object.keys(bySkill);
+        const values = Object.values(bySkill);
+
+        const option = {
+            title: { text: '按 Skill 分布', left: 'center', textStyle: { fontSize: 13 } },
+            tooltip: { trigger: 'axis', formatter: params => {
+                const p = params[0];
+                return `${p.name}<br/><b>${p.value} tokens</b>`;
+            }},
+            grid: { left: '80px', right: '20px', top: '30px', bottom: '20px' },
+            xAxis: { type: 'value', axisLabel: { fontSize: 10 } },
+            yAxis: {
+                type: 'category',
+                data: skills,
+                axisLabel: { fontSize: 10 }
+            },
+            series: [{
+                type: 'bar',
+                data: values,
+                itemStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                        { offset: 0, color: '#1a73e8' },
+                        { offset: 1, color: '#4285f4' }
+                    ]),
+                    borderRadius: [0, 4, 4, 0]
+                },
+                barMaxWidth: 16,
+                label: { show: true, position: 'right', fontSize: 10, formatter: '{c}' }
+            }]
+        };
+        chart.setOption(option);
+        window.addEventListener('resize', () => chart.resize());
+    }
+
+    function exportTokenData() {
+        if (!window._tokenStatsData) return;
+        const dataStr = JSON.stringify(window._tokenStatsData, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `token_stats_${new Date().toISOString().slice(0, 10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    inputBox.focus();
+</script>
+</body>
+</html>

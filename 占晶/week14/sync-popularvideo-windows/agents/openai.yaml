@@ -1,0 +1,4 @@
+interface:
+  display_name: "PopularVideo Windows 同步"
+  short_description: "逐项审计 Mac 与服务端改动，安全同步 Windows 并生成手测清单"
+  default_prompt: "使用 $sync-popularvideo-windows 从上次成功基线审计最新 PopularVideo，生成中文执行 Prompt 和 goal，同步 Windows，并逐项列出改动与手动测试步骤。"

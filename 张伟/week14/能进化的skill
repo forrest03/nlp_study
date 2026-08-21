@@ -1,0 +1,1049 @@
+"""
+================================================================================
+写作 Skill 进化史 - 从 V1.0 到 V6.0 的完整迭代过程
+============================================================================
+作业：能进化的 Skill 展示
+
+================================================================================
+【进化总览】
+================================================================================
+V1.0 (2024-05-20) - 基础版：微博热搜爬取 + 新闻评论生成
+V2.0 (2024-05-21) - API升级：切换至 DeepSeek API，稳定性提升
+V3.0 (2024-05-22) - 输入革新：移除爬虫，支持手动输入新闻素材
+V4.0 (2024-05-23) - 归档系统：精确时间戳命名 + 事件摘要提取
+V5.0 (2024-05-24) - 多模态：新增书评板块，支持长文生成
+V6.0 (2024-05-25) - 工作台：三板块完整形态 + 现代化UI设计
+
+================================================================================
+"""
+
+# ==============================================================================
+#                           VERSION 1.0 - 基础原型
+# ==============================================================================
+"""
+【V1.0 特征】
+- 功能：自动爬取微博热搜，生成人民日报风格社论
+- 技术栈：requests + BeautifulSoup + GUI (tkinter)
+- 输入：无（自动爬取）
+- 输出：固定文件名
+- 局限：依赖微博API稳定性，易崩溃
+- 进化点：建立了基本的 GUI 框架和文件保存逻辑
+"""
+
+import tkinter as tk
+from tkinter import messagebox
+import datetime
+import os
+import requests
+from bs4 import BeautifulSoup
+import json
+
+class PeopleDailyAgentV1:
+    """V1.0 - 基础版写作 Skill"""
+    
+    def __init__(self, root):
+        self.root = root
+        self.root.title("人民评论写作Agent V1.0")
+        self.root.geometry("600x500")
+        
+        # 标题
+        tk.Label(root, text="人民评论写作Agent", 
+                font=("SimHei", 18, "bold")).pack(pady=20)
+        
+        # API Key 输入
+        tk.Label(root, text="API Key:").pack()
+        self.api_entry = tk.Entry(root, width=40)
+        self.api_entry.pack(pady=5)
+        
+        # 运行按钮
+        self.run_btn = tk.Button(root, text="生成今日社论", 
+                                 command=self.run_agent)
+        self.run_btn.pack(pady=20)
+        
+        # 状态显示
+        self.status_label = tk.Label(root, text="等待开始...")
+        self.status_label.pack()
+        
+    def get_weibo_hotsearch(self):
+        """爬取微博热搜 - V1.0 的核心功能"""
+        try:
+            url = "https://weibo.com/ajax/statuses/hot/search"
+            headers = {"User-Agent": "Mozilla/5.0"}
+            response = requests.get(url, headers=headers)
+            data = response.json()
+            return data['data']['realtime'][:5]  # 取前5条
+        except Exception as e:
+            return None
+            
+    def generate_commentary(self, news_item, api_key):
+        """生成评论 - V1.0 基础生成逻辑"""
+        # 这里使用简单的文本生成逻辑
+        prompt = f"请对以下新闻写一段评论：{news_item}"
+        # 实际调用会连接 API
+        return f"关于【{news_item}】的评论内容..."
+        
+    def save_file(self, content):
+        """V1.0 文件保存 - 固定文件名"""
+        filename = f"社评_{datetime.datetime.now().strftime('%Y%m%d')}.txt"
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write(content)
+        return filename
+        
+    def run_agent(self):
+        """V1.0 主运行逻辑"""
+        self.status_label.config(text="正在爬取热搜...")
+        hot_search = self.get_weibo_hotsearch()
+        
+        if not hot_search:
+            messagebox.showerror("错误", "爬取失败")
+            return
+            
+        self.status_label.config(text="正在生成评论...")
+        # 简化处理，实际会更复杂
+        content = "今日社评内容..."
+        
+        filename = self.save_file(content)
+        self.status_label.config(text=f"已完成，文件：{filename}")
+        messagebox.showinfo("完成", f"文件已保存：{filename}")
+
+
+# ==============================================================================
+#                           VERSION 2.0 - API 稳定化
+# ==============================================================================
+"""
+【V2.0 进化点】
+- 问题：V1.0 的微博爬虫不稳定，容易崩溃
+- 解决：切换至 DeepSeek API，提供稳定的服务
+- 新增：API Key 输入框（隐藏显示）
+- 优化：错误处理机制
+- 进化意义：从"依赖特定数据源"到"通用文本生成能力"
+"""
+
+class PeopleDailyAgentV2:
+    """V2.0 - API 稳定版"""
+    
+    def __init__(self, root):
+        self.root = root
+        self.root.title("人民评论写作Agent V2.0")
+        self.root.geometry("600x500")
+        
+        tk.Label(root, text="人民评论写作Agent V2.0", 
+                font=("SimHei", 18, "bold")).pack(pady=20)
+        
+        # API Key 输入 - V2.0 新增安全显示
+        tk.Label(root, text="DeepSeek API Key:").pack()
+        self.api_entry = tk.Entry(root, width=40, show="*")  # 隐藏显示
+        self.api_entry.pack(pady=5)
+        
+        self.run_btn = tk.Button(root, text="🚀 接入AI，生成今日社论", 
+                                 command=self.run_agent,
+                                 bg="#0055AA", fg="white")
+        self.run_btn.pack(pady=20)
+        
+        self.log_text = tk.Text(root, height=10, width=50)
+        self.log_text.pack()
+        
+    def call_deepseek_api(self, api_key, prompt):
+        """V2.0 核心：DeepSeek API 调用封装"""
+        url = "https://api.deepseek.com/chat/completions"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}"
+        }
+        payload = {
+            "model": "deepseek-chat",
+            "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": 2000
+        }
+        
+        try:
+            response = requests.post(url, headers=headers, json=payload, timeout=60)
+            response.raise_for_status()
+            return response.json()['choices'][0]['message']['content']
+        except Exception as e:
+            return f"ERROR: {str(e)}"
+            
+    def log(self, message):
+        """V2.0 新增：日志功能"""
+        self.log_text.insert(tk.END, f"{message}\n")
+        self.root.update()
+        
+    def run_agent(self):
+        api_key = self.api_entry.get().strip()
+        if not api_key:
+            messagebox.showerror("错误", "请输入 API Key")
+            return
+            
+        self.log("正在连接 DeepSeek API...")
+        
+        # 简化的提示词
+        prompt = "请写一段人民日报风格的今日社评"
+        result = self.call_deepseek_api(api_key, prompt)
+        
+        if "ERROR" not in result:
+            self.log("生成完成，正在保存...")
+            filename = f"社评_{datetime.datetime.now().strftime('%Y%m%d')}.txt"
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(result)
+            self.log(f"文件已保存：{filename}")
+        else:
+            self.log(f"错误：{result}")
+
+
+# ==============================================================================
+#                           VERSION 3.0 - 输入革新
+# ==============================================================================
+"""
+【V3.0 进化点】
+- 问题：V2.0 只能写预设内容，用户无法控制主题
+- 解决：增加输入框，用户手动输入新闻素材
+- 新增：ScrolledText 组件支持多行输入
+- 优化：字数控制（1450-1550字）
+- 进化意义：从"自动生成"到"人机协作"，用户获得控制权
+"""
+
+class PeopleDailyAgentV3:
+    """V3.0 - 手动输入版"""
+    
+    def __init__(self, root):
+        self.root = root
+        self.root.title("人民评论写作Agent V3.0 (手动输入版)")
+        self.root.geometry("700x650")
+        
+        tk.Label(root, text="人民评论写作Agent V3.0", 
+                font=("SimHei", 20, "bold"), fg="#d63031").pack(pady=10)
+        
+        # API Key
+        frame_api = tk.Frame(root)
+        frame_api.pack(pady=5, fill=tk.X, padx=20)
+        tk.Label(frame_api, text="DeepSeek API Key:").pack(side=tk.LEFT)
+        self.api_entry = tk.Entry(frame_api, width=40, show="*")
+        self.api_entry.pack(side=tk.LEFT, padx=5)
+        
+        # V3.0 核心：用户输入区
+        tk.Label(root, text="👇 请输入新闻热点 (300字内)：", 
+                font=("SimSun", 11, "bold")).pack(pady=10)
+        
+        self.news_input = tk.Text(root, height=5, width=60, font=("SimSun", 10))
+        self.news_input.pack(pady=5, padx=20)
+        
+        self.run_btn = tk.Button(root, text="🚀 开始写作 (1450-1550字)", 
+                                 font=("SimHei", 14, "bold"),
+                                 bg="#0055AA", fg="white",
+                                 command=self.run_agent)
+        self.run_btn.pack(pady=15)
+        
+        # V3.0 新增：日志区域
+        self.log_area = tk.scrolledtext.ScrolledText(root, width=70, height=12)
+        self.log_area.pack(pady=10)
+        
+    def log(self, message):
+        self.log_area.insert(tk.END, f"[{datetime.datetime.now().strftime('%H:%M:%S')}] {message}\n")
+        self.log_area.see(tk.END)
+        self.root.update()
+        
+    def call_deepseek_api(self, api_key, prompt_content):
+        """V3.0 API 调用 - 增加字数控制"""
+        url = "https://api.deepseek.com/chat/completions"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}"
+        }
+        
+        system_prompt = """
+你是人民日报评论员。撰写社论时：
+1. 站位要高，视野要宽
+2. 语言精粹，善用修辞
+3. 字数严格控制在 1450-1550 字之间
+"""
+        
+        payload = {
+            "model": "deepseek-chat",
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": prompt_content}
+            ],
+            "temperature": 0.7,
+            "max_tokens": 2500
+        }
+        
+        try:
+            response = requests.post(url, headers=headers, json=payload, timeout=120)
+            response.raise_for_status()
+            return response.json()['choices'][0]['message']['content']
+        except Exception as e:
+            return f"API_ERROR: {str(e)}"
+            
+    def run_agent(self):
+        api_key = self.api_entry.get().strip()
+        if not api_key:
+            messagebox.showerror("错误", "请输入 API Key")
+            return
+            
+        news_content = self.news_input.get("1.0", tk.END).strip()
+        if not news_content:
+            messagebox.showerror("错误", "请输入新闻内容")
+            return
+            
+        self.log("收到新闻素材，开始生成...")
+        
+        prompt = f"新闻素材：{news_content}\n请撰写社论，字数1450-1550字。"
+        result = self.call_deepseek_api(api_key, prompt)
+        
+        if "API_ERROR" not in result:
+            word_count = len(result.replace("\n", "").replace(" ", ""))
+            self.log(f"生成完成，字数：{word_count}")
+            
+            # V3.0 保存逻辑
+            filename = f"社评_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(result)
+            self.log(f"文件已保存：{filename}")
+        else:
+            self.log(f"错误：{result}")
+
+
+# ==============================================================================
+#                           VERSION 4.0 - 归档系统
+# ==============================================================================
+"""
+【V4.0 进化点】
+- 问题：V3.0 文件名固定，多次生成会覆盖
+- 解决：精确时间戳 + 事件摘要作为文件名
+- 新增：AI 自动提取 15 字摘要
+- 格式：年月日时分秒社评—事件摘要.txt
+- 进化意义：从"单一输出"到"批量归档"，支持规模化使用
+"""
+
+class PeopleDailyAgentV4:
+    """V4.0 - 专业归档版"""
+    
+    def __init__(self, root):
+        self.root = root
+        self.root.title("人民评论写作Agent V4.0 (专业归档版)")
+        self.root.geometry("750x700")
+        
+        tk.Label(root, text="人民评论写作Agent V4.0", 
+                font=("SimHei", 20, "bold"), fg="#d63031").pack(pady=10)
+        
+        # API Key
+        frame_api = tk.Frame(root)
+        frame_api.pack(pady=5, fill=tk.X, padx=20)
+        tk.Label(frame_api, text="DeepSeek API Key:").pack(side=tk.LEFT)
+        self.api_entry = tk.Entry(frame_api, width=45, show="*")
+        self.api_entry.pack(side=tk.LEFT, padx=5)
+        
+        # 输入区 - V4.0 扩大容量
+        tk.Label(root, text="👇 请输入新闻素材 (支持长文，最多2000字)：", 
+                font=("SimSun", 11, "bold")).pack(pady=10)
+        
+        self.news_input = tk.Text(root, height=10, width=65, 
+                                  font=("SimSun", 10), wrap=tk.WORD)
+        self.news_input.pack(pady=5, padx=20)
+        
+        self.run_btn = tk.Button(root, text="🚀 生成社评并归档 (1450-1550字)", 
+                                 font=("SimHei", 14, "bold"),
+                                 bg="#0055AA", fg="white",
+                                 command=self.run_agent)
+        self.run_btn.pack(pady=15)
+        
+        self.log_area = tk.scrolledtext.ScrolledText(root, width=70, height=12)
+        self.log_area.pack(pady=10)
+        
+    def log(self, message):
+        self.log_area.insert(tk.END, f"[{datetime.datetime.now().strftime('%H:%M:%S')}] {message}\n")
+        self.log_area.see(tk.END)
+        self.root.update()
+        
+    def call_api(self, api_key, messages, max_tokens=2500):
+        """V4.0 通用 API 调用"""
+        url = "https://api.deepseek.com/chat/completions"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}"
+        }
+        payload = {
+            "model": "deepseek-chat",
+            "messages": messages,
+            "temperature": 0.7,
+            "max_tokens": max_tokens
+        }
+        
+        try:
+            response = requests.post(url, headers=headers, json=payload, timeout=120)
+            response.raise_for_status()
+            return response.json()['choices'][0]['message']['content']
+        except Exception as e:
+            return f"API_ERROR: {str(e)}"
+            
+    def get_event_summary(self, news_content, api_key):
+        """V4.0 核心：AI 自动提取摘要"""
+        prompt = f"用不超过15字概括核心事件，不要标点：\n{news_content}"
+        messages = [
+            {"role": "system", "content": "你是新闻编辑，擅长精准概括。"},
+            {"role": "user", "content": prompt}
+        ]
+        return self.call_api(api_key, messages, max_tokens=50)
+        
+    def sanitize_filename(self, name):
+        """V4.0 新增：文件名清理"""
+        import re
+        return re.sub(r'[\\/:*?"<>|]', '', name).strip()
+        
+    def run_agent(self):
+        api_key = self.api_entry.get().strip()
+        if not api_key:
+            messagebox.showerror("错误", "请输入 API Key")
+            return
+            
+        news_content = self.news_input.get("1.0", tk.END).strip()
+        if not news_content:
+            messagebox.showerror("错误", "请输入新闻内容")
+            return
+            
+        self.log("正在分析新闻素材...")
+        
+        # V4.0 分两步：先摘要，后正文
+        summary = self.get_event_summary(news_content, api_key)
+        if "API_ERROR" in summary:
+            self.log(f"摘要生成失败: {summary}")
+            return
+            
+        summary = summary.replace("\n", "").strip()
+        self.log(f"事件摘要：{summary}")
+        
+        self.log("正在撰写正文...")
+        
+        system_prompt = "你是人民日报评论员，撰写1450-1550字社论。"
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": f"素材：{news_content}"}
+        ]
+        
+        article = self.call_api(api_key, messages)
+        
+        if "API_ERROR" not in article:
+            word_count = len(article.replace("\n", "").replace(" ", ""))
+            self.log(f"正文完成，字数：{word_count}")
+            
+            # V4.0 核心：精确时间戳命名
+            now = datetime.datetime.now()
+            time_str = now.strftime("%Y年%m月%d日%H时%M分%S秒")
+            clean_summary = self.sanitize_filename(summary)
+            filename = f"{time_str}社评—{clean_summary}.txt"
+            
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(article)
+                
+            self.log(f"文件已保存：{filename}")
+            messagebox.showinfo("完成", f"字数：{word_count}\n文件：{filename}")
+        else:
+            self.log(f"错误：{article}")
+
+
+# ==============================================================================
+#                           VERSION 5.0 - 多模态扩展
+# ==============================================================================
+"""
+【V5.0 进化点】
+- 问题：V4.0 只能写新闻评论，功能单一
+- 解决：新增书评板块，支持文艺风格
+- 新增：模式切换（时事/书评）
+- 特点：书评 5000 字长文，文艺范命名
+- 进化意义：从"单一 Skill"到"多模态 Skill 组合"
+"""
+
+class WritingAssistantV5:
+    """V5.0 - 多模态写作助手"""
+    
+    def __init__(self, root):
+        self.root = root
+        self.root.title("全能写作助手 Agent V5.0")
+        self.root.geometry("800x700")
+        
+        tk.Label(root, text="全能写作助手 Agent V5.0", 
+                font=("SimHei", 22, "bold"), fg="#2c3e50").pack(pady=15)
+        
+        # API Key
+        frame_api = tk.Frame(root)
+        frame_api.pack(pady=5, fill=tk.X, padx=30)
+        tk.Label(frame_api, text="DeepSeek API Key:", font=("SimSun", 11)).pack(side=tk.LEFT)
+        self.api_entry = tk.Entry(frame_api, width=45, show="*")
+        self.api_entry.pack(side=tk.LEFT, padx=10)
+        
+        # V5.0 核心：模式选择
+        frame_mode = tk.Frame(root)
+        frame_mode.pack(pady=10)
+        
+        self.mode_var = tk.StringVar(value="news")
+        
+        tk.Radiobutton(frame_mode, text="📰 时事评论", variable=self.mode_var, 
+                       value="news", font=("SimHei", 12)).pack(side=tk.LEFT, padx=20)
+        tk.Radiobutton(frame_mode, text="📚 文艺书评", variable=self.mode_var, 
+                       value="book", font=("SimHei", 12)).pack(side=tk.LEFT, padx=20)
+        
+        # 输入区
+        self.label_input = tk.Label(root, text="👇 请输入新闻素材 (2000字内)：", 
+                                    font=("SimSun", 11, "bold"))
+        self.label_input.pack(pady=10)
+        
+        self.text_input = tk.Text(root, height=8, width=70, font=("SimSun", 11), wrap=tk.WORD)
+        self.text_input.pack(pady=5, padx=30)
+        
+        self.run_btn = tk.Button(root, text="🚀 开始智能生成", 
+                                font=("SimHei", 14, "bold"),
+                                bg="#27ae60", fg="white",
+                                command=self.run_generation)
+        self.run_btn.pack(pady=20)
+        
+        self.log_area = tk.scrolledtext.ScrolledText(root, width=70, height=10, font=("Consolas", 10))
+        self.log_area.pack(pady=10)
+        
+    def log(self, message):
+        self.log_area.insert(tk.END, f"[{datetime.datetime.now().strftime('%H:%M:%S')}] {message}\n")
+        self.log_area.see(tk.END)
+        self.root.update()
+        
+    def call_api(self, api_key, prompt, max_tokens=4000):
+        """V5.0 API 调用"""
+        url = "https://api.deepseek.com/chat/completions"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}"
+        }
+        payload = {
+            "model": "deepseek-chat",
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.7,
+            "max_tokens": max_tokens
+        }
+        
+        try:
+            response = requests.post(url, headers=headers, json=payload, timeout=180)
+            response.raise_for_status()
+            return response.json()['choices'][0]['message']['content']
+        except Exception as e:
+            return f"API_ERROR: {str(e)}"
+            
+    def process_news(self, api_key, content):
+        """V5.0 时事评论处理"""
+        self.log("已选择：时事评论模式")
+        
+        # 生成摘要
+        summary = self.call_api(api_key, f"用15字概括事件：\n{content}", max_tokens=50)
+        if "API_ERROR" in summary: return None, None
+        summary = summary.replace("\n", "")
+        self.log(f"事件摘要：{summary}")
+        
+        # 生成正文
+        prompt = f"""
+你是人民日报评论员。撰写社论：
+- 政治站位高，逻辑严密
+- 字数严格 1450-1550 字
+素材：{content}
+"""
+        self.log("正在撰写社论...")
+        article = self.call_api(api_key, prompt, max_tokens=2500)
+        
+        now = datetime.datetime.now()
+        time_str = now.strftime("%Y年%m月%d日%H时%M分%S秒")
+        return article, f"{time_str}社评—{summary}.txt"
+        
+    def process_book(self, api_key, content):
+        """V5.0 书评处理"""
+        self.log("已选择：文艺书评模式")
+        self.log("正在构思文艺标题...")
+        
+        # 生成文艺标题
+        outline_prompt = f"""
+你是文学评论家。根据书籍信息：
+1. 拟定一个文艺范标题（10字内）
+2. 制定5000字大纲
+书籍：{content}
+只返回标题和大纲。
+"""
+        outline_result = self.call_api(api_key, outline_prompt)
+        
+        # 提取标题
+        title_line = outline_result.split("\n")[0]
+        import re
+        clean_title = re.sub(r'[\\/:*?"<>|，。！？]', '', title_line).strip()
+        if not clean_title: clean_title = "时光深处的回响"
+        
+        self.log(f"拟写标题：《{clean_title}》")
+        
+        # V5.0 特点：分段生成长文
+        self.log("正在撰写第一部分...")
+        part1 = self.call_api(api_key, 
+            f"根据大纲撰写书评第一部分（引言），1500字：\n{outline_result}", 
+            max_tokens=2500)
+            
+        self.log("正在撰写第二部分...")
+        part2 = self.call_api(api_key,
+            f"根据大纲撰写书评第二部分（核心），2000字：\n{outline_result}",
+            max_tokens=3000)
+            
+        self.log("正在撰写第三部分...")
+        part3 = self.call_api(api_key,
+            f"根据大纲撰写书评第三部分（结语），1500字：\n{outline_result}",
+            max_tokens=2500)
+            
+        full_article = f"{part1}\n\n{part2}\n\n{part3}"
+        
+        now = datetime.datetime.now()
+        time_str = now.strftime("%Y年%m月%d日%H时%M分%S秒")
+        return full_article, f"{time_str}书评—{clean_title}.txt"
+        
+    def run_generation(self):
+        api_key = self.api_entry.get().strip()
+        if not api_key:
+            messagebox.showerror("错误", "请输入 API Key")
+            return
+            
+        content = self.text_input.get("1.0", tk.END).strip()
+        if not content:
+            messagebox.showerror("错误", "请输入内容")
+            return
+            
+        self.run_btn.config(state=tk.DISABLED, text="正在生成中...")
+        
+        try:
+            mode = self.mode_var.get()
+            
+            if mode == "news":
+                article, filename = self.process_news(api_key, content)
+            else:
+                article, filename = self.process_book(api_key, content)
+                
+            if article and "API_ERROR" not in article:
+                folder = "写作助手输出"
+                if not os.path.exists(folder): os.makedirs(folder)
+                path = os.path.join(folder, filename)
+                
+                with open(path, 'w', encoding='utf-8') as f:
+                    f.write(article)
+                    
+                wc = len(article.replace(" ", "").replace("\n", ""))
+                self.log(f"文件已保存: {filename}")
+                messagebox.showinfo("完成", f"字数：{wc}\n文件：{filename}")
+            else:
+                messagebox.showerror("失败", f"错误：{article}")
+        finally:
+            self.run_btn.config(state=tk.NORMAL, text="🚀 开始智能生成")
+
+
+# ==============================================================================
+#                           VERSION 6.0 - 完整工作台
+# ==============================================================================
+"""
+【V6.0 进化点】
+- 问题：V5.0 界面简陋，书评字数过多，缺少影评
+- 解决：
+  1. 新增电影评论板块（三模态）
+  2. 书评精简至 3000 字
+  3. 现代化 UI 设计（ttk 主题）
+  4. 智能防重命名（书评带作者书名）
+- 进化意义：完整的"写作工作台"形态，专业级用户体验
+
+【Skill 进化总结】
+- V1-V2: 数据源稳定性（爬虫 → API）
+- V3: 用户控制权（自动 → 手动）
+- V4: 批量归档能力（覆盖 → 时间戳）
+- V5: 多模态扩展（单一 → 双模态）
+- V6: 产品化完善（功能 → 体验）
+
+【核心能力矩阵】
+┌─────────────┬──────────────┬──────────────┬─────────────┐
+│   能力维度   │   时事评论   │    书评      │    影评     │
+├─────────────┼──────────────┼──────────────┼─────────────┤
+│   风格      │ 人民日报社论 │ 人文文艺范   │ 专业影评    │
+│   字数      │  1450-1550   │   ≤3000      │   ~2000     │
+│   文件命名  │ 时间戳+摘要  │ 作者+书名    │ 时间戳+片名 │
+│   特殊能力  │ 事件提取     │ 防重命名     │ 片名识别    │
+└─────────────┴──────────────┴──────────────┴─────────────┘
+"""
+
+class ModernWritingApp:
+    """V6.0 - 完整工作台版本"""
+    
+    def __init__(self, root):
+        self.root = root
+        self.root.title("全能写作助手 Agent V6.0")
+        self.root.geometry("850x750")
+        self.root.configure(bg='#f5f6fa')
+        
+        # 设置主题样式
+        self.setup_styles()
+        
+        # ====== 顶部标题区 ======
+        title_frame = tk.Frame(root, bg='#2c3e50', height=80)
+        title_frame.pack(fill=tk.X)
+        title_frame.pack_propagate(False)
+        
+        tk.Label(title_frame, text="✍️ 全能写作助手 Agent", 
+                font=("Microsoft YaHei", 24, "bold"), 
+                fg='white', bg='#2c3e50').pack(pady=20)
+        
+        # ====== API输入区 ======
+        api_frame = tk.Frame(root, bg='#f5f6fa')
+        api_frame.pack(pady=15, fill=tk.X, padx=40)
+        
+        tk.Label(api_frame, text="🔑 DeepSeek API Key:", 
+                font=("Microsoft YaHei", 11), bg='#f5f6fa').pack(side=tk.LEFT)
+        
+        self.api_entry = tk.ttk.Entry(api_frame, width=50, show="*")
+        self.api_entry.pack(side=tk.LEFT, padx=10)
+        
+        # ====== 板块选择区 ======
+        mode_frame = tk.LabelFrame(root, text=" 📌 请选择写作板块 ", 
+                                   font=("Microsoft YaHei", 11, "bold"),
+                                   bg='#f5f6fa', fg='#2c3e50', padx=20, pady=15)
+        mode_frame.pack(pady=10, padx=40, fill=tk.X)
+        
+        self.mode_var = tk.StringVar(value="news")
+        
+        modes = [
+            ("📰 时事评论", "news", "人民日报社论风格，1450-1550字"),
+            ("📚 文艺书评", "book", "深度人文风格，3000字以内"),
+            ("🎬 电影评论", "movie", "专业影评风格，2000字左右")
+        ]
+        
+        for text, value, desc in modes:
+            radio_frame = tk.Frame(mode_frame, bg='#f5f6fa')
+            radio_frame.pack(anchor=tk.W, pady=5)
+            
+            rb = tk.ttk.Radiobutton(radio_frame, text=text, variable=self.mode_var, 
+                                   value=value, command=self.switch_mode)
+            rb.pack(side=tk.LEFT)
+            
+            tk.Label(radio_frame, text=f"  · {desc}", 
+                    font=("Microsoft YaHei", 9), fg='#7f8c8d', bg='#f5f6fa').pack(side=tk.LEFT)
+        
+        # ====== 内容输入区 ======
+        input_frame = tk.LabelFrame(root, text=" 📝 请输入素材 ", 
+                                    font=("Microsoft YaHei", 11, "bold"),
+                                    bg='#f5f6fa', fg='#2c3e50', padx=20, pady=10)
+        input_frame.pack(pady=10, padx=40, fill=tk.BOTH, expand=True)
+        
+        self.input_label = tk.Label(input_frame, text="新闻内容 / 书名及概要 / 电影名称", 
+                                    font=("Microsoft YaHei", 10), bg='#f5f6fa', fg='#7f8c8d')
+        self.input_label.pack(anchor=tk.W)
+        
+        self.text_input = tk.scrolledtext.ScrolledText(input_frame, height=10, width=80,
+                                                       font=("Microsoft YaHei", 11),
+                                                       wrap=tk.WORD, bg='white', relief=tk.FLAT)
+        self.text_input.pack(pady=10, fill=tk.BOTH, expand=True)
+        
+        # ====== 运行按钮 ======
+        self.run_btn = tk.Button(root, text="🚀 开始生成", 
+                                font=("Microsoft YaHei", 14, "bold"),
+                                bg='#3498db', fg='white', 
+                                activebackground='#2980b9',
+                                width=30, height=2, 
+                                cursor='hand2',
+                                command=self.run_generation)
+        self.run_btn.pack(pady=15)
+        
+        # ====== 日志输出区 ======
+        log_frame = tk.LabelFrame(root, text=" 📊 运行日志 ", 
+                                 font=("Microsoft YaHei", 10),
+                                 bg='#f5f6fa', fg='#2c3e50', padx=10, pady=5)
+        log_frame.pack(pady=10, padx=40, fill=tk.X)
+        
+        self.log_area = tk.scrolledtext.ScrolledText(log_frame, height=6, width=80,
+                                                     font=("Consolas", 9),
+                                                     bg='#ecf0f1', relief=tk.FLAT)
+        self.log_area.pack(fill=tk.X)
+        
+    def setup_styles(self):
+        """V6.0 现代化样式"""
+        style = tk.ttk.Style()
+        style.theme_use('clam')
+        
+        style.configure('TRadiobutton', 
+                       font=("Microsoft YaHei", 11),
+                       background='#f5f6fa')
+        
+        style.configure('TEntry',
+                       font=("Microsoft YaHei", 10),
+                       padding=5)
+        
+    def switch_mode(self):
+        """V6.0 模式切换"""
+        mode = self.mode_var.get()
+        hints = {
+            "news": "请输入新闻素材（建议200字以内）",
+            "book": "请输入书名及简介（如：《三体》刘慈欣著，讲述...）",
+            "movie": "请输入电影名称（如：《肖申克的救赎》）"
+        }
+        self.input_label.config(text=hints.get(mode, ""))
+        
+    def log(self, message):
+        self.log_area.insert(tk.END, f"[{datetime.datetime.now().strftime('%H:%M:%S')}] {message}\n")
+        self.log_area.see(tk.END)
+        self.root.update()
+        
+    def call_api(self, api_key, prompt, max_tokens=4000):
+        """V6.0 统一API调用"""
+        url = "https://api.deepseek.com/chat/completions"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}"
+        }
+        payload = {
+            "model": "deepseek-chat",
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.7,
+            "max_tokens": max_tokens
+        }
+        try:
+            response = requests.post(url, headers=headers, json=payload, timeout=180)
+            response.raise_for_status()
+            return response.json()['choices'][0]['message']['content']
+        except Exception as e:
+            return f"API_ERROR: {str(e)}"
+            
+    # ====== V6.0 三大模块 ======
+    
+    def process_news(self, api_key, content):
+        """时事评论模块"""
+        self.log("▶ 模式：时事评论")
+        
+        # 生成摘要
+        summary = self.call_api(api_key, f"用15字内概括事件，无标点：\n{content}", max_tokens=50)
+        if "API_ERROR" in summary: return None, None
+        summary = summary.replace("\n", "").strip()
+        self.log(f"✓ 事件摘要：{summary}")
+        
+        # 生成正文
+        prompt = f"""
+你是人民日报资深评论员。请根据以下素材撰写社论。
+【要求】：政治站位高、逻辑严密、语言凝练。
+【字数】：严格控制在1450-1550字。
+素材：{content}
+"""
+        self.log("✓ 正在撰写社论...")
+        article = self.call_api(api_key, prompt, max_tokens=2500)
+        
+        filename = f"{datetime.datetime.now().strftime('%Y年%m月%d日%H时%M分%S秒')}社评—{summary}.txt"
+        return article, filename
+        
+    def process_book(self, api_key, content):
+        """书评模块 - V6.0 优化至3000字"""
+        self.log("▶ 模式：文艺书评")
+        
+        # V6.0 核心：提取书名和作者（防重机制）
+        extract_prompt = f"""
+从以下信息中提取书名和作者，格式：书名|作者
+如果无法确定作者，写"佚名"。
+信息：{content}
+只返回格式化的结果，不要其他内容。
+"""
+        book_info = self.call_api(api_key, extract_prompt, max_tokens=100)
+        if "API_ERROR" in book_info: return None, None
+        
+        try:
+            parts = book_info.split("|")
+            book_name = parts[0].strip() if len(parts) > 0 else "未知书名"
+            author = parts[1].strip() if len(parts) > 1 else "佚名"
+        except:
+            book_name, author = "未知书名", "佚名"
+        
+        self.log(f"✓ 识别结果：《{book_name}》-{author}")
+        
+        # V6.0 调整：3000字以内
+        prompt = f"""
+你是一位人文素养深厚的文学评论家。
+请为《{book_name}》撰写一篇深度书评。
+【风格要求】：文艺范、深情、哲思，拒绝官样文章。
+【字数要求】：控制在3000字以内。
+【内容建议】：可从主题、人物、语言、思想等角度展开。
+书籍信息：{content}
+"""
+        self.log("✓ 正在撰写书评...")
+        article = self.call_api(api_key, prompt, max_tokens=4000)
+        
+        # V6.0 核心：防重命名格式
+        safe_author = re.sub(r'[\\/:*?"<>|]', '', author)
+        safe_book = re.sub(r'[\\/:*?"<>|]', '', book_name)
+        
+        filename = f"**********书评*******{safe_author}{safe_book}.txt"
+        return article, filename
+        
+    def process_movie(self, api_key, content):
+        """V6.0 新增：影评模块"""
+        self.log("▶ 模式：电影评论")
+        
+        movie_name = content.strip()
+        self.log(f"✓ 影片：《{movie_name}》")
+        
+        prompt = f"""
+你是一位资深电影评论家。
+请为电影《{movie_name}》撰写一篇专业影评。
+【风格要求】：专业、深入、有见地，可涉及镜头语言、叙事结构、主题表达等。
+【字数要求】：2000字左右。
+【内容建议】：结合电影具体情节进行分析，避免泛泛而谈。
+"""
+        self.log("✓ 正在撰写影评...")
+        article = self.call_api(api_key, prompt, max_tokens=3000)
+        
+        safe_name = re.sub(r'[\\/:*?"<>|]', '', movie_name)[:20]
+        filename = f"{datetime.datetime.now().strftime('%Y年%m月%d日%H时%M分%S秒')}影评—{safe_name}.txt"
+        
+        return article, filename
+        
+    def run_generation(self):
+        api_key = self.api_entry.get().strip()
+        if not api_key:
+            messagebox.showerror("错误", "请输入 API Key")
+            return
+            
+        content = self.text_input.get("1.0", tk.END).strip()
+        if not content:
+            messagebox.showerror("错误", "请输入内容")
+            return
+            
+        self.run_btn.config(state=tk.DISABLED, text="⏳ 正在生成中...")
+        
+        try:
+            mode = self.mode_var.get()
+            
+            if mode == "news":
+                article, filename = self.process_news(api_key, content)
+            elif mode == "book":
+                article, filename = self.process_book(api_key, content)
+            else:
+                article, filename = self.process_movie(api_key, content)
+                
+            if article and "API_ERROR" not in article:
+                # 保存文件
+                folder = "写作助手输出"
+                if not os.path.exists(folder):
+                    os.makedirs(folder)
+                path = os.path.join(folder, filename)
+                
+                with open(path, 'w', encoding='utf-8') as f:
+                    f.write(article)
+                    
+                wc = len(article.replace(" ", "").replace("\n", ""))
+                self.log(f"✓ 文件已保存: {filename}")
+                self.log(f"✓ 总字数: {wc} 字")
+                messagebox.showinfo("生成完成", f"文件已保存！\n字数：{wc}\n路径：{os.path.abspath(path)}")
+            else:
+                messagebox.showerror("失败", f"生成出错: {article}")
+        finally:
+            self.run_btn.config(state=tk.NORMAL, text="🚀 开始生成")
+
+
+# ==============================================================================
+#                           主程序入口
+# ==============================================================================
+
+def main():
+    """主函数 - 启动最新版本"""
+    root = tk.Tk()
+    
+    # 设置窗口图标（如果有的话）
+    try:
+        root.iconbitmap('icon.ico')
+    except:
+        pass
+    
+    # 启动 V6.0 版本
+    app = ModernWritingApp(root)
+    
+    # 窗口居中
+    root.update_idletasks()
+    width = root.winfo_width()
+    height = root.winfo_height()
+    x = (root.winfo_screenwidth() // 2) - (width // 2)
+    y = (root.winfo_screenheight() // 2) - (height // 2)
+    root.geometry(f'+{x}+{y}')
+    
+    root.mainloop()
+
+
+if __name__ == "__main__":
+    main()
+
+
+# ==============================================================================
+#                           进化总结与反思
+# ==============================================================================
+"""
+【Skill 进化路径图】
+
+V1.0 ──┐
+       │ [稳定性问题]
+       ▼
+V2.0 ──┤ 切换API，建立错误处理
+       │ [控制权缺失]
+       ▼
+V3.0 ──┤ 用户输入框，人机协作
+       │ [归档混乱]
+       ▼
+V4.0 ──┤ 时间戳命名，摘要提取
+       │ [功能单一]
+       ▼
+V5.0 ──┤ 新增书评，双模态
+       │ [体验粗糙]
+       ▼
+V6.0 ──┘ 三模态，现代UI，完整工作台
+
+【关键技术演进】
+1. 数据层：爬虫 → API → 多API支持
+2. 交互层：自动 → 手动 → 多模态选择
+3. 存储层：覆盖 → 时间戳 → 智能防重
+4. 展示层：基础UI → 现代化UI
+
+【设计哲学】
+- 演进式开发：每个版本解决一个核心痛点
+- 用户导向：从"我能做什么"到"用户需要什么"
+- 渐进式增强：保持向后兼容，逐步叠加功能
+
+【未来展望】
+- V7.0: 支持用户自定义 Prompt 模板
+- V8.0: 多语言支持（中英日）
+- V9.0: 云端同步，团队协作
+- V10.0: AI 自主学习用户风格，个性化写作
+"""
+
+# ==============================================================================
+#                           版本历史记录
+# ==============================================================================
+__version_history__ = {
+    "1.0.0": {
+        "date": "2024-05-20",
+        "features": ["微博热搜爬取", "基础GUI", "文本生成"],
+        "issues": ["爬虫不稳定", "无用户输入"]
+    },
+    "2.0.0": {
+        "date": "2024-05-21",
+        "features": ["DeepSeek API", "错误处理", "日志功能"],
+        "issues": ["功能单一", "无归档"]
+    },
+    "3.0.0": {
+        "date": "2024-05-22",
+        "features": ["手动输入", "字数控制", "ScrolledText"],
+        "issues": ["文件覆盖"]
+    },
+    "4.0.0": {
+        "date": "2024-05-23",
+        "features": ["时间戳命名", "摘要提取", "批量归档"],
+        "issues": ["单一模态"]
+    },
+    "5.0.0": {
+        "date": "2024-05-24",
+        "features": ["书评板块", "文艺风格", "长文生成"],
+        "issues": ["界面粗糙", "无影评"]
+    },
+    "6.0.0": {
+        "date": "2024-05-25",
+        "features": ["影评板块", "现代UI", "智能防重", "三模态"],
+        "issues": []
+    }
+}
+
+# ==============================================================================
+#                           结束
+# ==============================================================================

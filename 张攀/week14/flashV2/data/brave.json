@@ -1,0 +1,39 @@
+{
+  "word": "brave",
+  "phonetic": "/breɪv/",
+  "audio": "",
+  "translation": "勇敢的",
+  "definitions": [
+    {
+      "partOfSpeech": "adj",
+      "definition": "Ready to face and endure danger or pain; showing courage.",
+      "definition_zh": "准备面对并忍受危险或痛苦；表现出勇气。"
+    },
+    {
+      "partOfSpeech": "noun",
+      "definition": "A Native American warrior.",
+      "definition_zh": "美洲原住民战士。"
+    },
+    {
+      "partOfSpeech": "verb",
+      "definition": "To endure or face unpleasant conditions without showing fear.",
+      "definition_zh": "无畏地忍受或面对令人不快的情况。"
+    }
+  ],
+  "synonyms": ["courageous", "valiant", "fearless", "bold", "intrepid"],
+  "near_synonyms": ["heroic", "daring", "audacious", "gallant", "stalwart"],
+  "examples": [
+    {
+      "en": "He was a brave soldier who never backed down from a fight.",
+      "zh": "他是一名勇敢的士兵，从不退缩于战斗。"
+    },
+    {
+      "en": "It was brave of her to speak out against the injustice.",
+      "zh": "她敢于公开反对不公，十分勇敢。"
+    },
+    {
+      "en": "They braved the storm to rescue the stranded hikers.",
+      "zh": "他们冒着暴风雨去营救被困的登山者。"
+    }
+  ]
+}

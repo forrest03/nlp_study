@@ -1,0 +1,28 @@
+{
+  "word": "curious",
+  "phonetic": "/ˈkjʊriəs/",
+  "pos": "adj.",
+  "definition": "好奇的；求知的；稀奇的，奇特的",
+  "examples": [
+    {
+      "en": "I'm curious about how the machine works.",
+      "zh": "我对这台机器的工作原理感到好奇。"
+    },
+    {
+      "en": "She gave me a curious look when I mentioned his name.",
+      "zh": "当我提到他的名字时，她好奇地看了我一眼。"
+    },
+    {
+      "en": "It's curious that he didn't show up, since he's usually very punctual.",
+      "zh": "很奇怪他居然没来，因为他通常很准时。"
+    }
+  ],
+  "synonyms": [
+    "inquisitive",
+    "interested",
+    "nosy",
+    "prying",
+    "odd",
+    "peculiar"
+  ]
+}

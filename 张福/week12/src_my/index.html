@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReAct Financial Agent — 会话版</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0f1117;
+    color: #e2e8f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── 顶部 ── */
+  header {
+    background: #1a1d27;
+    border-bottom: 1px solid #2d3148;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  header h1 { font-size: 17px; font-weight: 600; color: #a78bfa; }
+  header .subtitle { font-size: 12px; color: #64748b; }
+
+  /* ── 主体布局 ── */
+  .main-layout {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+  }
+
+  /* ── 左侧边栏 ── */
+  .sidebar {
+    width: 280px;
+    background: #141620;
+    border-right: 1px solid #2d3148;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  .sidebar-header {
+    padding: 12px 16px;
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid #2d3148;
+  }
+
+  .new-sess-btn {
+    flex: 1;
+    padding: 6px 12px;
+    background: #7c3aed;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .new-sess-btn:hover { background: #6d28d9; }
+  .new-sess-btn:disabled { background: #3d4163; cursor: not-allowed; }
+
+  .refresh-btn {
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid #3d4163;
+    border-radius: 6px;
+    color: #94a3b8;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .refresh-btn:hover { border-color: #7c3aed; color: #a78bfa; }
+
+  .sessions-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: #3d4163 transparent;
+  }
+
+  .session-item {
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 4px;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+  .session-item:hover { background: #1e2235; }
+  .session-item.active {
+    background: #2d1f5e;
+    border-color: #4c1d95;
+  }
+
+  .session-id {
+    font-size: 11px;
+    font-weight: 600;
+    color: #a78bfa;
+    margin-bottom: 4px;
+  }
+
+  .session-preview {
+    font-size: 12px;
+    color: #94a3b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .session-count {
+    font-size: 10px;
+    color: #475569;
+    margin-top: 4px;
+  }
+
+  .empty-sessions {
+    padding: 24px;
+    text-align: center;
+    color: #475569;
+    font-size: 13px;
+  }
+
+  /* ── 右侧主面板 ── */
+  .main-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: #3d4163 transparent;
+  }
+
+  /* ── 当前会话信息 ── */
+  .current-sess-bar {
+    padding: 10px 20px;
+    background: #1a1d27;
+    border-bottom: 1px solid #2d3148;
+    font-size: 12px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .current-sess-bar .sess-id {
+    color: #a78bfa;
+    font-weight: 600;
+    font-family: monospace;
+  }
+  .current-sess-bar .sep { color: #3d4163; }
+  .current-sess-bar .hint { font-style: italic; }
+
+  /* ── 输入区 ── */
+  .input-card {
+    background: #1a1d27;
+    border: 1px solid #2d3148;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .mode-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .mode-btn {
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid #3d4163;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .mode-btn.active {
+    background: #7c3aed;
+    border-color: #7c3aed;
+    color: #fff;
+  }
+  .input-row {
+    display: flex;
+    gap: 10px;
+  }
+  textarea {
+    flex: 1;
+    background: #0f1117;
+    border: 1px solid #2d3148;
+    border-radius: 8px;
+    color: #e2e8f0;
+    padding: 10px 14px;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 64px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  textarea:focus { border-color: #7c3aed; }
+  .send-btn {
+    padding: 0 20px;
+    background: #7c3aed;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .send-btn:hover:not(:disabled) { background: #6d28d9; }
+  .send-btn:disabled { background: #3d4163; cursor: not-allowed; }
+
+  .examples { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .example-chip {
+    background: #1e2235;
+    border: 1px solid #2d3148;
+    border-radius: 16px;
+    padding: 3px 10px;
+    font-size: 11px;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .example-chip:hover { border-color: #7c3aed; color: #a78bfa; }
+
+  /* ── 历史对话区 ── */
+  .history-section {
+    margin-bottom: 16px;
+  }
+  .history-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid #2d3148;
+  }
+  .history-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .history-count {
+    font-size: 10px;
+    color: #475569;
+    background: #1e2235;
+    padding: 1px 6px;
+    border-radius: 10px;
+  }
+
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .history-item {
+    background: #1a1d27;
+    border: 1px solid #2d3148;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .history-item:hover { border-color: #3d4163; }
+
+  .history-item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: #1e2235;
+    cursor: pointer;
+    user-select: none;
+  }
+  .history-item-header .user-icon {
+    color: #38bdf8;
+    font-size: 12px;
+    margin-right: 6px;
+  }
+  .history-item-header .question-preview {
+    flex: 1;
+    font-size: 12px;
+    color: #cbd5e1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .history-item-header .toggle {
+    color: #64748b;
+    font-size: 10px;
+    transition: transform 0.2s;
+  }
+  .history-item-header .toggle.open { transform: rotate(180deg); }
+
+  .history-item-body {
+    padding: 10px 12px;
+    display: none;
+  }
+  .history-item-body.open { display: block; }
+
+  .history-answer {
+    font-size: 13px;
+    color: #94a3b8;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* ── 状态栏 ── */
+  .status-bar {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: #1a1d27;
+    border: 1px solid #2d3148;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: #94a3b8;
+  }
+  .status-bar.visible { display: flex; }
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid #3d4163;
+    border-top-color: #7c3aed;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── 步骤卡片 ── */
+  .steps-container { display: flex; flex-direction: column; gap: 12px; }
+
+  .step-card {
+    background: #1a1d27;
+    border: 1px solid #2d3148;
+    border-radius: 10px;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; } }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .step-badge {
+    background: #2d3148;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 600;
+  }
+  .step-title { font-size: 14px; font-weight: 500; flex: 1; }
+  .step-toggle { color: #64748b; font-size: 12px; }
+
+  .step-body { padding: 0 16px 14px; }
+
+  .thought-block  { border-left: 3px solid #38bdf8; padding-left: 12px; margin-bottom: 10px; }
+  .action-block   { border-left: 3px solid #fbbf24; padding-left: 12px; margin-bottom: 10px; }
+  .obs-block      { border-left: 3px solid #34d399; padding-left: 12px; }
+  .final-block    { border-left: 3px solid #a78bfa; padding-left: 12px; }
+
+  .block-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .thought-block  .block-label { color: #38bdf8; }
+  .action-block   .block-label { color: #fbbf24; }
+  .obs-block      .block-label { color: #34d399; }
+  .final-block    .block-label { color: #a78bfa; }
+
+  .block-content {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #cbd5e1;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .obs-block .block-content {
+    max-height: 200px;
+    overflow-y: auto;
+    background: #0d1017;
+    border-radius: 4px;
+    padding: 6px 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #3d4163 transparent;
+  }
+
+  .tool-pill {
+    display: inline-block;
+    background: #2d1f5e;
+    border: 1px solid #4c1d95;
+    border-radius: 4px;
+    padding: 1px 8px;
+    font-size: 12px;
+    color: #a78bfa;
+    font-family: monospace;
+    margin-bottom: 6px;
+  }
+  .args-code {
+    background: #0f1117;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-family: monospace;
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+
+  /* ── 最终答案卡 ── */
+  .final-card {
+    background: #1a1d27;
+    border: 1px solid #4c1d95;
+    border-radius: 10px;
+    padding: 18px;
+    margin-top: 4px;
+    animation: fadeIn 0.3s ease;
+  }
+  .final-card h3 { color: #a78bfa; font-size: 14px; margin-bottom: 10px; }
+  .final-card .answer-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #e2e8f0;
+    white-space: pre-wrap;
+  }
+  .meta-row {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #475569;
+    display: flex;
+    gap: 16px;
+  }
+
+  /* ── FC 版 Thought 提示 ── */
+  .fc-thought-note {
+    font-size: 12px;
+    color: #475569;
+    font-style: italic;
+  }
+
+  /* ── 折叠状态 ── */
+  .step-body.collapsed { display: none; }
+  .step-toggle.open::before { content: "▲"; }
+  .step-toggle:not(.open)::before { content: "▼"; }
+
+  /* ── 无会话提示 ── */
+  .no-session-hint {
+    text-align: center;
+    padding: 60px 20px;
+    color: #475569;
+  }
+  .no-session-hint h3 {
+    font-size: 16px;
+    color: #64748b;
+    margin-bottom: 8px;
+  }
+  .no-session-hint p {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>⚡ ReAct Financial Agent（会话版）</h1>
+    <div class="subtitle">支持会话管理与上下文记忆 | 数据来源：A股年报 + AkShare</div>
+  </div>
+</header>
+
+<div class="main-layout">
+
+  <!-- 左侧边栏：会话列表 -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <button class="new-sess-btn" id="newSessBtn" onclick="createNewSession()">+ 新会话</button>
+      <button class="refresh-btn" id="refreshBtn" onclick="loadSessions()">↻</button>
+    </div>
+    <div class="sessions-list" id="sessionsList"></div>
+  </aside>
+
+  <!-- 右侧主面板 -->
+  <main class="main-panel">
+    <div class="current-sess-bar" id="currentSessBar" style="display: none;">
+      <span>会话:</span>
+      <span class="sess-id" id="currentSessId">---</span>
+      <span class="sep">|</span>
+      <span class="hint">当前会话已启用上下文记忆</span>
+    </div>
+
+    <div class="container" id="mainContainer">
+      <div class="no-session-hint">
+        <h3>选择或创建一个会话</h3>
+        <p>点击左侧「+ 新会话」按钮创建新对话，或选择已有会话查看历史记录</p>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+  let currentMode = 'manual';
+  let isRunning   = false;
+  let currentSessionId = null;
+
+  // ── 会话管理 ────────────────────────────────────────────────────────────────
+  async function loadSessions() {
+    try {
+      const resp = await fetch('/sessions');
+      if (!resp.ok) throw new Error('Failed to load sessions');
+      const sessions = await resp.json();
+      renderSessions(sessions);
+    } catch (err) {
+      console.error('加载会话失败:', err);
+    }
+  }
+
+  async function createNewSession() {
+    const btn = document.getElementById('newSessBtn');
+    btn.disabled = true;
+    try {
+      const resp = await fetch('/session/create', { method: 'POST' });
+      if (!resp.ok) throw new Error('Failed to create session');
+      const data = await resp.json();
+      currentSessionId = data.session_id;
+      await loadSessions();
+      selectSession(data.session_id);
+    } catch (err) {
+      console.error('创建会话失败:', err);
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  async function selectSession(sessionId) {
+    currentSessionId = sessionId;
+
+    document.querySelectorAll('.session-item').forEach(el => {
+      el.classList.toggle('active', el.dataset.sessionId === sessionId);
+    });
+
+    document.getElementById('currentSessId').textContent = sessionId;
+    document.getElementById('currentSessBar').style.display = 'flex';
+
+    renderMainPanel();
+    await loadSessionHistory(sessionId);
+  }
+
+  function renderSessions(sessions) {
+    const container = document.getElementById('sessionsList');
+    if (!sessions || sessions.length === 0) {
+      container.innerHTML = '<div class="empty-sessions">暂无会话，点击上方按钮创建</div>';
+      return;
+    }
+
+    container.innerHTML = sessions.map(sess => `
+      <div class="session-item ${sess.session_id === currentSessionId ? 'active' : ''}"
+           data-session-id="${sess.session_id}"
+           onclick="selectSession('${sess.session_id}')">
+        <div class="session-id">${sess.session_id}</div>
+        <div class="session-preview">${sess.first_question}</div>
+        <div class="session-count">${sess.count} 条记录</div>
+      </div>
+    `).join('');
+  }
+
+  async function loadSessionHistory(sessionId) {
+    try {
+      const resp = await fetch(`/session/${sessionId}/history`);
+      if (!resp.ok) throw new Error('Failed to load history');
+      const data = await resp.json();
+      renderHistory(data.history);
+    } catch (err) {
+      console.error('加载历史记录失败:', err);
+    }
+  }
+
+  // ── 主面板渲染 ──────────────────────────────────────────────────────────────
+  function renderMainPanel() {
+    const container = document.getElementById('mainContainer');
+    container.innerHTML = `
+      <!-- 输入区 -->
+      <div class="input-card">
+        <div class="mode-toggle">
+          <span style="font-size:12px;color:#64748b;margin-right:4px;">实现方式：</span>
+          <button class="mode-btn active" data-mode="manual" onclick="setMode('manual',this)">
+            手写 Prompt 解析
+          </button>
+          <button class="mode-btn" data-mode="fc" onclick="setMode('fc',this)">
+            Function Calling
+          </button>
+        </div>
+        <div class="input-row">
+          <textarea id="question" placeholder="输入问题，例如：贵州茅台和五粮液2023年的毛利率哪家更高？"></textarea>
+          <button class="send-btn" id="sendBtn" onclick="sendQuery()">发 送</button>
+        </div>
+        <div class="examples">
+          <span style="font-size:11px;color:#475569;margin-right:4px;">示例：</span>
+          <span class="example-chip" onclick="setQuestion(this.textContent)">茅台和五粮液2023年毛利率差多少？</span>
+          <span class="example-chip" onclick="setQuestion(this.textContent)">宁德时代2021-2023年营收复合增长率？</span>
+          <span class="example-chip" onclick="setQuestion(this.textContent)">贵州茅台2023年全年股价涨跌幅？</span>
+          <span class="example-chip" onclick="setQuestion(this.textContent)">海康威视2023年年报提到了哪些风险？</span>
+        </div>
+      </div>
+
+      <!-- 历史对话区 -->
+      <div class="history-section" id="historySection" style="display:none;">
+        <div class="history-header">
+          <span class="history-title">历史对话</span>
+          <span class="history-count" id="historyCount">0</span>
+        </div>
+        <div class="history-list" id="historyList"></div>
+      </div>
+
+      <!-- 状态栏 -->
+      <div class="status-bar" id="statusBar">
+        <div class="spinner"></div>
+        <span id="statusText">正在思考...</span>
+      </div>
+
+      <!-- 步骤 + 结果 -->
+      <div class="steps-container" id="stepsContainer"></div>
+    `;
+
+    document.getElementById('question').addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendQuery(); }
+    });
+  }
+
+  function renderHistory(history) {
+    const section = document.getElementById('historySection');
+    const list = document.getElementById('historyList');
+    const count = document.getElementById('historyCount');
+
+    if (!history || history.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = 'block';
+    count.textContent = history.length;
+
+    list.innerHTML = history.map((item, index) => `
+      <div class="history-item">
+        <div class="history-item-header" onclick="toggleHistoryItem(${index})">
+          <span class="user-icon">👤</span>
+          <span class="question-preview">${esc(item.question)}</span>
+          <span class="toggle" id="historyToggle${index}">▼</span>
+        </div>
+        <div class="history-item-body" id="historyBody${index}">
+          <div class="history-answer">${esc(item.answer)}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function toggleHistoryItem(index) {
+    const toggle = document.getElementById(`historyToggle${index}`);
+    const body = document.getElementById(`historyBody${index}`);
+    toggle.classList.toggle('open');
+    body.classList.toggle('open');
+  }
+
+  // ── 模式切换 ────────────────────────────────────────────────────────────────
+  function setMode(mode, btn) {
+    currentMode = mode;
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function setQuestion(text) {
+    const el = document.getElementById('question');
+    if (el) el.value = text;
+  }
+
+  function setStatus(text, visible) {
+    const bar = document.getElementById('statusBar');
+    if (!bar) return;
+    const statusText = document.getElementById('statusText');
+    if (statusText) statusText.textContent = text;
+    bar.classList.toggle('visible', visible);
+  }
+
+  function setSendEnabled(enabled) {
+    const btn = document.getElementById('sendBtn');
+    if (!btn) return;
+    btn.disabled = !enabled;
+    btn.textContent = enabled ? '发 送' : '运行中...';
+    isRunning = !enabled;
+  }
+
+  // ── 创建步骤卡片 ────────────────────────────────────────────────────────────
+  function createStepCard(stepData) {
+    const card = document.createElement('div');
+    card.className = 'step-card';
+
+    const isManual = (currentMode === 'manual');
+
+    const header = document.createElement('div');
+    header.className = 'step-header';
+    header.innerHTML = `
+      <span class="step-badge">Step ${stepData.step}</span>
+      <span class="step-title">🔧 ${stepData.action}(${JSON.stringify(stepData.action_input||{})})</span>
+      <span class="step-toggle open"></span>
+    `;
+
+    const body = document.createElement('div');
+    body.className = 'step-body';
+
+    if (isManual && stepData.thought) {
+      body.innerHTML += `
+        <div class="thought-block">
+          <div class="block-label">Thought</div>
+          <div class="block-content">${esc(stepData.thought)}</div>
+        </div>`;
+    } else if (!isManual) {
+      body.innerHTML += `
+        <div class="thought-block">
+          <div class="block-label">Thought</div>
+          <div class="fc-thought-note">Function Calling 版：模型内部推理，不可见</div>
+        </div>`;
+    }
+
+    body.innerHTML += `
+      <div class="action-block">
+        <div class="block-label">Action</div>
+        <span class="tool-pill">${esc(stepData.action)}</span>
+        <div class="args-code">${esc(JSON.stringify(stepData.action_input||{}, null, 2))}</div>
+      </div>`;
+
+    body.innerHTML += `
+      <div class="obs-block">
+        <div class="block-label">Observation</div>
+        <div class="block-content">${esc((stepData.observation||'').replace(/\n{3,}/g, '\n\n').trim())}</div>
+      </div>`;
+
+    header.addEventListener('click', () => {
+      body.classList.toggle('collapsed');
+      header.querySelector('.step-toggle').classList.toggle('open');
+    });
+
+    card.appendChild(header);
+    card.appendChild(body);
+    return card;
+  }
+
+  function createFinalCard(stepData, totalSteps, elapsedS) {
+    const card = document.createElement('div');
+    card.className = 'final-card';
+    card.innerHTML = `
+      <h3>✅ Final Answer</h3>
+      <div class="answer-text">${esc(stepData.answer)}</div>
+      <div class="meta-row">
+        <span>共 ${totalSteps} 步</span>
+        <span>耗时 ~${elapsedS}s</span>
+        <span>实现：${ currentMode === 'manual' ? '手写Prompt解析' : 'Function Calling' }</span>
+      </div>`;
+    return card;
+  }
+
+  function createErrorCard(msg) {
+    const card = document.createElement('div');
+    card.className = 'final-card';
+    card.style.borderColor = '#7f1d1d';
+    card.innerHTML = `<h3 style="color:#f87171">⚠️ ${esc(msg)}</h3>`;
+    return card;
+  }
+
+  function esc(s) {
+    return String(s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── 主发送逻辑 ──────────────────────────────────────────────────────────────
+  async function sendQuery() {
+    if (isRunning) return;
+    const questionEl = document.getElementById('question');
+    if (!questionEl) return;
+    const question = questionEl.value.trim();
+    if (!question) return;
+    if (!currentSessionId) {
+      await createNewSession();
+    }
+
+    const stepsContainer = document.getElementById('stepsContainer');
+    if (stepsContainer) stepsContainer.innerHTML = '';
+    setSendEnabled(false);
+    setStatus('正在连接...', true);
+
+    const endpoint = `/query/${currentMode}`;
+    const startTime = Date.now();
+    let actionStepCount = 0;
+
+    try {
+      const resp = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, max_steps: 10, session_id: currentSessionId }),
+      });
+
+      if (!resp.ok) {
+        throw new Error(`HTTP ${resp.status}`);
+      }
+
+      const reader  = resp.body.getReader();
+      const decoder = new TextDecoder();
+      let   buffer  = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          let data;
+          try { data = JSON.parse(line.slice(6)); } catch { continue; }
+
+          if (data.type === 'start') {
+            setStatus(`🧠 思考中... (${currentMode === 'manual' ? '手写Prompt解析' : 'Function Calling'})`, true);
+
+          } else if (data.type === 'action') {
+            actionStepCount++;
+            setStatus(`Step ${data.step}：正在调用 ${data.action}...`, true);
+            if (stepsContainer) {
+              const card = createStepCard(data);
+              stepsContainer.appendChild(card);
+              card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+          } else if (data.type === 'final') {
+            const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+            if (stepsContainer) {
+              const card = createFinalCard(data, actionStepCount, elapsed);
+              stepsContainer.appendChild(card);
+              card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            setStatus('完成', false);
+
+            await loadSessionHistory(currentSessionId);
+
+          } else if (data.type === 'max_steps' || data.type === 'error') {
+            if (stepsContainer) {
+              const card = createErrorCard(data.answer || data.observation || '未知错误');
+              stepsContainer.appendChild(card);
+            }
+            setStatus('', false);
+
+          } else if (data.type === 'done') {
+            setStatus('', false);
+          }
+        }
+      }
+    } catch (err) {
+      if (stepsContainer) {
+        stepsContainer.appendChild(createErrorCard(`请求失败: ${err.message}`));
+      }
+      setStatus('', false);
+    } finally {
+      setSendEnabled(true);
+    }
+  }
+
+  // 页面加载时加载会话列表
+  document.addEventListener('DOMContentLoaded', loadSessions);
+</script>
+</body>
+</html>

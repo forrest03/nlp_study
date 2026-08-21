@@ -1,0 +1,27 @@
+# PDF 解析脚本依赖
+pdfplumber>=0.10.0
+pymupdf>=1.23.0
+Pillow>=10.0.0
+pytesseract>=0.3.10
+
+# 向量索引构建依赖
+faiss-cpu>=1.7.4
+openai>=1.30.0
+numpy>=1.24.0
+
+# RAG 问答依赖
+rank_bm25>=0.2.2
+jieba>=0.42.1
+sentence-transformers>=2.2.0
+
+# LangChain RAG 依赖
+langchain>=0.1.0
+langchain-community>=0.0.0
+langchain-core>=0.1.0
+
+# HTTP 服务依赖
+fastapi>=0.100.0
+uvicorn>=0.20.0
+
+# RAGAS 评估依赖
+ragas>=0.1.0

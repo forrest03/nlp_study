@@ -1,0 +1,28 @@
+{
+  "word": "brave",
+  "phonetic": "/breɪv/",
+  "pos": "adj.",
+  "definition": "勇敢的",
+  "examples": [
+    {
+      "en": "She was brave enough to stand up to the bully.",
+      "zh": "她足够勇敢，敢于对抗那个恶霸。"
+    },
+    {
+      "en": "It was a brave decision to quit his job and start his own business.",
+      "zh": "辞去工作自己创业是一个勇敢的决定。"
+    },
+    {
+      "en": "The brave firefighters rescued the family from the burning building.",
+      "zh": "勇敢的消防员从燃烧的大楼中救出了那家人。"
+    }
+  ],
+  "synonyms": [
+    "courageous",
+    "fearless",
+    "valiant",
+    "daring",
+    "audacious",
+    "bold"
+  ]
+}

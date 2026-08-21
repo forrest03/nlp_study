@@ -1,0 +1,15 @@
+{
+  "domain": "shipping_and_delivery",
+  "source": "data/policies.md sections 3.1-3.3",
+  "requirements": [
+    {"id": "standard_delivery", "keywords": ["3-7", "工作日", "99", "6元"]},
+    {"id": "next_day", "keywords": ["北京", "上海", "广州", "深圳", "14:00", "10元"]},
+    {"id": "remote", "keywords": ["新疆", "西藏", "内蒙古", "不支持次日达", "12元"]},
+    {"id": "cancel_window", "keywords": ["待发货", "48小时", "直接取消", "不走退货退款流程"]},
+    {"id": "cancel_refund", "keywords": ["24小时", "原支付路径", "积分", "原数量", "无损耗"]},
+    {"id": "late_cancel", "keywords": ["超过48小时", "不可直接取消", "退货退款流程"]},
+    {"id": "shipped", "keywords": ["已发货", "收货后", "退货"]},
+    {"id": "return_shipping", "keywords": ["普通用户", "白卡", "银卡", "金卡", "8-15元", "平台承担"]}
+  ],
+  "eval_question_ids": [46, 47, 48, 49, 50, 51, 52, 53]
+}

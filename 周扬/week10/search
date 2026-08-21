@@ -1,0 +1,8 @@
+#!/bin/bash
+# RAG 法规检索
+# 交互: ./search
+# 单次: ./search "金融租赁公司注册资本"
+# 加参数: ./search "查询词" -k 10
+
+DIR="$(cd "$(dirname "$0")" && pwd)"
+exec /Users/zhouyang/miniconda/miniconda3/envs/py312/bin/python3 "$DIR/search_cli.py" "$@"

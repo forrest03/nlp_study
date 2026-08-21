@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Video Subtitles"
+  short_description: "Transcribe and burn subtitles into a video"
+  default_prompt: "Use $add-video-subtitles to transcribe a local video and burn subtitles into a new copy."

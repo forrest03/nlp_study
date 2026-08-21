@@ -1,0 +1,2784 @@
+{
+  "graph_name": "2024—2025年节能降碳行动方案知识图谱",
+  "entity_list": [
+    {
+      "entity_id": "E001",
+      "entity_name": "国务院",
+      "entity_type": "政府机构"
+    },
+    {
+      "entity_id": "E002",
+      "entity_name": "《2024—2025年节能降碳行动方案》",
+      "entity_type": "政策文件"
+    },
+    {
+      "entity_id": "E003",
+      "entity_name": "国发〔2024〕12号",
+      "entity_type": "政策文件"
+    },
+    {
+      "entity_id": "E004",
+      "entity_name": "2024年05月23日",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E005",
+      "entity_name": "2024年05月29日",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E006",
+      "entity_name": "各省、自治区、直辖市人民政府",
+      "entity_type": "政府机构"
+    },
+    {
+      "entity_id": "E007",
+      "entity_name": "国务院各部委",
+      "entity_type": "政府机构"
+    },
+    {
+      "entity_id": "E008",
+      "entity_name": "国务院各直属机构",
+      "entity_type": "政府机构"
+    },
+    {
+      "entity_id": "E009",
+      "entity_name": "推进双碳、美丽中国、绿色转型核心举措",
+      "entity_type": "政策文件"
+    },
+    {
+      "entity_id": "E010",
+      "entity_name": "完成\"十四五\"节能降碳约束性指标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E011",
+      "entity_name": "习近平新时代中国特色社会主义思想",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E012",
+      "entity_name": "党的二十大精神",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E013",
+      "entity_name": "习近平经济思想",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E014",
+      "entity_name": "习近平生态文明思想",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E015",
+      "entity_name": "稳中求进",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E016",
+      "entity_name": "完整准确全面新发展理念",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E017",
+      "entity_name": "节约优先",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E018",
+      "entity_name": "完善能源消耗总量和强度调控",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E019",
+      "entity_name": "控制化石能源消费",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E020",
+      "entity_name": "强化碳排放强度管理",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E021",
+      "entity_name": "2024年节能目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E022",
+      "entity_name": "GDP能耗降幅",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E023",
+      "entity_name": "2.5%左右",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E024",
+      "entity_name": "2024年降碳目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E025",
+      "entity_name": "GDP碳排放降幅",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E026",
+      "entity_name": "3.9%左右",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E027",
+      "entity_name": "2024年工业目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E028",
+      "entity_name": "规上工业单位增加值能耗降幅",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E029",
+      "entity_name": "3.5%左右",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E030",
+      "entity_name": "2024年能源结构目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E031",
+      "entity_name": "非化石能源消费占比",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E032",
+      "entity_name": "18.9%左右",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E033",
+      "entity_name": "2024-2025改造总目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E034",
+      "entity_name": "节能量",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E035",
+      "entity_name": "约5000万吨标准煤",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E036",
+      "entity_name": "二氧化碳减排量",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E037",
+      "entity_name": "约1.3亿吨",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E038",
+      "entity_name": "2025年能源结构目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E039",
+      "entity_name": "20%左右",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E040",
+      "entity_name": "2025年电力结构目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E041",
+      "entity_name": "非化石能源发电量占比",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E042",
+      "entity_name": "39%左右",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E043",
+      "entity_name": "2025储能装机目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E044",
+      "entity_name": "抽水蓄能装机规模",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E045",
+      "entity_name": "超6200万千瓦",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E046",
+      "entity_name": "新型储能装机规模",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E047",
+      "entity_name": "超4000万千瓦",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E048",
+      "entity_name": "区域用电要求",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E049",
+      "entity_name": "一般地区需求响应负荷占比",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E050",
+      "entity_name": "3%-5%",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E051",
+      "entity_name": "峰谷差超40%地区需求响应负荷占比",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E052",
+      "entity_name": "5%以上",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E053",
+      "entity_name": "政策要求",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E054",
+      "entity_name": "管控煤炭消费",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E055",
+      "entity_name": "严格合理控制",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E056",
+      "entity_name": "煤电改造任务",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E057",
+      "entity_name": "实施改造",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E058",
+      "entity_name": "节能、灵活、供热三改联动",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E059",
+      "entity_name": "大气重点区域政策",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E060",
+      "entity_name": "总量控制、削减非电力用煤",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E061",
+      "entity_name": "大气重点区域任务",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E062",
+      "entity_name": "燃煤设施治理",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E063",
+      "entity_name": "关停整合锅炉、窑炉清洁能源替代",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E064",
+      "entity_name": "新建煤项目规则",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E065",
+      "entity_name": "实施替代",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E066",
+      "entity_name": "煤炭等量/减量替代",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E067",
+      "entity_name": "产业调控",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E068",
+      "entity_name": "管控行业",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E069",
+      "entity_name": "半焦(兰炭)产业规模",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E070",
+      "entity_name": "2025散煤治理目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E071",
+      "entity_name": "平原散煤治理",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E072",
+      "entity_name": "基本清零",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E073",
+      "entity_name": "2025锅炉淘汰目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E074",
+      "entity_name": "淘汰设备",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E075",
+      "entity_name": "35蒸吨/小时及以下燃煤锅炉",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E076",
+      "entity_name": "石油调控",
+      "entity_type": "能源品类"
+    },
+    {
+      "entity_id": "E077",
+      "entity_name": "消费管控",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E078",
+      "entity_name": "合理调控",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E079",
+      "entity_name": "油品替代方案",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E080",
+      "entity_name": "推广燃料",
+      "entity_type": "能源品类"
+    },
+    {
+      "entity_id": "E081",
+      "entity_name": "生物液体燃料、可持续航空燃料",
+      "entity_type": "能源品类"
+    },
+    {
+      "entity_id": "E082",
+      "entity_name": "油气开发方向",
+      "entity_type": "能源品类"
+    },
+    {
+      "entity_id": "E083",
+      "entity_name": "开发资源",
+      "entity_type": "能源品类"
+    },
+    {
+      "entity_id": "E084",
+      "entity_name": "页岩油、煤层气、致密油气",
+      "entity_type": "能源品类"
+    },
+    {
+      "entity_id": "E085",
+      "entity_name": "天然气使用优先级",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E086",
+      "entity_name": "优先保障",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E087",
+      "entity_name": "居民生活、北方清洁取暖",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E088",
+      "entity_name": "天然气使用限制",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E089",
+      "entity_name": "自备机组约束",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E090",
+      "entity_name": "石化外不得新增气电自备机组",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E091",
+      "entity_name": "新能源基地建设",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E092",
+      "entity_name": "重点布局",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E093",
+      "entity_name": "沙漠、戈壁、荒漠大型风光基地",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E094",
+      "entity_name": "海上能源任务",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E095",
+      "entity_name": "有序开发",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E096",
+      "entity_name": "海上风电、海洋能",
+      "entity_type": "能源品类"
+    },
+    {
+      "entity_id": "E097",
+      "entity_name": "水电发展策略",
+      "entity_type": "能源品类"
+    },
+    {
+      "entity_id": "E098",
+      "entity_name": "有序建设",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E099",
+      "entity_name": "大型水电基地",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E100",
+      "entity_name": "核电发展策略",
+      "entity_type": "能源品类"
+    },
+    {
+      "entity_id": "E101",
+      "entity_name": "发展路径",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E102",
+      "entity_name": "安全有序发展",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E103",
+      "entity_name": "生物质能发展",
+      "entity_type": "能源品类"
+    },
+    {
+      "entity_id": "E104",
+      "entity_name": "布局方式",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E105",
+      "entity_name": "因地制宜开发",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E106",
+      "entity_name": "氢能发展",
+      "entity_type": "能源品类"
+    },
+    {
+      "entity_id": "E107",
+      "entity_name": "推进路径",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E108",
+      "entity_name": "统筹布局发展",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E109",
+      "entity_name": "新能源消纳举措",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E110",
+      "entity_name": "建设通道",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E111",
+      "entity_name": "风光基地外送特高压通道",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E112",
+      "entity_name": "电网升级任务",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E113",
+      "entity_name": "改造对象",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E114",
+      "entity_name": "配电网提升分布式新能源承载力",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E115",
+      "entity_name": "新型消纳模式",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E116",
+      "entity_name": "发展品类",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E117",
+      "entity_name": "微电网、虚拟电厂、车网互动",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E118",
+      "entity_name": "高耗能项目约束",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E119",
+      "entity_name": "2024-2025新建高耗能项目",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E120",
+      "entity_name": "非化石能源占比≥20%",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E121",
+      "entity_name": "绿证政策节点",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E122",
+      "entity_name": "2024年底",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E123",
+      "entity_name": "实现绿证核发全覆盖",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E124",
+      "entity_name": "钢铁管控手段",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E125",
+      "entity_name": "产能管理",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E126",
+      "entity_name": "严格产能置换、严控新增",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E127",
+      "entity_name": "粗钢调控",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E128",
+      "entity_name": "2024年执行",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E129",
+      "entity_name": "产量调控",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E130",
+      "entity_name": "钢铁产品导向",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E131",
+      "entity_name": "鼓励品类",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E132",
+      "entity_name": "高性能特种钢",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E133",
+      "entity_name": "钢铁出口管控",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E134",
+      "entity_name": "限制品类",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E135",
+      "entity_name": "低附加值基础钢材出口",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E136",
+      "entity_name": "短流程炼钢目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E137",
+      "entity_name": "2025电炉钢占比",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E138",
+      "entity_name": "力争15%",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E139",
+      "entity_name": "废钢利用目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E140",
+      "entity_name": "2025废钢利用量",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E141",
+      "entity_name": "3亿吨",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E142",
+      "entity_name": "钢铁能效目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E143",
+      "entity_name": "2025标杆产能占比",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E144",
+      "entity_name": "30%",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E145",
+      "entity_name": "钢铁减排指标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E146",
+      "entity_name": "2024-2025节能量",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E147",
+      "entity_name": "2000万吨标煤",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E148",
+      "entity_name": "钢铁减排指标_CO2",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E149",
+      "entity_name": "2024-2025CO₂减排",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E150",
+      "entity_name": "5300万吨",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E151",
+      "entity_name": "石化产能管控",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E152",
+      "entity_name": "严控新增",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E153",
+      "entity_name": "炼油、电石、黄磷、磷铵",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E154",
+      "entity_name": "落后装置淘汰",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E155",
+      "entity_name": "200万吨/年以下常减压装置",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E156",
+      "entity_name": "石化低碳路径",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E157",
+      "entity_name": "推广技术",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E158",
+      "entity_name": "可再生能源制氢、绿氢炼化",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E159",
+      "entity_name": "石化能效目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E160",
+      "entity_name": "超30%",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E161",
+      "entity_name": "石化减排指标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E162",
+      "entity_name": "4000万吨标煤",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E163",
+      "entity_name": "石化减排指标_CO2",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E164",
+      "entity_name": "1.1亿吨",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E165",
+      "entity_name": "再生金属目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E166",
+      "entity_name": "2025再生金属供应占比",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E167",
+      "entity_name": "24%以上",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E168",
+      "entity_name": "铝加工目标",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E169",
+      "entity_name": "铝水直接合金化比例",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E170",
+      "entity_name": "90%以上",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E171",
+      "entity_name": "电解铝绿色目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E172",
+      "entity_name": "2025可再生能源用电占比",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E173",
+      "entity_name": "25%以上",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E174",
+      "entity_name": "有色减排指标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E175",
+      "entity_name": "500万吨标煤",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E176",
+      "entity_name": "水泥管控手段",
+      "entity_type": "工业行业"
+    },
+    {
+      "entity_id": "E177",
+      "entity_name": "产量调节",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E178",
+      "entity_name": "错峰生产常态化",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E179",
+      "entity_name": "建材低碳改造",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E180",
+      "entity_name": "原料替代",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E181",
+      "entity_name": "尾矿、废渣、工业固废利用",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E182",
+      "entity_name": "水泥超低排放目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E183",
+      "entity_name": "重点区域熟料改造占比",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E184",
+      "entity_name": "50%左右",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E185",
+      "entity_name": "建材减排指标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E186",
+      "entity_name": "1000万吨标煤",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E187",
+      "entity_name": "新建建筑强制标准",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E188",
+      "entity_name": "城镇新建建筑",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E189",
+      "entity_name": "全面执行绿色建筑标准",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E190",
+      "entity_name": "光伏建设目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E191",
+      "entity_name": "新建公建/厂房屋顶光伏覆盖率",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E192",
+      "entity_name": "力争50%",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E193",
+      "entity_name": "建筑能源目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E194",
+      "entity_name": "2025城镇建筑可再生替代率",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E195",
+      "entity_name": "8%",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E196",
+      "entity_name": "存量改造目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E197",
+      "entity_name": "2025新增节能改造面积",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E198",
+      "entity_name": "较2023年增长2亿㎡",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E199",
+      "entity_name": "管网改造目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E200",
+      "entity_name": "2025供热管网热损失降幅",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E201",
+      "entity_name": "较2020年降低2个百分点",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E202",
+      "entity_name": "公共建筑管控",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E203",
+      "entity_name": "管理措施",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E204",
+      "entity_name": "室内温度管控、智能群控",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E205",
+      "entity_name": "交通基建低碳化",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E206",
+      "entity_name": "改造内容",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E207",
+      "entity_name": "岸电、场站光伏、充电设施",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E208",
+      "entity_name": "运输结构调整",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E209",
+      "entity_name": "货运转型",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E210",
+      "entity_name": "公转铁、公转水、多式联运",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E211",
+      "entity_name": "铁路货运目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E212",
+      "entity_name": "2025货运量增幅",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E213",
+      "entity_name": "较2020年增长10%",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E214",
+      "entity_name": "水路货运目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E215",
+      "entity_name": "2025货运量增幅_水路",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E216",
+      "entity_name": "较2020年增长12%",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E217",
+      "entity_name": "车辆电动化政策",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E218",
+      "entity_name": "公共领域车辆",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E219",
+      "entity_name": "全面电动化",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E220",
+      "entity_name": "交通减排目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E221",
+      "entity_name": "2025碳排放强度降幅",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E222",
+      "entity_name": "较2020年降低5%",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E223",
+      "entity_name": "公共机构考核机制",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E224",
+      "entity_name": "考核方式",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E225",
+      "entity_name": "节能目标责任评价考核",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E226",
+      "entity_name": "2025公建能耗目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E227",
+      "entity_name": "单位建筑面积能耗降幅",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E228",
+      "entity_name": "较2020年降5%",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E229",
+      "entity_name": "2025公建碳排放目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E230",
+      "entity_name": "单位建筑面积碳排放降幅",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E231",
+      "entity_name": "较2020年降7%",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E232",
+      "entity_name": "2025人均能耗目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E233",
+      "entity_name": "人均综合能耗降幅",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E234",
+      "entity_name": "较2020年降6%",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E235",
+      "entity_name": "公建煤炭管控目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E236",
+      "entity_name": "2025煤炭消费占比",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E237",
+      "entity_name": "降至13%以下",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E238",
+      "entity_name": "工业锅炉能效目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E239",
+      "entity_name": "2025热效率提升",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E240",
+      "entity_name": "较2021年提高5个百分点",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E241",
+      "entity_name": "高效电机目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E242",
+      "entity_name": "2025高效电机占比提升5个百分点",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E243",
+      "entity_name": "废旧物资任务",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E244",
+      "entity_name": "回收品类",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E245",
+      "entity_name": "工业装备、动力电池、光伏组件",
+      "entity_type": "改造任务"
+    },
+    {
+      "entity_id": "E246",
+      "entity_name": "节能管控工具",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E247",
+      "entity_name": "实施考核",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E248",
+      "entity_name": "项目准入管控",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E249",
+      "entity_name": "审批手段",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E250",
+      "entity_name": "固定资产投资节能审查+碳排放评价",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E251",
+      "entity_name": "监管对象",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E252",
+      "entity_name": "建立档案",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E253",
+      "entity_name": "重点用能单位节能管理档案",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E254",
+      "entity_name": "监察体系建设",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E255",
+      "entity_name": "搭建层级",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E256",
+      "entity_name": "省、市、县三级节能监察体系",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E257",
+      "entity_name": "监察进度目标",
+      "entity_type": "年度目标"
+    },
+    {
+      "entity_id": "E258",
+      "entity_name": "2024年底完成60%重点用能单位节能监察",
+      "entity_type": "量化指标"
+    },
+    {
+      "entity_id": "E259",
+      "entity_name": "数据支撑体系",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E260",
+      "entity_name": "建设内容",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E261",
+      "entity_name": "能耗与碳排放统计快报制度",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E262",
+      "entity_name": "法制完善任务",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E263",
+      "entity_name": "修订法律",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E264",
+      "entity_name": "《节约能源法》",
+      "entity_type": "政策文件"
+    },
+    {
+      "entity_id": "E265",
+      "entity_name": "标准分级规则",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E266",
+      "entity_name": "能效分级",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E267",
+      "entity_name": "1级标杆前5%、2级先进前20%、3级准入前80%",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E268",
+      "entity_name": "电价约束",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E269",
+      "entity_name": "禁止行为",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E270",
+      "entity_name": "对高耗能行业实施电价优惠",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E271",
+      "entity_name": "电价调节工具",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E272",
+      "entity_name": "推行制度",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E273",
+      "entity_name": "高耗能行业阶梯电价",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E274",
+      "entity_name": "供热改革",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E275",
+      "entity_name": "推行模式",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E276",
+      "entity_name": "两部制热价",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E277",
+      "entity_name": "资金引导主体",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E278",
+      "entity_name": "政府资金",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E279",
+      "entity_name": "支持节能降碳改造、设备更新",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E280",
+      "entity_name": "金融工具",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E281",
+      "entity_name": "运用品类",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E282",
+      "entity_name": "绿色信贷、绿色金融",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E283",
+      "entity_name": "技术攻关方向",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E284",
+      "entity_name": "重点领域",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E285",
+      "entity_name": "节能降碳关键共性技术",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E286",
+      "entity_name": "技术推广载体",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E287",
+      "entity_name": "发布文件",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E288",
+      "entity_name": "绿色技术推广目录",
+      "entity_type": "技术类型"
+    },
+    {
+      "entity_id": "E289",
+      "entity_name": "节能服务模式",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E290",
+      "entity_name": "一站式服务",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E291",
+      "entity_name": "咨询、诊断、融资、托管",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E292",
+      "entity_name": "交易市场",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E293",
+      "entity_name": "推进建设",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E294",
+      "entity_name": "用能权交易、全国碳市场、绿证市场",
+      "entity_type": "保障工具"
+    },
+    {
+      "entity_id": "E295",
+      "entity_name": "宣传载体",
+      "entity_type": "活动载体"
+    },
+    {
+      "entity_id": "E296",
+      "entity_name": "活动依托",
+      "entity_type": "活动载体"
+    },
+    {
+      "entity_id": "E297",
+      "entity_name": "全国节能宣传周、全国低碳日、全国生态日",
+      "entity_type": "活动载体"
+    },
+    {
+      "entity_id": "E298",
+      "entity_name": "倡导生活方式",
+      "entity_type": "活动载体"
+    },
+    {
+      "entity_id": "E299",
+      "entity_name": "核心导向",
+      "entity_type": "活动载体"
+    },
+    {
+      "entity_id": "E300",
+      "entity_name": "简约适度、绿色低碳",
+      "entity_type": "活动载体"
+    },
+    {
+      "entity_id": "E301",
+      "entity_name": "统筹主管部门",
+      "entity_type": "政府机构"
+    },
+    {
+      "entity_id": "E302",
+      "entity_name": "国家发展改革委",
+      "entity_type": "政府机构"
+    },
+    {
+      "entity_id": "E303",
+      "entity_name": "统筹协调、调度考核",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E304",
+      "entity_name": "碳排放主管部门",
+      "entity_type": "政府机构"
+    },
+    {
+      "entity_id": "E305",
+      "entity_name": "生态环境部",
+      "entity_type": "政府机构"
+    },
+    {
+      "entity_id": "E306",
+      "entity_name": "碳排放强度目标管理",
+      "entity_type": "管理制度"
+    },
+    {
+      "entity_id": "E307",
+      "entity_name": "地方政府责任",
+      "entity_type": "责任主体"
+    },
+    {
+      "entity_id": "E308",
+      "entity_name": "各级地方政府",
+      "entity_type": "责任主体"
+    },
+    {
+      "entity_id": "E309",
+      "entity_name": "辖区节能降碳总责",
+      "entity_type": "责任主体"
+    },
+    {
+      "entity_id": "E310",
+      "entity_name": "政府负责人职责",
+      "entity_type": "责任主体"
+    },
+    {
+      "entity_id": "E311",
+      "entity_name": "地方主要负责人",
+      "entity_type": "责任主体"
+    },
+    {
+      "entity_id": "E312",
+      "entity_name": "节能降碳第一责任人",
+      "entity_type": "责任主体"
+    },
+    {
+      "entity_id": "E313",
+      "entity_name": "市场主体责任",
+      "entity_type": "责任主体"
+    },
+    {
+      "entity_id": "E314",
+      "entity_name": "企业",
+      "entity_type": "责任主体"
+    },
+    {
+      "entity_id": "E315",
+      "entity_name": "节能降碳主体责任",
+      "entity_type": "责任主体"
+    }
+  ],
+  "relation_list": [
+    {
+      "rel_id": "R001",
+      "rel_name": "发布文件",
+      "rel_desc": "政府机构发布政策文件"
+    },
+    {
+      "rel_id": "R002",
+      "rel_name": "发文字号",
+      "rel_desc": "政策文件的编号"
+    },
+    {
+      "rel_id": "R003",
+      "rel_name": "成文日期",
+      "rel_desc": "政策文件的成文日期"
+    },
+    {
+      "rel_id": "R004",
+      "rel_name": "发布日期",
+      "rel_desc": "政策文件的发布日期"
+    },
+    {
+      "rel_id": "R005",
+      "rel_name": "发文对象",
+      "rel_desc": "政策文件的发送对象"
+    },
+    {
+      "rel_id": "R006",
+      "rel_name": "政策定位",
+      "rel_desc": "政策文件的战略定位"
+    },
+    {
+      "rel_id": "R007",
+      "rel_name": "制定目的",
+      "rel_desc": "政策文件的制定目的"
+    },
+    {
+      "rel_id": "R008",
+      "rel_name": "指导理论",
+      "rel_desc": "政策文件的指导理论"
+    },
+    {
+      "rel_id": "R009",
+      "rel_name": "贯彻会议精神",
+      "rel_desc": "政策文件贯彻的会议精神"
+    },
+    {
+      "rel_id": "R010",
+      "rel_name": "遵循理论",
+      "rel_desc": "政策文件遵循的理论体系"
+    },
+    {
+      "rel_id": "R011",
+      "rel_name": "工作总基调",
+      "rel_desc": "政策文件的工作总基调"
+    },
+    {
+      "rel_id": "R012",
+      "rel_name": "发展理念",
+      "rel_desc": "政策文件的发展理念"
+    },
+    {
+      "rel_id": "R013",
+      "rel_name": "核心方针",
+      "rel_desc": "政策文件的核心方针"
+    },
+    {
+      "rel_id": "R014",
+      "rel_name": "调控手段",
+      "rel_desc": "政策文件的调控手段"
+    },
+    {
+      "rel_id": "R015",
+      "rel_name": "管控重点",
+      "rel_desc": "政策文件的管控重点"
+    },
+    {
+      "rel_id": "R016",
+      "rel_name": "管理方式",
+      "rel_desc": "政策文件的管理方式"
+    },
+    {
+      "rel_id": "R017",
+      "rel_name": "GDP能耗降幅",
+      "rel_desc": "单位GDP能耗下降幅度"
+    },
+    {
+      "rel_id": "R018",
+      "rel_name": "GDP碳排放降幅",
+      "rel_desc": "单位GDP碳排放下降幅度"
+    },
+    {
+      "rel_id": "R019",
+      "rel_name": "规上工业单位增加值能耗降幅",
+      "rel_desc": "规模以上工业单位增加值能耗下降幅度"
+    },
+    {
+      "rel_id": "R020",
+      "rel_name": "非化石能源消费占比",
+      "rel_desc": "非化石能源消费占比目标"
+    },
+    {
+      "rel_id": "R021",
+      "rel_name": "节能量",
+      "rel_desc": "节约能源量"
+    },
+    {
+      "rel_id": "R022",
+      "rel_name": "二氧化碳减排量",
+      "rel_desc": "二氧化碳减排量"
+    },
+    {
+      "rel_id": "R023",
+      "rel_name": "非化石能源发电量占比",
+      "rel_desc": "非化石能源发电量占比"
+    },
+    {
+      "rel_id": "R024",
+      "rel_name": "抽水蓄能装机规模",
+      "rel_desc": "抽水蓄能装机规模目标"
+    },
+    {
+      "rel_id": "R025",
+      "rel_name": "新型储能装机规模",
+      "rel_desc": "新型储能装机规模目标"
+    },
+    {
+      "rel_id": "R026",
+      "rel_name": "一般地区需求响应负荷占比",
+      "rel_desc": "一般地区需求响应负荷占比"
+    },
+    {
+      "rel_id": "R027",
+      "rel_name": "峰谷差超40%地区需求响应负荷占比",
+      "rel_desc": "峰谷差超40%地区需求响应负荷占比"
+    },
+    {
+      "rel_id": "R028",
+      "rel_name": "管控煤炭消费",
+      "rel_desc": "管控煤炭消费行为"
+    },
+    {
+      "rel_id": "R029",
+      "rel_name": "实施改造",
+      "rel_desc": "实施改造措施"
+    },
+    {
+      "rel_id": "R030",
+      "rel_name": "燃煤设施治理",
+      "rel_desc": "燃煤设施治理任务"
+    },
+    {
+      "rel_id": "R031",
+      "rel_name": "实施替代",
+      "rel_desc": "实施替代措施"
+    },
+    {
+      "rel_id": "R032",
+      "rel_name": "管控行业",
+      "rel_desc": "管控行业范围"
+    },
+    {
+      "rel_id": "R033",
+      "rel_name": "平原散煤治理",
+      "rel_desc": "平原散煤治理目标"
+    },
+    {
+      "rel_id": "R034",
+      "rel_name": "淘汰设备",
+      "rel_desc": "淘汰落后设备"
+    },
+    {
+      "rel_id": "R035",
+      "rel_name": "消费管控",
+      "rel_desc": "消费总量管控"
+    },
+    {
+      "rel_id": "R036",
+      "rel_name": "推广燃料",
+      "rel_desc": "推广替代燃料"
+    },
+    {
+      "rel_id": "R037",
+      "rel_name": "开发资源",
+      "rel_desc": "开发能源资源"
+    },
+    {
+      "rel_id": "R038",
+      "rel_name": "优先保障",
+      "rel_desc": "优先保障供应"
+    },
+    {
+      "rel_id": "R039",
+      "rel_name": "自备机组约束",
+      "rel_desc": "自备机组约束措施"
+    },
+    {
+      "rel_id": "R040",
+      "rel_name": "重点布局",
+      "rel_desc": "重点布局区域"
+    },
+    {
+      "rel_id": "R041",
+      "rel_name": "有序开发",
+      "rel_desc": "有序开发能源"
+    },
+    {
+      "rel_id": "R042",
+      "rel_name": "有序建设",
+      "rel_desc": "有序建设基地"
+    },
+    {
+      "rel_id": "R043",
+      "rel_name": "发展路径",
+      "rel_desc": "能源发展路径"
+    },
+    {
+      "rel_id": "R044",
+      "rel_name": "因地制宜开发",
+      "rel_desc": "因地制宜开发能源"
+    },
+    {
+      "rel_id": "R045",
+      "rel_name": "推进路径",
+      "rel_desc": "推进发展路径"
+    },
+    {
+      "rel_id": "R046",
+      "rel_name": "建设通道",
+      "rel_desc": "建设外送通道"
+    },
+    {
+      "rel_id": "R047",
+      "rel_name": "改造对象",
+      "rel_desc": "改造的对象"
+    },
+    {
+      "rel_id": "R048",
+      "rel_name": "发展品类",
+      "rel_desc": "新型消纳模式发展品类"
+    },
+    {
+      "rel_id": "R049",
+      "rel_name": "产能管理",
+      "rel_desc": "产能管理措施"
+    },
+    {
+      "rel_id": "R050",
+      "rel_name": "产量调控",
+      "rel_desc": "产量调控措施"
+    },
+    {
+      "rel_id": "R051",
+      "rel_name": "鼓励品类",
+      "rel_desc": "鼓励发展的品类"
+    },
+    {
+      "rel_id": "R052",
+      "rel_name": "限制品类",
+      "rel_desc": "限制出口的品类"
+    },
+    {
+      "rel_id": "R053",
+      "rel_name": "2025电炉钢占比",
+      "rel_desc": "2025年电炉钢占比目标"
+    },
+    {
+      "rel_id": "R054",
+      "rel_name": "2025废钢利用量",
+      "rel_desc": "2025年废钢利用量目标"
+    },
+    {
+      "rel_id": "R055",
+      "rel_name": "2025标杆产能占比",
+      "rel_desc": "2025年标杆产能占比"
+    },
+    {
+      "rel_id": "R056",
+      "rel_name": "2024-2025CO₂减排",
+      "rel_desc": "2024-2025年二氧化碳减排量"
+    },
+    {
+      "rel_id": "R057",
+      "rel_name": "严控新增",
+      "rel_desc": "严控新增产能"
+    },
+    {
+      "rel_id": "R058",
+      "rel_name": "推广技术",
+      "rel_desc": "推广先进技术"
+    },
+    {
+      "rel_id": "R059",
+      "rel_name": "2025再生金属供应占比",
+      "rel_desc": "2025年再生金属供应占比"
+    },
+    {
+      "rel_id": "R060",
+      "rel_name": "铝水直接合金化比例",
+      "rel_desc": "铝水直接合金化比例"
+    },
+    {
+      "rel_id": "R061",
+      "rel_name": "2025可再生能源用电占比",
+      "rel_desc": "2025年可再生能源用电占比"
+    },
+    {
+      "rel_id": "R062",
+      "rel_name": "原料替代",
+      "rel_desc": "原料替代措施"
+    },
+    {
+      "rel_id": "R063",
+      "rel_name": "水泥超低排放目标",
+      "rel_desc": "水泥超低排放目标"
+    },
+    {
+      "rel_id": "R064",
+      "rel_name": "全面执行绿色建筑标准",
+      "rel_desc": "全面执行绿色建筑标准"
+    },
+    {
+      "rel_id": "R065",
+      "rel_name": "力争50%",
+      "rel_desc": "覆盖率力争50%"
+    },
+    {
+      "rel_id": "R066",
+      "rel_name": "2025城镇建筑可再生替代率",
+      "rel_desc": "2025年城镇建筑可再生替代率"
+    },
+    {
+      "rel_id": "R067",
+      "rel_name": "存量改造目标",
+      "rel_desc": "存量改造目标"
+    },
+    {
+      "rel_id": "R068",
+      "rel_name": "管网改造目标",
+      "rel_desc": "管网改造目标"
+    },
+    {
+      "rel_id": "R069",
+      "rel_name": "室内温度管控、智能群控",
+      "rel_desc": "公共建筑管控措施"
+    },
+    {
+      "rel_id": "R070",
+      "rel_name": "改造内容",
+      "rel_desc": "改造的内容"
+    },
+    {
+      "rel_id": "R071",
+      "rel_name": "货运转型",
+      "rel_desc": "货运结构转型"
+    },
+    {
+      "rel_id": "R072",
+      "rel_name": "2025货运量增幅",
+      "rel_desc": "2025年货运量增幅"
+    },
+    {
+      "rel_id": "R073",
+      "rel_name": "全面电动化",
+      "rel_desc": "车辆全面电动化"
+    },
+    {
+      "rel_id": "R074",
+      "rel_name": "交通减排目标",
+      "rel_desc": "交通减排目标"
+    },
+    {
+      "rel_id": "R075",
+      "rel_name": "考核方式",
+      "rel_desc": "考核的方式"
+    },
+    {
+      "rel_id": "R076",
+      "rel_name": "单位建筑面积能耗降幅",
+      "rel_desc": "单位建筑面积能耗降幅"
+    },
+    {
+      "rel_id": "R077",
+      "rel_name": "单位建筑面积碳排放降幅",
+      "rel_desc": "单位建筑面积碳排放降幅"
+    },
+    {
+      "rel_id": "R078",
+      "rel_name": "人均综合能耗降幅",
+      "rel_desc": "人均综合能耗降幅"
+    },
+    {
+      "rel_id": "R079",
+      "rel_name": "2025煤炭消费占比",
+      "rel_desc": "2025年煤炭消费占比"
+    },
+    {
+      "rel_id": "R080",
+      "rel_name": "工业锅炉能效目标",
+      "rel_desc": "工业锅炉能效目标"
+    },
+    {
+      "rel_id": "R081",
+      "rel_name": "高效电机目标",
+      "rel_desc": "高效电机目标"
+    },
+    {
+      "rel_id": "R082",
+      "rel_name": "回收品类",
+      "rel_desc": "回收的品类"
+    },
+    {
+      "rel_id": "R083",
+      "rel_name": "实施考核",
+      "rel_desc": "实施考核制度"
+    },
+    {
+      "rel_id": "R084",
+      "rel_name": "审批手段",
+      "rel_desc": "项目审批手段"
+    },
+    {
+      "rel_id": "R085",
+      "rel_name": "建立档案",
+      "rel_desc": "建立管理档案"
+    },
+    {
+      "rel_id": "R086",
+      "rel_name": "搭建层级",
+      "rel_desc": "监察体系层级"
+    },
+    {
+      "rel_id": "R087",
+      "rel_name": "法制完善任务",
+      "rel_desc": "法制完善任务"
+    },
+    {
+      "rel_id": "R088",
+      "rel_name": "修订法律",
+      "rel_desc": "修订相关法律"
+    },
+    {
+      "rel_id": "R089",
+      "rel_name": "能效分级",
+      "rel_desc": "能效等级分级"
+    },
+    {
+      "rel_id": "R090",
+      "rel_name": "禁止行为",
+      "rel_desc": "禁止的行为"
+    },
+    {
+      "rel_id": "R091",
+      "rel_name": "推行制度",
+      "rel_desc": "推行的制度"
+    },
+    {
+      "rel_id": "R092",
+      "rel_name": "推行模式",
+      "rel_desc": "推行的模式"
+    },
+    {
+      "rel_id": "R093",
+      "rel_name": "资金引导",
+      "rel_desc": "资金引导方向"
+    },
+    {
+      "rel_id": "R094",
+      "rel_name": "运用品类",
+      "rel_desc": "金融工具运用品类"
+    },
+    {
+      "rel_id": "R095",
+      "rel_name": "重点领域",
+      "rel_desc": "技术攻关重点领域"
+    },
+    {
+      "rel_id": "R096",
+      "rel_name": "一站式服务",
+      "rel_desc": "一站式服务模式"
+    },
+    {
+      "rel_id": "R097",
+      "rel_name": "推进建设",
+      "rel_desc": "推进市场建设"
+    },
+    {
+      "rel_id": "R098",
+      "rel_name": "活动依托",
+      "rel_desc": "活动依托载体"
+    },
+    {
+      "rel_id": "R099",
+      "rel_name": "核心导向",
+      "rel_desc": "倡导生活方式核心导向"
+    },
+    {
+      "rel_id": "R100",
+      "rel_name": "统筹协调、调度考核",
+      "rel_desc": "统筹协调与调度考核职责"
+    },
+    {
+      "rel_id": "R101",
+      "rel_name": "碳排放强度目标管理",
+      "rel_desc": "碳排放强度目标管理职责"
+    },
+    {
+      "rel_id": "R102",
+      "rel_name": "辖区节能降碳总责",
+      "rel_desc": "辖区节能降碳总责"
+    },
+    {
+      "rel_id": "R103",
+      "rel_name": "节能降碳第一责任人",
+      "rel_desc": "节能降碳第一责任人职责"
+    },
+    {
+      "rel_id": "R104",
+      "rel_name": "节能降碳主体责任",
+      "rel_desc": "节能降碳主体责任"
+    },
+    {
+      "rel_id": "R105",
+      "rel_name": "量化指标",
+      "rel_desc": "量化指标"
+    },
+    {
+      "rel_id": "R106",
+      "rel_name": "建设内容",
+      "rel_desc": "建设内容"
+    }
+  ],
+  "triple_list": [
+    {
+      "sub_id": "E001",
+      "rel_id": "R001",
+      "obj_id": "E002"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R002",
+      "obj_id": "E003"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R003",
+      "obj_id": "E004"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R004",
+      "obj_id": "E005"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R005",
+      "obj_id": "E006"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R005",
+      "obj_id": "E007"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R005",
+      "obj_id": "E008"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R006",
+      "obj_id": "E009"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R007",
+      "obj_id": "E010"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R008",
+      "obj_id": "E011"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R009",
+      "obj_id": "E012"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R010",
+      "obj_id": "E013"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R010",
+      "obj_id": "E014"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R011",
+      "obj_id": "E015"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R012",
+      "obj_id": "E016"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R013",
+      "obj_id": "E017"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R014",
+      "obj_id": "E018"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R015",
+      "obj_id": "E019"
+    },
+    {
+      "sub_id": "E002",
+      "rel_id": "R016",
+      "obj_id": "E020"
+    },
+    {
+      "sub_id": "E021",
+      "rel_id": "R017",
+      "obj_id": "E023"
+    },
+    {
+      "sub_id": "E024",
+      "rel_id": "R018",
+      "obj_id": "E026"
+    },
+    {
+      "sub_id": "E027",
+      "rel_id": "R019",
+      "obj_id": "E029"
+    },
+    {
+      "sub_id": "E030",
+      "rel_id": "R020",
+      "obj_id": "E032"
+    },
+    {
+      "sub_id": "E033",
+      "rel_id": "R021",
+      "obj_id": "E035"
+    },
+    {
+      "sub_id": "E033",
+      "rel_id": "R022",
+      "obj_id": "E037"
+    },
+    {
+      "sub_id": "E038",
+      "rel_id": "R020",
+      "obj_id": "E039"
+    },
+    {
+      "sub_id": "E040",
+      "rel_id": "R023",
+      "obj_id": "E042"
+    },
+    {
+      "sub_id": "E043",
+      "rel_id": "R024",
+      "obj_id": "E045"
+    },
+    {
+      "sub_id": "E043",
+      "rel_id": "R025",
+      "obj_id": "E047"
+    },
+    {
+      "sub_id": "E048",
+      "rel_id": "R026",
+      "obj_id": "E050"
+    },
+    {
+      "sub_id": "E048",
+      "rel_id": "R027",
+      "obj_id": "E052"
+    },
+    {
+      "sub_id": "E053",
+      "rel_id": "R028",
+      "obj_id": "E055"
+    },
+    {
+      "sub_id": "E056",
+      "rel_id": "R029",
+      "obj_id": "E058"
+    },
+    {
+      "sub_id": "E059",
+      "rel_id": "R030",
+      "obj_id": "E060"
+    },
+    {
+      "sub_id": "E061",
+      "rel_id": "R030",
+      "obj_id": "E063"
+    },
+    {
+      "sub_id": "E064",
+      "rel_id": "R031",
+      "obj_id": "E066"
+    },
+    {
+      "sub_id": "E067",
+      "rel_id": "R032",
+      "obj_id": "E069"
+    },
+    {
+      "sub_id": "E070",
+      "rel_id": "R033",
+      "obj_id": "E072"
+    },
+    {
+      "sub_id": "E073",
+      "rel_id": "R034",
+      "obj_id": "E075"
+    },
+    {
+      "sub_id": "E076",
+      "rel_id": "R035",
+      "obj_id": "E078"
+    },
+    {
+      "sub_id": "E079",
+      "rel_id": "R036",
+      "obj_id": "E081"
+    },
+    {
+      "sub_id": "E082",
+      "rel_id": "R037",
+      "obj_id": "E084"
+    },
+    {
+      "sub_id": "E085",
+      "rel_id": "R038",
+      "obj_id": "E087"
+    },
+    {
+      "sub_id": "E088",
+      "rel_id": "R039",
+      "obj_id": "E090"
+    },
+    {
+      "sub_id": "E091",
+      "rel_id": "R040",
+      "obj_id": "E093"
+    },
+    {
+      "sub_id": "E094",
+      "rel_id": "R041",
+      "obj_id": "E096"
+    },
+    {
+      "sub_id": "E097",
+      "rel_id": "R042",
+      "obj_id": "E099"
+    },
+    {
+      "sub_id": "E100",
+      "rel_id": "R043",
+      "obj_id": "E102"
+    },
+    {
+      "sub_id": "E103",
+      "rel_id": "R044",
+      "obj_id": "E105"
+    },
+    {
+      "sub_id": "E106",
+      "rel_id": "R045",
+      "obj_id": "E108"
+    },
+    {
+      "sub_id": "E109",
+      "rel_id": "R046",
+      "obj_id": "E111"
+    },
+    {
+      "sub_id": "E112",
+      "rel_id": "R047",
+      "obj_id": "E114"
+    },
+    {
+      "sub_id": "E115",
+      "rel_id": "R048",
+      "obj_id": "E117"
+    },
+    {
+      "sub_id": "E118",
+      "rel_id": "R015",
+      "obj_id": "E119"
+    },
+    {
+      "sub_id": "E118",
+      "rel_id": "R020",
+      "obj_id": "E120"
+    },
+    {
+      "sub_id": "E121",
+      "rel_id": "R001",
+      "obj_id": "E122"
+    },
+    {
+      "sub_id": "E121",
+      "rel_id": "R097",
+      "obj_id": "E123"
+    },
+    {
+      "sub_id": "E124",
+      "rel_id": "R049",
+      "obj_id": "E126"
+    },
+    {
+      "sub_id": "E127",
+      "rel_id": "R050",
+      "obj_id": "E128"
+    },
+    {
+      "sub_id": "E130",
+      "rel_id": "R051",
+      "obj_id": "E132"
+    },
+    {
+      "sub_id": "E133",
+      "rel_id": "R052",
+      "obj_id": "E135"
+    },
+    {
+      "sub_id": "E136",
+      "rel_id": "R053",
+      "obj_id": "E138"
+    },
+    {
+      "sub_id": "E139",
+      "rel_id": "R054",
+      "obj_id": "E141"
+    },
+    {
+      "sub_id": "E142",
+      "rel_id": "R055",
+      "obj_id": "E144"
+    },
+    {
+      "sub_id": "E145",
+      "rel_id": "R021",
+      "obj_id": "E147"
+    },
+    {
+      "sub_id": "E148",
+      "rel_id": "R056",
+      "obj_id": "E150"
+    },
+    {
+      "sub_id": "E151",
+      "rel_id": "R057",
+      "obj_id": "E153"
+    },
+    {
+      "sub_id": "E154",
+      "rel_id": "R034",
+      "obj_id": "E155"
+    },
+    {
+      "sub_id": "E156",
+      "rel_id": "R058",
+      "obj_id": "E158"
+    },
+    {
+      "sub_id": "E159",
+      "rel_id": "R055",
+      "obj_id": "E160"
+    },
+    {
+      "sub_id": "E161",
+      "rel_id": "R021",
+      "obj_id": "E162"
+    },
+    {
+      "sub_id": "E163",
+      "rel_id": "R056",
+      "obj_id": "E164"
+    },
+    {
+      "sub_id": "E165",
+      "rel_id": "R059",
+      "obj_id": "E167"
+    },
+    {
+      "sub_id": "E168",
+      "rel_id": "R060",
+      "obj_id": "E170"
+    },
+    {
+      "sub_id": "E171",
+      "rel_id": "R061",
+      "obj_id": "E173"
+    },
+    {
+      "sub_id": "E174",
+      "rel_id": "R021",
+      "obj_id": "E175"
+    },
+    {
+      "sub_id": "E176",
+      "rel_id": "R050",
+      "obj_id": "E178"
+    },
+    {
+      "sub_id": "E179",
+      "rel_id": "R062",
+      "obj_id": "E181"
+    },
+    {
+      "sub_id": "E182",
+      "rel_id": "R063",
+      "obj_id": "E183"
+    },
+    {
+      "sub_id": "E182",
+      "rel_id": "R105",
+      "obj_id": "E184"
+    },
+    {
+      "sub_id": "E185",
+      "rel_id": "R021",
+      "obj_id": "E186"
+    },
+    {
+      "sub_id": "E187",
+      "rel_id": "R015",
+      "obj_id": "E188"
+    },
+    {
+      "sub_id": "E188",
+      "rel_id": "R064",
+      "obj_id": "E189"
+    },
+    {
+      "sub_id": "E190",
+      "rel_id": "R105",
+      "obj_id": "E191"
+    },
+    {
+      "sub_id": "E191",
+      "rel_id": "R065",
+      "obj_id": "E192"
+    },
+    {
+      "sub_id": "E193",
+      "rel_id": "R105",
+      "obj_id": "E194"
+    },
+    {
+      "sub_id": "E194",
+      "rel_id": "R105",
+      "obj_id": "E195"
+    },
+    {
+      "sub_id": "E196",
+      "rel_id": "R105",
+      "obj_id": "E197"
+    },
+    {
+      "sub_id": "E197",
+      "rel_id": "R105",
+      "obj_id": "E198"
+    },
+    {
+      "sub_id": "E199",
+      "rel_id": "R105",
+      "obj_id": "E200"
+    },
+    {
+      "sub_id": "E200",
+      "rel_id": "R105",
+      "obj_id": "E201"
+    },
+    {
+      "sub_id": "E202",
+      "rel_id": "R016",
+      "obj_id": "E204"
+    },
+    {
+      "sub_id": "E205",
+      "rel_id": "R070",
+      "obj_id": "E207"
+    },
+    {
+      "sub_id": "E208",
+      "rel_id": "R071",
+      "obj_id": "E210"
+    },
+    {
+      "sub_id": "E211",
+      "rel_id": "R072",
+      "obj_id": "E213"
+    },
+    {
+      "sub_id": "E214",
+      "rel_id": "R072",
+      "obj_id": "E216"
+    },
+    {
+      "sub_id": "E217",
+      "rel_id": "R015",
+      "obj_id": "E218"
+    },
+    {
+      "sub_id": "E218",
+      "rel_id": "R073",
+      "obj_id": "E219"
+    },
+    {
+      "sub_id": "E220",
+      "rel_id": "R105",
+      "obj_id": "E221"
+    },
+    {
+      "sub_id": "E221",
+      "rel_id": "R105",
+      "obj_id": "E222"
+    },
+    {
+      "sub_id": "E223",
+      "rel_id": "R075",
+      "obj_id": "E225"
+    },
+    {
+      "sub_id": "E226",
+      "rel_id": "R076",
+      "obj_id": "E228"
+    },
+    {
+      "sub_id": "E229",
+      "rel_id": "R077",
+      "obj_id": "E231"
+    },
+    {
+      "sub_id": "E232",
+      "rel_id": "R078",
+      "obj_id": "E234"
+    },
+    {
+      "sub_id": "E235",
+      "rel_id": "R079",
+      "obj_id": "E237"
+    },
+    {
+      "sub_id": "E238",
+      "rel_id": "R105",
+      "obj_id": "E239"
+    },
+    {
+      "sub_id": "E239",
+      "rel_id": "R105",
+      "obj_id": "E240"
+    },
+    {
+      "sub_id": "E241",
+      "rel_id": "R105",
+      "obj_id": "E242"
+    },
+    {
+      "sub_id": "E243",
+      "rel_id": "R082",
+      "obj_id": "E245"
+    },
+    {
+      "sub_id": "E246",
+      "rel_id": "R083",
+      "obj_id": "E225"
+    },
+    {
+      "sub_id": "E248",
+      "rel_id": "R084",
+      "obj_id": "E250"
+    },
+    {
+      "sub_id": "E251",
+      "rel_id": "R085",
+      "obj_id": "E253"
+    },
+    {
+      "sub_id": "E254",
+      "rel_id": "R086",
+      "obj_id": "E256"
+    },
+    {
+      "sub_id": "E257",
+      "rel_id": "R105",
+      "obj_id": "E258"
+    },
+    {
+      "sub_id": "E259",
+      "rel_id": "R106",
+      "obj_id": "E261"
+    },
+    {
+      "sub_id": "E262",
+      "rel_id": "R088",
+      "obj_id": "E264"
+    },
+    {
+      "sub_id": "E265",
+      "rel_id": "R089",
+      "obj_id": "E267"
+    },
+    {
+      "sub_id": "E268",
+      "rel_id": "R090",
+      "obj_id": "E270"
+    },
+    {
+      "sub_id": "E271",
+      "rel_id": "R091",
+      "obj_id": "E273"
+    },
+    {
+      "sub_id": "E274",
+      "rel_id": "R092",
+      "obj_id": "E276"
+    },
+    {
+      "sub_id": "E277",
+      "rel_id": "R093",
+      "obj_id": "E278"
+    },
+    {
+      "sub_id": "E278",
+      "rel_id": "R015",
+      "obj_id": "E279"
+    },
+    {
+      "sub_id": "E280",
+      "rel_id": "R094",
+      "obj_id": "E282"
+    },
+    {
+      "sub_id": "E283",
+      "rel_id": "R095",
+      "obj_id": "E285"
+    },
+    {
+      "sub_id": "E286",
+      "rel_id": "R001",
+      "obj_id": "E288"
+    },
+    {
+      "sub_id": "E289",
+      "rel_id": "R096",
+      "obj_id": "E291"
+    },
+    {
+      "sub_id": "E292",
+      "rel_id": "R097",
+      "obj_id": "E294"
+    },
+    {
+      "sub_id": "E295",
+      "rel_id": "R098",
+      "obj_id": "E297"
+    },
+    {
+      "sub_id": "E298",
+      "rel_id": "R099",
+      "obj_id": "E300"
+    },
+    {
+      "sub_id": "E301",
+      "rel_id": "R100",
+      "obj_id": "E302"
+    },
+    {
+      "sub_id": "E304",
+      "rel_id": "R101",
+      "obj_id": "E305"
+    },
+    {
+      "sub_id": "E307",
+      "rel_id": "R102",
+      "obj_id": "E308"
+    },
+    {
+      "sub_id": "E310",
+      "rel_id": "R103",
+      "obj_id": "E311"
+    },
+    {
+      "sub_id": "E313",
+      "rel_id": "R104",
+      "obj_id": "E314"
+    }
+  ]
+}

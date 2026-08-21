@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harness Memory Chat</title>
+<style>
+:root {
+  --bg: #f5f5f5;
+  --card: #fff;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --text: #1f2937;
+  --text-secondary: #6b7280;
+  --border: #e5e7eb;
+  --success: #10b981;
+  --warn: #f59e0b;
+  --danger: #ef4444;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; }
+.app-layout { display: grid; grid-template-columns: 300px 1fr; height: 100vh; }
+
+.sidebar { background: var(--card); border-right: 1px solid var(--border); display: flex; flex-direction: column; height: 100%; overflow: hidden; min-height: 0; }
+.sidebar-header { padding: 16px; border-bottom: 1px solid var(--border); }
+.sidebar-header h1 { font-size: 18px; color: var(--primary); }
+.sidebar-header p { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+.sidebar-actions { padding: 12px 16px; display: flex; gap: 8px; border-bottom: 1px solid var(--border); }
+.sidebar-actions button { flex: 1; padding: 8px 0; font-size: 13px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; }
+.btn-new { background: var(--primary); color: #fff; }
+.btn-new:hover { background: var(--primary-hover); }
+.btn-compress { background: var(--warn); color: #fff; }
+.btn-compress:hover { background: #d97706; }
+.btn-rebuild { background: var(--text-secondary); color: #fff; }
+.btn-rebuild:hover { background: #4b5563; }
+.session-list { flex: 1; overflow-y: auto; padding: 8px; min-height: 0; }
+.session-item { padding: 10px 12px; margin-bottom: 4px; border-radius: 6px; cursor: pointer; font-size: 13px; border: 1px solid transparent; transition: all .15s; }
+.session-item:hover { background: #f3f4f6; border-color: var(--border); }
+.session-item.active { background: #eef2ff; border-color: var(--primary); }
+.session-item .preview { color: var(--text-secondary); font-size: 12px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.session-item .meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+
+.main { display: flex; flex-direction: column; height: 100vh; }
+.tab-bar { display: flex; border-bottom: 1px solid var(--border); background: var(--card); }
+.tab-btn { padding: 12px 24px; border: none; background: none; cursor: pointer; font-size: 14px; color: var(--text-secondary); border-bottom: 2px solid transparent; transition: all .15s; }
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+.tab-content { flex: 1; overflow: hidden; position: relative; }
+.tab-pane { display: none; height: 100%; }
+.tab-pane.active { display: flex; flex-direction: column; min-height: 0; }
+
+.chat-messages { flex: 1; overflow-y: auto; padding: 16px 16px 120px; }
+.msg { margin-bottom: 12px; display: flex; }
+.msg.user { justify-content: flex-end; }
+.msg.assistant { justify-content: flex-start; }
+.msg .bubble { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+.msg.user .bubble { background: var(--primary); color: #fff; border-bottom-right-radius: 4px; }
+.msg.assistant .bubble { background: var(--card); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+.msg.system .bubble { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; font-size: 13px; }
+.msg.tool .bubble { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; font-size: 13px; font-family: "Courier New", monospace; }
+.chat-input-area { padding: 12px 16px; border-top: 1px solid var(--border); background: var(--card); display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
+.chat-input-area textarea { flex: 1; min-width: 200px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; resize: none; outline: none; font-family: inherit; min-height: 42px; max-height: 120px; }
+.chat-input-area textarea:focus { border-color: var(--primary); }
+.chat-input-area button { padding: 8px 20px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 500; align-self: flex-end; }
+.chat-input-area button:hover { background: var(--primary-hover); }
+.chat-input-area button:disabled { opacity: .5; cursor: not-allowed; }
+
+.drag-over { border-color: var(--primary) !important; background: #f0f0ff !important; }
+
+.skills-container { padding: 20px 20px 120px; overflow-y: auto; flex: 1; min-height: 0; }
+.skills-loading { color: var(--text-secondary); font-size: 14px; text-align: center; padding: 40px 0; }
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 16px; align-content: start; }
+.skill-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.skill-card-header { padding: 14px 16px; background: #f8f9ff; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+.skill-card-header:hover { background: #eef2ff; }
+.skill-card-header .name { font-size: 15px; font-weight: 600; color: var(--primary); }
+.skill-card-header .arrow { font-size: 12px; color: var(--text-secondary); transition: transform .2s; }
+.skill-card-header.open .arrow { transform: rotate(90deg); }
+.skill-card-body { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+.skill-card-body.open { max-height: 800px; }
+.skill-card-body-inner { padding: 14px 16px; font-size: 13px; line-height: 1.6; color: var(--text); }
+.skill-card-body-inner .label { font-weight: 600; color: var(--text); margin-top: 10px; }
+.skill-card-body-inner .label:first-child { margin-top: 0; }
+.skill-card-body-inner .desc-text { color: var(--text-secondary); white-space: pre-wrap; font-size: 12px; }
+.skill-card-body-inner code.func { display: inline-block; background: #eef2ff; color: var(--primary); padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; margin: 4px 0; }
+.skill-card-body-inner table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
+.skill-card-body-inner th { background: #eef2ff; color: var(--primary); font-weight: 600; text-align: left; padding: 6px 8px; border: 1px solid var(--border); }
+.skill-card-body-inner td { padding: 5px 8px; border: 1px solid var(--border); color: var(--text-secondary); }
+.skill-card-body-inner td code { background: #f3f4f6; padding: 1px 4px; border-radius: 3px; font-size: 11px; }
+
+.memory-container { padding: 16px 16px 120px; overflow-y: auto; flex: 1; min-height: 0; }
+.memory-controls { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.memory-controls select { padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; outline: none; }
+.memory-controls button { padding: 6px 16px; border: none; border-radius: 6px; font-size: 13px; cursor: pointer; font-weight: 500; }
+.memory-controls .btn-refresh { background: #e5e7eb; color: var(--text); }
+.memory-controls .btn-refresh:hover { background: #d1d5db; }
+.memory-controls .btn-save-memory { background: var(--success); color: #fff; }
+.memory-controls .btn-save-memory:hover { background: #059669; }
+.memory-editor { display: flex; flex-direction: column; flex: 1; }
+.memory-editor textarea { width: 100%; flex: 1; min-height: 300px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-family: "Courier New", monospace; line-height: 1.6; resize: vertical; outline: none; }
+.memory-editor textarea:focus { border-color: var(--primary); }
+
+.toast-container { position: fixed; top: 16px; right: 16px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+.toast { padding: 12px 20px; border-radius: 8px; font-size: 14px; color: #fff; animation: slideIn .3s ease; box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+.toast.success { background: var(--success); }
+.toast.error { background: var(--danger); }
+.toast.info { background: var(--primary); }
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* modal overlay */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 10000; align-items: center; justify-content: center; }
+.modal-overlay.active { display: flex; }
+.modal-box { background: var(--card); border-radius: 12px; padding: 24px; max-width: 600px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
+.modal-box h3 { font-size: 16px; margin-bottom: 8px; color: var(--text); }
+.modal-box .modal-body { margin: 12px 0 20px; }
+.modal-box .modal-body code { display: block; background: #1f2937; color: #e5e7eb; padding: 12px 16px; border-radius: 8px; font-size: 14px; font-family: "Courier New", monospace; white-space: pre-wrap; word-break: break-word; }
+.modal-box .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+.modal-box .modal-actions button { padding: 8px 24px; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 500; }
+.modal-box .btn-confirm { background: var(--danger); color: #fff; }
+.modal-box .btn-confirm:hover { background: #dc2626; }
+.modal-box .btn-reject { background: #e5e7eb; color: var(--text); }
+.modal-box .btn-reject:hover { background: #d1d5db; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+.empty-state { display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-secondary); font-size: 14px; }
+
+/* file upload */
+.file-upload-area { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; width: 100%; }
+.file-upload-btn { padding: 6px 12px; border: 1px dashed var(--border); border-radius: 6px; cursor: pointer; font-size: 12px; color: var(--text-secondary); background: none; transition: all .15s; }
+.file-upload-btn:hover { border-color: var(--primary); color: var(--primary); background: #f0f0ff; }
+.file-list { display: flex; flex-wrap: wrap; gap: 6px; width: 100%; }
+.file-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 4px; font-size: 12px; color: var(--primary); max-width: 200px; }
+.file-chip .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-chip .remove { cursor: pointer; color: var(--text-secondary); font-size: 14px; line-height: 1; padding: 0 2px; }
+.file-chip .remove:hover { color: var(--danger); }
+.file-chip.uploading { opacity: .6; }
+.drag-over { border-color: var(--primary) !important; background: #f0f0ff !important; }
+</style>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>Harness</h1>
+      <p>Memory Chat System</p>
+    </div>
+    <div class="sidebar-actions">
+      <button class="btn-new" onclick="newSession()">+ 新会话</button>
+      <button class="btn-compress" onclick="compressMemory()">压缩</button>
+      <button class="btn-rebuild" onclick="rebuildIndex()">重建索引</button>
+    </div>
+    <div class="session-list" id="sessionList"></div>
+  </aside>
+
+  <div class="main">
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="chat" onclick="switchTab('chat')">对话</button>
+      <button class="tab-btn" data-tab="memory" onclick="switchTab('memory')">记忆管理</button>
+      <button class="tab-btn" data-tab="skills" onclick="switchTab('skills')">技能</button>
+    </div>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="tab-chat">
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+          <div class="file-upload-area">
+            <div class="file-list" id="fileList"></div>
+            <label class="file-upload-btn" id="uploadLabel" for="fileInput" ondrop="onDrop(event)" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)">+ 上传文件</label>
+            <input type="file" id="fileInput" multiple style="display:none" accept=".jpg,.jpeg,.png,.gif,.ppt,.pptx,.doc,.docx,.wsl,.wslx" onchange="uploadFiles(this.files)">
+          </div>
+          <textarea id="chatInput" rows="1" placeholder="输入你的问题…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"></textarea>
+          <button id="sendBtn" onclick="sendChat()">发送</button>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="tab-memory">
+        <div class="memory-container">
+          <div class="memory-controls">
+            <select id="memoryType" onchange="loadMemory()">
+              <option value="user_profile">用户特征 (user_profile)</option>
+              <option value="long_term_raw">长期记忆原始 (long_term_raw)</option>
+              <option value="compressed">压缩长期记忆 (compressed)</option>
+              <option value="daily">按日记忆 (daily)</option>
+              <option value="memory_meta">检索元数据 (memory_meta)</option>
+            </select>
+            <button class="btn-refresh" onclick="loadMemory()">刷新</button>
+            <button class="btn-save-memory" onclick="saveMemory()">保存</button>
+          </div>
+          <div class="memory-editor">
+          <textarea id="memoryEditor" placeholder="加载记忆内容…"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="tab-skills">
+        <div class="skills-container" id="skillsContainer">
+          <div class="skills-loading">加载技能中…</div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-box">
+    <h3>⚠️ 确认执行命令</h3>
+    <div class="modal-body">
+      <p style="margin-bottom:8px;color:var(--text-secondary);font-size:13px;">LLM 请求执行以下 shell 命令，请确认是否允许：</p>
+      <code id="confirmCommand"></code>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-reject" onclick="rejectTool()">拒绝</button>
+      <button class="btn-confirm" onclick="confirmTool()">确认执行</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+const BASE = '';
+let currentSessionId = null;
+let toolLog = [];
+let pendingConfirmId = null;
+let lastConfirmCallback = null;
+let uploadedFiles = [];
+
+function uploadFiles(files) {
+  for (const file of files) {
+    const ext = '.' + file.name.split('.').pop().toLowerCase();
+    const allowed = ['.jpg','.jpeg','.png','.gif','.ppt','.pptx','.doc','.docx','.wsl','.wslx'];
+    if (!allowed.includes(ext)) {
+      toast('不支持的文件格式: ' + ext, 'error');
+      continue;
+    }
+
+    const chip = document.createElement('span');
+    chip.className = 'file-chip uploading';
+    chip.innerHTML = '<span class="name">' + escapeHtml(file.name) + '</span><span class="remove">⋯</span>';
+    document.getElementById('fileList').appendChild(chip);
+
+    const formData = new FormData();
+    formData.append('file', file);
+    fetch(BASE + '/api/upload', {method:'POST', body: formData})
+      .then(async r => {
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.detail || '上传失败');
+        return data;
+      })
+      .then(data => {
+        if (data.success) {
+          uploadedFiles.push(data);
+          chip.className = 'file-chip';
+          chip.innerHTML = '<span class="name">' + escapeHtml(data.filename) + '</span><span class="remove" onclick="removeFile(\'' + escapeHtml(data.filename) + '\',this)">×</span>';
+          toast('已上传: ' + file.name, 'success');
+        } else {
+          chip.remove();
+          toast('上传失败: ' + file.name, 'error');
+        }
+      })
+      .catch(err => {
+        chip.remove();
+        toast(err.message, 'error');
+      });
+  }
+  document.getElementById('fileInput').value = '';
+}
+
+function removeFile(filename, el) {
+  const chip = el.closest('.file-chip');
+  chip.style.opacity = '.4';
+  fetch(BASE + '/api/upload/' + encodeURIComponent(filename), {method:'DELETE'})
+    .then(r => {
+      if (!r.ok) throw new Error('删除失败');
+      chip.remove();
+      uploadedFiles = uploadedFiles.filter(f => f.filename !== filename);
+      toast('已删除: ' + filename, 'info');
+    })
+    .catch(err => {
+      chip.style.opacity = '1';
+      toast('删除失败: ' + err.message, 'error');
+    });
+}
+
+function onDragOver(e) {
+  e.preventDefault();
+  document.getElementById('uploadLabel').classList.add('drag-over');
+}
+
+function onDragLeave(e) {
+  e.preventDefault();
+  document.getElementById('uploadLabel').classList.remove('drag-over');
+}
+
+function onDrop(e) {
+  e.preventDefault();
+  document.getElementById('uploadLabel').classList.remove('drag-over');
+  if (e.dataTransfer.files.length) {
+    uploadFiles(e.dataTransfer.files);
+  }
+}
+
+function loadSessions() {
+  fetch(BASE + '/api/sessions')
+    .then(r => r.json())
+    .then(data => {
+      const el = document.getElementById('sessionList');
+      if (!data.sessions || data.sessions.length === 0) {
+        el.innerHTML = '<div style="padding:12px;color:var(--text-secondary);font-size:13px;text-align:center;">暂无会话</div>';
+        return;
+      }
+      el.innerHTML = data.sessions.map(s => {
+        const dt = new Date(s.updated_at * 1000);
+        const timeStr = dt.toLocaleString('zh-CN', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+        const active = s.session_id === currentSessionId ? 'active' : '';
+        return `<div class="session-item ${active}" onclick="switchSession('${s.session_id}')">
+          <div><strong>${escapeHtml(s.session_id)}</strong></div>
+          <div class="preview">${escapeHtml(s.preview)}</div>
+          <div class="meta"><span>${s.turn_count} 轮</span><span>${timeStr}</span></div>
+        </div>`;
+      }).join('');
+    });
+}
+
+function newSession() {
+  fetch(BASE + '/api/session/new', {method:'POST'})
+    .then(r => r.json())
+    .then(data => {
+      currentSessionId = data.session_id;
+      document.getElementById('chatMessages').innerHTML = '';
+      toolLog = [];
+      loadSessions();
+      switchTab('chat');
+      toast('已创建新会话: ' + currentSessionId, 'success');
+    });
+}
+
+function switchSession(sid) {
+  currentSessionId = sid;
+  toolLog = [];
+  loadSessions();
+  fetch(BASE + '/api/session/' + sid)
+    .then(r => r.json())
+    .then(data => {
+      const el = document.getElementById('chatMessages');
+      el.innerHTML = '';
+      if (data.turns && data.turns.length > 0) {
+        data.turns.forEach(t => {
+          appendMessage('user', t.question);
+          appendMessage('assistant', t.answer);
+        });
+      } else {
+        el.innerHTML = '<div class="empty-state">会话无历史记录</div>';
+      }
+      switchTab('chat');
+    });
+}
+
+function appendMessage(role, content) {
+  const el = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.innerHTML = '<div class="bubble">' + escapeHtml(content) + '</div>';
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+  return div;
+}
+
+function appendToolLog(msg) {
+  const el = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'msg tool';
+  div.innerHTML = '<div class="bubble">' + escapeHtml(msg) + '</div>';
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+}
+
+function appendStreamingMessage() {
+  const el = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'msg assistant';
+  div.innerHTML = '<div class="bubble"></div>';
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+  return div.querySelector('.bubble');
+}
+
+function confirmTool() {
+  const id = pendingConfirmId;
+  if (!id) return;
+  closeModal();
+  fetch(BASE + '/api/confirm-tool/' + id, {method:'POST'})
+    .catch(e => toast('确认失败: ' + e.message, 'error'));
+  pendingConfirmId = null;
+}
+
+function rejectTool() {
+  const id = pendingConfirmId;
+  if (!id) return;
+  closeModal();
+  fetch(BASE + '/api/reject-tool/' + id, {method:'POST'})
+    .catch(e => toast('拒绝失败: ' + e.message, 'error'));
+  pendingConfirmId = null;
+}
+
+function showConfirmModal(command, confirmId) {
+  pendingConfirmId = confirmId;
+  document.getElementById('confirmCommand').textContent = command;
+  document.getElementById('confirmModal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('confirmModal').classList.remove('active');
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const btn = document.getElementById('sendBtn');
+  let question = input.value.trim();
+  if (!question && uploadedFiles.length === 0) return;
+
+  if (uploadedFiles.length > 0) {
+    const fileContextLines = uploadedFiles.map(f =>
+      `- [${f.filename}](${f.url}) → 本地路径: \`${f.path}\``
+    );
+    let fileContext = '已上传文件:\n' + fileContextLines.join('\n');
+    if (currentSessionId) {
+      fileContext += '\n当前会话 ID: ' + currentSessionId;
+    }
+    question = question ? fileContext + '\n\n' + question : fileContext;
+  }
+
+  appendMessage('user', question);
+  input.value = '';
+  input.style.height = 'auto';
+  btn.disabled = true;
+  btn.textContent = '…';
+
+  const bubbleEl = appendStreamingMessage();
+  toolLog = [];
+
+  const doSend = (sid) => {
+    fetch(BASE + '/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({question, session_id: sid, stream: true, allow_tools: true})
+    }).then(async response => {
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let fullAnswer = '';
+
+      while (true) {
+        const {done, value} = await reader.read();
+        if (done) break;
+        const text = decoder.decode(value, {stream: true});
+        const lines = text.split('\n');
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          try {
+            const data = JSON.parse(line.slice(6));
+            if (data.type === 'token') {
+              fullAnswer += data.content;
+              bubbleEl.textContent = fullAnswer;
+            } else if (data.type === 'tool_call') {
+              const tools = data.tools.join(', ');
+              const turn = data.turn || '?';
+              toolLog.push('⚡ 第 ' + turn + ' 轮调用: ' + tools);
+              appendToolLog('⚡ 工具调用 [' + turn + ']: ' + tools);
+            } else if (data.type === 'tool_result') {
+              const icon = data.success ? '✓' : '✗';
+              toolLog.push(icon + ' ' + data.tool + ' ' + (data.success ? '成功' : '失败'));
+              appendToolLog(icon + ' ' + data.tool + ' ' + (data.success ? '✓ 执行成功' : '✗ 执行失败'));
+            } else if (data.type === 'confirmation_required') {
+              showConfirmModal(data.command, data.confirm_id);
+            } else if (data.type === 'info') {
+              toast(data.message, 'info');
+            } else if (data.type === 'done') {
+              currentSessionId = data.session_id;
+              loadSessions();
+            }
+          } catch(e) {}
+        }
+      }
+    }).finally(() => {
+      btn.disabled = false;
+      btn.textContent = '发送';
+    });
+  };
+
+  if (!currentSessionId) {
+    fetch(BASE + '/api/session/new', {method:'POST'})
+      .then(r => r.json())
+      .then(data => {
+        currentSessionId = data.session_id;
+        loadSessions();
+        doSend(currentSessionId);
+      });
+  } else {
+    doSend(currentSessionId);
+  }
+}
+
+function loadMemory() {
+  const type = document.getElementById('memoryType').value;
+  const editor = document.getElementById('memoryEditor');
+  editor.value = '加载中…';
+  fetch(BASE + '/api/memory/' + type)
+    .then(r => r.json())
+    .then(data => { editor.value = data.content || '(空)'; })
+    .catch(err => { editor.value = '加载失败: ' + err.message; });
+}
+
+function saveMemory() {
+  const type = document.getElementById('memoryType').value;
+  const content = document.getElementById('memoryEditor').value;
+  fetch(BASE + '/api/memory/' + type, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({content})
+  })
+    .then(r => { if (!r.ok) throw new Error('保存失败'); return r.json(); })
+    .then(() => toast('记忆已保存', 'success'))
+    .catch(err => toast('保存失败: ' + err.message, 'error'));
+}
+
+function compressMemory() {
+  fetch(BASE + '/api/memory/compress', {method:'POST'})
+    .then(r => r.json())
+    .then(data => toast('压缩完成，共 ' + data.compressed_count + ' 条', 'success'))
+    .catch(err => toast('压缩失败: ' + err.message, 'error'));
+}
+
+function rebuildIndex() {
+  fetch(BASE + '/api/memory/rebuild', {method:'POST'})
+    .then(r => r.json())
+    .then(() => toast('索引重建完成', 'success'))
+    .catch(err => toast('重建失败: ' + err.message, 'error'));
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+  if (name === 'memory') loadMemory();
+  if (name === 'skills') loadSkillsTab();
+}
+
+function loadSkillsTab() {
+  const container = document.getElementById('skillsContainer');
+  if (container.dataset.loaded) return;
+  container.dataset.loaded = '1';
+  container.innerHTML = '<div class="skills-loading">加载技能中…</div>';
+
+  fetch(BASE + '/api/skills')
+    .then(r => r.json())
+    .then(data => {
+      if (!data.skills || data.skills.length === 0) {
+        container.innerHTML = '<div class="skills-loading" style="color:var(--text-secondary);">暂无可用技能</div>';
+        return;
+      }
+      container.innerHTML = '<div class="skills-grid">' + data.skills.map((sk, si) => {
+        const tool = sk.tools && sk.tools[0] && sk.tools[0].function;
+        const params = tool && tool.parameters && tool.parameters.properties;
+        const required = tool && tool.parameters && tool.parameters.required || [];
+        let paramRows = '';
+        if (params) {
+          paramRows = '<table><tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr>';
+          for (const [k, v] of Object.entries(params)) {
+            paramRows += `<tr><td><code>${escapeHtml(k)}</code></td><td>${v.type}</td><td>${required.includes(k) ? '是' : '否'}</td><td>${escapeHtml(v.description || '')}</td></tr>`;
+          }
+          paramRows += '</table>';
+        }
+        const toolName = tool ? tool.name : sk.name;
+        return `<div class="skill-card">
+          <div class="skill-card-header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+            <span class="name">${escapeHtml(sk.name)}</span>
+            <span class="arrow">▶</span>
+          </div>
+          <div class="skill-card-body">
+            <div class="skill-card-body-inner">
+              <div class="label">调用函数</div>
+              <code class="func">${escapeHtml(toolName)}</code>
+              <div class="label">说明</div>
+              <div class="desc-text">${escapeHtml(sk.description)}</div>
+              ${paramRows ? '<div class="label">参数</div>' + paramRows : ''}
+              <div class="label">使用方式</div>
+              <div class="desc-text">当你的需求匹配以上说明时，系统会自动调用此技能处理。</div>
+            </div>
+          </div>
+        </div>`;
+      }).join('') + '</div>';
+    })
+    .catch(err => {
+      container.innerHTML = '<div class="skills-loading" style="color:var(--danger);">加载失败: ' + escapeHtml(err.message) + '</div>';
+    });
+}
+
+function toggleSkills() {}
+
+function escapeHtml(text) {
+  const d = document.createElement('div');
+  d.textContent = text;
+  return d.innerHTML;
+}
+
+function toast(msg, type) {
+  const container = document.getElementById('toastContainer');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.textContent = msg;
+  container.appendChild(el);
+  setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .3s'; setTimeout(() => el.remove(), 300); }, 3000);
+}
+
+document.getElementById('chatInput').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+
+loadSessions();
+if (!currentSessionId) {
+  document.getElementById('chatMessages').innerHTML = '<div class="empty-state">点击「+ 新会话」开始对话，或在侧边栏选择已有会话</div>';
+}
+</script>
+</body>
+</html>

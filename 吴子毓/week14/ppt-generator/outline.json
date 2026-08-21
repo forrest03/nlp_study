@@ -1,0 +1,70 @@
+[
+  {"section": "Nous Research", "title": "自进化 Agent", "subtitle": "从对话失败中自动演化的 Skill 机制",
+   "points": ["22% → 80% 准确率提升", "8 块 Nudge 进化轨迹", "契约式评估设计"]},
+  {"section": "01 核心机制", "title": "Skill 是可进化的操作 SOP",
+   "subtitle": "不是 RAG 知识搬运，而是带边界条件的决策流程",
+   "points": ["Skill = 结构化操作文档，按步骤照做而非推理", "三种演化：patch 补分支 / create 建新域 / patch 重写强度", "Reviewer 仅接收失败样本，最小改动原则"]},
+  {"section": "02 评估契约", "title": "Agent-Evaluator 契约式设计",
+   "subtitle": "三类互斥失败原因，评估简单可解释",
+   "points": ["不能答时只说「需要联系人工客服」", "评估器：推脱一票否决 / 缺关键词 / 出现禁止词", "数字归一化 + 否定前置检测，确定性可复现"]},
+  {"section": "03 进化效果", "title": "准确率从 22% 提升到 80%",
+   "subtitle": "每块失败驱动对应 Skill 出现",
+   "points": ["vip_refund：25% → 100%（patch VIP 分支）", "digital_goods：0% → 100%（create 新 Skill）", "logistics/payment：0% → 60-100%（create 新 Skill）"]},
+  {"section": "04 优化效果", "title": "Skill 优化 v1 vs v2",
+   "subtitle": "从硬编码到动态提取：一次重构让模板可复用",
+   "layout": "comparison",
+   "left": {
+     "title": "v1 初始版（硬编码）",
+     "rows": [
+       {"label": "模板", "value": "1 个固定模板"},
+       {"label": "配色", "value": "全部写死 hex"},
+       {"label": "字体", "value": "Calibri 硬编码"},
+       {"label": "LLM prompt", "value": "194 token"},
+       {"label": "复用性", "value": "换模板需改代码"}
+     ]
+   },
+   "right": {
+     "title": "v2 优化版（动态提取）",
+     "rows": [
+       {"label": "模板", "value": "任意 pptx 模板"},
+       {"label": "配色", "value": "按字号+位置启发式"},
+       {"label": "字体", "value": "从 theme1.xml 读"},
+       {"label": "LLM prompt", "value": "100 token (-48.5%)"},
+       {"label": "复用性", "value": "传 --template 即可"}
+     ]
+   },
+   "footer": "结论：模板视觉规范从硬编码 → 动态解析，一次写完终身复用"},
+  {"section": "Part 6 · Graph Engineering", "title": "什么是 Graph Engineering？",
+   "subtitle": "设计 multi-agent 系统的拓扑——哪些节点存在、哪些转换允许、状态如何流动",
+   "layout": "two_column",
+   "banner": "命名事件而非新发明——2026.7 定型",
+   "panels": [
+     {
+       "title": "与 GraphRAG 的关键区别",
+       "subtitle": "GraphRAG / 知识图谱",
+       "fill": "light",
+       "border": "accent",
+       "body": "结构化『数据』——实体、关系、三元组\n回答：系统知道什么"
+     },
+     {
+       "title": "Graph Engineering",
+       "subtitle": "工程对象：系统本身",
+       "fill": "light",
+       "border": "accent",
+       "body": "结构化『系统本身』——agent、路由、审批门的拓扑\n回答：系统是谁"
+     }
+   ],
+   "footer": "两者可在同一架构中共存——回答不同问题"},
+  {"section": "05 工程五层栈", "title": "AI 工程的五层栈",
+   "subtitle": "逐层包含——上层能力依赖下层基础",
+   "layout": "stack",
+   "shape": "pyramid",
+   "layers": [
+     {"label": "L5 Graph Engineering（多 agent 拓扑）", "level": 5, "color": "accent"},
+     {"label": "L4 Loop Engineering（单 agent 循环）",   "level": 4, "color": "accent"},
+     {"label": "L3 Harness Engineering",                 "level": 3, "color": "light"},
+     {"label": "L2 Context Engineering",                 "level": 2, "color": "light"},
+     {"label": "L1 Prompt Engineering",                  "level": 1, "color": "light"}
+   ],
+   "footer": "命名事件而非新发明——LangGraph / AutoGen / CrewAI 早已实践多年"}
+]

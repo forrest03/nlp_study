@@ -1,0 +1,8 @@
+# LLM（OpenAI 兼容接口，DeepSeek 默认 / DashScope 备选）
+openai>=1.0.0
+
+# HTTP 请求（weather_backend.py 调用 Open-Meteo）
+httpx>=0.25.0
+
+# MCP SDK（仅方式二使用）
+mcp>=1.0.0

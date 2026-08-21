@@ -1,0 +1,126 @@
+{
+  "configuration": {
+    "data_dir": "D:\\workspace\\hub-TroE\\张福\\week07\\data\\peoples_daily",
+    "output_dir": "D:\\workspace\\hub-TroE\\张福\\week07\\outputs",
+    "max_len": 64,
+    "batch_size": 32,
+    "epochs": 10,
+    "lr": 2e-05,
+    "weight_decay": 0.0001,
+    "bert_path": "D:\\workspace\\hub-TroE\\张福\\week07\\pretrain_models\\bert-base-chinese",
+    "device": "cpu",
+    "use_crf": false
+  },
+  "label_mapping": {
+    "label2id": {
+      "B-LOC": 0,
+      "B-ORG": 1,
+      "B-PER": 2,
+      "I-LOC": 3,
+      "I-ORG": 4,
+      "I-PER": 5,
+      "O": 6
+    },
+    "id2label": {
+      "0": "B-LOC",
+      "1": "B-ORG",
+      "2": "B-PER",
+      "3": "I-LOC",
+      "4": "I-ORG",
+      "5": "I-PER",
+      "6": "O"
+    }
+  },
+  "training_summary": {
+    "best_epoch": 9,
+    "best_validation_f1": 0.8387476269779535
+  },
+  "test_results": {
+    "loss": 0.03031320476704799,
+    "f1": 0.8344829524318381,
+    "precision": 0.8401776489677012,
+    "recall": 0.8289090100046262
+  },
+  "training_history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.05569842269364173,
+      "valid_loss": 0.015102473687227459,
+      "valid_f1": 0.8319986284754564,
+      "valid_precision": 0.8401379477003159,
+      "valid_recall": 0.8240361362399583
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.013363872519037201,
+      "valid_loss": 0.017111806108054947,
+      "valid_f1": 0.8242563056135394,
+      "valid_precision": 0.8395120926393105,
+      "valid_recall": 0.8106211889853412
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.007327782733523375,
+      "valid_loss": 0.013458781124950603,
+      "valid_f1": 0.83568535351444,
+      "valid_precision": 0.842896245533553,
+      "valid_recall": 0.8286434010486864
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.004796642130027429,
+      "valid_loss": 0.01324674757659971,
+      "valid_f1": 0.8377441895839233,
+      "valid_precision": 0.843229804751915,
+      "valid_recall": 0.8323528331250187
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.0037254049886006253,
+      "valid_loss": 0.015041242266655501,
+      "valid_f1": 0.8382695622334205,
+      "valid_precision": 0.8456044901142483,
+      "valid_recall": 0.8311471119779438
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.0025989020613356576,
+      "valid_loss": 0.015477478370821576,
+      "valid_f1": 0.838565861157729,
+      "valid_precision": 0.8447936298061466,
+      "valid_recall": 0.83243850442347
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.002249793659539806,
+      "valid_loss": 0.016052251989667764,
+      "valid_f1": 0.8367953016082164,
+      "valid_precision": 0.844707911254022,
+      "valid_recall": 0.829056140247167
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.0023707232732614867,
+      "valid_loss": 0.01711447304832328,
+      "valid_f1": 0.8340094944182734,
+      "valid_precision": 0.8434754524893835,
+      "valid_recall": 0.8248074879002717
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.001629105007019361,
+      "valid_loss": 0.01848821581639541,
+      "valid_f1": 0.8387476269779535,
+      "valid_precision": 0.8439530828940318,
+      "valid_recall": 0.8336429892467597
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.0012731549105951755,
+      "valid_loss": 0.01959495901171802,
+      "valid_f1": 0.8356981850168873,
+      "valid_precision": 0.845565067484662,
+      "valid_recall": 0.8262039382582869
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+/Users/zhouyang/myworkspace/badou-nlp/model/AI-ModelScope/bge-small-zh-v1.5

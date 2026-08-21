@@ -1,0 +1,28 @@
+{
+  "word": "bright",
+  "phonetic": "/braɪt/",
+  "pos": "adj.",
+  "definition": "明亮的；聪明的；鲜艳的",
+  "examples": [
+    {
+      "en": "The sun is very bright today.",
+      "zh": "今天阳光很明亮。"
+    },
+    {
+      "en": "She is a bright student.",
+      "zh": "她是一个聪明的学生。"
+    },
+    {
+      "en": "She wore a bright red dress.",
+      "zh": "她穿了一条鲜艳的红裙子。"
+    }
+  ],
+  "synonyms": [
+    "shiny",
+    "luminous",
+    "brilliant",
+    "intelligent",
+    "clever",
+    "vivid"
+  ]
+}

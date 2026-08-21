@@ -1,0 +1,567 @@
+"""
+================================================================================
+                 AI Enterprise Intelligence Harness
+                 企业级情报自动生成系统 - 完整版
+================================================================================
+【说明】
+本文件是一个完整的AI情报生成系统，包含以下功能模块：
+1. 多源新闻聚合（TechCrunch、The Verge、VentureBeat）
+2. AI智能分析与翻译（支持OpenAI兼容API）
+3. 专业Word简报生成（可直接打印的企业级排版）
+
+【使用方法】
+1. 安装依赖：pip install feedparser python-docx openai requests python-dateutil deep-translator
+2. 修改下方配置部分的API_KEY和BASE_URL
+3. 运行：python 本文件名.py
+4. 查看生成的Word文件：output_reports/AI_Briefing_YYYYMMDD.docx
+
+【作业提交说明】
+请将本文件全部内容复制到Git作业框中提交即可。
+================================================================================
+"""
+
+# ============================================================================
+# 第一部分：标准库导入
+# ============================================================================
+import os
+import sys
+import json
+import time
+import logging
+import schedule
+import configparser
+from datetime import datetime, timedelta
+from typing import Dict, List, Any, Optional
+from abc import ABC, abstractmethod
+from enum import Enum
+
+# ============================================================================
+# 第二部分：第三方库导入
+# ============================================================================
+import feedparser
+from docx import Document
+from docx.shared import Pt, RGBColor, Cm
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml.ns import qn
+
+# 尝试导入OpenAI库，如果失败则提示安装
+try:
+    import openai
+except ImportError:
+    print("请先安装依赖库：pip install feedparser python-docx openai requests python-dateutil deep-translator")
+    sys.exit(1)
+
+# 尝试导入翻译库，如果失败则提示安装
+try:
+    from deep_translator import GoogleTranslator
+except ImportError:
+    print("请先安装翻译库：pip install deep-translator")
+    sys.exit(1)
+
+# ============================================================================
+# 第三部分：配置类
+# ============================================================================
+class SystemConfig:
+    """系统配置类 - 模拟config.ini文件"""
+    
+    # ================== 请在此处修改你的API配置 ==================
+    AI_API_KEY = "sk-your-real-api-key-here"  # 替换为你的DeepSeek或OpenAI API Key
+    AI_BASE_URL = "https://api.deepseek.com"  # DeepSeek官方地址（不需要带/v1）
+    AI_MODEL = "deepseek-chat"  # 或 "deepseek-v4-flash"
+    # ============================================================
+    
+    OUTPUT_DIR = "output_reports"
+    LOG_LEVEL = "INFO"
+    
+    @classmethod
+    def get_config(cls) -> configparser.ConfigParser:
+        """返回ConfigParser对象，兼容原有代码"""
+        config = configparser.ConfigParser()
+        config['AI'] = {
+            'API_KEY': cls.AI_API_KEY,
+            'BASE_URL': cls.AI_BASE_URL,
+            'MODEL': cls.AI_MODEL
+        }
+        config['SYSTEM'] = {
+            'OUTPUT_DIR': cls.OUTPUT_DIR,
+            'LOG_LEVEL': cls.LOG_LEVEL
+        }
+        return config
+
+# ============================================================================
+# 第四部分：数据模型类
+# ============================================================================
+@dataclass
+class RawNewsItem:
+    """原始采集的新闻条目"""
+    title: str
+    summary: str
+    link: str
+    source: str
+    date: datetime
+    
+    def to_dict(self):
+        return {
+            'title': self.title,
+            'summary': self.summary,
+            'link': self.link,
+            'source': self.source,
+            'date': self.date.isoformat()
+        }
+
+# ============================================================================
+# 第五部分：基础类定义
+# ============================================================================
+
+class SkillPriority(Enum):
+    """技能优先级枚举"""
+    CRITICAL = 0
+    HIGH = 1
+    NORMAL = 2
+    LOW = 3
+
+class ExecutionContext:
+    """执行上下文 - 用于在技能之间传递数据"""
+    def __init__(self):
+        self._data: Dict[str, Any] = {}
+
+    def set(self, key: str, value: Any):
+        self._data[key] = value
+
+    def get(self, key: str, default: Any = None) -> Any:
+        return self._data.get(key, default)
+
+    def has(self, key: str) -> bool:
+        return key in self._data
+
+    def clear(self):
+        self._data.clear()
+
+class BaseSkill(ABC):
+    """所有技能的抽象基类"""
+    name: str = "BaseSkill"
+    description: str = "No description"
+    priority: SkillPriority = SkillPriority.NORMAL
+    dependencies: List[str] = []
+
+    def __init__(self):
+        self.logger = logging.getLogger("AI_Harness.Skills")
+
+    @abstractmethod
+    def execute(self, input_data: Optional[str], context: ExecutionContext):
+        """执行技能的具体逻辑"""
+        pass
+
+    def validate_context(self, context: ExecutionContext, required_keys: List[str]):
+        """检查上下文中是否存在必要的数据"""
+        missing = [k for k in required_keys if not context.has(k)]
+        if missing:
+            raise ValueError(f"Context validation failed. Missing keys: {missing}")
+
+# ============================================================================
+# 第六部分：LLM客户端类
+# ============================================================================
+class AIClient:
+    """AI客户端 - 处理与OpenAI兼容API的交互"""
+    
+    def __init__(self):
+        config = SystemConfig.get_config()
+        
+        self.client = openai.OpenAI(
+            api_key=config.get('AI', 'API_KEY'),
+            base_url=config.get('AI', 'BASE_URL')
+        )
+        self.model = config.get('AI', 'MODEL')
+        self.logger = logging.getLogger(__name__)
+
+    def polish_news_batch(self, news_items: List[Dict]) -> List[Dict]:
+        """将一批新闻翻译并提炼为高管摘要"""
+        if not news_items:
+            return []
+
+        prompt = """
+你是一位专业的首席战略官(CSO)助理。请将以下全球AI领域的最新新闻资讯进行处理。
+要求：
+1. 翻译标题为专业的中文标题。
+2. 撰写一段简短、精炼的中文摘要（不超过80字），突出商业或技术价值。
+3. 返回JSON格式，包含原链接。
+4. 必须保留最重要的 5 条。
+
+输入数据格式：
+Title: [英文标题]
+Summary: [英文摘要]
+Link: [链接]
+
+请直接返回 JSON 列表，格式示例: [{"title": "...", "summary": "...", "link": "..."}]
+"""
+
+        input_text = ""
+        for item in news_items[:10]: 
+            input_text += f"Title: {item.get('title')}\nSummary: {item.get('summary')}\nLink: {item.get('link')}\n\n"
+
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": "你是一个专业的商业情报分析师，输出严格的JSON格式。"},
+                    {"role": "user", "content": prompt + "\n" + input_text}
+                ],
+                temperature=0.3,
+                response_format={"type": "json_object"}
+            )
+            content = response.choices[0].message.content
+            data = json.loads(content)
+            
+            if isinstance(data, dict) and 'news' in data:
+                return data['news']
+            elif isinstance(data, list):
+                return data
+            else:
+                self.logger.warning(f"LLM返回了意外的格式: {type(data)}")
+                return []
+            
+        except Exception as e:
+            self.logger.error(f"LLM处理失败: {e}")
+            return []
+
+# ============================================================================
+# 第七部分：核心引擎类
+# ============================================================================
+class ProgressiveHarness:
+    """渐进式加载执行引擎"""
+    
+    def __init__(self):
+        self._skills: Dict[str, Any] = {}
+        self._pipeline: List[str] = []
+        self.logger = logging.getLogger("AI_Harness")
+
+    def register_skill(self, skill_instance: BaseSkill):
+        """注册技能实例到引擎中"""
+        name = skill_instance.name
+        if not name:
+            raise ValueError("Skill must have a name")
+        self._skills[name] = skill_instance
+        self.logger.info(f"Registered Skill: {name}")
+
+    def create_pipeline(self, skill_names: List[str]):
+        """定义执行流水线顺序"""
+        self._pipeline = skill_names
+        self.logger.info(f"Pipeline created: {' -> '.join(skill_names)}")
+
+    def execute_pipeline(self, initial_input: str = None):
+        """按顺序执行流水线中的所有技能"""
+        if not self._pipeline:
+            self.logger.error("Pipeline is empty. Cannot execute.")
+            return
+
+        context = ExecutionContext()
+        current_output = initial_input
+        
+        self.logger.info("=" * 20 + " PIPELINE START " + "=" * 20)
+
+        for skill_name in self._pipeline:
+            if skill_name not in self._skills:
+                self.logger.error(f"Skill '{skill_name}' not found in registry.")
+                continue
+            
+            skill = self._skills[skill_name]
+            
+            try:
+                self.logger.info(f"Executing: {skill_name}...")
+                current_output = skill.execute(current_output, context)
+                self.logger.info(f"Finished: {skill_name}")
+            except Exception as e:
+                self.logger.error(f"Error executing {skill_name}: {e}", exc_info=True)
+                raise
+
+        self.logger.info("=" * 20 + " PIPELINE COMPLETE " + "=" * 20)
+        return current_output
+
+# ============================================================================
+# 第八部分：技能实现类
+# ============================================================================
+
+class GlobalAggregatorSkill(BaseSkill):
+    """多源新闻聚合技能"""
+    name = "GlobalAggregator"
+    description = "从全球顶级科技媒体聚合AI新闻"
+    priority = SkillPriority.CRITICAL
+    
+    SOURCES = [
+        ("TechCrunch AI", "https://techcrunch.com/category/artificial-intelligence/feed/"),
+        ("The Verge AI", "https://www.theverge.com/ai-artificial-intelligence/rss/index.xml"),
+        ("VentureBeat AI", "https://venturebeat.com/category/ai/feed/"),
+    ]
+
+    def execute(self, input_data: Optional[str], context: Optional[ExecutionContext] = None):
+        logger = logging.getLogger(__name__)
+        logger.info(f"开始从 {len(self.SOURCES)} 个源头聚合数据...")
+        
+        raw_news = []
+        seen_titles = set()
+
+        for source_name, url in self.SOURCES:
+            try:
+                logger.info(f"正在连接 {source_name}...")
+                feed = feedparser.parse(url)
+                
+                for entry in feed.entries[:5]:
+                    title = entry.get('title', '')
+                    if title in seen_titles:
+                        continue
+                    seen_titles.add(title)
+                    
+                    summary = entry.get('summary', entry.get('description', ''))
+                    import re
+                    clean_summary = re.sub('<[^<]+?>', '', summary)
+                    
+                    raw_news.append({
+                        'title': title,
+                        'summary': clean_summary,
+                        'link': entry.get('link'),
+                        'source': source_name,
+                        'date': datetime.now()
+                    })
+                    
+            except Exception as e:
+                logger.warning(f"抓取 {source_name} 失败: {e}")
+
+        logger.info(f"聚合完成，原始数据量: {len(raw_news)}")
+        
+        if context:
+            context.set("raw_news", raw_news)
+            
+        return f"聚合完成，共 {len(raw_news)} 条原始资讯"
+
+class IntelligenceAnalyzerSkill(BaseSkill):
+    """智能分析技能 - 包含降级保底"""
+    name = "IntelligenceAnalyzer"
+    description = "基于 LLM 翻译并提炼商业价值（含降级保底）"
+    priority = SkillPriority.HIGH
+    dependencies = ["GlobalAggregator"]
+
+    def execute(self, input_data: Optional[str], context: Optional[ExecutionContext] = None):
+        logger = logging.getLogger(__name__)
+        logger.info("正在启动 AI 分析引擎...")
+        
+        raw_news = context.get("raw_news", []) if context else []
+        
+        if not raw_news:
+            logger.warning("原始新闻为空，跳过分析。")
+            if context:
+                context.set("final_news", [])
+            return "无数据可分析"
+
+        try:
+            ai_client = AIClient()
+            polished = ai_client.polish_news_batch(raw_news)
+            if polished and isinstance(polished, list):
+                cleaned = [
+                    {k: item.get(k) for k in ("title", "summary", "link")}
+                    for item in polished if isinstance(item, dict)
+                ]
+                if cleaned:
+                    context.set("final_news", cleaned)
+                    logger.info(f"分析完成，产出 {len(cleaned)} 条高价值简报")
+                    return f"分析完成，产出 {len(cleaned)} 条"
+        except Exception as e:
+            logger.warning(f"LLM 分析失败，将降级使用本地处理: {e}")
+
+        # 降级保底：本地简单翻译标题+摘要
+        translator = GoogleTranslator(source='auto', target='zh-CN')
+        fallback_news = []
+        for item in raw_news[:5]:
+            try:
+                title_zh = translator.translate(item.get('title', ''))[:120]
+                summary_zh = translator.translate(item.get('summary', ''))[:180]
+            except Exception:
+                title_zh = item.get('title', '')[:120]
+                summary_zh = item.get('summary', '')[:180]
+            fallback_news.append({
+                "title": title_zh,
+                "summary": summary_zh,
+                "link": item.get('link', '#')
+            })
+        context.set("final_news", fallback_news)
+        logger.info(f"降级模式已产出 {len(fallback_news)} 条简报")
+        return f"降级模式完成，产出 {len(fallback_news)} 条"
+
+class ProPublisherSkill(BaseSkill):
+    """专业Word生成技能"""
+    name = "ProPublisher"
+    description = "生成企业级 Word 简报"
+    priority = SkillPriority.NORMAL
+    dependencies = ["IntelligenceAnalyzer"]
+
+    def execute(self, input_data: Optional[str], context: Optional[ExecutionContext] = None):
+        logger = logging.getLogger(__name__)
+        
+        news_list = context.get("final_news", []) if context else []
+        
+        # 鲁棒性处理：如果数据为空，生成占位内容
+        if not news_list:
+            logger.warning("最终新闻列表为空，将生成占位报告")
+            news_list = [{
+                "title": "暂无最新进展",
+                "summary": "当前时段未获取到有效新闻资讯。请检查网络连接、API配置或稍后重试。",
+                "link": "#"
+            }]
+
+        config = SystemConfig.get_config()
+        output_dir = config.get('SYSTEM', 'OUTPUT_DIR', fallback='output_reports')
+        os.makedirs(output_dir, exist_ok=True)
+
+        doc = Document()
+        
+        # 页面设置
+        section = doc.sections[0]
+        section.page_width = Cm(21.0)
+        section.page_height = Cm(29.7)
+        section.top_margin = Cm(2.5)
+        section.bottom_margin = Cm(2.0)
+        section.left_margin = Cm(3.0)
+        section.right_margin = Cm(2.0)
+
+        # 样式函数
+        def set_font(run, name, size, bold=False, color=RGBColor(0,0,0)):
+            run.font.name = name
+            run._element.rPr.rFonts.set(qn('w:eastAsia'), name)
+            run.font.size = Pt(size)
+            run.font.bold = bold
+            run.font.color.rgb = color
+
+        # 标题区域
+        title = doc.add_heading()
+        title.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        run_title = title.add_run("全球人工智能产业动态监测简报")
+        set_font(run_title, "黑体", 22, bold=True, color=RGBColor(0, 51, 102))
+        
+        # 元数据
+        meta = doc.add_paragraph()
+        meta.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        date_str = datetime.now().strftime("%Y年%m月%d日")
+        week_str = datetime.now().isocalendar()[1]
+        meta_text = f"日期：{date_str}    期数：2024年第 {week_str} 期    密级：内部公开"
+        run_meta = meta.add_run(meta_text)
+        set_font(run_meta, "仿宋_GB2312", 14, color=RGBColor(50, 50, 50))
+        
+        # 分割线
+        doc.add_paragraph().add_run("─" * 60).alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+        # 正文内容
+        for idx, item in enumerate(news_list, 1):
+            # 小标题
+            p_head = doc.add_paragraph()
+            p_head.space_before = Pt(12)
+            p_head.space_after = Pt(6)
+            run_head = p_head.add_run(f"{idx}. {item.get('title', 'No Title')}")
+            set_font(run_head, "微软雅黑", 12, bold=True, color=RGBColor(0, 0, 0))
+            
+            # 摘要
+            p_body = doc.add_paragraph()
+            p_body.line_spacing = 1.5
+            p_body.space_after = Pt(12)
+            run_body = p_body.add_run(item.get('summary', 'No Summary'))
+            set_font(run_body, "宋体", 10.5)
+            
+            # 链接
+            p_link = doc.add_paragraph()
+            run_link = p_link.add_run(f"来源链接: {item.get('link', '#')}")
+            set_font(run_link, "Arial", 8, color=RGBColor(150, 150, 150))
+            p_link.paragraph_format.space_after = Pt(18)
+
+        # 页脚
+        doc.add_page_break()
+        footer = doc.add_paragraph()
+        footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        run_foot = footer.add_run("本简报由 AI 自动生成，内容来源于公开互联网，仅供内部决策参考。")
+        set_font(run_foot, "楷体", 10.5)
+
+        # 保存文件
+        filename = f"{output_dir}/AI_Briefing_{datetime.now().strftime('%Y%m%d')}.docx"
+        doc.save(filename)
+        
+        logger.info(f"报告已生成: {filename}")
+        return f"报告已生成: {filename}"
+
+# ============================================================================
+# 第九部分：主程序入口
+# ============================================================================
+
+def setup_logging():
+    """配置日志系统"""
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - [%(levelname)s] - %(message)s',
+        datefmt='%H:%M:%S'
+    )
+
+def run_generation_task():
+    """执行一次简报生成的任务"""
+    print("\n" + "="*20 + " 开始执行任务 " + "="*20)
+    
+    # 初始化 Harness
+    harness = ProgressiveHarness()
+    
+    # 注册技能
+    harness.register_skill(GlobalAggregatorSkill())
+    harness.register_skill(IntelligenceAnalyzerSkill())
+    harness.register_skill(ProPublisherSkill())
+    
+    # 定义流水线
+    pipeline = ["GlobalAggregator", "IntelligenceAnalyzer", "ProPublisher"]
+    harness.create_pipeline(pipeline)
+    
+    # 执行
+    try:
+        harness.execute_pipeline()
+        print("[SUCCESS] 任务完成，请检查 output_reports 目录。")
+    except Exception as e:
+        print(f"[ERROR] 任务执行失败: {e}")
+
+def main():
+    """主函数"""
+    setup_logging()
+    
+    print("""
+    ╔════════════════════════════════════════╗
+    ║     AI Enterprise Intelligence Harness ║
+    ║          企业级情报自动生成系统          ║
+    ╚════════════════════════════════════════╝
+    """)
+    
+    # 检查配置
+    if SystemConfig.AI_API_KEY == "sk-your-real-api-key-here":
+        print("[WARNING] 检测到您还未配置API_KEY，请在代码中修改SystemConfig类的配置。")
+    
+    # 设置定时任务：每天早上8:30执行
+    schedule.every().day.at("08:30").do(run_generation_task)
+    
+    # 如果要测试，可以取消下面这行的注释，每10分钟运行一次
+    # schedule.every(10).minutes.do(run_generation_task) 
+    
+    print("[SYSTEM] 自动值守已启动，等待执行时间...")
+    print("[SYSTEM] 如需立即运行一次任务，请执行: run_generation_task()")
+    print("[SYSTEM] 按 Ctrl+C 停止程序")
+    
+    try:
+        while True:
+            schedule.run_pending()
+            time.sleep(60)
+    except KeyboardInterrupt:
+        print("\n[SYSTEM] 程序已手动停止。")
+
+# ============================================================================
+# 第十部分：程序入口
+# ============================================================================
+if __name__ == "__main__":
+    # 如果是第一次运行，立即执行一次任务
+    run_generation_task()
+    
+    # 然后进入定时值守模式
+    # 如果不需要定时功能，可以注释掉下面的 main() 调用
+    main()
+
+# ============================================================================
+# 文件结束
+# ============================================================================

@@ -39,6 +39,7 @@ def random_chinese_char(exclu="你"):
     return char
 
 # 随机生成n条中文句子，每个句子长度为sl，有且只能有一个“你”字
+# 返回值：[(句子, "你"在句子中的位置), ...]
 def generate_chinese_sentences(n, sl=5):
     sentences = []
     sent = ""
@@ -61,6 +62,7 @@ def build_vocab(data):
                 vocab[ch] = len(vocab)
     return vocab
 
+# 将句子编码成索引列表
 def encode(sent, vocab, maxlen=5):
     ids  = [vocab.get(ch, 1) for ch in sent]
     ids  = ids[:maxlen]

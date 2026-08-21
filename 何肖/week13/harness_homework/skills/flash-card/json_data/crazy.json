@@ -1,0 +1,27 @@
+{
+  "word": "crazy",
+  "phonetic": "/ˈkreɪzi/",
+  "pos": "adj.",
+  "definition": "疯狂的；不理智的；狂热的",
+  "examples": [
+    {
+      "en": "She went crazy when she heard the news.",
+      "zh": "她听到这个消息时变得非常激动。"
+    },
+    {
+      "en": "He is a crazy fan of that singer.",
+      "zh": "他是那个歌手的狂热粉丝。"
+    },
+    {
+      "en": "It's crazy how much he resembles his father.",
+      "zh": "他长得太像他父亲了，真是不可思议。"
+    }
+  ],
+  "synonyms": [
+    "mad",
+    "insane",
+    "unhinged",
+    "wild",
+    "fanatical"
+  ]
+}

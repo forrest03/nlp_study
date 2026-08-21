@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__PAGE_TITLE__ · 股票看板</title>
+<script src="/files/skills/stock-dashboard-optimized/static/echarts.min.js"></script>
+<style>
+    :root{
+        --bg:#04060c; --bg2:#080d18; --panel:#0b1220; --panel2:#0e1729;
+        --line:#1a2742; --cyan:#00e5ff; --cyan-d:#0a8fb0;
+        --red:#ff3b5c; --red-glow:rgba(255,59,92,.55);
+        --yellow:#ffd23b; --yellow-glow:rgba(255,210,59,.5);
+        --green:#22e58a; --green-glow:rgba(34,229,138,.5);
+        --txt:#d8e3f2; --muted:#6c7d9c; --dim:#46566f;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{min-height:100%}
+    body{
+        background:
+            radial-gradient(1100px 560px at 78% -12%, #0a1a3e 0%, transparent 60%),
+            radial-gradient(900px 520px at 0% 110%, #0a2a3a 0%, transparent 55%),
+            var(--bg);
+        color:var(--txt);
+        font-family:'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+        padding:26px clamp(14px,3vw,46px) 60px;
+        position:relative;
+    }
+    /* 科技网格背景 */
+    body::before{
+        content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+        background-image:
+            linear-gradient(rgba(0,229,255,.035) 1px,transparent 1px),
+            linear-gradient(90deg,rgba(0,229,255,.035) 1px,transparent 1px);
+        background-size:46px 46px;
+        mask-image:radial-gradient(circle at 50% 30%,#000 0%,transparent 78%);
+    }
+    .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto}
+
+    /* 顶栏 */
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;
+        font-size:12px;color:var(--muted);letter-spacing:1px}
+    .topbar .brand{color:var(--cyan);font-weight:700;text-shadow:0 0 12px rgba(0,229,255,.5)}
+    .topbar a{color:var(--muted);text-decoration:none;border:1px solid var(--line);
+        padding:5px 12px;border-radius:6px;transition:.2s}
+    .topbar a:hover{color:var(--cyan);border-color:var(--cyan-d)}
+
+    /* 头部信息卡 */
+    .hero{
+        position:relative;border:1px solid var(--line);border-radius:18px;
+        background:linear-gradient(135deg,var(--panel) 0%,var(--bg2) 100%);
+        padding:26px 30px;overflow:hidden;
+        box-shadow:0 0 50px rgba(0,229,255,.06),inset 0 0 0 1px rgba(0,229,255,.03);
+    }
+    .hero::after{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+        background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+        box-shadow:0 0 14px var(--cyan)}
+    .hero-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px 26px}
+    .company{font-size:34px;font-weight:800;letter-spacing:2px;color:#fff;
+        text-shadow:0 0 22px rgba(0,229,255,.35)}
+    .code{font-family:'Consolas','Courier New',monospace;font-size:20px;color:var(--cyan);
+        padding:3px 12px;border:1px solid var(--cyan-d);border-radius:7px;
+        background:rgba(0,229,255,.06)}
+    .date{font-family:'Consolas',monospace;font-size:18px;color:var(--txt)}
+    .date .lbl{color:var(--muted);font-size:12px;margin-right:6px}
+    .verdict{
+        margin-left:auto;align-self:center;font-size:20px;font-weight:700;
+        padding:9px 22px;border-radius:30px;letter-spacing:2px;
+        border:1px solid var(--vc,#00e5ff);color:var(--vc,#00e5ff);
+        background:color-mix(in srgb,var(--vc,#00e5ff) 12%,transparent);
+        text-shadow:0 0 14px var(--vc,rgba(0,229,255,.6));
+        animation:pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--vc,#00e5ff) 40%,transparent)}50%{box-shadow:0 0 22px 2px color-mix(in srgb,var(--vc,#00e5ff) 30%,transparent)}}
+
+    /* 统计行 */
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));
+        gap:12px;margin-top:22px}
+    .stat{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+    .stat .k{font-size:11px;color:var(--muted);letter-spacing:1px;margin-bottom:6px}
+    .stat .v{font-family:'Consolas',monospace;font-size:19px;font-weight:700;color:#eaf2ff}
+    .stat .v.up{color:var(--red)} .stat .v.down{color:var(--green)}
+
+    /* 面板通用 */
+    .panel{margin-top:22px;border:1px solid var(--line);border-radius:16px;
+        background:linear-gradient(180deg,var(--panel),var(--bg2));overflow:hidden}
+    .panel-h{display:flex;align-items:center;gap:10px;padding:15px 22px;
+        border-bottom:1px solid var(--line)}
+    .panel-h .dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);
+        box-shadow:0 0 10px var(--cyan)}
+    .panel-h h2{font-size:15px;letter-spacing:1.5px;color:#cfe0f5;font-weight:600}
+    .panel-h .tag{margin-left:auto;font-size:11px;color:var(--muted);
+        font-family:'Consolas',monospace}
+    .panel-b{padding:18px 22px 24px}
+
+    #kline{width:100%;height:440px}
+    .empty{padding:50px;text-align:center;color:var(--muted)}
+
+    /* 情绪三色柱 */
+    .bars{display:flex;flex-direction:column;gap:22px}
+    .bar-item{position:relative}
+    .bar-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px}
+    .bar-head .name{font-size:15px;font-weight:700;letter-spacing:1px}
+    .bar-head .name b{font-size:13px;color:var(--muted);font-weight:400;margin-left:8px}
+    .bar-head .pct{font-family:'Consolas',monospace;font-size:18px;font-weight:700}
+    .bar-track{position:relative;height:30px;border-radius:8px;
+        background:linear-gradient(90deg,rgba(255,255,255,.03),rgba(255,255,255,.06));
+        border:1px solid var(--line);overflow:hidden}
+    .bar-fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:8px 0 0 8px;
+        transition:width 1.1s cubic-bezier(.22,.61,.36,1);}
+    .bar-fill::after{content:"";position:absolute;inset:0;
+        background:linear-gradient(90deg,transparent 60%,rgba(255,255,255,.25));}
+    /* 阈值标线 2/3 */
+    .threshold{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--tc);
+        box-shadow:0 0 8px var(--tc);z-index:2}
+    .threshold span{position:absolute;top:-20px;left:50%;transform:translateX(-50%);
+        font-size:10px;color:var(--tc);white-space:nowrap;font-family:'Consolas',monospace}
+    .bar-foot{margin-top:7px;font-size:12px;color:var(--muted);font-family:'Consolas',monospace}
+    .bar-foot b{color:var(--txt)}
+
+    .bar-item.bullish .name{color:var(--red)}
+    .bar-item.bullish .pct{color:var(--red)}
+    .bar-item.bullish .bar-fill{background:linear-gradient(90deg,#7a0a1e,var(--red));
+        box-shadow:0 0 18px var(--red-glow)}
+    .bar-item.neutral .name{color:var(--yellow)}
+    .bar-item.neutral .pct{color:var(--yellow)}
+    .bar-item.neutral .bar-fill{background:linear-gradient(90deg,#7a5e0a,var(--yellow));
+        box-shadow:0 0 18px var(--yellow-glow)}
+    .bar-item.bearish .name{color:var(--green)}
+    .bar-item.bearish .pct{color:var(--green)}
+    .bar-item.bearish .bar-fill{background:linear-gradient(90deg,#0a5e34,var(--green));
+        box-shadow:0 0 18px var(--green-glow)}
+
+    .bar-item.active .bar-track{border-color:var(--ac);box-shadow:0 0 22px var(--ag)}
+    .bar-item.bullish.active{--ac:var(--red);--ag:var(--red-glow)}
+    .bar-item.neutral.active{--ac:var(--yellow);--ag:var(--yellow-glow)}
+    .bar-item.bearish.active{--ac:var(--green);--ag:var(--green-glow)}
+
+    /* 规则说明 */
+    .rules{margin-top:24px;padding:16px 20px;border:1px dashed var(--line);border-radius:12px;
+        background:rgba(0,229,255,.02);font-size:12.5px;color:var(--muted);line-height:1.9}
+    .rules b{color:var(--cyan)}
+    .rules .r{color:var(--red)} .rules .g{color:var(--green)} .rules .y{color:var(--yellow)}
+
+    footer{margin-top:30px;text-align:center;color:var(--dim);font-size:11px;letter-spacing:1px}
+    @media(max-width:640px){
+        .company{font-size:26px} .verdict{margin-left:0;width:100%;text-align:center}
+        #kline{height:340px}
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="topbar">
+        <span class="brand">◆ STOCK · DASHBOARD</span>
+        <a href="/">← 返回列表</a>
+    </div>
+
+    <!-- 头部：公司名 + 日期 + 股票代码 -->
+    <div class="hero">
+        <div class="hero-row">
+            <span class="company" id="c-company">--</span>
+            <span class="code" id="c-code">--</span>
+            <span class="date"><span class="lbl">DATE</span><span id="c-date">--</span></span>
+            <span class="verdict" id="c-verdict">--</span>
+        </div>
+        <div class="stats" id="stats"></div>
+    </div>
+
+    <!-- 30分钟 K 线 -->
+    <div class="panel">
+        <div class="panel-h">
+            <span class="dot"></span>
+            <h2>当日 30 分钟 K 线</h2>
+            <span class="tag" id="k-tag">30MIN · CANDLESTICK</span>
+        </div>
+        <div class="panel-b">
+            <div id="kline"></div>
+            <div id="kline-empty" class="empty" style="display:none">该日无 30 分钟 K 线数据</div>
+        </div>
+    </div>
+
+    <!-- 看多 / 中性 / 看空 三色横向柱图 -->
+    <div class="panel">
+        <div class="panel-h">
+            <span class="dot" style="background:var(--yellow);box-shadow:0 0 10px var(--yellow)"></span>
+            <h2>多空情绪判定</h2>
+        </div>
+        <div class="panel-b">
+            <div class="bars">
+                <!-- 看多 -->
+                <div class="bar-item bullish" id="bar-bullish">
+                    <div class="bar-head">
+                        <span class="name">看多</span>
+                        <span class="pct" id="pct-bullish">0%</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" id="fill-bullish"></div>
+                        <div class="threshold" style="left:66.67%"><span>2/3 阈值</span></div>
+                    </div>
+                    <div class="bar-foot">买入成交量：<b id="vol-buy"></b></div>
+                </div>
+                <!-- 看空 -->
+                <div class="bar-item bearish" id="bar-bearish">
+                    <div class="bar-head">
+                        <span class="name">看空</span>
+                        <span class="pct" id="pct-bearish">0%</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" id="fill-bearish"></div>
+                        <div class="threshold" style="left:66.67%"><span>2/3 阈值</span></div>
+                    </div>
+                    <div class="bar-foot">卖出成交量：<b id="vol-sell2"></b></div>
+                </div>
+                <!-- 多空比 -->
+                <div class="bar-item neutral" id="bar-neutral">
+                    <div class="bar-head">
+                        <span class="name">多空比</span>
+                        <span class="pct" id="pct-neutral">-</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" id="fill-neutral"></div>
+                    </div>
+                    <div class="bar-foot">买入成交量：<b id="vol-buy2"> </b> &nbsp; 卖出成交量：<b id="vol-sell"></b></div>
+                </div>
+            </div>
+
+            <div class="rules">
+                <b>判定规则</b>：<br>
+                <span class="r">● 看多</span> —— 买入交易量占总交易量<br>
+                <span class="g">● 看空</span> —— 卖出交易量占总交易量<br>
+                <span class="y">● 中性</span> —— 买入交易量/卖出交易量<br>
+            </div>
+        </div>
+    </div>
+
+    <footer id="footer">DATA FETCHED AT -- · POWERED BY AKSHARE + FASTAPI</footer>
+</div>
+
+<script>
+const DATA = __DATA_JSON__;
+
+// ---- 数字格式化 ----
+const fmtVol = (n) => {
+    if (n == null) return '-';
+    n = Number(n);
+    if (n >= 1e8) return (n/1e8).toFixed(2) + ' 亿';
+    if (n >= 1e4) return (n/1e4).toFixed(2) + ' 万';
+    return n.toLocaleString();
+};
+const fmtAmt = (n) => fmtVol(n);
+const pct = (r) => (r*100).toFixed(2) + '%';
+
+// ---- 头部信息 ----
+const bs = DATA.buy_sell || {};
+const daily = DATA.daily || {};
+const verdictMap = {
+    '看多':['看多 BULLISH','#ff3b5c'],
+    '偏多':['偏多','#ff7a3b'],
+    '中性':['中性 NEUTRAL','#ffd23b'],
+    '偏空':['偏空','#3bff9a'],
+    '看空':['看空 BEARISH','#22e58a'],
+};
+document.getElementById('c-company').textContent = DATA.company || '--';
+document.getElementById('c-code').textContent = DATA.stock_code || '--';
+document.getElementById('c-date').textContent = DATA.date || '--';
+const vd = verdictMap[bs.verdict] || [bs.verdict || '--','#00e5ff'];
+const vEl = document.getElementById('c-verdict');
+vEl.textContent = vd[0];
+vEl.style.setProperty('--vc', vd[1]);
+
+// ---- 统计卡 ----
+const change = daily.change;
+const changeClass = (change>=0) ? 'up' : 'down';
+const stats = [
+    ['开盘', daily.open != null ? daily.open.toFixed(2) : '-'],
+    ['收盘', daily.close != null ? daily.close.toFixed(2) : '-'],
+    ['最高', daily.high != null ? daily.high.toFixed(2) : '-'],
+    ['最低', daily.low != null ? daily.low.toFixed(2) : '-'],
+    ['涨跌幅', daily.pct_change != null ? (daily.pct_change>=0?'+':'') + daily.pct_change + '%' : '-', changeClass],
+    ['涨跌额', change != null ? (change>=0?'+':'') + change.toFixed(2) : '-', changeClass],
+    ['成交量', fmtVol(daily.volume)],
+    ['成交额', fmtAmt(daily.amount)],
+];
+document.getElementById('stats').innerHTML = stats.map(s =>
+    `<div class="stat"><div class="k">${s[0]}</div><div class="v ${s[2]||''}">${s[1]}</div></div>`).join('');
+
+// ---- K 线 ----
+const kline = DATA.kline_30min || [];
+function renderKline(){
+    const box = document.getElementById('kline');
+    const empty = document.getElementById('kline-empty');
+    if (!kline.length){ box.style.display='none'; empty.style.display='block'; return; }
+    const cats = kline.map(k => k.time.slice(11,16));
+    const ohlc = kline.map(k => [k.open, k.close, k.low, k.high]);
+    const vols = kline.map(k => k.volume);
+    const upColor = '#ff3b5c', downColor = '#22e58a';
+    const chart = echarts.init(box, null, {renderer:'canvas'});
+    chart.setOption({
+        animation:true,
+        backgroundColor:'transparent',
+        grid:[
+            {left:64,right:24,top:24,height:'62%'},
+            {left:64,right:24,top:'74%',height:'20%'}
+        ],
+        xAxis:[
+            {type:'category',data:cats,boundaryGap:true,
+             axisLine:{lineStyle:{color:'#2a3a5e'}},
+             axisLabel:{color:'#7e8da8',fontFamily:'Consolas',fontSize:11},
+             splitLine:{show:false},
+             axisTick:{lineStyle:{color:'#2a3a5e'}}},
+            {type:'category',gridIndex:1,data:cats,boundaryGap:true,
+             axisLabel:{show:false},axisLine:{lineStyle:{color:'#2a3a5e'}},axisTick:{show:false}}
+        ],
+        yAxis:[
+            {scale:true,splitLine:{lineStyle:{color:'rgba(40,58,94,.5)'}},
+             axisLabel:{color:'#7e8da8',fontFamily:'Consolas',fontSize:11}},
+            {gridIndex:1,splitNumber:2,
+             splitLine:{lineStyle:{color:'rgba(40,58,94,.35)'}},
+             axisLabel:{color:'#7e8da8',fontFamily:'Consolas',fontSize:10,
+                formatter:(v)=> fmtVol(v)}}
+        ],
+        dataZoom:[
+            {type:'inside',xAxisIndex:[0,1],start:0,end:100},
+            {type:'slider',xAxisIndex:[0,1],start:0,end:100,height:14,
+             bottom:6,borderColor:'transparent',fillerColor:'rgba(0,229,255,.12)',
+             handleStyle:{color:'#00e5ff'},textStyle:{color:'#6c7d9c'}}
+        ],
+        tooltip:{
+            trigger:'axis',axisPointer:{type:'cross',
+                crossStyle:{color:'#00e5ff'},lineStyle:{color:'#00e5ff'}},
+            backgroundColor:'rgba(8,14,26,.95)',borderColor:'#1a2742',
+            textStyle:{color:'#d8e3f2',fontSize:12},
+            formatter:(params)=>{
+                if(!params||!params.length)return '';
+                const i = params[0].dataIndex;
+                const k = kline[i];
+                if(!k)return '';
+                const chg = (k.close-k.open);
+                const sign = chg>=0?'+':'';
+                const n = v => typeof v==='number'?v.toFixed(2):(v||'-');
+                return `<div style="font-family:Consolas">
+                    <b style="color:#00e5ff">${k.time}</b><br>
+                    开 ${n(k.open)} &nbsp; 高 ${n(k.high)}<br>
+                    低 ${n(k.low)} &nbsp; 收 ${n(k.close)}<br>
+                    涨跌 <span style="color:${chg>=0?upColor:downColor}">${sign}${n(chg)}</span><br>
+                    量 ${fmtVol(k.volume)} &nbsp; 额 ${fmtAmt(k.amount)}</div>`;
+            }
+        },
+        series:[
+            {name:'K线',type:'candlestick',data:ohlc,
+             itemStyle:{color:upColor,color0:downColor,
+                borderColor:upColor,borderColor0:downColor}},
+            {name:'成交量',type:'bar',xAxisIndex:1,yAxisIndex:1,data:vols,
+             itemStyle:{color:(p)=> kline[p.dataIndex].close>=kline[p.dataIndex].open
+                ? 'rgba(255,59,92,.6)':'rgba(34,229,138,.6)'}}
+        ]
+    });
+    window.addEventListener('resize',()=>chart.resize());
+}
+renderKline();
+
+// ---- 三色柱 ----
+function setBar(id, ratio, displayText){
+    document.getElementById('fill-'+id).style.width = Math.min(100, ratio*100).toFixed(2)+'%';
+    document.getElementById('pct-'+id).textContent = displayText;
+}
+
+const buyR = bs.buy_ratio||0, sellR = bs.sell_ratio||0, neutralR = bs.neutral_ratio||0;
+const bsr = bs.buy_sell_ratio;
+
+// 看多：买入占比
+setBar('bullish', buyR, pct(buyR));
+// 中性：用买卖比映射到柱长（1.0=满，偏离 1 越远柱越短，直观显示“越接近1越中性”）
+let neutralBar, neutralText;
+if (bsr != null){
+    const dev = Math.abs(bsr-1);
+    neutralBar = Math.max(0, 1 - dev/1.0); // 1.0→100%, 1.2→80%, 2.0→0%
+    neutralText = bsr.toFixed(4);
+} else { neutralBar = 0; neutralText = '-'; }
+setBar('neutral', neutralBar, neutralText);
+// 看空：卖出占比
+setBar('bearish', sellR, pct(sellR));
+
+// 成交量数字
+document.getElementById('vol-buy').textContent = fmtVol(bs.buy_volume);
+document.getElementById('vol-buy2').textContent = fmtVol(bs.buy_volume);
+document.getElementById('vol-sell').textContent = fmtVol(bs.sell_volume);
+document.getElementById('vol-sell2').textContent = fmtVol(bs.sell_volume);
+
+// ========== 唯一修改：多空高亮判定逻辑 严格按成交量占比2/3阈值 ==========
+const TWO_THIRDS = 2 / 3;
+// 清空所有active
+document.querySelectorAll('.bar-item').forEach(el => el.classList.remove('active'));
+if (buyR >= TWO_THIRDS) {
+    // 买入占比超2/3 看多高亮
+    document.getElementById('bar-bullish').classList.add('active');
+} else if (sellR >= TWO_THIRDS) {
+    // 卖出占比超2/3 看空高亮
+    document.getElementById('bar-bearish').classList.add('active');
+} else {
+    // 都不满足则中性高亮
+    document.getElementById('bar-neutral').classList.add('active');
+}
+
+// 页脚
+document.getElementById('footer').textContent =
+    'DATA FETCHED AT ' + (DATA.fetched_at||'--') + ' · POWERED BY AKSHARE + FASTAPI · ' + kline.length + ' 根 30 分钟 K 线';
+</script>
+</body>
+</html>

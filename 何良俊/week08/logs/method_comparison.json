@@ -1,0 +1,30 @@
+[
+  {
+    "accuracy": 0.8409452397182459,
+    "f1": 0.8407806496021378,
+    "threshold": 0.76,
+    "auc": 0.9030369202015613,
+    "label": "BiEncoder\n(CosineEmbeddingLoss)",
+    "color": "#2196F3",
+    "key": "biencoder_cosine",
+    "type": "biencoder"
+  },
+  {
+    "accuracy": 0.8719609179731879,
+    "f1": 0.8719537203075662,
+    "threshold": 0.77,
+    "auc": 0.9438820938829456,
+    "label": "BiEncoder\n(TripletLoss)",
+    "color": "#4CAF50",
+    "key": "biencoder_triplet",
+    "type": "biencoder"
+  },
+  {
+    "accuracy": 0.8905930470347648,
+    "f1": 0.8905765745514912,
+    "label": "CrossEncoder\n(CrossEntropyLoss)",
+    "color": "#FF9800",
+    "key": "crossencoder",
+    "type": "crossencoder"
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "word": "happy",
+  "phonetic": "/ˈhæpi/",
+  "pos": "adj.",
+  "definition": "感到或表现出快乐、满足的；幸福的，高兴的",
+  "examples": [
+    {
+      "en": "The children look happy playing in the park.",
+      "zh": "孩子们在公园里玩得很开心。"
+    },
+    {
+      "en": "I'm happy to hear that you got the job.",
+      "zh": "很高兴听到你得到了那份工作。"
+    },
+    {
+      "en": "She has a happy childhood full of wonderful memories.",
+      "zh": "她有一个充满美好回忆的幸福童年。"
+    }
+  ],
+  "synonyms": [
+    "joyful",
+    "cheerful",
+    "delighted",
+    "glad",
+    "pleased",
+    "content"
+  ]
+}

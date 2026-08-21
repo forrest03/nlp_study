@@ -1,0 +1,9 @@
+pdfplumber
+pymupdf
+faiss-cpu
+rank_bm25
+jieba
+openai
+numpy
+fastapi
+uvicorn

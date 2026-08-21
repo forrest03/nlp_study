@@ -1,0 +1,656 @@
+{
+  "interactions": [
+    {
+      "id": "ce4d3ecc9c27",
+      "ts": "2026-07-29T22:48:41",
+      "user_input": "给我做张 resilient 闪卡",
+      "skill": "flash-card",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": 0,
+        "cmd": [
+          "F:\\ProgramData\\anaconda3\\python.exe",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\scripts\\make_flashcard.py",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\resilient.json"
+        ],
+        "description": "生成 flash-card: resilient",
+        "artifacts": {
+          "item_name": "resilient",
+          "data_file": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\resilient.json"
+        },
+        "stdout_tail": "已生成: F:\\AI\\programs\\agent_skills_system\\resilient.html\n",
+        "stderr_tail": ""
+      },
+      "error": null
+    },
+    {
+      "id": "7fd633abe027",
+      "ts": "2026-07-29T22:48:53",
+      "user_input": "再来一个",
+      "skill": "flash-card",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": 0,
+        "cmd": [
+          "F:\\ProgramData\\anaconda3\\python.exe",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\scripts\\make_flashcard.py",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\perseverance.json"
+        ],
+        "description": "生成 flash-card: perseverance",
+        "artifacts": {
+          "item_name": "perseverance",
+          "data_file": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\perseverance.json"
+        },
+        "stdout_tail": "已生成: F:\\AI\\programs\\agent_skills_system\\perseverance.html\n",
+        "stderr_tail": ""
+      },
+      "error": null
+    },
+    {
+      "id": "0e758a7749d3",
+      "ts": "2026-07-29T22:50:44",
+      "user_input": "画一个用户登录流程图",
+      "skill": "baoyu-diagram",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": null,
+        "description": "生成 baoyu-diagram: 用户登录流程",
+        "artifacts": {
+          "item_name": "用户登录流程",
+          "output_path": "F:\\AI\\programs\\agent_skills_system\\diagram\\用户登录流程\\用户登录流程.svg",
+          "params": {
+            "diagram_type": "flowchart",
+            "topic": "用户登录流程",
+            "details": null
+          },
+          "llm_tokens": 19704
+        },
+        "no_subprocess": true
+      },
+      "error": null
+    },
+    {
+      "id": "12f95f035096",
+      "ts": "2026-07-29T22:51:35",
+      "user_input": "帮我写个 commit message，diff 是: 新增了用户登录的 OAuth2 认证流程，修改了 auth.py 和 login.ts",
+      "skill": "commit-message",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": 0,
+        "cmd": [
+          "F:\\ProgramData\\anaconda3\\python.exe",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\commit-message\\scripts\\format_commit.py"
+        ],
+        "description": "执行 commit-message (stdin)",
+        "artifacts": {
+          "item_name": "新增了用户登录的 OAuth2 认证流程，修改了 auth.py 和 login.ts"
+        },
+        "stdout_tail": "feat(auth): add OAuth2 authentication flow for user login\n",
+        "stderr_tail": ""
+      },
+      "error": null
+    },
+    {
+      "id": "0947939f96df",
+      "ts": "2026-07-30T22:00:05",
+      "user_input": "list",
+      "skill": null,
+      "phase": "not_found",
+      "result": {
+        "score": 0,
+        "reason": "LLM rejected: 请求 'list' 没有匹配任何可用 skill 的触发场景。",
+        "args": {}
+      },
+      "error": null
+    },
+    {
+      "id": "44f53b7aa74c",
+      "ts": "2026-07-30T22:00:22",
+      "user_input": "你是谁",
+      "skill": null,
+      "phase": "not_found",
+      "result": {
+        "score": 0,
+        "reason": "LLM rejected: 用户请求'你是谁'是身份询问，与任何可用skill（图表、commit message、闪卡）无关。",
+        "args": {}
+      },
+      "error": null
+    },
+    {
+      "id": "909e28bd338d",
+      "ts": "2026-07-30T22:06:55",
+      "user_input": "给我做张 brave 闪卡",
+      "skill": "flash-card",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": 0,
+        "cmd": [
+          "F:\\ProgramData\\anaconda3\\python.exe",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\scripts\\make_flashcard.py",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\brave.json"
+        ],
+        "description": "生成 flash-card: brave",
+        "artifacts": {
+          "item_name": "brave",
+          "data_file": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\brave.json"
+        },
+        "stdout_tail": "已生成: F:\\AI\\programs\\agent_skills_system\\brave.html\n",
+        "stderr_tail": ""
+      },
+      "error": null
+    },
+    {
+      "id": "9b4be654eb87",
+      "ts": "2026-07-30T22:17:29",
+      "user_input": "给我做张 curious 闪卡",
+      "skill": "flash-card",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": 0,
+        "cmd": [
+          "F:\\ProgramData\\anaconda3\\python.exe",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\scripts\\make_flashcard.py",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\curious.json"
+        ],
+        "description": "生成 flash-card: curious",
+        "artifacts": {
+          "item_name": "curious",
+          "data_file": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\curious.json"
+        },
+        "stdout_tail": "已生成: F:\\AI\\programs\\agent_skills_system\\curious.html\n",
+        "stderr_tail": ""
+      },
+      "error": null
+    },
+    {
+      "id": "51e59b9cedda",
+      "ts": "2026-07-30T22:25:48",
+      "user_input": "生成一个awesome的闪卡",
+      "skill": "flash-card",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": 0,
+        "cmd": [
+          "F:\\ProgramData\\anaconda3\\python.exe",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\scripts\\make_flashcard.py",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\awesome.json"
+        ],
+        "description": "生成 flash-card: awesome",
+        "artifacts": {
+          "item_name": "awesome",
+          "data_file": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\awesome.json"
+        },
+        "stdout_tail": "������: F:\\AI\\programs\\agent_skills_system\\awesome.html\n",
+        "stderr_tail": ""
+      },
+      "error": null
+    },
+    {
+      "id": "a26d72e2ec08",
+      "ts": "2026-07-30T22:30:11",
+      "user_input": "生成一个agent harness调用的流程图",
+      "skill": "baoyu-diagram",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": null,
+        "description": "生成 baoyu-diagram: Agent_Harness_调用流程",
+        "artifacts": {
+          "item_name": "Agent Harness 调用流程",
+          "output_path": "F:\\AI\\programs\\agent_skills_system\\diagram\\Agent_Harness_调用流程\\Agent_Harness_调用流程.svg",
+          "params": {
+            "diagram_type": "flowchart",
+            "topic": "Agent Harness 调用流程",
+            "details": "展示从用户输入到 Agent Harness 调度，再到工具调用、LLM 推理、结果返回的完整流程，包括：用户输入 -> Agent Harness(调度器) -> LLM 推理/意图识别 -> Tool Calling(可选多个工具) -> 结果汇总 -> 返回给用户。使用暗色主题，专业风格。"
+          },
+          "llm_tokens": 19825
+        },
+        "no_subprocess": true
+      },
+      "error": null
+    },
+    {
+      "id": "894854694000",
+      "ts": "2026-07-30T22:36:10",
+      "user_input": "给我做张 bold 闪卡",
+      "skill": "flash-card",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": 0,
+        "cmd": [
+          "F:\\ProgramData\\anaconda3\\python.exe",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\scripts\\make_flashcard.py",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\bold.json"
+        ],
+        "description": "生成 flash-card: bold",
+        "artifacts": {
+          "item_name": "bold",
+          "data_file": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\bold.json"
+        },
+        "stdout_tail": "已生成: F:\\AI\\programs\\agent_skills_system\\bold.html\n",
+        "stderr_tail": ""
+      },
+      "error": null
+    },
+    {
+      "id": "382486995477",
+      "ts": "2026-07-30T22:39:20",
+      "user_input": "画一个function calling的流程图",
+      "skill": "baoyu-diagram",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": null,
+        "description": "生成 baoyu-diagram: LLM_Function_Calling_流程",
+        "artifacts": {
+          "item_name": "LLM Function Calling 流程",
+          "output_path": "F:\\AI\\programs\\agent_skills_system\\diagram\\LLM_Function_Calling_流程\\LLM_Function_Calling_流程.svg",
+          "params": {
+            "diagram_type": "flowchart",
+            "topic": "LLM Function Calling 流程",
+            "details": "展示从用户输入到LLM识别意图、返回函数调用参数、执行工具、返回结果给LLM、最终回复用户的完整流程。使用暗色主题，风格与之前的Agent Harness流程图保持一致。"
+          },
+          "llm_tokens": 16032
+        },
+        "no_subprocess": true
+      },
+      "error": null
+    },
+    {
+      "id": "c11582b4a1c9",
+      "ts": "2026-07-30T22:44:56",
+      "user_input": "给我做张 gleaming 闪卡",
+      "skill": "flash-card",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": 0,
+        "cmd": [
+          "F:\\ProgramData\\anaconda3\\python.exe",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\scripts\\make_flashcard.py",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\gleaming.json"
+        ],
+        "description": "生成 flash-card: gleaming",
+        "artifacts": {
+          "item_name": "gleaming",
+          "data_file": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\gleaming.json"
+        },
+        "stdout_tail": "已生成: F:\\AI\\programs\\agent_skills_system\\gleaming.html\n",
+        "stderr_tail": ""
+      },
+      "error": null
+    },
+    {
+      "id": "4dd180e7c0d7",
+      "ts": "2026-07-30T22:45:15",
+      "user_input": "再帮我做一张 radiant 的闪卡",
+      "skill": "flash-card",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": 0,
+        "cmd": [
+          "F:\\ProgramData\\anaconda3\\python.exe",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\scripts\\make_flashcard.py",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\radiant.json"
+        ],
+        "description": "生成 flash-card: radiant",
+        "artifacts": {
+          "item_name": "radiant",
+          "data_file": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\radiant.json"
+        },
+        "stdout_tail": "已生成: F:\\AI\\programs\\agent_skills_system\\radiant.html\n",
+        "stderr_tail": ""
+      },
+      "error": null
+    },
+    {
+      "id": "948b579c4d1f",
+      "ts": "2026-07-30T22:47:24",
+      "user_input": "生成一个function calling流程图",
+      "skill": "baoyu-diagram",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": null,
+        "description": "生成 baoyu-diagram: Function_Calling_工具调用_流程",
+        "artifacts": {
+          "item_name": "Function Calling（工具调用）流程",
+          "output_path": "F:\\AI\\programs\\agent_skills_system\\diagram\\Function_Calling_工具调用_流程\\Function_Calling_工具调用_流程.svg",
+          "params": {
+            "diagram_type": "flowchart",
+            "topic": "Function Calling（工具调用）流程",
+            "details": "展示从用户输入开始，经过意图识别、工具调用、返回结果到最终回答的完整流程，包含判断分支。"
+          },
+          "llm_tokens": 14365
+        },
+        "no_subprocess": true
+      },
+      "error": null
+    },
+    {
+      "id": "d851e8c99687",
+      "ts": "2026-07-30T22:50:07",
+      "user_input": "画一个简单的用户登录流程图",
+      "skill": "baoyu-diagram",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": null,
+        "description": "生成 baoyu-diagram: 用户登录流程",
+        "artifacts": {
+          "item_name": "用户登录流程",
+          "output_path": "F:\\AI\\programs\\agent_skills_system\\diagram\\用户登录流程\\用户登录流程.svg",
+          "params": {
+            "diagram_type": "flowchart",
+            "topic": "用户登录流程",
+            "details": "包含以下步骤：用户输入账号密码 -> 点击登录 -> 系统校验输入是否为空 -> 若为空则提示错误返回 -> 校验账号密码是否正确 -> 若错误则提示登录失败 -> 若正确则登录成功进入主页。使用暗色主题，简洁清晰。"
+          },
+          "llm_tokens": 15414
+        },
+        "no_subprocess": true
+      },
+      "error": null
+    },
+    {
+      "id": "8335279db0dd",
+      "ts": "2026-07-30T22:55:01",
+      "user_input": "帮我做一个function calling的流程图",
+      "skill": "baoyu-diagram",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": null,
+        "description": "生成 baoyu-diagram: Function_Calling_流程",
+        "artifacts": {
+          "item_name": "Function Calling 流程",
+          "output_path": "F:\\AI\\programs\\agent_skills_system\\diagram\\Function_Calling_流程\\Function_Calling_流程.svg",
+          "params": {
+            "diagram_type": "flowchart",
+            "topic": "Function Calling 流程",
+            "details": "展示AI大模型Function Calling的完整流程：用户提问 -> 解析用户意图 -> 判断是否需要调用函数 -> 若不需要则直接回复用户 -> 若需要则选择匹配的函数并生成参数 -> 调用外部工具/API -> 工具返回结果 -> 将结果注入上下文 -> 模型基于结果生成最终回复 -> 回复用户。暗色主题，风格专业简洁。"
+          },
+          "llm_tokens": 17525
+        },
+        "no_subprocess": true
+      },
+      "error": null
+    },
+    {
+      "id": "c8144ed504a0",
+      "ts": "2026-07-30T22:55:37",
+      "user_input": "做一个handsome卡片",
+      "skill": "flash-card",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": 0,
+        "cmd": [
+          "F:\\ProgramData\\anaconda3\\python.exe",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\scripts\\make_flashcard.py",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\handsome.json"
+        ],
+        "description": "生成 flash-card: handsome",
+        "artifacts": {
+          "item_name": "handsome",
+          "data_file": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\handsome.json"
+        },
+        "stdout_tail": "������: F:\\AI\\programs\\agent_skills_system\\handsome.html\n",
+        "stderr_tail": ""
+      },
+      "error": null
+    },
+    {
+      "id": "5dbb2a5b4670",
+      "ts": "2026-07-30T23:14:51",
+      "user_input": "给我做一张 persistent 的闪卡",
+      "skill": "flash-card",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": 0,
+        "cmd": [
+          "F:\\ProgramData\\anaconda3\\python.exe",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\scripts\\make_flashcard.py",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\persistent.json"
+        ],
+        "description": "生成 flash-card: persistent",
+        "artifacts": {
+          "item_name": "persistent",
+          "data_file": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\persistent.json"
+        },
+        "stdout_tail": "已生成: F:\\AI\\programs\\agent_skills_system\\persistent.html\n",
+        "stderr_tail": ""
+      },
+      "error": null
+    },
+    {
+      "id": "f1c99467dba0",
+      "ts": "2026-07-30T23:19:02",
+      "user_input": "做一个apple的卡片",
+      "skill": "flash-card",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": 0,
+        "cmd": [
+          "F:\\ProgramData\\anaconda3\\python.exe",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\scripts\\make_flashcard.py",
+          "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\apple.json"
+        ],
+        "description": "生成 flash-card: apple",
+        "artifacts": {
+          "item_name": "apple",
+          "data_file": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\apple.json"
+        },
+        "stdout_tail": "������: F:\\AI\\programs\\agent_skills_system\\apple.html\n",
+        "stderr_tail": ""
+      },
+      "error": null
+    },
+    {
+      "id": "396b1e2a2ed7",
+      "ts": "2026-07-30T23:21:16",
+      "user_input": "生成常见的web登陆流程图",
+      "skill": "baoyu-diagram",
+      "phase": "executed",
+      "result": {
+        "ok": true,
+        "exit_code": null,
+        "description": "生成 baoyu-diagram: Web_登录流程",
+        "artifacts": {
+          "item_name": "Web 登录流程",
+          "output_path": "F:\\AI\\programs\\agent_skills_system\\diagram\\Web_登录流程\\Web_登录流程.svg",
+          "params": {
+            "diagram_type": "flowchart",
+            "topic": "Web 登录流程",
+            "details": "展示用户从输入账号密码到登录成功的完整流程，包含输入验证、请求后端、校验凭证、生成Token、返回结果等步骤"
+          },
+          "llm_tokens": 18956
+        },
+        "no_subprocess": true
+      },
+      "error": null
+    }
+  ],
+  "skill_state": {
+    "flash-card": {
+      "items_generated": [
+        {
+          "name": "resilient",
+          "path": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\resilient.json",
+          "params": {
+            "word": null
+          }
+        },
+        {
+          "name": "perseverance",
+          "path": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\perseverance.json",
+          "params": {
+            "word": null
+          }
+        },
+        {
+          "name": "brave",
+          "path": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\brave.json",
+          "params": {
+            "word": null
+          }
+        },
+        {
+          "name": "curious",
+          "path": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\curious.json",
+          "params": {
+            "word": null
+          }
+        },
+        {
+          "name": "awesome",
+          "path": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\awesome.json",
+          "params": {
+            "word": null
+          }
+        },
+        {
+          "name": "bold",
+          "path": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\bold.json",
+          "params": {
+            "word": null
+          }
+        },
+        {
+          "name": "gleaming",
+          "path": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\gleaming.json",
+          "params": {
+            "word": null
+          }
+        },
+        {
+          "name": "radiant",
+          "path": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\radiant.json",
+          "params": {
+            "word": null
+          }
+        },
+        {
+          "name": "handsome",
+          "path": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\handsome.json",
+          "params": {
+            "word": null
+          }
+        },
+        {
+          "name": "persistent",
+          "path": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\persistent.json",
+          "params": {
+            "word": null
+          }
+        },
+        {
+          "name": "apple",
+          "path": "F:\\AI\\programs\\agent_skills_system\\harness\\skills\\flash-card\\data\\apple.json",
+          "params": {
+            "word": null
+          }
+        }
+      ],
+      "last_item": {
+        "name": "apple",
+        "params": {
+          "word": null
+        }
+      }
+    },
+    "baoyu-diagram": {
+      "items_generated": [
+        {
+          "name": "用户登录流程",
+          "path": "F:\\AI\\programs\\agent_skills_system\\diagram\\用户登录流程\\用户登录流程.svg",
+          "params": {
+            "diagram_type": "flowchart",
+            "topic": "用户登录流程",
+            "details": null
+          }
+        },
+        {
+          "name": "Agent Harness 调用流程",
+          "path": "F:\\AI\\programs\\agent_skills_system\\diagram\\Agent_Harness_调用流程\\Agent_Harness_调用流程.svg",
+          "params": {
+            "diagram_type": "flowchart",
+            "topic": "Agent Harness 调用流程",
+            "details": "展示从用户输入到 Agent Harness 调度，再到工具调用、LLM 推理、结果返回的完整流程，包括：用户输入 -> Agent Harness(调度器) -> LLM 推理/意图识别 -> Tool Calling(可选多个工具) -> 结果汇总 -> 返回给用户。使用暗色主题，专业风格。"
+          }
+        },
+        {
+          "name": "LLM Function Calling 流程",
+          "path": "F:\\AI\\programs\\agent_skills_system\\diagram\\LLM_Function_Calling_流程\\LLM_Function_Calling_流程.svg",
+          "params": {
+            "diagram_type": "flowchart",
+            "topic": "LLM Function Calling 流程",
+            "details": "展示从用户输入到LLM识别意图、返回函数调用参数、执行工具、返回结果给LLM、最终回复用户的完整流程。使用暗色主题，风格与之前的Agent Harness流程图保持一致。"
+          }
+        },
+        {
+          "name": "Function Calling（工具调用）流程",
+          "path": "F:\\AI\\programs\\agent_skills_system\\diagram\\Function_Calling_工具调用_流程\\Function_Calling_工具调用_流程.svg",
+          "params": {
+            "diagram_type": "flowchart",
+            "topic": "Function Calling（工具调用）流程",
+            "details": "展示从用户输入开始，经过意图识别、工具调用、返回结果到最终回答的完整流程，包含判断分支。"
+          }
+        },
+        {
+          "name": "Function Calling 流程",
+          "path": "F:\\AI\\programs\\agent_skills_system\\diagram\\Function_Calling_流程\\Function_Calling_流程.svg",
+          "params": {
+            "diagram_type": "flowchart",
+            "topic": "Function Calling 流程",
+            "details": "展示AI大模型Function Calling的完整流程：用户提问 -> 解析用户意图 -> 判断是否需要调用函数 -> 若不需要则直接回复用户 -> 若需要则选择匹配的函数并生成参数 -> 调用外部工具/API -> 工具返回结果 -> 将结果注入上下文 -> 模型基于结果生成最终回复 -> 回复用户。暗色主题，风格专业简洁。"
+          }
+        },
+        {
+          "name": "Web 登录流程",
+          "path": "F:\\AI\\programs\\agent_skills_system\\diagram\\Web_登录流程\\Web_登录流程.svg",
+          "params": {
+            "diagram_type": "flowchart",
+            "topic": "Web 登录流程",
+            "details": "展示用户从输入账号密码到登录成功的完整流程，包含输入验证、请求后端、校验凭证、生成Token、返回结果等步骤"
+          }
+        }
+      ],
+      "last_item": {
+        "name": "Web 登录流程",
+        "params": {
+          "diagram_type": "flowchart",
+          "topic": "Web 登录流程",
+          "details": "展示用户从输入账号密码到登录成功的完整流程，包含输入验证、请求后端、校验凭证、生成Token、返回结果等步骤"
+        }
+      }
+    },
+    "commit-message": {
+      "items_generated": [
+        {
+          "name": "新增了用户登录的 OAuth2 认证流程，修改了 auth.py 和 login.ts",
+          "path": "",
+          "params": {
+            "diff": null
+          }
+        }
+      ],
+      "last_item": {
+        "name": "新增了用户登录的 OAuth2 认证流程，修改了 auth.py 和 login.ts",
+        "params": {
+          "diff": null
+        }
+      }
+    }
+  }
+}

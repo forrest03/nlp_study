@@ -1,0 +1,102 @@
+# PDF 解析脚本 - 环境配置指南
+
+=======================================================
+1. 环境激活
+=======================================================
+conda activate py312
+
+
+=======================================================
+2. 安装 Python 依赖
+=======================================================
+pip install pdfplumber pymupdf Pillow pytesseract
+
+或使用 requirements.txt：
+pip install -r src_my/code/requirements.txt
+
+
+=======================================================
+3. OCR 配置（扫描页识别需要）
+=======================================================
+# Ubuntu/Debian
+sudo apt install tesseract-ocr tesseract-ocr-chi-sim
+
+# Windows
+# 下载：https://github.com/UB-Mannheim/tesseract/wiki
+# 在 parse_pdf.py 中设置路径：
+# pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+
+
+=======================================================
+4. 运行方式
+=======================================================
+cd rag_annual_report
+
+# 4.1 PDF 解析
+python src_my/code/parse_pdf.py
+
+# 4.2 文档分块
+python src_my/code/chunk_documents.py
+
+# 4.3 向量索引构建（需配置 DashScope API Key）
+export DASHSCOPE_API_KEY="sk-xxx"
+python src_my/code/build_index.py
+
+# 4.4 RAG 问答
+# 交互式模式
+python src_my/code/rag_pipeline.py
+
+# 单次查询
+python src_my/code/rag_pipeline.py --query "2025年重点领域和行业节能改造节能量多少标准煤？"
+
+# 年份过滤（注意引号）
+python src_my/code/rag_pipeline.py --query "行业节能改造节能量" --years "2024|2025"
+
+# 开启查询改写
+python src_my/code/rag_pipeline.py --query "石化化工产业最近怎么样" --query-rewrite
+
+# 消融测试
+python src_my/code/rag_pipeline.py --query "..." --no-bm25
+python src_my/code/rag_pipeline.py --query "..." --no-rerank
+
+# 4.5 LangChain 版 RAG 问答
+python src_my/code/rag_pipeline_langchain.py
+python src_my/code/rag_pipeline_langchain.py --query "2025年节能降碳节能量"
+
+# 4.6 HTTP 服务模式
+# 启动服务（首次启动会加载 FAISS 和 BM25 索引）
+cd src_my/code
+uvicorn serve:app --host 0.0.0.0 --port 8000
+
+# 开发模式（修改代码后自动重载）
+uvicorn serve:app --host 0.0.0.0 --port 8000 --reload
+
+# API 调用示例
+# POST /query
+# {"question": "2025年重点领域和行业节能改造节能量多少标准煤", "years": "2024|2025"}
+
+# GET /health
+# 健康检查
+
+
+=======================================================
+5. 脚本说明
+=======================================================
+- parse_pdf.py: PDF 解析 → src_my/resource/parsed/
+- chunk_documents.py: 文档分块 → src_my/resource/chunks/
+- build_index.py: 向量索引构建 → src_my/resource/vectorstore/
+
+
+=======================================================
+6. DashScope API Key 配置
+=======================================================
+# 获取地址：https://dashscope.console.aliyun.com/apiKey
+
+# Linux/Mac
+export DASHSCOPE_API_KEY="sk-xxx"
+
+# Windows (PowerShell)
+$env:DASHSCOPE_API_KEY="sk-xxx"
+
+# 或通过命令行参数
+python src_my/code/build_index.py --api-key sk-xxx

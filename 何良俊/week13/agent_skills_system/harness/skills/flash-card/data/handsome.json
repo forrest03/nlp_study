@@ -1,0 +1,28 @@
+{
+  "word": "handsome",
+  "phonetic": "/ˈhænsəm/",
+  "pos": "adj.",
+  "definition": "英俊的，漂亮的；可观的，丰厚的",
+  "examples": [
+    {
+      "en": "He is a handsome man with a charming smile.",
+      "zh": "他是一个英俊的男人，带着迷人的微笑。"
+    },
+    {
+      "en": "That's a handsome reward for your hard work.",
+      "zh": "这是对你辛勤工作的丰厚回报。"
+    },
+    {
+      "en": "The company made a handsome profit this quarter.",
+      "zh": "公司本季度获得了可观的利润。"
+    }
+  ],
+  "synonyms": [
+    "good-looking",
+    "attractive",
+    "gorgeous",
+    "striking",
+    "dapper",
+    "beautiful"
+  ]
+}

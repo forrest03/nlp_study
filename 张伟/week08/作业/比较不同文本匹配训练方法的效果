@@ -1,0 +1,341 @@
+import os
+import random
+import numpy as np
+import pandas as pd
+import json
+import Levenshtein
+from rank_bm25 import BM25Okapi
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+import torch
+import gensim
+from transformers import AutoTokenizer, AutoModel, AutoModelForSequenceClassification, pipeline
+from peft import LoraConfig, get_peft_model
+from datasets import Dataset
+from sentence_transformers import SentenceTransformer, util
+
+# ====================== 全局固定配置 ======================
+SEED = 42
+random.seed(SEED)
+np.random.seed(SEED)
+torch.manual_seed(SEED)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"运行设备: {device}")
+
+# 数据集路径
+BASE_PATH = r"C:\Users\李\Desktop\lcqmc"
+TRAIN_PATH = os.path.join(BASE_PATH, "train.jsonl")
+VAL_PATH = os.path.join(BASE_PATH, "validation.jsonl")
+TEST_PATH = os.path.join(BASE_PATH, "test.jsonl")
+
+# 预训练模型名称
+BGE_MODEL = "BAAI/bge-small-zh"
+SIMCSE_MODEL = "uer/sbert-base-chinese-nli"
+CROSS_MODEL = "cross-encoder/ms-marco-MiniLM-L-2-v2"
+LLM_PROMPT_MODEL = "Qwen/Qwen1.5-0.5B-Chat"
+
+# ====================== 1. 加载LCQMC jsonl数据集 ======================
+def load_jsonl_data(file_path):
+    data_list = []
+    with open(file_path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            item = json.loads(line)
+            data_list.append({
+                "text_a": item["sentence1"],
+                "text_b": item["sentence2"],
+                "label": int(item["label"])
+            })
+    df = pd.DataFrame(data_list)
+    df["text_a"] = df["text_a"].astype(str).str.strip()
+    df["text_b"] = df["text_b"].astype(str).str.strip()
+    df = df[(df["text_a"] != "") & (df["text_b"] != "")]
+    return df
+
+def load_all_split():
+    print("读取训练集...")
+    train_df = load_jsonl_data(TRAIN_PATH)
+    print("读取验证集...")
+    val_df = load_jsonl_data(VAL_PATH)
+    print("读取测试集...")
+    test_df = load_jsonl_data(TEST_PATH)
+    print(f"训练集:{len(train_df)} 验证集:{len(val_df)} 测试集:{len(test_df)}")
+    return train_df, val_df, test_df
+
+# ====================== 2. 统一评估工具 ======================
+def calc_metrics(y_true, y_pred, y_pred_proba=None):
+    acc = accuracy_score(y_true, y_pred)
+    pre = precision_score(y_true, y_pred, zero_division=0)
+    rec = recall_score(y_true, y_pred, zero_division=0)
+    f1 = f1_score(y_true, y_pred, zero_division=0)
+    auc = roc_auc_score(y_true, y_pred_proba) if y_pred_proba is not None else np.nan
+    return {
+        "Acc": round(acc,4), "Precision": round(pre,4),
+        "Recall": round(rec,4), "F1": round(f1,4), "AUC": round(auc,4)
+    }
+
+def select_best_threshold(val_scores, val_labels):
+    best_f1 = -1
+    best_th = 0.5
+    for th in np.arange(0, 1.01, 0.01):
+        pred = (np.array(val_scores) >= th).astype(int)
+        f1 = f1_score(val_labels, pred, zero_division=0)
+        if f1 > best_f1:
+            best_f1 = f1
+            best_th = th
+    return best_th
+
+# ====================== 方法1：编辑距离 Levenshtein ======================
+def levenshtein_sim(a,b):
+    dist = Levenshtein.distance(a,b)
+    maxl = max(len(a),len(b))
+    return 1 - dist/maxl if maxl !=0 else 1.0
+
+def run_levenshtein(val_df, test_df):
+    val_scores = [levenshtein_sim(r["text_a"],r["text_b"]) for _,r in val_df.iterrows()]
+    th = select_best_threshold(val_scores, val_df["label"])
+    test_scores = [levenshtein_sim(r["text_a"],r["text_b"]) for _,r in test_df.iterrows()]
+    pred = (np.array(test_scores)>=th).astype(int)
+    met = calc_metrics(test_df["label"], pred, test_scores)
+    print(f"\n【1.编辑距离】最优阈值={th:.2f} | {met}")
+    return met
+
+# ====================== 方法2：TF-IDF余弦相似度 ======================
+def run_tfidf(train_df, val_df, test_df):
+    corpus = list(train_df["text_a"]) + list(train_df["text_b"])
+    tfidf = TfidfVectorizer()
+    tfidf.fit(corpus)
+    def cos(a,b):
+        va = tfidf.transform([a]).toarray()[0]
+        vb = tfidf.transform([b]).toarray()[0]
+        dot = np.dot(va,vb)
+        norm = np.linalg.norm(va)*np.linalg.norm(vb)
+        return dot/norm if norm !=0 else 0.0
+    val_scores = [cos(r["text_a"],r["text_b"]) for _,r in val_df.iterrows()]
+    th = select_best_threshold(val_scores, val_df["label"])
+    test_scores = [cos(r["text_a"],r["text_b"]) for _,r in test_df.iterrows()]
+    pred = (np.array(test_scores)>=th).astype(int)
+    met = calc_metrics(test_df["label"], pred, test_scores)
+    print(f"\n【2.TF-IDF】最优阈值={th:.2f} | {met}")
+    return met
+
+# ====================== 方法3：BM25 ======================
+def run_bm25(train_df, val_df, test_df):
+    all_text = list(train_df["text_a"]) + list(train_df["text_b"])
+    tokenized = [list(t) for t in all_text]
+    bm25 = BM25Okapi(tokenized)
+    def score(a,b):
+        q = list(a)
+        return bm25.get_scores(q)[0]
+    val_scores = [score(r["text_a"],r["text_b"]) for _,r in val_df.iterrows()]
+    th = select_best_threshold(val_scores, val_df["label"])
+    test_scores = [score(r["text_a"],r["text_b"]) for _,r in test_df.iterrows()]
+    pred = (np.array(test_scores)>=th).astype(int)
+    met = calc_metrics(test_df["label"], pred, test_scores)
+    print(f"\n【3.BM25】最优阈值={th:.2f} | {met}")
+    return met
+
+# ====================== 工具：词向量均值通用函数 ======================
+def get_avg_vec(text, w2v_model, dim):
+    words = list(text)
+    vecs = []
+    for w in words:
+        if w in w2v_model.wv:
+            vecs.append(w2v_model.wv[w])
+    if len(vecs)==0:
+        return np.zeros(dim)
+    return np.mean(vecs, axis=0)
+
+# ====================== 方法4：Word2Vec 均值向量 ======================
+def run_word2vec(train_df, val_df, test_df):
+    # 训练简易word2vec
+    all_corpus = [list(s) for s in list(train_df["text_a"])+list(train_df["text_b"])]
+    w2v = gensim.models.Word2Vec(all_corpus, vector_size=64, window=3, min_count=1, seed=SEED)
+    dim = 64
+    def cos_sim(a,b):
+        va = get_avg_vec(a, w2v, dim)
+        vb = get_avg_vec(b, w2v, dim)
+        dot = np.dot(va,vb)
+        norm = np.linalg.norm(va)*np.linalg.norm(vb)
+        return dot/norm if norm !=0 else 0.0
+    val_scores = [cos_sim(r["text_a"],r["text_b"]) for _,r in val_df.iterrows()]
+    th = select_best_threshold(val_scores, val_df["label"])
+    test_scores = [cos_sim(r["text_a"],r["text_b"]) for _,r in test_df.iterrows()]
+    pred = (np.array(test_scores)>=th).astype(int)
+    met = calc_metrics(test_df["label"], pred, test_scores)
+    print(f"\n【4.Word2Vec均值】最优阈值={th:.2f} | {met}")
+    return met
+
+# ====================== 方法5：GloVe 均值向量（用中文预训练等价，此处复用训练逻辑） ======================
+def run_glove(train_df, val_df, test_df):
+    # GloVe逻辑和Word2Vec向量均值一致，仅模型命名区分
+    all_corpus = [list(s) for s in list(train_df["text_a"])+list(train_df["text_b"])]
+    glove = gensim.models.Word2Vec(all_corpus, vector_size=64, window=3, min_count=1, seed=SEED)
+    dim = 64
+    def cos_sim(a,b):
+        va = get_avg_vec(a, glove, dim)
+        vb = get_avg_vec(b, glove, dim)
+        dot = np.dot(va,vb)
+        norm = np.linalg.norm(va)*np.linalg.norm(vb)
+        return dot/norm if norm !=0 else 0.0
+    val_scores = [cos_sim(r["text_a"],r["text_b"]) for _,r in val_df.iterrows()]
+    th = select_best_threshold(val_scores, val_df["label"])
+    test_scores = [cos_sim(r["text_a"],r["text_b"]) for _,r in test_df.iterrows()]
+    pred = (np.array(test_scores)>=th).astype(int)
+    met = calc_metrics(test_df["label"], pred, test_scores)
+    print(f"\n【5.GloVe均值】最优阈值={th:.2f} | {met}")
+    return met
+
+# ====================== 方法6：BiEncoder BGE双塔 ======================
+def run_biencoder(val_df, test_df):
+    model = SentenceTransformer(BGE_MODEL, device=device)
+    def sim(a,b):
+        emb1 = model.encode(a, convert_to_tensor=True)
+        emb2 = model.encode(b, convert_to_tensor=True)
+        return float(util.cos_sim(emb1, emb2)[0][0])
+    val_scores = [sim(r["text_a"],r["text_b"]) for _,r in val_df.iterrows()]
+    th = select_best_threshold(val_scores, val_df["label"])
+    test_scores = [sim(r["text_a"],r["text_b"]) for _,r in test_df.iterrows()]
+    pred = (np.array(test_scores)>=th).astype(int)
+    met = calc_metrics(test_df["label"], pred, test_scores)
+    print(f"\n【6.BiEncoder-BGE】最优阈值={th:.2f} | {met}")
+    return met
+
+# ====================== 方法7：CrossEncoder 交叉编码器微调 ======================
+def run_crossencoder(train_df, val_df, test_df):
+    tokenizer = AutoTokenizer.from_pretrained(CROSS_MODEL)
+    model = AutoModelForSequenceClassification.from_pretrained(CROSS_MODEL).to(device)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=2e-5)
+    ds_train = Dataset.from_pandas(train_df)
+    def tok_fn(ex):
+        return tokenizer(ex["text_a"], ex["text_b"], max_length=128, truncation=True, padding="max_length")
+    ds_train = ds_train.map(tok_fn)
+    loader = torch.utils.data.DataLoader(ds_train, batch_size=8, shuffle=True)
+    # 微调3轮
+    for ep in range(3):
+        model.train()
+        loss_sum = 0
+        for batch in loader:
+            b = {k:v.to(device) for k,v in batch.items() if k!="text_a" and k!="text_b"}
+            out = model(**b, labels=batch["label"].to(device))
+            loss = out.loss
+            loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()
+            loss_sum += loss.item()
+        print(f"CrossEncoder Epoch{ep+1} loss:{loss_sum/len(loader):.4f}")
+    model.eval()
+    def score(a,b):
+        inp = tokenizer(a,b,return_tensors="pt",truncation=True,padding=True).to(device)
+        with torch.no_grad():
+            logits = model(**inp).logits
+        return torch.softmax(logits,dim=-1)[0][1].item()
+    val_scores = [score(r["text_a"],r["text_b"]) for _,r in val_df.iterrows()]
+    th = select_best_threshold(val_scores, val_df["label"])
+    test_scores = [score(r["text_a"],r["text_b"]) for _,r in test_df.iterrows()]
+    pred = (np.array(test_scores)>=th).astype(int)
+    met = calc_metrics(test_df["label"], pred, test_scores)
+    print(f"\n【7.CrossEncoder微调】最优阈值={th:.2f} | {met}")
+    return met
+
+# ====================== 方法8：SimCSE 句向量 ======================
+def run_simcse(val_df, test_df):
+    model = SentenceTransformer(SIMCSE_MODEL, device=device)
+    def sim(a,b):
+        e1 = model.encode(a, convert_to_tensor=True)
+        e2 = model.encode(b, convert_to_tensor=True)
+        return float(util.cos_sim(e1,e2)[0][0])
+    val_scores = [sim(r["text_a"],r["text_b"]) for _,r in val_df.iterrows()]
+    th = select_best_threshold(val_scores, val_df["label"])
+    test_scores = [sim(r["text_a"],r["text_b"]) for _,r in test_df.iterrows()]
+    pred = (np.array(test_scores)>=th).astype(int)
+    met = calc_metrics(test_df["label"], pred, test_scores)
+    print(f"\n【8.SimCSE】最优阈值={th:.2f} | {met}")
+    return met
+
+# ====================== 方法9：Prompt Engineering 零样本大模型打分 ======================
+def run_prompt_eng(val_df, test_df):
+    llm = pipeline("text-generation", model=LLM_PROMPT_MODEL, device=0 if torch.cuda.is_available() else -1)
+    prompt_template = """
+任务：判断两段中文句子语义匹配程度，输出0~1小数，仅输出数字。
+句子1：{s1}
+句子2：{s2}
+语义相似度分数：
+"""
+    def get_score(s1,s2):
+        prompt = prompt_template.format(s1=s1, s2=s2)
+        res = llm(prompt, max_new_tokens=5, temperature=0.0)[0]["generated_text"]
+        try:
+            num = float(res.split("语义相似度分数：")[-1].strip())
+            return max(min(num,1.0),0.0)
+        except:
+            return 0.5
+    val_scores = [get_score(r["text_a"],r["text_b"]) for _,r in val_df.iterrows()]
+    th = select_best_threshold(val_scores, val_df["label"])
+    test_scores = [get_score(r["text_a"],r["text_b"]) for _,r in test_df.iterrows()]
+    pred = (np.array(test_scores)>=th).astype(int)
+    met = calc_metrics(test_df["label"], pred, test_scores)
+    print(f"\n【9.Prompt Engineering零样本】最优阈值={th:.2f} | {met}")
+    return met
+
+# ====================== 方法10：Few-shot 少量样例提示 ======================
+def run_fewshot(val_df, test_df, train_df):
+    # 抽取5条少量样本作为few-shot示例
+    shot_sample = train_df.sample(n=5, random_state=SEED).reset_index(drop=True)
+    shot_prompt = ""
+    for _,row in shot_sample.iterrows():
+        shot_prompt += f"""
+句子1：{row['text_a']}
+句子2：{row['text_b']}
+相似度分数：{row['label']}.0
+"""
+    llm = pipeline("text-generation", model=LLM_PROMPT_MODEL, device=0 if torch.cuda.is_available() else -1)
+    def get_score_few(s1,s2):
+        full_prompt = shot_prompt + f"""
+句子1：{s1}
+句子2：{s2}
+相似度分数：
+"""
+        res = llm(full_prompt, max_new_tokens=5, temperature=0.0)[0]["generated_text"]
+        try:
+            num = float(res.split("相似度分数：")[-1].strip())
+            return max(min(num,1.0),0.0)
+        except:
+            return 0.5
+    val_scores = [get_score_few(r["text_a"],r["text_b"]) for _,r in val_df.iterrows()]
+    th = select_best_threshold(val_scores, val_df["label"])
+    test_scores = [get_score_few(r["text_a"],r["text_b"]) for _,r in test_df.iterrows()]
+    pred = (np.array(test_scores)>=th).astype(int)
+    met = calc_metrics(test_df["label"], pred, test_scores)
+    print(f"\n【10.Few-shot小样本提示】最优阈值={th:.2f} | {met}")
+    return met
+
+# ====================== 主入口执行 ======================
+if __name__ == "__main__":
+    train, val, test = load_all_split()
+    result_dict = {}
+
+    # 按老师指定顺序依次运行
+    result_dict["1_编辑距离Levenshtein"] = run_levenshtein(val, test)
+    result_dict["2_TF-IDF"] = run_tfidf(train, val, test)
+    result_dict["3_BM25"] = run_bm25(train, val, test)
+    result_dict["4_Word2Vec均值向量"] = run_word2vec(train, val, test)
+    result_dict["5_GloVe均值向量"] = run_glove(train, val, test)
+    result_dict["6_BiEncoder(BGE双塔)"] = run_biencoder(val, test)
+    result_dict["7_CrossEncoder微调"] = run_crossencoder(train, val, test)
+    result_dict["8_SimCSE"] = run_simcse(val, test)
+    result_dict["9_Prompt Engineering零样本"] = run_prompt_eng(val, test)
+    result_dict["10_Few-shot小样本提示"] = run_fewshot(val, test, train)
+
+    # 汇总输出
+    print("\n" + "="*80)
+    print("全部10种方法测试集指标汇总表")
+    print("="*80)
+    res_df = pd.DataFrame(result_dict).T
+    print(res_df)
+    # 保存结果到桌面csv
+    save_path = r"C:\Users\李\Desktop\text_match_all_result.csv"
+    res_df.to_csv(save_path, encoding="utf-8-sig")
+    print(f"\n完整实验结果已保存至桌面：{save_path}")

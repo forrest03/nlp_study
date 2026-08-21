@@ -1,0 +1,18 @@
+{
+  "max_len": 64,
+  "sample_ratio": 0.03,
+  "seed": 42,
+  "bert_model": "../../pretrain_models/bert-base-chinese",
+  "pool": "mean",
+  "dropout": 0.1,
+  "num_hidden_layers": null,
+  "use_lora": true,
+  "lora_r": 8,
+  "lora_alpha": 16,
+  "lora_dropout": 0.1,
+  "batch_size": 32,
+  "epochs": 1,
+  "learning_rate": 2e-05,
+  "margin": 0.3,
+  "weight_decay": 0.01
+}

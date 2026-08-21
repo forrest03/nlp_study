@@ -1,0 +1,28 @@
+{
+  "word": "perseverance",
+  "phonetic": "/ˌpɜːrsəˈvɪrəns/",
+  "pos": "n.",
+  "definition": "毅力；坚持不懈",
+  "examples": [
+    {
+      "en": "Her perseverance in learning a new language paid off when she became fluent.",
+      "zh": "她在学习一门新语言上的坚持不懈得到了回报，她变得流利了。"
+    },
+    {
+      "en": "The project required incredible perseverance to complete despite numerous setbacks.",
+      "zh": "尽管遇到无数挫折，完成这个项目需要不可思议的毅力。"
+    },
+    {
+      "en": "Perseverance is the key to success in any long-term endeavor.",
+      "zh": "坚持不懈是任何长期努力成功的关键。"
+    }
+  ],
+  "synonyms": [
+    "persistence",
+    "determination",
+    "tenacity",
+    "endurance",
+    "grit",
+    "steadfastness"
+  ]
+}

@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 1020">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap');
+    text { font-family: 'JetBrains Mono', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+  </style>
+
+  <defs>
+    <!-- 网格背景 -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+    </pattern>
+
+    <!-- 标准箭头 -->
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+
+    <!-- 绿色箭头（主路径） -->
+    <marker id="arrow-green" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#34d399"/>
+    </marker>
+
+    <!-- 红色箭头（No 分支） -->
+    <marker id="arrow-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#fb7185"/>
+    </marker>
+
+    <!-- 回环箭头 -->
+    <marker id="arrow-amber" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#fbbf24"/>
+    </marker>
+  </defs>
+
+  <!-- 1. 背景 -->
+  <rect width="100%" height="100%" fill="#0f172a"/>
+  <rect width="100%" height="100%" fill="url(#grid)"/>
+
+  <!-- 2. 标题 -->
+  <text x="480" y="30" fill="#e2e8f0" font-size="18" font-weight="700" text-anchor="middle" letter-spacing="2">🚄 坐火车流程图</text>
+
+  <!-- ==================== 连接线与箭头 ==================== -->
+
+  <!-- 步骤1→2 -->
+  <line x1="480" y1="95" x2="480" y2="142" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <!-- 步骤2→3 -->
+  <line x1="480" y1="195" x2="480" y2="237" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <!-- 步骤3→4 -->
+  <line x1="480" y1="290" x2="480" y2="332" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)"/>
+  
+  <!-- 步骤4→决策5 -->
+  <line x1="480" y1="385" x2="480" y2="405" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- 决策5→Yes 向下 -->
+  <line x1="480" y1="480" x2="480" y2="517" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="492" y="500" fill="#34d399" font-size="9" font-weight="600">是</text>
+
+  <!-- 决策5→No 向右 -->
+  <line x1="535" y1="445" x2="597" y2="445" stroke="#fb7185" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <text x="548" y="437" fill="#fb7185" font-size="9" font-weight="600">否</text>
+
+  <!-- 处理违禁品 向下 -->
+  <line x1="680" y1="470" x2="680" y2="497" stroke="#fb7185" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+  <!-- 处理违禁品→左回主路径 -->
+  <line x1="680" y1="507" x2="480" y2="507" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-amber)"/>
+  <text x="555" y="500" fill="#fbbf24" font-size="7">重新安检</text>
+
+  <!-- 步骤6→决策7 -->
+  <line x1="480" y1="570" x2="480" y2="597" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- 决策7→Yes 向下 -->
+  <line x1="480" y1="672" x2="480" y2="707" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <text x="492" y="692" fill="#34d399" font-size="9" font-weight="600">是</text>
+
+  <!-- 决策7→No 向右 -->
+  <line x1="535" y1="637" x2="597" y2="637" stroke="#fb7185" stroke-width="2" marker-end="url(#arrow-red)"/>
+  <text x="548" y="629" fill="#fb7185" font-size="9" font-weight="600">否</text>
+
+  <!-- 等待 向下 -->
+  <line x1="680" y1="660" x2="680" y2="697" stroke="#fb7185" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+  <!-- 等待→左回主路径 -->
+  <line x1="680" y1="707" x2="480" y2="707" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-amber)"/>
+  <text x="555" y="700" fill="#fbbf24" font-size="7">等待后重试</text>
+
+  <!-- 步骤8→9 -->
+  <line x1="480" y1="760" x2="480" y2="802" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <!-- 步骤9→10 -->
+  <line x1="480" y1="855" x2="480" y2="897" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- ==================== 方框与节点 ==================== -->
+
+  <!-- 1. 开始 - 出发去火车站 -->
+  <rect x="400" y="50" width="160" height="45" rx="22" fill="#0f172a"/>
+  <rect x="400" y="50" width="160" height="45" rx="22" fill="rgba(59,130,246,0.3)" stroke="#60a5fa" stroke-width="2"/>
+  <text x="480" y="77" fill="white" font-size="13" font-weight="600" text-anchor="middle">🏠 出发去火车站</text>
+
+  <!-- 2. 到达火车站 -->
+  <rect x="400" y="145" width="160" height="50" rx="6" fill="#0f172a"/>
+  <rect x="400" y="145" width="160" height="50" rx="6" fill="rgba(8,51,68,0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="480" y="169" fill="white" font-size="12" font-weight="600" text-anchor="middle">🚉 到达火车站</text>
+  <text x="480" y="183" fill="#94a3b8" font-size="9" text-anchor="middle">预留充足时间</text>
+
+  <!-- 3. 取票/刷身份证 -->
+  <rect x="400" y="240" width="160" height="50" rx="6" fill="#0f172a"/>
+  <rect x="400" y="240" width="160" height="50" rx="6" fill="rgba(8,51,68,0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="480" y="264" fill="white" font-size="12" font-weight="600" text-anchor="middle">🎫 取票 / 刷身份证</text>
+  <text x="480" y="278" fill="#94a3b8" font-size="9" text-anchor="middle">电子客票直接刷证</text>
+
+  <!-- 4. 过安检 -->
+  <rect x="400" y="335" width="160" height="50" rx="6" fill="#0f172a"/>
+  <rect x="400" y="335" width="160" height="50" rx="6" fill="rgba(8,51,68,0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="480" y="359" fill="white" font-size="12" font-weight="600" text-anchor="middle">🔍 过安检</text>
+  <text x="480" y="373" fill="#94a3b8" font-size="9" text-anchor="middle">行李 + 人身检查</text>
+
+  <!-- 5. 决策：安检通过？ -->
+  <g transform="translate(480, 445)">
+    <polygon points="0,-40 55,0 0,40 -55,0" fill="#0f172a"/>
+    <polygon points="0,-40 55,0 0,40 -55,0" fill="rgba(120,53,15,0.3)" stroke="#fbbf24" stroke-width="1.5"/>
+    <text y="2" fill="white" font-size="11" font-weight="600" text-anchor="middle">安检通过？</text>
+  </g>
+
+  <!-- 5b. 处理违禁品（No 分支） -->
+  <rect x="600" y="420" width="160" height="50" rx="6" fill="#0f172a"/>
+  <rect x="600" y="420" width="160" height="50" rx="6" fill="rgba(136,19,55,0.4)" stroke="#fb7185" stroke-width="1.5"/>
+  <text x="680" y="444" fill="white" font-size="11" font-weight="600" text-anchor="middle">⚠️ 处理违禁品</text>
+  <text x="680" y="458" fill="#94a3b8" font-size="9" text-anchor="middle">寄存 / 托运 / 放弃</text>
+
+  <!-- 6. 候车大厅候车 -->
+  <rect x="400" y="520" width="160" height="50" rx="6" fill="#0f172a"/>
+  <rect x="400" y="520" width="160" height="50" rx="6" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="480" y="544" fill="white" font-size="12" font-weight="600" text-anchor="middle">💺 候车大厅候车</text>
+  <text x="480" y="558" fill="#94a3b8" font-size="9" text-anchor="middle">留意广播和电子屏</text>
+
+  <!-- 7. 决策：开始检票？ -->
+  <g transform="translate(480, 637)">
+    <polygon points="0,-40 55,0 0,40 -55,0" fill="#0f172a"/>
+    <polygon points="0,-40 55,0 0,40 -55,0" fill="rgba(120,53,15,0.3)" stroke="#fbbf24" stroke-width="1.5"/>
+    <text y="2" fill="white" font-size="11" font-weight="600" text-anchor="middle">开始检票？</text>
+  </g>
+
+  <!-- 7b. 等待（No 分支） -->
+  <rect x="600" y="612" width="160" height="48" rx="6" fill="#0f172a"/>
+  <rect x="600" y="612" width="160" height="48" rx="6" fill="rgba(136,19,55,0.4)" stroke="#fb7185" stroke-width="1.5"/>
+  <text x="680" y="636" fill="white" font-size="11" font-weight="600" text-anchor="middle">⏳ 继续等候</text>
+  <text x="680" y="650" fill="#94a3b8" font-size="9" text-anchor="middle">稍后再看</text>
+
+  <!-- 8. 检票进站 -->
+  <rect x="400" y="710" width="160" height="50" rx="6" fill="#0f172a"/>
+  <rect x="400" y="710" width="160" height="50" rx="6" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="480" y="734" fill="white" font-size="12" font-weight="600" text-anchor="middle">🚪 检票进站</text>
+  <text x="480" y="748" fill="#94a3b8" font-size="9" text-anchor="middle">刷身份证 / 车票过闸</text>
+
+  <!-- 9. 找到车厢座位 -->
+  <rect x="400" y="805" width="160" height="50" rx="6" fill="#0f172a"/>
+  <rect x="400" y="805" width="160" height="50" rx="6" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1.5"/>
+  <text x="480" y="829" fill="white" font-size="12" font-weight="600" text-anchor="middle">📍 找到车厢座位</text>
+  <text x="480" y="843" fill="#94a3b8" font-size="9" text-anchor="middle">对号入座，放好行李</text>
+
+  <!-- 10. 结束 - 到达目的地 -->
+  <rect x="400" y="900" width="160" height="45" rx="22" fill="#0f172a"/>
+  <rect x="400" y="900" width="160" height="45" rx="22" fill="rgba(59,130,246,0.3)" stroke="#60a5fa" stroke-width="2"/>
+  <text x="480" y="927" fill="white" font-size="13" font-weight="600" text-anchor="middle">🏁 到达目的地</text>
+
+  <!-- 图例 -->
+  <g transform="translate(30, 955)">
+    <text x="0" y="0" fill="#94a3b8" font-size="9" font-weight="600">图例：</text>
+    <line x1="45" y1="-3" x2="85" y2="-3" stroke="#34d399" stroke-width="2"/>
+    <text x="90" y="0" fill="#94a3b8" font-size="8">主路径</text>
+    <line x1="145" y1="-3" x2="185" y2="-3" stroke="#fb7185" stroke-width="2"/>
+    <text x="190" y="0" fill="#94a3b8" font-size="8">异常分支</text>
+    <line x1="265" y1="-3" x2="305" y2="-3" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="310" y="0" fill="#94a3b8" font-size="8">回环合并</text>
+  </g>
+</svg>

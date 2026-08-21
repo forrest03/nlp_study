@@ -1,0 +1,28 @@
+{
+  "word": "persistent",
+  "phonetic": "/pərˈsɪstənt/",
+  "pos": "adj.",
+  "definition": "坚持不懈的；持久的",
+  "examples": [
+    {
+      "en": "She has been persistent in her efforts to learn the piano.",
+      "zh": "她一直坚持不懈地学习钢琴。"
+    },
+    {
+      "en": "The persistent rain caused flooding in low-lying areas.",
+      "zh": "持续的降雨导致低洼地区洪水泛滥。"
+    },
+    {
+      "en": "Despite many rejections, his persistent nature finally landed him a job.",
+      "zh": "尽管多次被拒，他坚持不懈的性格最终让他找到了工作。"
+    }
+  ],
+  "synonyms": [
+    "determined",
+    "tenacious",
+    "relentless",
+    "persevering",
+    "enduring",
+    "constant"
+  ]
+}

@@ -1,0 +1,6 @@
+﻿rank,method,title,accuracy,macro_f1,weighted_f1,train_seconds
+1,char_tfidf_sgd_log,字符 TF-IDF + SGD Logistic,0.550900,0.542031,0.550630,5.513
+2,char_tfidf_linear_svm,字符 TF-IDF + Linear SVM,0.549000,0.537271,0.548655,17.312
+3,char_tfidf_logreg,字符 TF-IDF + Logistic Regression,0.545200,0.536758,0.545140,14.164
+4,char_count_multinomial_nb,字符 Count + Multinomial NB,0.547700,0.536406,0.549084,2.537
+5,hashing_passive_aggressive,Hashing n-gram + Passive Aggressive,0.534000,0.518181,0.534014,7.580

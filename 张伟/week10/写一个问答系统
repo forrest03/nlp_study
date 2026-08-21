@@ -1,0 +1,110 @@
+import os
+from langchain_community.document_loaders import DirectoryLoader, TextLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import Chroma
+from langchain_community.llms import Ollama
+from langchain_classic.chains import RetrievalQA
+from langchain_core.prompts import PromptTemplate
+
+# ==========================================
+# 第一步：加载和切分文档
+# ==========================================
+print("正在加载和切分文档...")
+# 使用DirectoryLoader加载books文件夹下的所有txt文件
+loader = DirectoryLoader(
+    './books',
+    glob="**/*.txt",
+    loader_cls=TextLoader,
+    loader_kwargs={'encoding': 'utf-8'}
+)
+docs = loader.load()
+
+# 中文长文本切分器，按照段落、句号、逗号等递归切分
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=500,      # 每个文本块的最大字符数
+    chunk_overlap=50,    # 相邻文本块的重叠字符数（避免上下文断裂）
+    separators=["\n\n", "\n", "。", "；", "，", " ", ""]
+)
+splits = text_splitter.split_documents(docs)
+print(f"文档切分完成！共生成 {len(splits)} 个文本块。")
+
+# ==========================================
+# 第二步：向量化并存入本地数据库
+# ==========================================
+# 使用本地开源的中文向量模型 BAAI/bge-small-zh-v1.5
+# 第一次运行时会自动从HuggingFace下载该模型（约100MB），之后即可离线运行
+print("正在初始化向量模型并向量化数据（首次运行可能需要几分钟下载模型）...")
+embedding_model = HuggingFaceEmbeddings(model_name="BAAI/bge-small-zh-v1.5")
+
+# 将向量存入本地的 Chroma 数据库（持久化保存到当前目录的 chroma_db 文件夹）
+persist_directory = './chroma_db'
+if not os.path.exists(persist_directory):
+    vectordb = Chroma.from_documents(
+        documents=splits, 
+        embedding=embedding_model,
+        persist_directory=persist_directory
+    )
+    print("本地向量数据库构建完成并已保存！")
+else:
+    vectordb = Chroma(persist_directory=persist_directory, embedding_function=embedding_model)
+    print("已加载现有的本地向量数据库！")
+
+# 创建检索器
+retriever = vectordb.as_retriever(search_kwargs={"k": 4}) # 每次检索最相关的4个文本块
+
+# ==========================================
+# 第三步：构建本地大模型和问答链
+# ==========================================
+print("正在加载本地大模型（Ollama Qwen2.5）...")
+llm = Ollama(model="qwen2.5:7b", temperature=0.1) # temperature设低一点，让模型少编造
+
+# 自定义Prompt，让大模型基于检索到的内容回答
+prompt_template = """你是一个精通中国古典文学的助手。请仅根据以下提供的【背景资料】回答用户的问题。
+如果【背景资料】中没有相关信息，请直接回答"根据提供的资料，我不知道"，不要自行编造。
+
+【背景资料】：
+{context}
+
+问题：{question}
+
+回答："""
+PROMPT = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
+
+# 构建RAG链
+qa_chain = RetrievalQA.from_chain_type(
+    llm=llm,
+    chain_type="stuff",
+    retriever=retriever,
+    return_source_documents=True, # 返回原文出处
+    chain_type_kwargs={"prompt": PROMPT}
+)
+
+# ==========================================
+# 第四步：测试与问答
+# ==========================================
+def ask_question(question):
+    print(f"\n🧑 用户提问：{question}")
+    print("🤖 正在检索和思考中，请稍候...")
+    result = qa_chain({"query": question})
+    
+    print("\n💬 回答：")
+    print(result['result'])
+    
+    print("\n📚 参考来源（来自你的txt文件）：")
+    for i, doc in enumerate(result['source_documents']):
+        source_name = os.path.basename(doc.metadata.get('source', '未知'))
+        print(f"  [{i+1}] 来源文件: {source_name}")
+        snippet = doc.page_content[:80].replace('\n', ' ')
+        print(f"      内容片段: {snippet}...")  # 只打印前80个字
+
+
+if __name__ == "__main__":
+    # 测试问题1：《水浒传》
+    ask_question("武松在景阳冈打虎前喝了多少碗酒？")
+    
+    # 测试问题2：《三国演义》
+    ask_question("诸葛亮草船借箭时借了多少支箭？")
+    
+    # 测试问题3：跨文本测试（故意问一个资料里没有的，测试是否胡编乱造）
+    ask_question("孙悟空的师傅是谁？")

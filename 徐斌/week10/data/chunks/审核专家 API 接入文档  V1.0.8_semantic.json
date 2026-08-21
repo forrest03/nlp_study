@@ -1,0 +1,2244 @@
+[
+  {
+    "content": "| 审核专家\u0001API\u0001接⼊⽂档\u0001\u0001V1.0.8\u0001 ⼀、产品介绍\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001 1.\u0001产品概述\u0001 \u0001审核专家，是指利⽤⼤模型及相关能⼒构建的，帮助客⼾识别各类业务、内容⻛险的产品。与传统AI 审核能⼒不同，审核专家为⽤⼾提供可⽐拟专家⼈⼯审核的效果。 2.\u0001产品优势\u0001 • 基于字节多年的内容及业务⻛险识别经验，积累了海量⻛险知识库及数据集 • 先进的⼤模型应⽤架构及底座，提供持续可进化的⻛险识别能⼒ • 字节系业务多样化落地实践，保障不同场景的落地效果 3.\u0001应⽤场景\u0001 不同场景下，替代⼈⼯进⾏业务和内容的⻛险判定。 ⼆、调⽤⽅式 2.1\u0001对接简介\u0001 接⼊前请先在⽕⼭引擎注册账号，认证完成后，申请开通“审核专家”产品权限并新建应⽤； |\n| --- |\n|  |",
+    "metadata": {
+      "page_num": 1,
+      "section": "",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00000"
+  },
+  {
+    "content": "|  |\n| --- |\n| 1.发起内容检测请求 ⽕⼭引擎内容⻛ 业务服务端 险服务端 2.同步或者异步返回请求结果 注意：接⼊前需要先在⽕⼭引擎注册账号并开通相应服务。 整体对接⽅案流程如下： 1. ⽕⼭引擎控制台注册账号并申请开通\"审核专家\"产品；\u0001 2. 账号注册成功之后，将账⼾ID发给⽕⼭引擎⻛控团队，获取到对应的accessKey和Secret\u0001Access\u0001 Key，⽤于请求接⼝；\u0001 3. 在控制台新建应⽤，并启⽤对应应⽤(appId)下所需服务；\u0001 4. 接⼊审核专家\u0001API接⼝，通过签名SDK⽣成签名，并额外实现POST请求调⽤服务；\u0001 5. 根据返回结果对⽤⼾进⾏处置。 2.2\u0001基本信息\u0001 服务请求地址：参考下⽅各接⼝说明 协议：HTTPS\u0001 字符集：UTF-8\u0001 Content-Type:\u0001application/json\u0001 注意：content-type必须设置为application/json\u0001 2.3\u0001签名⽅式\u0001 为保证接⼝调⽤安全，调⽤审核专家服务提供的API时，都需要提供签名认证信息。\u0001 1.\u0001字段解释\u0001 |\n|  |",
+    "metadata": {
+      "page_num": 2,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2.1 对接简介",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00001"
+  },
+  {
+    "content": "2.2 基本信息\n\n服务请求地址：参考下方各接口说明\n协议：HTTPS\n字符集：UTF-8\nContent-Type: application/json\n注意：content-type必须设置为application/json",
+    "metadata": {
+      "page_num": 2,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2.2 基本信息",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00002"
+  },
+  {
+    "content": "2.获取认证ID和密钥\n\n对于每一个新接入的商户，火山引擎风控这边会生成唯一的AccessKey和SecretAccessKey，\nAccessKey唯一标识一个用户，SecretAccessKey用于在调用接口请求时进行加密生成签名。",
+    "metadata": {
+      "page_num": 3,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2.获取认证ID和密钥",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00003"
+  },
+  {
+    "content": "3. 签名算法\n\n对nonce和timestamp的值使用&进行拼接得到字符串message\n比如nonce=abc，timestamp=1234567891  那么message=abc&1234567891\n使用HMAC-SHA256对message进行加密和哈希散列，密钥为SecretAccessKey\n对加密散列的内容进行base64编码得到最终的字符串签名\n生成签名的实现示例",
+    "metadata": {
+      "page_num": 3,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 3. 签名算法",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00004"
+  },
+  {
+    "content": "```\nnonce = \"abcdefg1234567\"\ntimestamp = 1608467256\naccessKeySecret =\n\"c5fabcff7512f57d0a5397fe72a25263942767bc73988881e47d3a8f5e294440\"\n对应的signature签名为：\"oRwV4+L24XhjivhUbweZwzkDQezfOB4aG1GDEAiFiXs=\"\n```",
+    "metadata": {
+      "page_num": 3,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 3. 签名算法",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00005"
+  },
+  {
+    "content": "```go\nimport (\n\"crypto/hmac\"\n\"crypto/sha256\"\n\"encoding/base64\"\n```",
+    "metadata": {
+      "page_num": 3,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 3. 签名算法",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "go",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00006"
+  },
+  {
+    "content": "|  |\n| --- |\n|  |\n| 1 1 1 1 1 |",
+    "metadata": {
+      "page_num": 4,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 3. 签名算法",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00007"
+  },
+  {
+    "content": "|  |\n| --- |\n|  |",
+    "metadata": {
+      "page_num": 4,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 3. 签名算法",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00008"
+  },
+  {
+    "content": "```json\n\"fmt\"\nfunc GenSignature(nonce string, timestamp int64, accessKeySecret string) string\nmessage := fmt.Sprintf(\"%s&%d\", nonce, timestamp)\nh := hmac.New(sha256.New, []byte(accessKeySecret))\nh.Write([]byte(message))\nsum := h.Sum(nil)\nreturn base64.StdEncoding.EncodeToString(sum)\n```",
+    "metadata": {
+      "page_num": 4,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 3. 签名算法",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00009"
+  },
+  {
+    "content": "```python\nimport base64\nimport hmac\nfrom hashlib import sha256\ndef gen_signature(nonce, timestamp, access_key_secret):\nmessage = \"%s&%d\" % (nonce, timestamp)\nh = hmac.new(access_key_secret.encode(\"utf-8\"), message.encode(\"utf-8\"),\ndigestmod=sha256).digest()\nreturn base64.b64encode(h).decode(\"utf-8\")\n```",
+    "metadata": {
+      "page_num": 4,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 3. 签名算法",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "python",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00010"
+  },
+  {
+    "content": "```php\nfunction genSignature($nonce, $timestamp, $accessKeySecret)\n$message = $nonce . \"&\" . $timestamp;\n$hash = hash_hmac('sha256', $message, $accessKeySecret, true);\nreturn base64_encode($hash);\n```",
+    "metadata": {
+      "page_num": 4,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 3. 签名算法",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "php",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00011"
+  },
+  {
+    "content": "```java\nimport javax.crypto.Mac;\nimport javax.crypto.spec.SecretKeySpec;\nimport java.io.UnsupportedEncodingException;\n```",
+    "metadata": {
+      "page_num": 4,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 3. 签名算法",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "java",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00012"
+  },
+  {
+    "content": "|  |\n| --- |\n|  |\n| 1 1 1 1 1 1 1 |",
+    "metadata": {
+      "page_num": 5,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 3. 签名算法",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00013"
+  },
+  {
+    "content": "|  | new |  |  |  |  |  |\n| --- | --- | --- | --- | --- | --- | --- |\n|  | String(Base64. |  | getEncoder | ().encode(hash),StandardCharsets. | ISO_8859_1 | ); |",
+    "metadata": {
+      "page_num": 5,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 3. 签名算法",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00014"
+  },
+  {
+    "content": "| 1 1 1 1 1 |\n| --- |\n|  |",
+    "metadata": {
+      "page_num": 5,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 3. 签名算法",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00015"
+  },
+  {
+    "content": "```\nimport java.nio.charset.StandardCharsets;\nimport java.security.InvalidKeyException;\nimport java.security.NoSuchAlgorithmException;\nimport java.util.Base64; // since JavaSE 8, 如果版本低于Java8，使用\norg.apache.commons.codec.binary.Base64\npublic String genSignature(String nonce, long timestamp, String\naccessKeySecret) throws NoSuchAlgorithmException,\nUnsupportedEncodingException, InvalidKeyException {\nMac hmacSHA256 = Mac.getInstance(\"HmacSHA256\");\nSecretKeySpec secretKey = new\nSecretKeySpec(accessKeySecret.getBytes(StandardCharsets.UTF_8), \"HmacSHA256\");\nhmacSHA256.init(secretKey);\nString message = nonce + \"&\" + timestamp;\nbyte[] hash = hmacSHA256.doFinal(message.getBytes(StandardCharsets.UTF_8));\nreturn Base64.getEncoder().encodeToString(hash);\n```",
+    "metadata": {
+      "page_num": 5,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 3. 签名算法",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00016"
+  },
+  {
+    "content": "```\njava.util.Base64\n```",
+    "metadata": {
+      "page_num": 5,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 1. 对于JavaSE 8以下的版本，使用 org.apache.commons.codec.binary.Base64 替代",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00017"
+  },
+  {
+    "content": "```\nnew\nString(Base64.getEncoder().encode(hash),StandardCharsets.ISO_8859_1); 等\n效于 Base64.getEncoder().encodeToString(hash);\n```",
+    "metadata": {
+      "page_num": 5,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00018"
+  },
+  {
+    "content": "```cpp\n#include <openssl/evp.h>\n#include <openssl/bio.h>\n#include <openssl/buffer.h>\n#include <openssl/hmac.h>\n#include <string.h>\n#include <string>\nchar* base64_encode(const unsigned char* input, int length)\nBIO* bmem = NULL;\nBIO* b64 = NULL;\nBUF_MEM* bptr = NULL;\nb64 = BIO_new(BIO_f_base64());\n```",
+    "metadata": {
+      "page_num": 5,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "cpp",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00019"
+  },
+  {
+    "content": "|  |  |\n| --- | --- |\n|  |  |\n| 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4 4 4 4 4 4 4 5 5 5 5 5 5 5 | 5 bmem = BIO_new(BIO_s_mem()); 6 b64 = BIO_push(b64, bmem); 7 BIO_write(b64, input, length); 8 BIO_flush(b64); 9 BIO_get_mem_ptr(b64, &bptr); 0 1 char* buff = (char *)malloc(bptr->length + 1); 2 memcpy(buff, bptr->data, bptr->length); 3 buff[bptr->length] = '\\0'; 4 5 BIO_free_all(b64); 6 7 return buff; 8 } 9 0 unsigned char* hmac_sha256_encode(const char* key, unsigned int key_length, const char* input, unsigned int input_length, unsigned int* output_length) { 1 const EVP_MD * engine = EVP_sha256(); 2 unsigned char* output = (unsigned char*)malloc(EVP_MAX_MD_SIZE); 3 HMAC_CTX* ctx = HMAC_CTX_new(); 4 HMAC_Init_ex(ctx, (const void *)key, key_length, engine, NULL); 5 HMAC_Update(ctx, (unsigned char*)input, input_length); // input is OK; &input is WRONG !!! 6 7 HMAC_Final(ctx, output, output_length); 8 HMAC_CTX_free(ctx); 9 return output; 0 } 1 2 char* gen_signature(const char* nonce, int64_t timestamp, const char* accessKeySecret) { 3 4 char* data = (char*)malloc(strlen(nonce) + 32); 5 int datalen = sprintf(data, \"%s&%d\", nonce, timestamp); 6 7 unsigned int resultlen = -1; 8 unsigned char* result = hmac_sha256_encode(accessKeySecret, strlen(accessKeySecret), data, datalen, &resultlen); 9 free(data); 0 1 char* encoded = base64_encode(result, resultlen); 2 free(result); 3 return encoded; 4 } 5 6 int main(int argc, char* argv[]) |\n|  |  |",
+    "metadata": {
+      "page_num": 6,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00020"
+  },
+  {
+    "content": "```\nbmem = BIO_new(BIO_s_mem());\nb64 = BIO_push(b64, bmem);\nBIO_write(b64, input, length);\nBIO_flush(b64);\nBIO_get_mem_ptr(b64, &bptr);\nchar* buff = (char *)malloc(bptr->length + 1);\nmemcpy(buff, bptr->data, bptr->length);\nbuff[bptr->length] = '\\0';\nBIO_free_all(b64);\nreturn buff;\nunsigned char* hmac_sha256_encode(const char* key, unsigned int key_length,\nconst char* input, unsigned int input_length, unsigned int* output_length) {\nconst EVP_MD * engine = EVP_sha256();\nunsigned char* output = (unsigned\nchar*)malloc(EVP_MAX_MD_SIZE);\nHMAC_CTX* ctx = HMAC_CTX_new();\nHMAC_Init_ex(ctx, (const void *)key, key_length, engine, NULL);\nHMAC_Update(ctx, (unsigned char*)input, input_length);        // input\nis OK; &input is WRONG !!!\nHMAC_Final(ctx, output, output_length);\nHMAC_CTX_free(ctx);\nreturn output;\nchar* gen_signature(const char* nonce, int64_t timestamp, const char*\naccessKeySecret) {\nchar* data = (char*)malloc(strlen(nonce) + 32);\nint datalen = sprintf(data, \"%s&%d\", nonce, timestamp);\nunsigned int resultlen = -1;\nunsigned char* result = hmac_sha256_encode(accessKeySecret,\nstrlen(accessKeySecret), data, datalen, &resultlen);\nfree(data);\nchar* encoded = base64_encode(result, resultlen);\nfree(result);\nreturn encoded;\nint main(int argc, char* argv[])\n```",
+    "metadata": {
+      "page_num": 6,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00021"
+  },
+  {
+    "content": "|  |\n| --- |\n|  |\n| 5 5 5 6 6 6 6 6 6 6 |",
+    "metadata": {
+      "page_num": 7,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00022"
+  },
+  {
+    "content": "| 1 |\n| --- |\n|  |",
+    "metadata": {
+      "page_num": 7,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00023"
+  },
+  {
+    "content": "```\nconst char *nonce = \"abcdefg1234567\";\nint64_t timestamp = 1608467256;\nconst char *accessKeySecret =\n\"c5fabcff7512f57d0a5397fe72a25263942767bc73988881e47d3a8f5e294440\";\nchar* signature = gen_signature(nonce, timestamp, accessKeySecret);\nfree(signature);\nreturn 0;\n```",
+    "metadata": {
+      "page_num": 7,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00024"
+  },
+  {
+    "content": "```csharp\nusing System;\nusing System.Security.Cryptography;\npublic static string genSignature(string nonce, long timestamp, string\naccessKeySecret)\nvar encoding = new System.Text.UTF8Encoding();\nbyte[] keyBytes = encoding.GetBytes(accessKeySecret);\nstring msg = nonce+\"&\"+Convert.ToString(timestamp);\nbyte[] msgBytes = encoding.GetBytes(msg);\nusing(var hmacsha256 = new HMACSHA256(keyBytes))\nbyte[] hashmsg = hmacsha256.ComputeHash(msgBytes);\nreturn Convert.ToBase64String(hashmsg);\n```",
+    "metadata": {
+      "page_num": 7,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "csharp",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00025"
+  },
+  {
+    "content": "```lua\nfunction hex2bin( hexstr )\nlocal str = \"\"\nfor i = 1, string.len(hexstr) - 1, 2 do\nlocal doublebytestr = string.sub(hexstr, i, i+1);\nlocal n = tonumber(doublebytestr, 16);\nif 0 == n then\nstr = str .. '\\00'\nelse\nstr = str .. string.format(\"%c\", n)\nend\n```",
+    "metadata": {
+      "page_num": 7,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "lua",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00026"
+  },
+  {
+    "content": "|  |\n| --- |\n|  |\n| 1 1 1 1 1 1 1 1 1 2 2 |",
+    "metadata": {
+      "page_num": 8,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00027"
+  },
+  {
+    "content": "| 1 1 |\n| --- |\n|  |",
+    "metadata": {
+      "page_num": 8,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00028"
+  },
+  {
+    "content": "```\nend\nreturn str\nend\nfunction Sign(nonce, timestamp, accessSeecret)\nlocal message = nonce .. \"&\" .. timestamp\nlocal sha256 = require \"sha256\"\nlocal base64 = require \"base64\"\nlocal s = sha256.hmac_sha256(accessSeecret, message)\nreturn base64.encode(hex2bin(s))\nend\n```",
+    "metadata": {
+      "page_num": 8,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00029"
+  },
+  {
+    "content": "```ruby\nrequire 'openssl'\nrequire 'Base64'\ndef gen_signature(nonce, timestamp, access_key_secret)\nmessage = \"#{nonce}&#{timestamp}\"\nhmac = OpenSSL::HMAC.digest('sha256', access_key_secret.encode('utf-8'),\nmessage.encode('utf-8'))\nBase64.encode64(hmac).delete(\"\\n\")\nend\n#使用示例\nsignature = gen_signature(\"xxx\",1686052229,\"xxxxxx123\")\nputs signature\n```",
+    "metadata": {
+      "page_num": 8,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "ruby",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00030"
+  },
+  {
+    "content": "```javascript\nconst crypto = require('crypto');\nfunction genSignature(nonce, timestamp, access_key_secret) {\nconst message = `${nonce}&${timestamp}`;\nconst hmac = crypto.createHmac('sha256', access_key_secret);\nhmac.update(message);\nconst digest = hmac.digest('hex');\nconst signature = Buffer.from(digest, 'hex').toString('base64');\nreturn signature;\n```",
+    "metadata": {
+      "page_num": 8,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "javascript",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00031"
+  },
+  {
+    "content": "|  |\n| --- |\n|  |\n| 1 1 1 1 1 1 |",
+    "metadata": {
+      "page_num": 9,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00032"
+  },
+  {
+    "content": "| 字段名称\u0001 | 字段类型\u0001 | 字段说明\u0001 | ⽰例数据\u0001 | 是否必传\u0001 |\n| --- | --- | --- | --- | --- |\n|  |  |  |  |  |\n|  |  |  |  |  |",
+    "metadata": {
+      "page_num": 9,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00033"
+  },
+  {
+    "content": "```\n// 示例用法\nconst nonce = 'xxx';\nconst timestamp = 1686052229;\nconst access_key_secret = 'xxxxxx';\nconst signature = genSignature(nonce, timestamp, access_key_secret);\nconsole.log(signature);\n```",
+    "metadata": {
+      "page_num": 9,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 二、调用方式 > 2. 对于JavaSE 8及以上的版本，",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00034"
+  },
+  {
+    "content": "接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/text_moderation\n\nService字段取值： llm_text_moderation\nHttpMethod：POST\n建议超时：90s\nqps限制：默认qps限制为5(可根据业务实际情况提前沟通调整)",
+    "metadata": {
+      "page_num": 9,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/text_moderation",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00035"
+  },
+  {
+    "content": "|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n| data_id\u0001 | string\u0001 | 当前检测内容唯⼀标识，⾃定 义，需要保证每个送审内容唯 ⼀，注意⻓度不超过64个字符\u0001 由数字和字⺟组成，不能存在下 划线等特殊字符，例如： data12345\u0001 | dataId123\u0001 | 是\u0001 |\n| biztype\u0001 | string\u0001 | 业务场景及所需识别的⻛险类 型，当前需要在⽕⼭引擎⻛控同 学在后台配置\u0001 | all_test\u0001 | 是\u0001 |\n| content\u0001 | string\u0001 | 待检测的⽂本内容，建议最⻓不 超过500个汉字\u0001 | 我爱北京天安⻔\u0001 | 是\u0001 |\n| machine_review _tags\u0001 | string\u0001 | \u0001调⽤⽕⼭智能⽂本识别接⼝时返 回的⼀级⻛险标签(中⽂)，强烈 建议传⼊。不同⻛险标签之间使 ⽤逗号分隔。\u0001 | \"涉⻩,涉敏2\"\u0001 | 否\u0001 |\n| operate_time\u0001 | int\u0001 | ⽤⼾发送该⽂本的秒级时间戳\u0001 | 1650619218\u0001 | 是\u0001 |",
+    "metadata": {
+      "page_num": 10,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00036"
+  },
+  {
+    "content": "data_id\nstring\n当前检测内容唯一标识，自定\n义，需要保证每个送审内容唯\n一，注意长度不超过64个字符\n由数字和字母组成，不能存在下\n划线等特殊字符，例如：\ndata12345\ndataId123\nbiztype\nstring\n业务场景及所需识别的风险类\n型，当前需要在火山引擎风控同\n学在后台配置\nall_test\ncontent\nstring\n待检测的文本内容，建议最长不\n超过500个汉字\n我爱北京天安门\nmachine_review\n_tags\nstring\n调用火山智能文本识别接口时返\n回的一级风险标签(中文)，强烈\n建议传入。不同风险标签之间使\n用逗号分隔。",
+    "metadata": {
+      "page_num": 10,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00037"
+  },
+  {
+    "content": "```json\n\"涉黄,涉敏2\"\noperate_time\nint\n用户发送该文本的秒级时间戳\n```",
+    "metadata": {
+      "page_num": 10,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00038"
+  },
+  {
+    "content": "```json\n\"Result\": {\n\"RequestId\": \"20250324142852EDBB61AE034870826568\",\n\"Code\": 0,\n\"Message\": \"success\",\n\"Data\": {\n\"Decision\": \"BLOCK\",\n\"DecisionLabel\": \"103\"\n```",
+    "metadata": {
+      "page_num": 11,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00039"
+  },
+  {
+    "content": "|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n| 定制场景-实时接⼝\u0001 1. 接⼝描述\u0001 适⽤于内容的定制场景识别，线上识别完成后实时返回结果。 注意：是否使⽤定制场景的接⼝，需要提前和⽕⼭相关的策略配置同学沟通。 2. 接⼝描述\u0001 接⼝地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/custom_risk\u0001 Service字段取值：\u0001llm_customize_risk\u0001 HttpMethod：POST\u0001 建议超时：90s\u0001 qps限制：默认qps限制为5(可根据业务实际情况提前沟通调整)\u0001 ⽀持图⽚⼤⼩：最⼤⽀持10M以内，线上使⽤建议图⽚⼤⼩尽量压缩到5M以内，避免出现下载时 间过⻓的问题；最⼩⽀持14像素。\u0001 ⽀持图⽚格式：JPEG、PNG、GIF、WEBP、BMP、TIFF、HEIC、HEIF、ICO、DIB、ICNS、 SGI、JPEG2000\u0001 3. 请求参数\u0001 注意：AppId、Service、Parameters需要封装成⼀个json\u0001 Parameters参数详情如下：\u0001 字段名称\u0001 字段类型\u0001 字段说明\u0001 ⽰例数据\u0001 是否必传\u0001 data_id\u0001 string\u0001 当前检测内容唯⼀标识，⾃定 dataId123\u0001 是\u0001 义，需要保证每个送审内容唯 ⼀，注意⻓度不超过64个字符\u0001 |  |  |  |  |\n| 字段名称\u0001 | 字段类型\u0001 | 字段说明\u0001 | ⽰例数据\u0001 | 是否必传\u0001 |\n| data_id\u0001 | string\u0001 | 当前检测内容唯⼀标识，⾃定 义，需要保证每个送审内容唯 ⼀，注意⻓度不超过64个字符\u0001 | dataId123\u0001 | 是\u0001 |\n|  |  |  |  |  |",
+    "metadata": {
+      "page_num": 12,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00040"
+  },
+  {
+    "content": "接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/custom_risk\n\nService字段取值： llm_customize_risk\nHttpMethod：POST\n建议超时：90s\nqps限制：默认qps限制为5(可根据业务实际情况提前沟通调整)\n支持图片大小：最大支持10M以内，线上使用建议图片大小尽量压缩到5M以内，避免出现下载时\n间过长的问题；最小支持14像素。\n支持图片格式：JPEG、PNG、GIF、WEBP、BMP、TIFF、HEIC、HEIF、ICO、DIB、ICNS、\nSGI、JPEG2000",
+    "metadata": {
+      "page_num": 12,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/custom_risk",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00041"
+  },
+  {
+    "content": "3. 请求参数\n\n注意：AppId、Service、Parameters需要封装成一个json\nParameters参数详情如下：\n字段名称\n字段类型\n字段说明\n示例数据\n是否必传\ndata_id\nstring\n当前检测内容唯一标识，自定\n义，需要保证每个送审内容唯\n一，注意长度不超过64个字符\ndataId123",
+    "metadata": {
+      "page_num": 12,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00042"
+  },
+  {
+    "content": "|  |  |  |  |  |  |\n| --- | --- | --- | --- | --- | --- |\n|  |  | 由数字和字⺟组成，不能存在 下划线等特殊字符，例如： data12345\u0001 |  |  |  |\n| biztype\u0001 | string\u0001 | 业务场景及所需识别的⻛险类 型，当前需要在⽕⼭引擎⻛控 同学在后台配置\u0001 | all_test\u0001 | 是\u0001 |  |\n| type | string\u0001 | 审核内容类型(当前⽀持⽂本和 图⽚，⾳频正在建设中)，枚举 值如下：\u0001 图⽚：image\u0001 ⾳频(60s内短⾳频)：audio\u0001 ⽂本：text\u0001 多模态(⽂本、图⽚)：multi\u0001 | text\u0001 | 是\u0001 |  |\n| content\u0001 | string\u0001 | 待检测的内容(当前⽀持⽂本、 图⽚)：\u0001 ⽂本：具体的⽂本内容，建议 最⻓不超过500个汉字；\u0001 图⽚：对应图⽚⽂件的存储url 地址，建议使⽤图⽚源站地 址，不要使⽤CDN地址。由于 ⻛控场景⼀般处在业务场景之 前，⼀般来说CDN上不会有缓 存，使⽤CDN地址会使图⽚的 下载耗时变⻓；\u0001 ⾳频：对应⾳频⽂件的存储url 地址；\u0001 | \"我爱北京天安⻔\"\u0001 | 是\u0001 |  |\n|  |  | 多模态场景，需包含不同模态 的类型及不同模态具体内容；\u0001 数组类型，每个元素为 jsonObject，必须包含模态类 型及内容；\u0001 | \" [{\"type\":\"text\",\"text\": \"斯汉德\u0001S-HANDE\u0001嗨 男震动环\u0001遥控\u00019种模 式\"}, {\"type\":\"text\",\"text\": \"加微信xxx沟通\"}, {\"type\":\"image\",\"im age\":\"https://xxx.xx. xxxx\"},\"type\":\"image \"]\"\u0001 |  |  |\n| machine_review _tags\u0001 | string\u0001 | \u0001调⽤⽕⼭相关的智能内容识别 接⼝时返回的⼀级⻛险标签(中 | \"涉⻩,涉敏\"\u0001 | 否\u0001 |  |\n|  |  |  |  |  |  |",
+    "metadata": {
+      "page_num": 13,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00043"
+  },
+  {
+    "content": "由数字和字母组成，不能存在\n下划线等特殊字符，例如：\ndata12345\nbiztype\nstring\n业务场景及所需识别的风险类\n型，当前需要在火山引擎风控\n同学在后台配置\nall_test\ntype\nstring\n审核内容类型(当前支持文本和\n图片，音频正在建设中)，枚举\n值如下：\n图片：image\n音频(60s内短音频)：audio\n文本：text\n多模态(文本、图片)：multi\ntext\ncontent\nstring\n待检测的内容(当前支持文本、\n图片)：\n文本：具体的文本内容，建议\n最长不超过500个汉字；\n图片：对应图片文件的存储url\n地址，建议使用图片源站地\n址，不要使用CDN地址。由于\n风控场景一般处在业务场景之\n前，一般来说CDN上不会有缓\n存，使用CDN地址会使图片的\n下载耗时变长；\n音频：对应音频文件的存储url\n地址；",
+    "metadata": {
+      "page_num": 13,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00044"
+  },
+  {
+    "content": "```json\n\"我爱北京天安门\"\n多模态场景，需包含不同模态\n的类型及不同模态具体内容；\n数组类型，每个元素为\njsonObject，必须包含模态类\n型及内容；\n[{\"type\":\"text\",\"text\":\n\"斯汉德 S-HANDE 嗨\n男震动环 遥控 9种模\n式\"},\n{\"type\":\"text\",\"text\":\n\"加微信xxx沟通\"},\n{\"type\":\"image\",\"im\nage\":\"https://xxx.xx.\nxxxx\"},\"type\":\"image\n\"]\"\nmachine_review\n_tags\nstring\n调用火山相关的智能内容识别\n```",
+    "metadata": {
+      "page_num": 13,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00045"
+  },
+  {
+    "content": "```json\n\"涉黄,涉敏\"\n```",
+    "metadata": {
+      "page_num": 13,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口时返回的一级风险标签(中",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00046"
+  },
+  {
+    "content": "|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n|  |  | ⽂)，强烈建议传⼊。不同⻛险 标签之间使⽤逗号分隔。\u0001 |  |  |\n| operate_time\u0001 | int\u0001 | ⽤⼾发送该内容的秒级时间戳\u0001 | 1650619218\u0001 | 是\u0001 |",
+    "metadata": {
+      "page_num": 14,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口时返回的一级风险标签(中",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00047"
+  },
+  {
+    "content": "| 字段名称\u0001 | 字段类型\u0001 | 字段说明\u0001 | ⽰例数据\u0001 | 是否必传\u0001 |\n| --- | --- | --- | --- | --- |\n| type | string\u0001 | 审核内容类型(当前只⽀持⽂ 本、图⽚类型)，枚举值如下：\u0001 图⽚：image\u0001 ⾳频(60s内短⾳频)：audio\u0001 ⽂本：text\u0001 | text\u0001 | 是\u0001 |\n| text\u0001 | string\u0001 | \u0001⽂本内容\u0001 | \"我爱北京天安⻔\"\u0001 | 否\u0001 |\n| image\u0001 | string\u0001 | 图⽚资源的url地址\u0001 | \"https://xxx.xxx.xxxx \"\u0001 | 否\u0001 |\n| audio\u0001 | string\u0001 | ⾳频资源的url地址\u0001 | \"https://xxx.xxx.xxxx \"\u0001 | 否\u0001 |",
+    "metadata": {
+      "page_num": 14,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口时返回的一级风险标签(中",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00048"
+  },
+  {
+    "content": "文)，强烈建议传入。不同风险\n标签之间使用逗号分隔。\noperate_time\nint\n用户发送该内容的秒级时间戳\n当请求参数中type为multi时，content数组中单个元素包含内容如下\n字段名称\n字段类型\n字段说明\n示例数据\n是否必传\ntype\nstring\n审核内容类型(当前只支持文\n本、图片类型)，枚举值如下：\n图片：image\n音频(60s内短音频)：audio\n文本：text\ntext\ntext\nstring\n文本内容",
+    "metadata": {
+      "page_num": 14,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口时返回的一级风险标签(中",
+      "block_types": [
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00049"
+  },
+  {
+    "content": "```json\n\"我爱北京天安门\"\nimage\nstring\n图片资源的url地址\n\"https://xxx.xxx.xxxx\naudio\nstring\n音频资源的url地址\n\"https://xxx.xxx.xxxx\n```",
+    "metadata": {
+      "page_num": 14,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口时返回的一级风险标签(中",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00050"
+  },
+  {
+    "content": "|  |\n| --- |\n| 5. 返回⽰例\u0001 ⽤⼾发送的每次接⼝调⽤请求，⽆论成功与否，系统都会返回⼀个唯⼀识别码RequestId给⽤⼾。\u0001 (以python获取到的返回数据为例)\u0001 |\n|  |",
+    "metadata": {
+      "page_num": 16,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 4. 返回参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00051"
+  },
+  {
+    "content": "|  |\n| --- |\n| 1 1 1 |",
+    "metadata": {
+      "page_num": 17,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00052"
+  },
+  {
+    "content": "```json\n\"Result\": {\n\"RequestId\": \"20250324142852EDBB61AE034870826568\",\n\"Code\": 0,\n\"Message\": \"success\",\n\"Data\": {\n\"Decision\": \"BLOCK\",\n\"DecisionReason\":\"画面涉及审核标准中的敏感内容。\",\n\"DecisionLabel\": \"102\"\n```",
+    "metadata": {
+      "page_num": 17,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00053"
+  },
+  {
+    "content": "接口地址：\n\nhttps://contentservice.zijieapi.com/openapi/v1/rc_llm/async_text_moderation\nService字段取值：llm_text_moderation\nHttpMethod：POST\n建议超时：3s\nqps限制：默认qps限制为5(可根据业务实际情况提前沟通调整)",
+    "metadata": {
+      "page_num": 17,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口地址：",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00054"
+  },
+  {
+    "content": "|  |\n| --- |\n| Parameters参数详情如下：\u0001 字段名称\u0001 字段类型\u0001 字段说明\u0001 ⽰例数据\u0001 是否必传\u0001 data_id\u0001 string\u0001 当前检测内容唯⼀标识，⾃定 dataId123\u0001 是\u0001 义，需要保证每个送审内容唯 ⼀，注意⻓度不超过64个字符\u0001 由数字和字⺟组成，不能存在下 划线等特殊字符，例如： data12345\u0001 biztype\u0001 string\u0001 业务场景及所需识别的⻛险类 all_test\u0001 是\u0001 型，当前需要在⽕⼭引擎⻛控同 学在后台配置\u0001 content\u0001 string\u0001 待检测的⽂本内容，建议最⻓不 我爱北京天安⻔\u0001 是\u0001 超过500个汉字\u0001 machine_review string\u0001 \u0001调⽤⽕⼭智能⽂本识别接⼝时返 \"涉⻩,涉敏2\"\u0001 否\u0001 _tags\u0001 回的⼀级⻛险标签(中⽂)，强烈 建议传⼊。不同⻛险标签之间使 ⽤逗号分隔。\u0001 operate_time\u0001 int\u0001 ⽤⼾发送该⽂本的秒级时间戳\u0001 1650619218\u0001 是\u0001 callback_url\u0001 string\u0001 回调url地址（⽀持http、 https://\u0001xx.xx.xx\u0001 否\u0001 https），如需要使⽤回调⽅ 式，这个⽅式必传，如果不传， 默认使⽤主动查询⽅式。\u0001 pass_through\u0001 string\u0001 业务透传参数，不做任何处理， 1234\u0001 否\u0001 返回参数中原样输出。\u0001 4. 返回参数\u0001 |\n|  |",
+    "metadata": {
+      "page_num": 18,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00055"
+  },
+  {
+    "content": "| 字段名称\u0001 | 字段类型\u0001 | 字段说明\u0001 | ⽰例数据\u0001 | 是否必传\u0001 |\n| --- | --- | --- | --- | --- |\n| data_id\u0001 | string\u0001 | 当前检测内容唯⼀标识，⾃定 义，需要保证每个送审内容唯 ⼀，注意⻓度不超过64个字符\u0001 由数字和字⺟组成，不能存在下 划线等特殊字符，例如： data12345\u0001 | dataId123\u0001 | 是\u0001 |\n| biztype\u0001 | string\u0001 | 业务场景及所需识别的⻛险类 型，当前需要在⽕⼭引擎⻛控同 学在后台配置\u0001 | all_test\u0001 | 是\u0001 |\n| content\u0001 | string\u0001 | 待检测的⽂本内容，建议最⻓不 超过500个汉字\u0001 | 我爱北京天安⻔\u0001 | 是\u0001 |\n| machine_review _tags\u0001 | string\u0001 | \u0001调⽤⽕⼭智能⽂本识别接⼝时返 回的⼀级⻛险标签(中⽂)，强烈 建议传⼊。不同⻛险标签之间使 ⽤逗号分隔。\u0001 | \"涉⻩,涉敏2\"\u0001 | 否\u0001 |\n| operate_time\u0001 | int\u0001 | ⽤⼾发送该⽂本的秒级时间戳\u0001 | 1650619218\u0001 | 是\u0001 |\n| callback_url\u0001 | string\u0001 | 回调url地址（⽀持http、 https），如需要使⽤回调⽅ 式，这个⽅式必传，如果不传， 默认使⽤主动查询⽅式。\u0001 | https://\u0001xx.xx.xx\u0001 | 否\u0001 |\n| pass_through\u0001 | string\u0001 | 业务透传参数，不做任何处理， 返回参数中原样输出。\u0001 | 1234\u0001 | 否\u0001 |",
+    "metadata": {
+      "page_num": 18,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00056"
+  },
+  {
+    "content": "Parameters参数详情如下：\n字段名称\n字段类型\n字段说明\n示例数据\n是否必传\ndata_id\nstring\n当前检测内容唯一标识，自定\n义，需要保证每个送审内容唯\n一，注意长度不超过64个字符\n由数字和字母组成，不能存在下\n划线等特殊字符，例如：\ndata12345\ndataId123\nbiztype\nstring\n业务场景及所需识别的风险类\n型，当前需要在火山引擎风控同\n学在后台配置\nall_test\ncontent\nstring\n待检测的文本内容，建议最长不\n超过500个汉字\n我爱北京天安门\nmachine_review\n_tags\nstring\n调用火山智能文本识别接口时返\n回的一级风险标签(中文)，强烈\n建议传入。不同风险标签之间使\n用逗号分隔。",
+    "metadata": {
+      "page_num": 18,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00057"
+  },
+  {
+    "content": "```json\n\"涉黄,涉敏2\"\noperate_time\nint\n用户发送该文本的秒级时间戳\ncallback_url\nstring\n回调url地址（支持http、\nhttps），如需要使用回调方\n式，这个方式必传，如果不传，\n默认使用主动查询方式。\nhttps:// xx.xx.xx\npass_through\nstring\n业务透传参数，不做任何处理，\n返回参数中原样输出。\n```",
+    "metadata": {
+      "page_num": 18,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00058"
+  },
+  {
+    "content": "```json\n\"Result\": {\n\"RequestId\": \"20250324142852EDBB61AE034870826568\",\n\"Code\": 0,\n\"Message\": \"success\",\n\"Data\": {\n\"PassThrough\": \"内部日志关联ID：xxxx\",\n审核结果回调示例\n```",
+    "metadata": {
+      "page_num": 19,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00059"
+  },
+  {
+    "content": "```json\n\"RequestId\": \"20250324142852EDBB61AE034870826568\",\n\"Code\": 0,\n```",
+    "metadata": {
+      "page_num": 19,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00060"
+  },
+  {
+    "content": "|  |\n| --- |\n|  |\n| 1 1 |",
+    "metadata": {
+      "page_num": 20,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00061"
+  },
+  {
+    "content": "```json\n\"Message\": \"success\",\n\"Data\": {\n\"Decision\": \"BLOCK\",\n\"DecisionLabel\": \"102\"，\n\"PassThrough\":\"xxxxx\"\n```",
+    "metadata": {
+      "page_num": 20,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00062"
+  },
+  {
+    "content": "接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/async_custom_risk\n\nService字段取值：llm_customize_risk\nHttpMethod：POST\n建议超时：3s\nqps限制：默认qps限制为5(可根据业务实际情况提前沟通调整)\n支持图片大小：最大支持10M以内，线上使用建议图片大小尽量压缩到5M以内，避免出现下载时\n间过长的问题；最小支持14像素。\n支持图片格式：JPEG、PNG、GIF、WEBP、BMP、TIFF、HEIC、HEIF、ICO、DIB、ICNS、\nSGI、JPEG2000",
+    "metadata": {
+      "page_num": 20,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/async_custom_risk",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00063"
+  },
+  {
+    "content": "|  |  |  |  |  |  |\n| --- | --- | --- | --- | --- | --- |\n| 字段名称\u0001 | 字段类型\u0001 | 字段说明\u0001 | ⽰例数据\u0001 | 是否必传\u0001 |  |\n| data_id\u0001 | string\u0001 | 当前检测内容唯⼀标识，⾃定 义，需要保证每个送审内容唯 ⼀，注意⻓度不超过64个字符\u0001 由数字和字⺟组成，不能存在下 划线等特殊字符，例如： data12345\u0001 | dataId123\u0001 | 是\u0001 |  |\n| biztype\u0001 | string\u0001 | 业务场景及所需识别的⻛险类 型，当前需要在⽕⼭引擎⻛控同 学在后台配置\u0001 | all_test\u0001 | 是\u0001 |  |\n| type | string\u0001 | 审核内容类型(⾳频、视频、⽹ ⻚正在建设中)，枚举值如下：\u0001 图⽚：image\u0001 ⾳频：audio\u0001 ⽂本：text\u0001 视频：video\u0001 ⽹⻚：web_page\u0001 多模态(⽂本、图⽚)：multi\u0001 | text\u0001 | 是\u0001 |  |\n| content\u0001 | string\u0001 | 待检测的内容(当前⽀持⽂本、 图⽚)：\u0001 ⽂本：具体的⽂本内容，最⻓ 500个汉字；\u0001 图⽚：对应图⽚⽂件的存储url地 址，建议使⽤图⽚源站地址，不 要使⽤CDN地址。由于⻛控场景 ⼀般处在业务场景之前，⼀般来 说CDN上不会有缓存，使⽤CDN 地址会使图⽚的下载耗时变⻓；\u0001 ⾳频：待检测⾳频⽂件资源的存 储url地址；\u0001 视频：待检测视频⽂件资源的存 储url地址；\u0001 ⽹⻚：待检测⽹⻚的URL地址；\u0001 | \"我爱北京天安⻔\"\u0001 | 是\u0001 |  |\n|  |  | 多模态场景，需包含不同模态的 类型及不同模态具体内容；\u0001 | \" [{\"type\":\"text\",\"te xt\":\"斯汉德\u0001S- HANDE\u0001嗨男震动 |  |  |\n|  |  |  |  |  |  |",
+    "metadata": {
+      "page_num": 21,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00064"
+  },
+  {
+    "content": "字段名称\n字段类型\n字段说明\n示例数据\n是否必传\ndata_id\nstring\n当前检测内容唯一标识，自定\n义，需要保证每个送审内容唯\n一，注意长度不超过64个字符\n由数字和字母组成，不能存在下\n划线等特殊字符，例如：\ndata12345\ndataId123\nbiztype\nstring\n业务场景及所需识别的风险类\n型，当前需要在火山引擎风控同\n学在后台配置\nall_test\ntype\nstring\n审核内容类型(音频、视频、网\n页正在建设中)，枚举值如下：\n图片：image\n音频：audio\n文本：text\n视频：video\n网页：web_page\n多模态(文本、图片)：multi\ntext\ncontent\nstring\n待检测的内容(当前支持文本、\n图片)：\n文本：具体的文本内容，最长\n500个汉字；\n图片：对应图片文件的存储url地\n址，建议使用图片源站地址，不\n要使用CDN地址。由于风控场景\n一般处在业务场景之前，一般来\n说CDN上不会有缓存，使用CDN\n地址会使图片的下载耗时变长；\n音频：待检测音频文件资源的存\n储url地址；\n视频：待检测视频文件资源的存\n储url地址；\n网页：待检测网页的URL地址；",
+    "metadata": {
+      "page_num": 21,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00065"
+  },
+  {
+    "content": "```json\n\"我爱北京天安门\"\n多模态场景，需包含不同模态的\n类型及不同模态具体内容；\n[{\"type\":\"text\",\"te\nxt\":\"斯汉德 S-\nHANDE 嗨男震动\n```",
+    "metadata": {
+      "page_num": 21,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00066"
+  },
+  {
+    "content": "|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n|  |  | 数组类型，每个元素为 jsonObject，必须包含模态类型 及内容；\u0001 | 环\u0001遥控\u00019种模式\"}, {\"type\":\"text\",\"tex t\":\"加微信xxx沟 通\"}, {\"type\":\"image\",\"i mage\":\"https://x xx.xx.xxxx\"},\"type \":\"image\"]\"\u0001 |  |\n| machine_review _tags\u0001 | string\u0001 | \u0001调⽤⽕⼭相关的智能内容识别接 ⼝时返回的⼀级⻛险标签(中 ⽂)，强烈建议传⼊。不同⻛险 标签之间使⽤逗号分隔。\u0001 | \"涉⻩,涉敏\"\u0001 | 否\u0001 |\n| operate_time\u0001 | int\u0001 | ⽤⼾发送该内容的秒级时间戳\u0001 | 1650619218\u0001 | 是\u0001 |\n| callback_url\u0001 | string\u0001 | 回调url地址（⽀持http、 https），如需要使⽤回调⽅ 式，这个⽅式必传，如果不传， 默认使⽤主动查询⽅式。\u0001 | https://\u0001xx.xx.xx\u0001 | 否\u0001 |\n| pass_through\u0001 | string\u0001 | 业务透传参数，不做任何处理， 返回参数中原样输出。\u0001 | 1234\u0001 | 否\u0001 |",
+    "metadata": {
+      "page_num": 22,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00067"
+  },
+  {
+    "content": "| 字段名称\u0001 | 字段类型\u0001 | 字段说明\u0001 | ⽰例数据\u0001 | 是否必传\u0001 |\n| --- | --- | --- | --- | --- |\n| type | string\u0001 | 审核内容类型(当前只⽀持⽂ 本、图⽚类型)，枚举值如下：\u0001 图⽚：image\u0001 ⾳频(60s内短⾳频)：audio\u0001 ⽂本：text\u0001 视频：video\u0001 | text\u0001 | 是\u0001 |\n| text\u0001 | string\u0001 | \u0001⽂本内容\u0001 | \"我爱北京天安⻔\"\u0001 | 否\u0001 |\n| image\u0001 | string\u0001 | 图⽚资源的url地址\u0001 | \"https://xxx.xxx.xxxx \"\u0001 | 否\u0001 |\n| audio\u0001 | string\u0001 | ⾳频资源的url地址\u0001 | \"https://xxx.xxx.xxxx \"\u0001 | 否\u0001 |\n|  |  |  |  |  |",
+    "metadata": {
+      "page_num": 22,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00068"
+  },
+  {
+    "content": "```json\n{\"type\":\"text\",\"tex\nt\":\"加微信xxx沟\n通\"},\n{\"type\":\"image\",\"i\nmage\":\"https://x\nxx.xx.xxxx\"},\"type\n\":\"image\"]\"\nmachine_review\n_tags\nstring\n调用火山相关的智能内容识别接\n口时返回的一级风险标签(中\n文)，强烈建议传入。不同风险\n标签之间使用逗号分隔。\n\"涉黄,涉敏\"\noperate_time\nint\n用户发送该内容的秒级时间戳\ncallback_url\nstring\n回调url地址（支持http、\nhttps），如需要使用回调方\n式，这个方式必传，如果不传，\n默认使用主动查询方式。\nhttps:// xx.xx.xx\npass_through\nstring\n业务透传参数，不做任何处理，\n返回参数中原样输出。\n当请求参数中type为multi时，content数组中单个元素包含内容如下\n字段名称\n字段类型\n字段说明\n示例数据\n是否必传\ntype\nstring\n审核内容类型(当前只支持文\n本、图片类型)，枚举值如下：\n图片：image\n音频(60s内短音频)：audio\n文本：text\n视频：video\ntext\ntext\nstring\n文本内容\n\"我爱北京天安门\"\nimage\nstring\n图片资源的url地址\n\"https://xxx.xxx.xxxx\naudio\nstring\n音频资源的url地址\n\"https://xxx.xxx.xxxx\n```",
+    "metadata": {
+      "page_num": 22,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00069"
+  },
+  {
+    "content": "|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n| video\u0001 | string\u0001 | 视频资源的url地址\u0001 | \"https://xxx.xxx.xxxx \"\u0001 | 否\u0001 |",
+    "metadata": {
+      "page_num": 23,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00070"
+  },
+  {
+    "content": "```json\n\"https://xxx.xxx.xxxx\n```",
+    "metadata": {
+      "page_num": 23,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00071"
+  },
+  {
+    "content": "```json\n\"Result\": {\n\"RequestId\": \"20250324142852EDBB61AE034870826568\",\n\"Code\": 0,\n\"Message\": \"success\",\n\"Data\": {\n\"PassThrough\": \"内部日志关联ID：xxxx\",\n审核结果回调示例\n```",
+    "metadata": {
+      "page_num": 24,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00072"
+  },
+  {
+    "content": "```json\n\"RequestId\": \"20250324142852EDBB61AE034870826568\",\n\"Code\": 0,\n\"Message\": \"success\",\n\"Data\": {\n\"Decision\": \"BLOCK\",\n\"DecisionReason\":\"画面涉及审核标准中的敏感内容。\",\n\"DecisionLabel\": \"102\",\n\"PassThrough\":\"xxxxx\"\n```",
+    "metadata": {
+      "page_num": 24,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00073"
+  },
+  {
+    "content": "接口地址：\n\nhttps://contentservice.zijieapi.com/openapi/v1/rc_llm/text_moderation_result\nService字段取值：llm_text_moderation\nHttpMethod：GET",
+    "metadata": {
+      "page_num": 24,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口地址：",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00074"
+  },
+  {
+    "content": "|  |\n| --- |\n| 建议超时：3s\u0001 qps限制：默认qps限制为5(可根据业务实际情况提前沟通调整)\u0001 3. 请求参数\u0001 4. 返回参数\u0001 code值详情\u0001 Data详情\u0001 |\n|  |",
+    "metadata": {
+      "page_num": 25,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口地址：",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00075"
+  },
+  {
+    "content": "```json\n\"Result\": {\n\"RequestId\": \"20250324142852EDBB61AE034870826568\",\n\"Code\": 0,\n\"Message\": \"success\",\n\"Data\": {\n\"Decision\": \"BLOCK\",\n\"DecisionLabel\": \"102\"，\n\"PassThrough\":\"xxxxx\"\n```",
+    "metadata": {
+      "page_num": 26,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00076"
+  },
+  {
+    "content": "|  |\n| --- |\n| 定制场景-主动查询接⼝\u0001 1. 接⼝描述\u0001 适⽤于内容的定制场景识别，线上识别完成后⽤⼾通过主动调⽤接⼝的⽅式获取识别结果。 注意：是否使⽤定制场景的接⼝，需要提前和⽕⼭相关的策略配置同学沟通。 2. 接⼝描述\u0001 接⼝地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/custom_risk_result\u0001 Service字段取值：llm_customize_risk\u0001 HttpMethod：GET\u0001 建议超时：3s\u0001 qps限制：默认qps限制为5(可根据业务实际情况提前沟通调整)\u0001 3. 请求参数\u0001 4. 返回参数\u0001 code值详情\u0001 |\n|  |",
+    "metadata": {
+      "page_num": 27,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00077"
+  },
+  {
+    "content": "接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/custom_risk_result\n\nService字段取值：llm_customize_risk\nHttpMethod：GET\n建议超时：3s\nqps限制：默认qps限制为5(可根据业务实际情况提前沟通调整)",
+    "metadata": {
+      "page_num": 27,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/custom_risk_result",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00078"
+  },
+  {
+    "content": "4. 返回参数\n\ncode值详情\n\n[扫描页，OCR 不可用（未安装 pytesseract/tesseract），内容跳过]\n\n[扫描页，OCR 不可用（未安装 pytesseract/tesseract），内容跳过]",
+    "metadata": {
+      "page_num": 27,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 4. 返回参数",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": true,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00079"
+  },
+  {
+    "content": "```json\n\"Result\": {\n\"RequestId\": \"20250324142852EDBB61AE034870826568\",\n\"Code\": 0,\n\"Message\": \"success\",\n\"Data\": {\n\"Decision\": \"BLOCK\",\n\"DecisionReason\":\"画面涉及审核标准中的敏感内容。\",\n\"DecisionLabel\": \"102\",\n\"PassThrough\":\"xxxxx\"\n```",
+    "metadata": {
+      "page_num": 30,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00080"
+  },
+  {
+    "content": "接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/multi_moderation\n\nService字段取值： llm_multi_moderation\nHttpMethod：POST\n建议超时：90s\nqps限制：默认qps限制为5(可根据业务实际情况提前沟通调整)\n支持图片大小：最大支持10M以内，线上使用建议图片大小尽量压缩到5M以内，避免出现下载时\n间过长的问题；最小支持14像素。\n支持图片格式：JPEG、PNG、GIF、WEBP、BMP、TIFF、HEIC、HEIF、ICO、DIB、ICNS、\nSGI、JPEG2000",
+    "metadata": {
+      "page_num": 30,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/multi_moderation",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00081"
+  },
+  {
+    "content": "|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n| 3. 请求参数\u0001 注意：AppId、Service、Parameters需要封装成⼀个json\u0001 Parameters参数详情如下：\u0001 字段名称\u0001 字段类型\u0001 字段说明\u0001 ⽰例数据\u0001 是否必传\u0001 data_id\u0001 string\u0001 当前检测内容唯⼀标识，⾃定 dataId123\u0001 是\u0001 义，需要保证每个送审内容唯 ⼀，注意⻓度不超过64个字符\u0001 由数字和字⺟组成，不能存在 下划线等特殊字符，例如： data12345\u0001 biztype\u0001 string\u0001 业务场景及所需识别的⻛险类 all_test\u0001 是\u0001 型，当前需要在⽕⼭引擎⻛控 同学在后台配置\u0001 multi_contents\u0001 json\u0001array\u0001 多模态场景，需包含不同模态 [{\"type\":\"text\",\"text\": 是\u0001 的类型及不同模态具体内容；\u0001 \"斯汉德\u0001S-HANDE\u0001嗨 男震动环\u0001遥控\u00019种模 数组类型，每个元素为 式\",\"uniq_id\":\"comm jsonObject，必须包含模态类 ent_1\"}, 型及内容；\u0001 {\"type\":\"image\",\"im 当前⽀持10条⽂本、10张图⽚ age\":\"https://xxx.xx. 同时审核\u0001 xxxx\",\"uniq_id\":\"co mment_2\"},\u0001 {\"type\":\"image\",\"im age\":\"https://xxx.xx. xxx\",\"tag\":\"is_first_i mage\",\"uniq_id\":\"to pic_1\"]\u0001 |  |  |  |  |\n| 字段名称\u0001 | 字段类型\u0001 | 字段说明\u0001 | ⽰例数据\u0001 | 是否必传\u0001 |\n| data_id\u0001 | string\u0001 | 当前检测内容唯⼀标识，⾃定 义，需要保证每个送审内容唯 ⼀，注意⻓度不超过64个字符\u0001 由数字和字⺟组成，不能存在 下划线等特殊字符，例如： data12345\u0001 | dataId123\u0001 | 是\u0001 |\n| biztype\u0001 | string\u0001 | 业务场景及所需识别的⻛险类 型，当前需要在⽕⼭引擎⻛控 同学在后台配置\u0001 | all_test\u0001 | 是\u0001 |\n| multi_contents\u0001 | json\u0001array\u0001 | 多模态场景，需包含不同模态 的类型及不同模态具体内容；\u0001 数组类型，每个元素为 jsonObject，必须包含模态类 型及内容；\u0001 当前⽀持10条⽂本、10张图⽚ 同时审核\u0001 | [{\"type\":\"text\",\"text\": \"斯汉德\u0001S-HANDE\u0001嗨 男震动环\u0001遥控\u00019种模 式\",\"uniq_id\":\"comm ent_1\"}, {\"type\":\"image\",\"im age\":\"https://xxx.xx. xxxx\",\"uniq_id\":\"co mment_2\"},\u0001 {\"type\":\"image\",\"im age\":\"https://xxx.xx. xxx\",\"tag\":\"is_first_i mage\",\"uniq_id\":\"to pic_1\"]\u0001 | 是\u0001 |\n|  |  |  |  |  |\n|  |  |  |  |  |",
+    "metadata": {
+      "page_num": 31,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/multi_moderation",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00082"
+  },
+  {
+    "content": "| 当前⽀持10条⽂本、10张图⽚ |\n| --- |\n| 同时审核 |",
+    "metadata": {
+      "page_num": 31,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/multi_moderation",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00083"
+  },
+  {
+    "content": "3. 请求参数\n\n注意：AppId、Service、Parameters需要封装成一个json\nParameters参数详情如下：\n字段名称\n字段类型\n字段说明\n示例数据\n是否必传\ndata_id\nstring\n当前检测内容唯一标识，自定\n义，需要保证每个送审内容唯\n一，注意长度不超过64个字符\n由数字和字母组成，不能存在\n下划线等特殊字符，例如：\ndata12345\ndataId123\nbiztype\nstring\n业务场景及所需识别的风险类\n型，当前需要在火山引擎风控\n同学在后台配置\nall_test\nmulti_contents\njson array\n多模态场景，需包含不同模态\n的类型及不同模态具体内容；\n数组类型，每个元素为\njsonObject，必须包含模态类\n型及内容；\n当前支持10条文本、10张图片\n同时审核",
+    "metadata": {
+      "page_num": 31,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00084"
+  },
+  {
+    "content": "```\n[{\"type\":\"text\",\"text\":\n\"斯汉德 S-HANDE 嗨\n男震动环 遥控 9种模\n式\",\"uniq_id\":\"comm\nent_1\"},\n{\"type\":\"image\",\"im\nage\":\"https://xxx.xx.\nxxxx\",\"uniq_id\":\"co\nmment_2\"},\n{\"type\":\"image\",\"im\nage\":\"https://xxx.xx.\nxxx\",\"tag\":\"is_first_i\nmage\",\"uniq_id\":\"to\npic_1\"]\n```",
+    "metadata": {
+      "page_num": 31,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00085"
+  },
+  {
+    "content": "|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n| machine_review _tags\u0001 | string\u0001 | \u0001调⽤⽕⼭相关的智能内容识别 接⼝时返回的⼀级⻛险标签(中 ⽂)，强烈建议传⼊。不同⻛险 标签之间使⽤逗号分隔。\u0001 | \"涉⻩,涉敏\"\u0001 | 否\u0001 |\n| operate_time\u0001 | int\u0001 | ⽤⼾发送该图⽂内容的秒级时 间戳\u0001 | 1650619218\u0001 | 是\u0001 |",
+    "metadata": {
+      "page_num": 32,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00086"
+  },
+  {
+    "content": "| 字段名称\u0001 | 字段类型\u0001 | 字段说明\u0001 | ⽰例数据\u0001 | 是否必传\u0001 |\n| --- | --- | --- | --- | --- |\n| type | string\u0001 | 审核内容类型，枚举值如下：\u0001 图⽚：image\u0001 ⽂本：text\u0001 | text\u0001 | 是\u0001 |\n| text\u0001 | string\u0001 | \u0001⽂本内容(当type为text时，必 须存在)\u0001 | \"我爱北京天安⻔\"\u0001 | 否\u0001 |\n| image\u0001 | string\u0001 | 图⽚资源的url地址(当type为 image时，必须存在)\u0001 建议使⽤图⽚源站地址，不要 使⽤CDN地址。由于⻛控场景 ⼀般处在业务场景之前，⼀般 来说CDN上不会有缓存，使⽤ CDN地址会使图⽚的下载耗时 变⻓；\u0001 | \"https://xxx.xxx.xxxx \"\u0001 | 否\u0001 |\n| tag\u0001 | string\u0001 | 当前请求中待识别内容的相关 属性(例如头像，昵称，电商图 ⽚等），此类tag标识需要提前 和⽕⼭对⻬，由⽕⼭侧同学配 置后再线上使⽤\u0001 | is_first_image\u0001 | 否\u0001 |\n| uniq_id\u0001 | string\u0001 | 当前元素中包含内容的唯⼀ ID，⽅便后续定位⻛险内容\u0001 | comment_1\u0001 | 否\u0001 |",
+    "metadata": {
+      "page_num": 32,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00087"
+  },
+  {
+    "content": "```json\n\"涉黄,涉敏\"\noperate_time\nint\n用户发送该图文内容的秒级时\n间戳\nmulti_contents数组中单个元素包含内容如下:\n字段名称\n字段类型\n字段说明\n示例数据\n是否必传\ntype\nstring\n审核内容类型，枚举值如下：\n图片：image\n文本：text\ntext\ntext\nstring\n文本内容(当type为text时，必\n须存在)\n\"我爱北京天安门\"\nimage\nstring\n图片资源的url地址(当type为\nimage时，必须存在)\n建议使用图片源站地址，不要\n使用CDN地址。由于风控场景\n一般处在业务场景之前，一般\n来说CDN上不会有缓存，使用\nCDN地址会使图片的下载耗时\n变长；\n\"https://xxx.xxx.xxxx\ntag\nstring\n当前请求中待识别内容的相关\n属性(例如头像，昵称，电商图\n片等），此类tag标识需要提前\n和火山对齐，由火山侧同学配\n置后再线上使用\nis_first_image\nuniq_id\nstring\n当前元素中包含内容的唯一\nID，方便后续定位风险内容\ncomment_1\n```",
+    "metadata": {
+      "page_num": 32,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口时返回的一级风险标签(中",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00088"
+  },
+  {
+    "content": "|  |\n| --- |\n| DecisionDetail详情\u0001 DecisionLabel、DecisionLabelName可能输出的标签内容如下\u0001 |\n|  |",
+    "metadata": {
+      "page_num": 34,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 4. 返回参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00089"
+  },
+  {
+    "content": "|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n| DecisionDetail中Content详情\u0001 字段名称\u0001 字段类型\u0001 字段说明\u0001 ⽰例数据\u0001 是否必传\u0001 Type\u0001 string\u0001 审核内容类型，枚举值如下：\u0001 text\u0001 是\u0001 图⽚：image\u0001 ⽂本：text\u0001 Text\u0001 string\u0001 \u0001⽂本内容(当type为text时，必 \"我爱北京天安⻔\"\u0001 否\u0001 须存在)\u0001 Image\u0001 string\u0001 图⽚资源的url地址(当type为 \"https://xxx.xxx.xxxx 否\u0001 image时，必须存在)\u0001 \"\u0001 建议使⽤图⽚源站地址，不要 使⽤CDN地址。由于⻛控场景 |  |  |  |  |\n| 字段名称\u0001 | 字段类型\u0001 | 字段说明\u0001 | ⽰例数据\u0001 | 是否必传\u0001 |\n| Type\u0001 | string\u0001 | 审核内容类型，枚举值如下：\u0001 图⽚：image\u0001 ⽂本：text\u0001 | text\u0001 | 是\u0001 |\n| Text\u0001 | string\u0001 | \u0001⽂本内容(当type为text时，必 须存在)\u0001 | \"我爱北京天安⻔\"\u0001 | 否\u0001 |\n| Image\u0001 | string\u0001 | 图⽚资源的url地址(当type为 image时，必须存在)\u0001 建议使⽤图⽚源站地址，不要 使⽤CDN地址。由于⻛控场景 | \"https://xxx.xxx.xxxx \"\u0001 | 否\u0001 |\n|  |  |  |  |  |",
+    "metadata": {
+      "page_num": 35,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 4. 返回参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00090"
+  },
+  {
+    "content": "DecisionDetail中Content详情\n字段名称\n字段类型\n字段说明\n示例数据\n是否必传\nType\nstring\n审核内容类型，枚举值如下：\n图片：image\n文本：text\ntext\nText\nstring\n文本内容(当type为text时，必\n须存在)",
+    "metadata": {
+      "page_num": 35,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 4. 返回参数",
+      "block_types": [
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00091"
+  },
+  {
+    "content": "```json\n\"我爱北京天安门\"\nImage\nstring\n图片资源的url地址(当type为\nimage时，必须存在)\n建议使用图片源站地址，不要\n使用CDN地址。由于风控场景\n\"https://xxx.xxx.xxxx\n```",
+    "metadata": {
+      "page_num": 35,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 4. 返回参数",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00092"
+  },
+  {
+    "content": "|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n|  |  | ⼀般处在业务场景之前，⼀般 来说CDN上不会有缓存，使⽤ CDN地址会使图⽚的下载耗时 变⻓；\u0001 |  |  |\n| Tag\u0001 | string\u0001 | 当前请求中待识别内容的相关 属性，此类tag标识需要提前和 ⽕⼭对⻬，由⽕⼭侧同学配置 后再线上使⽤\u0001 | is_first_image\u0001 | 否\u0001 |\n| UniqId\u0001 | string\u0001 | 当前元素中包含内容的唯⼀ ID，⽅便后续定位⻛险内容\u0001 | comment_1\u0001 | 否\u0001 |",
+    "metadata": {
+      "page_num": 36,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 4. 返回参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00093"
+  },
+  {
+    "content": "一般处在业务场景之前，一般\n来说CDN上不会有缓存，使用\nCDN地址会使图片的下载耗时\n变长；\nTag\nstring\n当前请求中待识别内容的相关\n属性，此类tag标识需要提前和\n火山对齐，由火山侧同学配置\n后再线上使用\nis_first_image\nUniqId\nstring\n当前元素中包含内容的唯一\nID，方便后续定位风险内容\ncomment_1",
+    "metadata": {
+      "page_num": 36,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 4. 返回参数",
+      "block_types": [
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00094"
+  },
+  {
+    "content": "```json\n\"AppId\": xxxxxx,\n\"Service\": \"llm_multi_moderation\",\n\"Parameters\": \"{\\\"data_id\\\": \\\"test\\\",\\\"multi_contents\\\": [{\\\"type\\\":\n\\\"text\\\",\\\"tag\\\": \\\"test1\\\",\\\"text\\\": \\\"早上好\\\"，\\\"uniq_id\\\": \\\"comment_1\\\"},\n{\\\"type\\\": \\\"image\\\",\\\"image\\\": \\\"https://xxx.xxx.xx/test.jpg\"},{\\\"type\\\":\n\\\"text\\\",\\\"tag\\\": \\\"test1\\\",\\\"text\\\": \\\"都很积极很难\\\"},{\\\"type\\\":\n\\\"text\\\",\\\"tag\\\": \\\"test1\\\",\\\"text\\\": \\\"傻鸟\\\"},{\\\"type\\\": \\\"text\\\",\\\"text\\\":\n\\\"马上看见你\\\"},{\\\"type\\\": \\\"image\\\",\\\"tag\\\": \\\"test3\\\",\\\"image\\\":\n\\\"https://xxx.xxx.xx/test.jpg\\\"},{\\\"type\\\": \\\"image\\\",\\\"tag\\\":\n\\\"test2\\\",\\\"image\\\": \\\"https://xxx.xxx.xx/test.jpg\\\"},{\\\"type\\\":\n\\\"text\\\",\\\"text\\\": \\\"傍晚时分，天边染着橘粉晚霞。老槐树的影子拉得很长，树下石凳上，两位\n老人摇着蒲扇闲谈，偶尔传来几声轻笑。孩童追着飘落的槐叶跑过，脚步声清脆。街角路灯渐次亮起，\n暖黄光晕驱散暮色，晚风裹着饭香掠过，寻常巷陌里，满是温柔的烟火气。\\\"},{\\\"type\\\":\n\\\"image\\\",\\\"image\\\": \\\"https://xxx.xxx.xx/20260108-\n160028.png\\\"}],\\\"machine_review_tags\\\": \\\"图文多模态：有效文本 3 条，有效图片 4 条\n\\\",\\\"pass_through\\\": \\\"透传测试\\\",\\\"operate_time\\\": 1775219336,\\\"biztype\\\":\n\\\"common_multi_test\\\"}\"\n返回\n```",
+    "metadata": {
+      "page_num": 36,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 请求",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00095"
+  },
+  {
+    "content": "|  |  |\n| --- | --- |\n| 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4 4 | 代1 码块{\u0001 2 \"Result\": { 3 \"RequestId\": \"20250324142852EDBB61AE034870826568\", 4 \"Code\": 0, 5 \"Message\": \"success\", 6 \"Data\": { 7 \"Decision\": \"BLOCK\", 8 \"DecisionReason\": \"输⼊图⽚中包含“不知道哪个王⼋羔⼦发明的补休”，其中“王⼋羔 ⼦”属于辱骂性词汇，符合“辱骂”⻛险项的判定标准。\", 9 \"DecisionLabel\": \"302\", 0 \"DecisionLabelName\": \"辱骂\", 1 \"DecisionRate\": 0, 2 \"HitLabels\": [ 3 \"302\" 4 ], 5 \"DecisionDetail\": [ 6 { 7 \"Content\": [ 8 { 9 \"Type\": \"text\", 0 \"Text\": \"⻢上看⻅你\", 1 \"UniqId\":\"\", 2 \"Tag\": \"\" 3 }, 4 { 5 \"Type\": \"text\", 6 \"Text\": \"傍晚时分，天边染着橘粉晚霞。⽼槐树的影⼦拉得很⻓，树下⽯凳上，两 位⽼⼈摇着蒲扇闲谈，偶尔传来⼏声轻笑。孩童追着飘落的槐叶跑过，脚步声清脆。街⻆路灯渐次亮 起，暖⻩光晕驱散暮⾊，晚⻛裹着饭⾹掠过，寻常巷陌⾥，满是温柔的烟⽕⽓。\", 7 \"UniqId\":\"\", 8 \"Tag\": \"\" 9 }, 0 { 1 \"Type\": \"text\", 2 \"Text\": \"早上好\", 3 \"Tag\": \"test1\", 4 \"UniqId\": \"comment_1\" 5 }, 6 { 7 \"Type\": \"image\", 8 \"Image\": \"https://xxx.xxx.xx/test.jpg\", 9 \"UniqId\":\"\", 0 \"Tag\": \"test3\" 1 }, 2 { 3 \"Type\": \"image\", 4 \"Image\": \"https://xxx.xxx.xx/test.jpg\", |\n|  |  |",
+    "metadata": {
+      "page_num": 37,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 请求",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00096"
+  },
+  {
+    "content": "```json\n\"Result\": {\n\"RequestId\": \"20250324142852EDBB61AE034870826568\",\n\"Code\": 0,\n\"Message\": \"success\",\n\"Data\": {\n\"Decision\": \"BLOCK\",\n\"DecisionReason\": \"输入图片中包含“不知道哪个王八羔子发明的补休”，其中“王八羔\n子”属于辱骂性词汇，符合“辱骂”风险项的判定标准。\",\n\"DecisionLabel\": \"302\",\n\"DecisionLabelName\": \"辱骂\",\n\"DecisionRate\": 0,\n\"HitLabels\": [\n\"302\"\n],\n\"DecisionDetail\": [\n\"Content\": [\n\"Type\": \"text\",\n\"Text\": \"马上看见你\",\n\"UniqId\":\"\",\n\"Tag\": \"\"\n},\n\"Type\": \"text\",\n\"Text\": \"傍晚时分，天边染着橘粉晚霞。老槐树的影子拉得很长，树下石凳上，两\n位老人摇着蒲扇闲谈，偶尔传来几声轻笑。孩童追着飘落的槐叶跑过，脚步声清脆。街角路灯渐次亮\n起，暖黄光晕驱散暮色，晚风裹着饭香掠过，寻常巷陌里，满是温柔的烟火气。\",\n\"UniqId\":\"\",\n\"Tag\": \"\"\n},\n\"Type\": \"text\",\n\"Text\": \"早上好\",\n\"Tag\": \"test1\",\n\"UniqId\": \"comment_1\"\n},\n\"Type\": \"image\",\n\"Image\": \"https://xxx.xxx.xx/test.jpg\",\n\"UniqId\":\"\",\n\"Tag\": \"test3\"\n},\n\"Type\": \"image\",\n\"Image\": \"https://xxx.xxx.xx/test.jpg\",\n```",
+    "metadata": {
+      "page_num": 37,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 请求",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00097"
+  },
+  {
+    "content": "|  |\n| --- |\n|  |\n| 4 4 4 4 4 5 5 5 5 5 5 5 5 5 5 6 6 6 6 6 6 6 |",
+    "metadata": {
+      "page_num": 38,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 请求",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00098"
+  },
+  {
+    "content": "```json\n\"UniqId\":\"\",\n\"Tag\": \"test2\"\n},\n\"Type\": \"image\",\n\"Image\": \"https://xxx.xxx.xx/20260108-160028.png\",\n\"UniqId\":\"\",\n\"Tag\": \"\"\n],\n\"Decision\": \"BLOCK\",\n\"DecisionReason\": \"输入图片中包含“不知道哪个王八羔子发明的补休”，其中“王八羔\n子”属于辱骂性词汇，符合“辱骂”风险项的判定标准。\",\n\"DecisionLabel\": \"302\",\n\"DecisionLabelName\": \"辱骂\",\n\"DecisionRate\": 0\n],\n\"PassThrough\": \"透传测试\",\n\"DataId\": \"singletagYBmodeltest0011767872574\"\n```",
+    "metadata": {
+      "page_num": 38,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 请求",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00099"
+  },
+  {
+    "content": "接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/async_multi_moderation\n\nService字段取值：llm_multi_moderation\nHttpMethod：POST\n建议超时：5s\nqps限制：默认qps限制为5(可根据业务实际情况提前沟通调整)\n支持图片大小：最大支持10M以内，线上使用建议图片大小尽量压缩到5M以内，避免出现下载时\n间过长的问题；最小支持14像素。",
+    "metadata": {
+      "page_num": 38,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/async_multi_moderation",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00100"
+  },
+  {
+    "content": "|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n| ⽀持图⽚格式：JPEG、PNG、GIF、WEBP、BMP、TIFF、HEIC、HEIF、ICO、DIB、ICNS、 SGI、JPEG2000\u0001 3. 请求参数\u0001 注意：AppId、Service、Parameters需要封装成⼀个json\u0001 Parameters参数详情如下：\u0001 字段名称\u0001 字段类型\u0001 字段说明\u0001 ⽰例数据\u0001 是否必传\u0001 data_id\u0001 string\u0001 当前检测内容唯⼀标识，⾃定 dataId123\u0001 是\u0001 义，需要保证每个送审内容唯 ⼀，注意⻓度不超过64个字符\u0001 由数字和字⺟组成，不能存在 下划线等特殊字符，例如： data12345\u0001 biztype\u0001 string\u0001 业务场景及所需识别的⻛险类 all_test\u0001 是\u0001 型，当前需要在⽕⼭引擎⻛控 同学在后台配置\u0001 multi_contents\u0001 json\u0001array\u0001 多模态场景，需包含不同模态 [{\"type\":\"text\",\"text\": 是\u0001 的类型及不同模态具体内容；\u0001 \"斯汉德\u0001S-HANDE\u0001嗨 男震动环\u0001遥控\u00019种模 数组类型，每个元素为 式\",\"uniq_id\":\"comm jsonObject，必须包含模态类 ent_1\"}, 型及内容；\u0001 {\"type\":\"image\",\"im 当前最多⽀持100条⽂本、500 age\":\"https://xxx.xx. 张图⽚同时审核\u0001 xxxx\",\"uniq_id\":\"co mment_2\"},\u0001 {\"type\":\"image\",\"im age\":\"https://xxx.xx. xxx\",\"tag\":\"is_first_i mage\",\"uniq_id\":\"to pic_1\"]\u0001 |  |  |  |  |\n| 字段名称\u0001 | 字段类型\u0001 | 字段说明\u0001 | ⽰例数据\u0001 | 是否必传\u0001 |\n| data_id\u0001 | string\u0001 | 当前检测内容唯⼀标识，⾃定 义，需要保证每个送审内容唯 ⼀，注意⻓度不超过64个字符\u0001 由数字和字⺟组成，不能存在 下划线等特殊字符，例如： data12345\u0001 | dataId123\u0001 | 是\u0001 |\n| biztype\u0001 | string\u0001 | 业务场景及所需识别的⻛险类 型，当前需要在⽕⼭引擎⻛控 同学在后台配置\u0001 | all_test\u0001 | 是\u0001 |\n| multi_contents\u0001 | json\u0001array\u0001 | 多模态场景，需包含不同模态 的类型及不同模态具体内容；\u0001 数组类型，每个元素为 jsonObject，必须包含模态类 型及内容；\u0001 当前最多⽀持100条⽂本、500 张图⽚同时审核\u0001 | [{\"type\":\"text\",\"text\": \"斯汉德\u0001S-HANDE\u0001嗨 男震动环\u0001遥控\u00019种模 式\",\"uniq_id\":\"comm ent_1\"}, {\"type\":\"image\",\"im age\":\"https://xxx.xx. xxxx\",\"uniq_id\":\"co mment_2\"},\u0001 {\"type\":\"image\",\"im age\":\"https://xxx.xx. xxx\",\"tag\":\"is_first_i mage\",\"uniq_id\":\"to pic_1\"]\u0001 | 是\u0001 |\n|  |  |  |  |  |",
+    "metadata": {
+      "page_num": 39,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/async_multi_moderation",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00101"
+  },
+  {
+    "content": "| 当前最多⽀持100条⽂本、500 |\n| --- |\n| 张图⽚同时审核 |",
+    "metadata": {
+      "page_num": 39,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口地址：https://contentservice.zijieapi.com/openapi/v1/rc_llm/async_multi_moderation",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00102"
+  },
+  {
+    "content": "3. 请求参数\n\n注意：AppId、Service、Parameters需要封装成一个json\nParameters参数详情如下：\n字段名称\n字段类型\n字段说明\n示例数据\n是否必传\ndata_id\nstring\n当前检测内容唯一标识，自定\n义，需要保证每个送审内容唯\n一，注意长度不超过64个字符\n由数字和字母组成，不能存在\n下划线等特殊字符，例如：\ndata12345\ndataId123\nbiztype\nstring\n业务场景及所需识别的风险类\n型，当前需要在火山引擎风控\n同学在后台配置\nall_test\nmulti_contents\njson array\n多模态场景，需包含不同模态\n的类型及不同模态具体内容；\n数组类型，每个元素为\njsonObject，必须包含模态类\n型及内容；\n当前最多支持100条文本、500\n张图片同时审核",
+    "metadata": {
+      "page_num": 39,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00103"
+  },
+  {
+    "content": "```\n[{\"type\":\"text\",\"text\":\n\"斯汉德 S-HANDE 嗨\n男震动环 遥控 9种模\n式\",\"uniq_id\":\"comm\nent_1\"},\n{\"type\":\"image\",\"im\nage\":\"https://xxx.xx.\nxxxx\",\"uniq_id\":\"co\nmment_2\"},\n{\"type\":\"image\",\"im\nage\":\"https://xxx.xx.\nxxx\",\"tag\":\"is_first_i\nmage\",\"uniq_id\":\"to\npic_1\"]\n```",
+    "metadata": {
+      "page_num": 39,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00104"
+  },
+  {
+    "content": "|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n|  |  |  |  |  |\n| callback_url\u0001 | string\u0001 | 回调url地址（⽀持http、 https），如需要使⽤回调⽅ 式，这个⽅式必传，如果不 传，默认使⽤主动查询⽅式。\u0001 | https://\u0001xx.xx.xx\u0001 | 否\u0001 |\n| pass_through\u0001 | string\u0001 | 业务透传参数，不做任何处 理，返回参数中原样输出。\u0001 | 1234\u0001 | 否\u0001 |\n| machine_review _tags\u0001 | string\u0001 | \u0001调⽤⽕⼭相关的智能内容识别 接⼝时返回的⼀级⻛险标签(中 ⽂)，强烈建议传⼊。不同⻛险 标签之间使⽤逗号分隔。\u0001 | \"涉⻩,涉敏\"\u0001 | 否\u0001 |\n| operate_time\u0001 | int\u0001 | ⽤⼾发送该图⽂内容的秒级时 间戳\u0001 | 1650619218\u0001 | 是\u0001 |",
+    "metadata": {
+      "page_num": 40,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00105"
+  },
+  {
+    "content": "| 字段名称\u0001 | 字段类型\u0001 | 字段说明\u0001 | ⽰例数据\u0001 | 是否必传\u0001 |\n| --- | --- | --- | --- | --- |\n| type | string\u0001 | 审核内容类型，枚举值如下：\u0001 图⽚：image\u0001 ⽂本：text\u0001 | text\u0001 | 是\u0001 |\n| text\u0001 | string\u0001 | \u0001⽂本内容(当type为text时，必 须存在)\u0001 | \"我爱北京天安⻔\"\u0001 | 否\u0001 |\n| image\u0001 | string\u0001 | 图⽚资源的url地址(当type为 image时，必须存在)\u0001 建议使⽤图⽚源站地址，不要 使⽤CDN地址。由于⻛控场景 ⼀般处在业务场景之前，⼀般 来说CDN上不会有缓存，使⽤ CDN地址会使图⽚的下载耗时 变⻓；\u0001 | \"https://xxx.xxx.xxxx \"\u0001 | 否\u0001 |\n| tag\u0001 | string\u0001 | 当前请求中待识别内容的相关 属性，此类tag标识需要提前和 ⽕⼭对⻬，由⽕⼭侧同学配置 后再线上使⽤\u0001 | is_first_image\u0001 | 否\u0001 |\n|  |  |  |  |  |",
+    "metadata": {
+      "page_num": 40,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00106"
+  },
+  {
+    "content": "callback_url\nstring\n回调url地址（支持http、\nhttps），如需要使用回调方\n式，这个方式必传，如果不\n传，默认使用主动查询方式。\nhttps:// xx.xx.xx\npass_through\nstring\n业务透传参数，不做任何处\n理，返回参数中原样输出。\nmachine_review\n_tags\nstring\n调用火山相关的智能内容识别",
+    "metadata": {
+      "page_num": 40,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00107"
+  },
+  {
+    "content": "```json\n\"涉黄,涉敏\"\noperate_time\nint\n用户发送该图文内容的秒级时\n间戳\nmulti_contents数组中单个元素包含内容如下:\n字段名称\n字段类型\n字段说明\n示例数据\n是否必传\ntype\nstring\n审核内容类型，枚举值如下：\n图片：image\n文本：text\ntext\ntext\nstring\n文本内容(当type为text时，必\n须存在)\n\"我爱北京天安门\"\nimage\nstring\n图片资源的url地址(当type为\nimage时，必须存在)\n建议使用图片源站地址，不要\n使用CDN地址。由于风控场景\n一般处在业务场景之前，一般\n来说CDN上不会有缓存，使用\nCDN地址会使图片的下载耗时\n变长；\n\"https://xxx.xxx.xxxx\ntag\nstring\n当前请求中待识别内容的相关\n属性，此类tag标识需要提前和\n火山对齐，由火山侧同学配置\n后再线上使用\nis_first_image\n```",
+    "metadata": {
+      "page_num": 40,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口时返回的一级风险标签(中",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00108"
+  },
+  {
+    "content": "|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n| uniq_id\u0001 | string\u0001 | 当前元素中包含内容的唯⼀ ID，⽅便后续定位⻛险内容\u0001 | comment_1\u0001 | 否\u0001 |",
+    "metadata": {
+      "page_num": 41,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口时返回的一级风险标签(中",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00109"
+  },
+  {
+    "content": "```json\n\"AppId\": xxxxxx,\n\"Service\": \"llm_multi_moderation\",\n\"Parameters\": \"{\\\"data_id\\\": \\\"test\\\",\\\"multi_contents\\\": [{\\\"type\\\":\n\\\"text\\\",\\\"tag\\\": \\\"test1\\\",\\\"text\\\": \\\"早上好\\\"，\\\"uniq_id\\\": \\\"comment_1\\\"},\n{\\\"type\\\": \\\"image\\\",\\\"image\\\": \\\"https://xxx.xxx.xx/test.jpg\"},{\\\"type\\\":\n\\\"text\\\",\\\"tag\\\": \\\"test1\\\",\\\"text\\\": \\\"都很积极很难\\\"},{\\\"type\\\":\n\\\"text\\\",\\\"tag\\\": \\\"test1\\\",\\\"text\\\": \\\"傻鸟\\\"},{\\\"type\\\": \\\"text\\\",\\\"text\\\":\n\\\"马上看见你\\\"},{\\\"type\\\": \\\"image\\\",\\\"tag\\\": \\\"test3\\\",\\\"image\\\":\n\\\"https://xxx.xxx.xx/test.jpg\\\"},{\\\"type\\\": \\\"image\\\",\\\"tag\\\":\n\\\"test2\\\",\\\"image\\\": \\\"https://xxx.xxx.xx/test.jpg\\\"},{\\\"type\\\":\n\\\"text\\\",\\\"text\\\": \\\"傍晚时分，天边染着橘粉晚霞。老槐树的影子拉得很长，树下石凳上，两位\n老人摇着蒲扇闲谈，偶尔传来几声轻笑。孩童追着飘落的槐叶跑过，脚步声清脆。街角路灯渐次亮起，\n暖黄光晕驱散暮色，晚风裹着饭香掠过，寻常巷陌里，满是温柔的烟火气。\\\"},{\\\"type\\\":\n\\\"image\\\",\\\"image\\\": \\\"https://xxx.xxx.xx/20260108-\n160028.png\\\"}],\\\"machine_review_tags\\\": \\\"图文多模态：有效文本 3 条，有效图片 4 条\n\\\",\\\"pass_through\\\": \\\"透传测试\\\",\\\"operate_time\\\": 1775219336,\\\"biztype\\\":\n\\\"common_multi_test\\\",\\\"callback_url\\\":\\\"https://xxxx.xxxx.xxxx\\\"}\"\n返回\n```",
+    "metadata": {
+      "page_num": 42,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 请求",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00110"
+  },
+  {
+    "content": "```json\n\"Result\": {\n\"RequestId\": \"20250324142852EDBB61AE034870826568\",\n\"Code\": 0,\n\"Message\": \"success\",\n\"Data\": {\n\"PassThrough\": \"透传测试\",\n审核结果回调示例\n(具体参数说明可参考  图文多模态场景-主动查询接口  参数说明)\n```",
+    "metadata": {
+      "page_num": 42,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 请求",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00111"
+  },
+  {
+    "content": "|  |  |\n| --- | --- |\n| 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4 4 | 代1 码块{\u0001 2 \"RequestId\": \"20250324142852EDBB61AE034870826568\", 3 \"Code\": 0, 4 \"Message\": \"success\", 5 \"Data\": { 6 \"Decision\": \"BLOCK\", 7 \"DecisionReason\": \"输⼊图⽚中包含“不知道哪个王⼋羔⼦发明的补休”，其中“王⼋羔 ⼦”属于辱骂性词汇，符合“辱骂”⻛险项的判定标准。\", 8 \"DecisionLabel\": \"302\", 9 \"DecisionLabelName\": \"辱骂\", 0 \"DecisionRate\": 0, 1 \"HitLabels\": [ 2 \"302\" 3 ], 4 \"DecisionDetail\": [ 5 { 6 \"Content\": [ 7 { 8 \"Type\": \"text\", 9 \"Text\": \"⻢上看⻅你\", 0 \"uniq_id\":\"\", 1 \"Tag\": \"\" 2 }, 3 { 4 \"Type\": \"text\", 5 \"Text\": \"傍晚时分，天边染着橘粉晚霞。⽼槐树的影⼦拉得很⻓，树下⽯凳上，两 位⽼⼈摇着蒲扇闲谈，偶尔传来⼏声轻笑。孩童追着飘落的槐叶跑过，脚步声清脆。街⻆路灯渐次亮 起，暖⻩光晕驱散暮⾊，晚⻛裹着饭⾹掠过，寻常巷陌⾥，满是温柔的烟⽕⽓。\", 6 \"uniq_id\":\"\", 7 \"Tag\": \"\" 8 }, 9 { 0 \"Type\": \"text\", 1 \"Text\": \"早上好\", 2 \"Tag\": \"test1\", 3 \"uniq_id\": \"comment_1\" 4 }, 5 { 6 \"Type\": \"image\", 7 \"Image\": \"https://xxx.xxx.xx/test.jpg\", 8 \"uniq_id\":\"\", 9 \"Tag\": \"test3\" 0 }, 1 { 2 \"Type\": \"image\", 3 \"Image\": \"https://xxx.xxx.xx/test.jpg\", 4 \"uniq_id\":\"\", |\n|  |  |",
+    "metadata": {
+      "page_num": 43,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 请求",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00112"
+  },
+  {
+    "content": "```json\n\"RequestId\": \"20250324142852EDBB61AE034870826568\",\n\"Code\": 0,\n\"Message\": \"success\",\n\"Data\": {\n\"Decision\": \"BLOCK\",\n\"DecisionReason\": \"输入图片中包含“不知道哪个王八羔子发明的补休”，其中“王八羔\n子”属于辱骂性词汇，符合“辱骂”风险项的判定标准。\",\n\"DecisionLabel\": \"302\",\n\"DecisionLabelName\": \"辱骂\",\n\"DecisionRate\": 0,\n\"HitLabels\": [\n\"302\"\n],\n\"DecisionDetail\": [\n\"Content\": [\n\"Type\": \"text\",\n\"Text\": \"马上看见你\",\n\"uniq_id\":\"\",\n\"Tag\": \"\"\n},\n\"Type\": \"text\",\n\"Text\": \"傍晚时分，天边染着橘粉晚霞。老槐树的影子拉得很长，树下石凳上，两\n位老人摇着蒲扇闲谈，偶尔传来几声轻笑。孩童追着飘落的槐叶跑过，脚步声清脆。街角路灯渐次亮\n起，暖黄光晕驱散暮色，晚风裹着饭香掠过，寻常巷陌里，满是温柔的烟火气。\",\n\"uniq_id\":\"\",\n\"Tag\": \"\"\n},\n\"Type\": \"text\",\n\"Text\": \"早上好\",\n\"Tag\": \"test1\",\n\"uniq_id\": \"comment_1\"\n},\n\"Type\": \"image\",\n\"Image\": \"https://xxx.xxx.xx/test.jpg\",\n\"uniq_id\":\"\",\n\"Tag\": \"test3\"\n},\n\"Type\": \"image\",\n\"Image\": \"https://xxx.xxx.xx/test.jpg\",\n\"uniq_id\":\"\",\n```",
+    "metadata": {
+      "page_num": 43,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 请求",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00113"
+  },
+  {
+    "content": "|  |\n| --- |\n|  |\n| 4 4 4 4 4 5 5 5 5 5 5 5 5 5 5 6 6 6 6 6 |",
+    "metadata": {
+      "page_num": 44,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 请求",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00114"
+  },
+  {
+    "content": "```json\n\"Tag\": \"test2\"\n},\n\"Type\": \"image\",\n\"Image\": \"https://xxx.xxx.xx/20260108-160028.png\",\n\"uniq_id\":\"\",\n\"Tag\": \"\"\n],\n\"Decision\": \"BLOCK\",\n\"DecisionReason\": \"输入图片中包含“不知道哪个王八羔子发明的补休”，其中“王八羔\n子”属于辱骂性词汇，符合“辱骂”风险项的判定标准。\",\n\"DecisionLabel\": \"302\",\n\"DecisionLabelName\": \"辱骂\",\n\"DecisionRate\": 0\n],\n\"PassThrough\": \"透传测试\",\n\"DataId\": \"singletagYBmodeltest0011767872574\"\n```",
+    "metadata": {
+      "page_num": 44,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 请求",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00115"
+  },
+  {
+    "content": "接口地址：\n\nhttps://contentservice.zijieapi.com/openapi/v1/rc_llm/multi_moderation_result\nService字段取值：llm_multi_moderation\nHttpMethod：GET\n建议超时：5s\nqps限制：默认qps限制为5(可根据业务实际情况提前沟通调整)",
+    "metadata": {
+      "page_num": 44,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 接口地址：",
+      "block_types": [
+        "title",
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00116"
+  },
+  {
+    "content": "|  |\n| --- |\n| DecisionDetail详情\u0001 DecisionLabel、DecisionLabelName可能输出的标签内容如下\u0001 |\n|  |",
+    "metadata": {
+      "page_num": 46,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00117"
+  },
+  {
+    "content": "|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n| DecisionDetail中Content详情\u0001 字段名称\u0001 字段类型\u0001 字段说明\u0001 ⽰例数据\u0001 是否必传\u0001 Type\u0001 string\u0001 审核内容类型，枚举值如下：\u0001 text\u0001 是\u0001 图⽚：image\u0001 ⽂本：text\u0001 Text\u0001 string\u0001 \u0001⽂本内容(当type为text时，必 \"我爱北京天安⻔\"\u0001 否\u0001 须存在)\u0001 Image\u0001 string\u0001 图⽚资源的url地址(当type为 \"https://xxx.xxx.xxxx 否\u0001 image时，必须存在)\u0001 \"\u0001 建议使⽤图⽚源站地址，不要 使⽤CDN地址。由于⻛控场景 |  |  |  |  |\n| 字段名称\u0001 | 字段类型\u0001 | 字段说明\u0001 | ⽰例数据\u0001 | 是否必传\u0001 |\n| Type\u0001 | string\u0001 | 审核内容类型，枚举值如下：\u0001 图⽚：image\u0001 ⽂本：text\u0001 | text\u0001 | 是\u0001 |\n| Text\u0001 | string\u0001 | \u0001⽂本内容(当type为text时，必 须存在)\u0001 | \"我爱北京天安⻔\"\u0001 | 否\u0001 |\n| Image\u0001 | string\u0001 | 图⽚资源的url地址(当type为 image时，必须存在)\u0001 建议使⽤图⽚源站地址，不要 使⽤CDN地址。由于⻛控场景 | \"https://xxx.xxx.xxxx \"\u0001 | 否\u0001 |\n|  |  |  |  |  |",
+    "metadata": {
+      "page_num": 47,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00118"
+  },
+  {
+    "content": "DecisionDetail中Content详情\n字段名称\n字段类型\n字段说明\n示例数据\n是否必传\nType\nstring\n审核内容类型，枚举值如下：\n图片：image\n文本：text\ntext\nText\nstring\n文本内容(当type为text时，必\n须存在)",
+    "metadata": {
+      "page_num": 47,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00119"
+  },
+  {
+    "content": "```json\n\"我爱北京天安门\"\nImage\nstring\n图片资源的url地址(当type为\nimage时，必须存在)\n建议使用图片源站地址，不要\n使用CDN地址。由于风控场景\n\"https://xxx.xxx.xxxx\n```",
+    "metadata": {
+      "page_num": 47,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00120"
+  },
+  {
+    "content": "|  |  |  |  |  |\n| --- | --- | --- | --- | --- |\n|  |  | ⼀般处在业务场景之前，⼀般 来说CDN上不会有缓存，使⽤ CDN地址会使图⽚的下载耗时 变⻓；\u0001 |  |  |\n| Tag\u0001 | string\u0001 | 当前请求中待识别内容的相关 属性，此类tag标识需要提前和 ⽕⼭对⻬，由⽕⼭侧同学配置 后再线上使⽤\u0001 | is_first_image\u0001 | 否\u0001 |\n| UniqId\u0001 | string\u0001 | 当前元素中包含内容的唯⼀ ID，⽅便后续定位⻛险内容\u0001 | comment_1\u0001 | 否\u0001 |",
+    "metadata": {
+      "page_num": 48,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00121"
+  },
+  {
+    "content": "| 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 |\n| --- |\n|  |",
+    "metadata": {
+      "page_num": 48,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00122"
+  },
+  {
+    "content": "一般处在业务场景之前，一般\n来说CDN上不会有缓存，使用\nCDN地址会使图片的下载耗时\n变长；\nTag\nstring\n当前请求中待识别内容的相关\n属性，此类tag标识需要提前和\n火山对齐，由火山侧同学配置\n后再线上使用\nis_first_image\nUniqId\nstring\n当前元素中包含内容的唯一\nID，方便后续定位风险内容\ncomment_1",
+    "metadata": {
+      "page_num": 48,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 3. 请求参数",
+      "block_types": [
+        "text"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00123"
+  },
+  {
+    "content": "```json\n\"Result\": {\n\"RequestId\": \"20250324142852EDBB61AE034870826568\",\n\"Code\": 0,\n\"Message\": \"success\",\n\"Data\": {\n\"Decision\": \"BLOCK\",\n\"DecisionReason\": \"输入图片中包含“不知道哪个王八羔子发明的补休”，其中“王八羔\n子”属于辱骂性词汇，符合“辱骂”风险项的判定标准。\",\n\"DecisionLabel\": \"302\",\n\"DecisionLabelName\": \"辱骂\",\n\"DecisionRate\": 0,\n\"HitLabels\": [\n\"302\"\n],\n\"DecisionDetail\": [\n\"Content\": [\n\"Type\": \"text\",\n\"Text\": \"马上看见你\",\n\"UniqId\":\"\",\n\"Tag\": \"\"\n},\n\"Type\": \"text\",\n```",
+    "metadata": {
+      "page_num": 48,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00124"
+  },
+  {
+    "content": "|  |\n| --- |\n|  |\n| 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4 4 4 4 4 4 4 5 5 5 5 5 5 5 5 5 5 6 6 6 6 6 6 6 |",
+    "metadata": {
+      "page_num": 49,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00125"
+  },
+  {
+    "content": "```json\n\"Text\": \"傍晚时分，天边染着橘粉晚霞。老槐树的影子拉得很长，树下石凳上，两\n位老人摇着蒲扇闲谈，偶尔传来几声轻笑。孩童追着飘落的槐叶跑过，脚步声清脆。街角路灯渐次亮\n起，暖黄光晕驱散暮色，晚风裹着饭香掠过，寻常巷陌里，满是温柔的烟火气。\",\n\"UniqId\":\"\",\n\"Tag\": \"\"\n},\n\"Type\": \"text\",\n\"Text\": \"早上好\",\n\"Tag\": \"test1\",\n\"UniqId\": \"comment_1\"\n},\n\"Type\": \"image\",\n\"Image\": \"https://xxx.xxx.xx/test.jpg\",\n\"UniqId\":\"\",\n\"Tag\": \"test3\"\n},\n\"Type\": \"image\",\n\"Image\": \"https://xxx.xxx.xx/test.jpg\",\n\"UniqId\":\"\",\n\"Tag\": \"test2\"\n},\n\"Type\": \"image\",\n\"Image\": \"https://xxx.xxx.xx/20260108-160028.png\",\n\"UniqId\":\"\",\n\"Tag\": \"\"\n],\n\"Decision\": \"BLOCK\",\n\"DecisionReason\": \"输入图片中包含“不知道哪个王八羔子发明的补休”，其中“王八羔\n子”属于辱骂性词汇，符合“辱骂”风险项的判定标准。\",\n\"DecisionLabel\": \"302\",\n\"DecisionLabelName\": \"辱骂\",\n\"DecisionRate\": 0\n],\n\"PassThrough\": \"透传测试\",\n\"DataId\": \"singletagYBmodeltest0011767872574\"\n```",
+    "metadata": {
+      "page_num": 49,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "code"
+      ],
+      "code_lang": "json",
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00126"
+  },
+  {
+    "content": "|  |\n| --- |\n|  |\n|  |",
+    "metadata": {
+      "page_num": 50,
+      "section": "审核专家 API 接入文档  V1.0.8 > 一、产品介绍 > 三、API接口 > 5. 返回示例",
+      "block_types": [
+        "table"
+      ],
+      "is_ocr": false,
+      "doc_name": "审核专家 API 接入文档",
+      "version": "V1.0.8",
+      "doc_type": "api",
+      "strategy": "semantic",
+      "source_file": "审核专家 API 接入文档  V1.0.8.json"
+    },
+    "chunk_id": "审核专家_API_接入文档_V1.0.8_00127"
+  }
+]

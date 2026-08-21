@@ -1,0 +1,15 @@
+# ── 股票 Subagent 项目运行时依赖 ──────────────────────────────
+# LLM 走 OpenAI 兼容接口（DashScope compatible-mode 调 Qwen）
+openai>=1.40.0
+
+# HTTP 服务 + SSE
+fastapi>=0.110.0
+uvicorn>=0.27.0
+
+# 股票行情（akshare，新浪/东方财富）
+akshare>=1.14
+pandas>=2.0
+requests>=2.31
+
+# 无其他依赖：ReAct 引擎 + 拓扑可视化均为手写，零额外库
+# 仅需环境变量 DASHSCOPE_API_KEY

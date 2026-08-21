@@ -1,0 +1,243 @@
+import os
+import json
+import time
+import logging
+import argparse
+from typing import Generator, List, Dict, Any
+from openai import OpenAI
+
+os.environ.setdefault("KMP_DUPLICATE_LIB_OK", "TRUE")
+logging.basicConfig(level=logging.WARNING)
+logger = logging.getLogger(__name__)
+
+# ── 模型客户端（支持 deepseek / dashscope 切换） ──────────────────────────────
+SUPPORTED_PROVIDERS = {
+    "deepseek": {
+        "env_key": "DEEPSEEK_API_KEY",
+        "base_url": "https://api.deepseek.com",
+        "default_model": "deepseek-chat",
+    },
+    "dashscope": {
+        "env_key": "DASHSCOPE_API_KEY",
+        "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        "default_model": "qwen-max",
+    },
+}
+
+def build_client(provider: str):
+    cfg = SUPPORTED_PROVIDERS[provider]
+    client = OpenAI(
+        api_key=os.getenv(cfg["env_key"]),
+        base_url=cfg["base_url"],
+    )
+    model = os.getenv("AGENT_MODEL", cfg["default_model"])
+    return client, model
+
+_PROVIDER = os.getenv("AGENT_PROVIDER", "deepseek")
+client, MODEL = build_client(_PROVIDER)
+
+# ── System Prompt：增加多轮对话意识 ───────────────────────────────────────────
+FC_SYSTEM_PROMPT = """你是一个专业的 A 股金融分析助手，正在与用户进行【多轮对话】。
+
+工具调用规则：
+- 调用 financial_indicator 或 stock_price 之前，必须先用 company_lookup 获取股票代码
+- 数字计算必须使用 calculator 工具，不能心算
+- 最终答案必须引用具体数据来源
+- 如果没有合适工具能回答，直接说明原因
+
+多轮对话规则：
+- 注意对话历史：用户后续提问可能包含"它"、"这家公司"、"那去年呢"、"换一家"等指代，需结合上下文理解
+- 当追问基于历史工具结果时，可直接复用上文数据，无需重复调用工具
+- 若用户切换主题或公司，再按需重新调用工具
+- 回答要自然口语化，像专业分析师在对话，不要僵硬，避免重复"根据查询结果……"这类套话
+- 适当时主动给出延伸信息（如对比、趋势提示），让对话更自然
+"""
+
+
+# ── 单轮 ReAct 循环（在已有 messages 上追加，不重置历史） ────────────────────
+def run_single_turn(
+    messages: List[Dict[str, Any]],
+    max_steps: int = 10,
+) -> Generator[dict, None, None]:
+    """
+    在已有 messages 之上执行一轮 ReAct 循环。
+    关键改动：
+    - 不再每次新建 messages，而是复用外部传入的会话历史
+    - 最终答案写回 messages，作为下一轮的 assistant 上下文
+    - 修复原代码 tool_calls / tool_call_id 字段
+    """
+    from tools import TOOLS_MAP, TOOLS_SCHEMA
+
+    for step in range(1, max_steps + 1):
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=messages,
+            tools=TOOLS_SCHEMA,
+            tool_choice="auto",
+            temperature=0,
+        )
+        msg = response.choices[0].message
+        reason = response.choices[0].finish_reason
+
+        # 模型直接给出最终答案（无工具调用）
+        if reason == "stop" or not msg.tool_calls:
+            final_content = msg.content or ""
+            # ⭐ 关键：把最终答案写回 messages，下一轮才能引用
+            messages.append({
+                "role": "assistant",
+                "content": final_content,
+            })
+            yield {
+                "step": step,
+                "type": "final",
+                "thought": "",
+                "answer": final_content or "（模型返回空内容）",
+            }
+            return
+
+        # 模型请求调用工具：把含 tool_calls 的 assistant 消息加入历史
+        messages.append(msg)
+        for tc in msg.tool_calls:
+            tool_name = tc.function.name
+            try:
+                tool_args = json.loads(tc.function.arguments)
+            except json.JSONDecodeError:
+                tool_args = {}
+
+            tool_fn = TOOLS_MAP.get(tool_name)
+            if tool_fn is None:
+                observation = f"未知工具 '{tool_name}'"
+            else:
+                try:
+                    observation = tool_fn(**tool_args)
+                except TypeError as e:
+                    observation = f"工具参数错误: {e}"
+
+            step_result = {
+                "step": step,
+                "type": "action",
+                "thought": "",
+                "action": tool_name,
+                "action_input": tool_args,
+                "observation": str(observation),
+            }
+            yield step_result
+
+            # ⭐ 工具结果也写入历史，便于后续追问复用
+            messages.append({
+                "role": "tool",
+                "tool_call_id": tc.id,   # 修复原代码的 _id
+                "content": str(observation),
+            })
+
+    yield {
+        "step": max_steps + 1,
+        "type": "max_steps",
+        "answer": f"已达最大步数 {max_steps}，未能得出最终答案",
+    }
+
+
+# ── 多轮 Agent：跨轮持有 messages ─────────────────────────────────────────────
+class MultiTurnAgent:
+    """维护对话历史的多轮 Agent。"""
+
+    def __init__(self, max_steps_per_turn: int = 10):
+        self.messages: List[Dict[str, Any]] = [
+            {"role": "system", "content": FC_SYSTEM_PROMPT},
+        ]
+        self.max_steps_per_turn = max_steps_per_turn
+        self.turn_count = 0
+
+    def ask(self, question: str) -> Generator[dict, None, None]:
+        self.turn_count += 1
+        # 把用户问题加入历史
+        self.messages.append({"role": "user", "content": question})
+        # 执行本轮 ReAct 循环（结果会自动写回 self.messages）
+        yield from run_single_turn(self.messages, max_steps=self.max_steps_per_turn)
+
+    def reset(self):
+        """清空对话，重新开始。"""
+        self.messages = [{"role": "system", "content": FC_SYSTEM_PROMPT}]
+        self.turn_count = 0
+
+
+# ── 彩色输出 ─────────────────────────────────────────────────────────────────
+COLORS = {
+    "thought": "\033[36m",
+    "action":  "\033[33m",
+    "obs":     "\033[32m",
+    "final":   "\033[35m",
+    "error":   "\033[31m",
+    "user":    "\033[1;34m",
+    "reset":   "\033[0m",
+}
+
+def _c(color: str, text: str) -> str:
+    return f"{COLORS[color]}{text}{COLORS['reset']}"
+
+
+def _handle_one_turn(agent: MultiTurnAgent, question: str):
+    print(f"\n{'='*60}")
+    print(_c("user", f"💬 你（第 {agent.turn_count} 轮）: {question}"))
+    print('='*60)
+    start = time.time()
+    for step_data in agent.ask(question):
+        stype = step_data["type"]
+        if stype == "action":
+            print(f"\n[Step {step_data['step']}]")
+            print(_c("thought", "🧠 Thought: （模型内部推理，Function Calling 版不可见）"))
+            print(_c("action",  f"🔧 Action: {step_data['action']}"))
+            print(_c("action",  f"   Input:  {json.dumps(step_data['action_input'], ensure_ascii=False)}"))
+            print(_c("obs",     f"👁 Obs:    {step_data['observation'][:300]}"))
+        elif stype == "final":
+            elapsed = time.time() - start
+            print(f"\n{'─'*60}")
+            print(_c("final", f"✅ 助手: {step_data['answer']}"))
+            print(f"\n本轮 {step_data['step']} 步，耗时 {elapsed:.1f}s")
+        elif stype in ("error", "max_steps"):
+            print(_c("error", f"\n⚠️ {step_data.get('answer', '')}"))
+
+
+def interactive_loop(initial_question: str = None, max_steps: int = 10):
+    agent = MultiTurnAgent(max_steps_per_turn=max_steps)
+    print(_c("user", "\n🤖 A股金融分析助手（多轮对话模式）"))
+    print(_c("user", "命令： quit/exit/q 退出 | reset 清空上下文 | 直接输入问题继续对话\n"))
+
+    if initial_question:
+        _handle_one_turn(agent, initial_question)
+
+    while True:
+        try:
+            question = input(_c("user", "\n💬 你: ")).strip()
+        except (EOFError, KeyboardInterrupt):
+            print(_c("final", "\n再见！"))
+            break
+        if not question:
+            continue
+        low = question.lower()
+        if low in ("quit", "exit", "q"):
+            print(_c("final", "再见！"))
+            break
+        if low == "reset":
+            agent.reset()
+            print(_c("error", "♻️ 已清空对话历史。"))
+            continue
+        _handle_one_turn(agent, question)
+
+
+# ── 兼容原 evaluate.py 的单次调用接口 ─────────────────────────────────────────
+def run(question: str, max_steps: int = 10) -> Generator[dict, None, None]:
+    """单次问答接口（不保留历史），用于 evaluate.py 统一对比。"""
+    messages = [
+        {"role": "system", "content": FC_SYSTEM_PROMPT},
+        {"role": "user", "content": question},
+    ]
+    yield from run_single_turn(messages, max_steps=max_steps)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--question", default=None, help="可选的首个问题，留空进入交互模式")
+    parser.add_argument("--max_steps", type=int, default=10)
+    args = parser.parse_args()
+    interactive_loop(args.question, args.max_steps)

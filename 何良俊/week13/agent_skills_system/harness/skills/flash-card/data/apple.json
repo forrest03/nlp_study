@@ -1,0 +1,27 @@
+{
+  "word": "apple",
+  "phonetic": "/ˈæp.əl/",
+  "pos": "n.",
+  "definition": "苹果（一种常见水果）",
+  "examples": [
+    {
+      "en": "I ate an apple for breakfast.",
+      "zh": "我早餐吃了一个苹果。"
+    },
+    {
+      "en": "An apple a day keeps the doctor away.",
+      "zh": "一天一苹果，医生远离我。"
+    },
+    {
+      "en": "She picked a red apple from the tree.",
+      "zh": "她从树上摘了一个红苹果。"
+    }
+  ],
+  "synonyms": [
+    "pear",
+    "peach",
+    "plum",
+    "cherry",
+    "apricot"
+  ]
+}

@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024—2025年节能降碳行动方案知识图谱</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vis-network@9.1.9/styles/vis-network.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif; background: #f0f2f5; color: #333; }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: #fff; padding: 18px 30px; display: flex;
+            justify-content: space-between; align-items: center;
+        }
+        .header h1 { font-size: 22px; font-weight: 600; }
+        .header .stats { font-size: 13px; opacity: 0.9; }
+        .header .stats span { margin-left: 18px; }
+
+        /* Main layout */
+        .main { display: flex; height: calc(100vh - 64px); }
+        .left-panel { width: 320px; background: #fff; border-right: 1px solid #ddd; overflow-y: auto; }
+        .center-panel { flex: 1; position: relative; }
+        .right-panel { width: 360px; background: #fff; border-left: 1px solid #ddd; overflow-y: auto; }
+
+        /* Query tabs */
+        .tabs { display: flex; border-bottom: 2px solid #e8e8e8; }
+        .tab {
+            flex: 1; padding: 12px; text-align: center; cursor: pointer;
+            font-size: 13px; font-weight: 500; color: #666;
+            border-bottom: 3px solid transparent; transition: all 0.2s;
+        }
+        .tab.active { color: #1a73e8; border-bottom-color: #1a73e8; background: #f5f8ff; }
+        .tab:hover { background: #f5f5f5; }
+
+        /* Query form */
+        .query-form { padding: 20px; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; font-weight: 500; }
+        .form-group input {
+            width: 100%; padding: 9px 12px; border: 1px solid #d9d9d9;
+            border-radius: 6px; font-size: 14px; transition: border-color 0.2s;
+        }
+        .form-group input:focus { outline: none; border-color: #1a73e8; box-shadow: 0 0 0 2px rgba(26,115,232,0.15); }
+        .btn-query {
+            width: 100%; padding: 10px; background: #1a73e8; color: #fff;
+            border: none; border-radius: 6px; font-size: 14px; cursor: pointer;
+            font-weight: 500; transition: background 0.2s;
+        }
+        .btn-query:hover { background: #1557b0; }
+
+        /* Cypher display */
+        .cypher-box {
+            background: #1e1e1e; color: #d4d4d4; padding: 14px;
+            border-radius: 6px; font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px; line-height: 1.6; white-space: pre-wrap;
+            word-break: break-all; margin: 14px; overflow-x: auto;
+        }
+        .cypher-label { font-size: 11px; color: #888; margin: 14px 14px 0; font-weight: 600; text-transform: uppercase; }
+
+        /* Graph canvas */
+        #graph-canvas { width: 100%; height: 100%; }
+        .graph-toolbar {
+            position: absolute; top: 14px; right: 14px; z-index: 10;
+            display: flex; gap: 8px; flex-direction: column;
+        }
+        .graph-toolbar button {
+            padding: 8px 14px; background: rgba(255,255,255,0.95); border: 1px solid #d9d9d9;
+            border-radius: 6px; font-size: 12px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+        .graph-toolbar button:hover { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+        .graph-info {
+            position: absolute; bottom: 14px; left: 14px; z-index: 10;
+            background: rgba(255,255,255,0.95); padding: 8px 14px; border-radius: 6px;
+            font-size: 12px; color: #666; box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+
+        /* Entity type filter */
+        .filter-section { padding: 14px 20px; border-top: 1px solid #eee; }
+        .filter-section h4 { font-size: 12px; color: #888; margin-bottom: 10px; text-transform: uppercase; }
+        .filter-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+        .chip {
+            padding: 4px 10px; border: 1px solid #d9d9d9; border-radius: 12px;
+            font-size: 11px; cursor: pointer; transition: all 0.2s;
+        }
+        .chip:hover { border-color: #1a73e8; }
+        .chip.active { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+
+        /* Results table */
+        .results-section { padding: 14px 20px; border-top: 1px solid #eee; }
+        .results-section h4 { font-size: 12px; color: #888; margin-bottom: 10px; text-transform: uppercase; }
+        .result-item {
+            padding: 10px 12px; background: #f9f9f9; border-radius: 6px;
+            margin-bottom: 6px; font-size: 13px; cursor: pointer; transition: background 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .result-item:hover { background: #e8f0fe; border-left-color: #1a73e8; }
+        .result-item .label { font-size: 11px; color: #888; }
+        .result-item .badge {
+            display: inline-block; padding: 1px 7px; border-radius: 3px;
+            font-size: 10px; color: #fff; margin-left: 6px;
+        }
+
+        /* Detail panel */
+        .detail-section { padding: 20px; }
+        .detail-section h3 { font-size: 16px; margin-bottom: 4px; color: #1a73e8; }
+        .detail-meta { font-size: 12px; color: #888; margin-bottom: 16px; }
+        .detail-block { margin-bottom: 18px; }
+        .detail-block h4 { font-size: 12px; color: #888; text-transform: uppercase; margin-bottom: 8px; }
+        .detail-item {
+            padding: 8px 10px; background: #f9f9f9; border-radius: 4px;
+            margin-bottom: 4px; font-size: 13px; cursor: pointer; border-left: 3px solid #e0e0e0;
+        }
+        .detail-item:hover { background: #e8f0fe; border-left-color: #1a73e8; }
+        .detail-item .arrow { color: #1a73e8; font-weight: bold; margin: 0 4px; }
+        .detail-item .type-badge { font-size: 10px; color: #aaa; margin-left: 4px; }
+
+        .empty-state { text-align: center; padding: 40px 20px; color: #aaa; font-size: 13px; }
+
+        /* GraphRAG step display */
+        .rag-step {
+            background: #f9f9f9; border-radius: 8px; padding: 14px;
+            margin-bottom: 12px; border-left: 4px solid #1a73e8;
+        }
+        .rag-step h5 { font-size: 13px; color: #1a73e8; margin-bottom: 4px; }
+        .rag-step .step-desc { font-size: 11px; color: #888; margin-bottom: 8px; }
+        .rag-step .step-section { margin-top: 8px; }
+        .rag-step .step-label {
+            font-size: 10px; color: #888; text-transform: uppercase;
+            font-weight: 600; margin-bottom: 3px;
+        }
+        .rag-step .step-code {
+            background: #1e1e1e; color: #d4d4d4; padding: 8px 10px;
+            border-radius: 4px; font-family: monospace; font-size: 11px;
+            white-space: pre-wrap; word-break: break-all; max-height: 200px; overflow-y: auto;
+        }
+        .rag-step .step-context {
+            background: #f0f7ff; padding: 8px 10px; border-radius: 4px;
+            font-size: 12px; line-height: 1.6; white-space: pre-wrap;
+            max-height: 300px; overflow-y: auto; border: 1px solid #d0e0ff;
+        }
+        .rag-step .step-data {
+            background: #fff; padding: 8px 10px; border-radius: 4px;
+            font-size: 12px; max-height: 200px; overflow-y: auto;
+            border: 1px solid #e0e0e0;
+        }
+        .rag-answer {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 8px; padding: 16px; margin-top: 12px;
+            border-left: 4px solid #43a047;
+        }
+        .rag-answer h5 { color: #2e7d32; font-size: 14px; margin-bottom: 8px; }
+        .rag-answer .answer-text { font-size: 14px; line-height: 1.8; white-space: pre-wrap; }
+        .rag-loading {
+            text-align: center; padding: 30px; color: #1a73e8; font-size: 14px;
+        }
+        .rag-loading .spinner {
+            display: inline-block; width: 24px; height: 24px;
+            border: 3px solid #e0e0e0; border-top-color: #1a73e8;
+            border-radius: 50%; animation: spin 0.8s linear infinite;
+            margin-right: 8px; vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Entity type colors */
+        .badge-政策文件 { background: #e53935; }
+        .badge-政府机构 { background: #1e88e5; }
+        .badge-年度目标 { background: #43a047; }
+        .badge-能源品类 { background: #fb8c00; }
+        .badge-工业行业 { background: #8e24aa; }
+        .badge-改造任务 { background: #00897b; }
+        .badge-量化指标 { background: #6d4c41; }
+        .badge-管理制度 { background: #5e35b1; }
+        .badge-保障工具 { background: #039be5; }
+        .badge-责任主体 { background: #d81b60; }
+        .badge-活动载体 { background: #00acc1; }
+        .badge-技术类型 { background: #7cb342; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>2024—2025年节能降碳行动方案知识图谱</h1>
+        <div class="stats" id="stats">
+            <span>节点: <strong id="node-count">-</strong></span>
+            <span>关系: <strong id="rel-count">-</strong></span>
+        </div>
+    </div>
+
+    <div class="main">
+        <!-- Left Panel: Queries -->
+        <div class="left-panel">
+            <div class="tabs">
+                <div class="tab active" data-tab="entity" onclick="switchTab('entity')">实体查询</div>
+                <div class="tab" data-tab="relation" onclick="switchTab('relation')">关系查询</div>
+                <div class="tab" data-tab="triple" onclick="switchTab('triple')">三元组查询</div>
+                <div class="tab" data-tab="graphrag" onclick="switchTab('graphrag')">GraphRAG问答</div>
+            </div>
+
+            <!-- Query 1: Entity -->
+            <div class="query-form" id="form-entity">
+                <div class="form-group">
+                    <label>实体名称（支持模糊匹配）</label>
+                    <input type="text" id="entity-name" placeholder="如：钢铁、国务院、2024..." onkeydown="if(event.key==='Enter')queryEntity()">
+                </div>
+                <button class="btn-query" onclick="queryEntity()">查询实体</button>
+            </div>
+
+            <!-- Query 2: Relation -->
+            <div class="query-form" id="form-relation" style="display:none;">
+                <div class="form-group">
+                    <label>关系名称（支持模糊匹配）</label>
+                    <input type="text" id="rel-name" placeholder="如：发布文件、管控、减排..." onkeydown="if(event.key==='Enter')queryRelation()">
+                </div>
+                <button class="btn-query" onclick="queryRelation()">查询关系</button>
+            </div>
+
+            <!-- Query 3: Triple -->
+            <div class="query-form" id="form-triple" style="display:none;">
+                <div class="form-group">
+                    <label>主体（Subject）</label>
+                    <input type="text" id="triple-subject" placeholder="如：国务院、钢铁..." onkeydown="if(event.key==='Enter')queryTriple()">
+                </div>
+                <div class="form-group">
+                    <label>关系（Relation）</label>
+                    <input type="text" id="triple-relation" placeholder="如：发布、管控..." onkeydown="if(event.key==='Enter')queryTriple()">
+                </div>
+                <div class="form-group">
+                    <label>客体（Object）</label>
+                    <input type="text" id="triple-object" placeholder="如：方案、煤炭..." onkeydown="if(event.key==='Enter')queryTriple()">
+                </div>
+                <button class="btn-query" onclick="queryTriple()">查询三元组</button>
+            </div>
+
+            <!-- Query 4: GraphRAG QA -->
+            <div class="query-form" id="form-graphrag" style="display:none;">
+                <!-- Search method selection -->
+                <div class="form-group">
+                    <label>选择查询方式</label>
+                    <div style="display:flex;gap:8px;margin-top:4px;">
+                        <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;padding:6px 10px;border:1px solid #d9d9d9;border-radius:6px;flex:1;justify-content:center;">
+                            <input type="radio" name="search-method" value="local" checked onchange="onMethodChange()"> Local Search
+                        </label>
+                        <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;padding:6px 10px;border:1px solid #d9d9d9;border-radius:6px;flex:1;justify-content:center;">
+                            <input type="radio" name="search-method" value="global" onchange="onMethodChange()"> Global Search
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Method description -->
+                <div id="method-desc" style="font-size:11px;color:#888;padding:6px 10px;background:#f5f5f5;border-radius:4px;margin-bottom:12px;">
+                    🔍 <strong>Local Search</strong>：基于实体邻域的局部检索，适合具体实体相关问题
+                </div>
+
+                <!-- Community build status (for Global Search) -->
+                <div id="community-section" style="display:none;margin-bottom:12px;">
+                    <div id="community-status-box" style="padding:8px 10px;border-radius:4px;font-size:12px;margin-bottom:8px;">
+                    </div>
+                    <button class="btn-query" onclick="buildCommunities()" id="build-btn" style="background:#00897b;">
+                        构建社区摘要 + 向量
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label>请输入您的问题</label>
+                    <textarea id="graphrag-question" rows="3" style="width:100%;padding:9px 12px;border:1px solid #d9d9d9;border-radius:6px;font-size:14px;font-family:inherit;resize:vertical;" placeholder="如：钢铁行业有哪些节能降碳目标？2025年非化石能源占比目标是多少？" onkeydown="if(event.key==='Enter'&&event.ctrlKey)graphragQuery()"></textarea>
+                </div>
+                <button class="btn-query" onclick="graphragQuery()" id="graphrag-btn">提问 (GraphRAG)</button>
+            </div>
+
+            <!-- Generated Cypher -->
+            <div class="cypher-label">生成的 Cypher 查询语句</div>
+            <div class="cypher-box" id="cypher-display">// 查询结果将在此显示...</div>
+
+            <!-- Query Results -->
+            <div class="results-section">
+                <h4>查询结果 (<span id="result-count">0</span>)</h4>
+                <div id="results-list">
+                    <div class="empty-state">请输入查询条件</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center: Graph Visualization -->
+        <div class="center-panel">
+            <div id="graph-canvas"></div>
+            <div class="graph-toolbar">
+                <button onclick="loadFullGraph()">加载全图</button>
+                <button onclick="fitGraph()">适应屏幕</button>
+                <button onclick="resetGraph()">重置</button>
+            </div>
+            <div class="graph-info" id="graph-info">
+                提示：点击节点查看详情，滚轮缩放，拖拽移动
+            </div>
+        </div>
+
+        <!-- Right Panel: Details -->
+        <div class="right-panel">
+            <div class="detail-section" id="detail-panel">
+                <div class="empty-state">
+                    <p>点击图谱中的节点或查询结果</p>
+                    <p style="margin-top:8px;">查看实体详细信息</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // Entity type → color mapping
+        // ============================================================
+        const TYPE_COLORS = {
+            '政策文件': '#e53935', '政府机构': '#1e88e5', '年度目标': '#43a047',
+            '能源品类': '#fb8c00', '工业行业': '#8e24aa', '改造任务': '#00897b',
+            '量化指标': '#6d4c41', '管理制度': '#5e35b1', '保障工具': '#039be5',
+            '责任主体': '#d81b60', '活动载体': '#00acc1', '技术类型': '#7cb342',
+        };
+
+        // ============================================================
+        // Graph network setup
+        // ============================================================
+        let network = null;
+        let nodesDataset = new vis.DataSet([]);
+        let edgesDataset = new vis.DataSet([]);
+
+        function initNetwork() {
+            const container = document.getElementById('graph-canvas');
+            const data = { nodes: nodesDataset, edges: edgesDataset };
+            const options = {
+                nodes: {
+                    shape: 'dot', size: 16,
+                    font: { size: 13, face: 'Microsoft YaHei' },
+                    borderWidth: 2, shadow: true,
+                },
+                edges: {
+                    arrows: { to: { enabled: true, scaleFactor: 0.5 } },
+                    font: { size: 10, face: 'Microsoft YaHei', align: 'middle', strokeWidth: 0, background: 'rgba(255,255,255,0.7)' },
+                    color: { color: '#bbb', highlight: '#1a73e8' },
+                    smooth: { type: 'continuous' },
+                },
+                physics: {
+                    stabilization: { iterations: 150 },
+                    barnesHut: { gravitationalConstant: -8000, springLength: 120 },
+                },
+                interaction: { hover: true, tooltipDelay: 200 },
+            };
+            network = new vis.Network(container, data, options);
+
+            network.on('click', function(params) {
+                if (params.nodes.length > 0) {
+                    const nodeId = params.nodes[0];
+                    const node = nodesDataset.get(nodeId);
+                    if (node) loadEntityDetail(node.entity_id);
+                } else if (params.edges.length > 0) {
+                    const edge = edgesDataset.get(params.edges[0]);
+                    if (edge) showEdgeDetail(edge);
+                }
+            });
+        }
+
+        // ============================================================
+        // Load graph data
+        // ============================================================
+        function loadGraphData(nodes, edges) {
+            nodesDataset.clear();
+            edgesDataset.clear();
+
+            const visNodes = nodes.map(n => ({
+                id: n.entity_id,
+                label: n.entity_name.length > 12 ? n.entity_name.substring(0, 12) + '…' : n.entity_name,
+                title: `${n.entity_name}\n[${n.entity_type}]`,
+                entity_id: n.entity_id,
+                entity_name: n.entity_name,
+                entity_type: n.entity_type,
+                color: {
+                    background: TYPE_COLORS[n.entity_type] || '#888',
+                    border: TYPE_COLORS[n.entity_type] || '#888',
+                    highlight: { background: TYPE_COLORS[n.entity_type] || '#888', border: '#fff' },
+                },
+            }));
+
+            const visEdges = edges.map(e => ({
+                id: `${e.source}-${e.rel_name}-${e.target}`,
+                from: e.source,
+                to: e.target,
+                label: e.rel_name.length > 8 ? e.rel_name.substring(0, 8) + '…' : e.rel_name,
+                title: `${e.rel_name}\n${e.rel_desc || ''}`,
+                rel_name: e.rel_name,
+                rel_desc: e.rel_desc,
+                rel_id: e.rel_id,
+                source: e.source,
+                target: e.target,
+            }));
+
+            nodesDataset.add(visNodes);
+            edgesDataset.add(visEdges);
+            document.getElementById('graph-info').textContent = `当前显示: ${visNodes.length} 个节点, ${visEdges.length} 条关系`;
+        }
+
+        async function loadFullGraph() {
+            try {
+                const resp = await fetch('/api/graph?limit=400');
+                const data = await resp.json();
+                loadGraphData(data.nodes, data.edges);
+            } catch (e) {
+                alert('加载图谱失败: ' + e.message);
+            }
+        }
+
+        async function loadSubGraph(entityId) {
+            try {
+                const resp = await fetch(`/api/graph/around/${entityId}`);
+                const data = await resp.json();
+                loadGraphData(data.nodes, data.edges);
+            } catch (e) {
+                alert('加载子图失败: ' + e.message);
+            }
+        }
+
+        function fitGraph() { if (network) network.fit({ animation: true }); }
+        function resetGraph() { if (network) network.moveTo({ position: { x: 0, y: 0 }, scale: 1 }); }
+
+        // ============================================================
+        // Stats
+        // ============================================================
+        async function loadStats() {
+            const resp = await fetch('/api/stats');
+            const data = await resp.json();
+            document.getElementById('node-count').textContent = data.node_count;
+            document.getElementById('rel-count').textContent = data.rel_count;
+        }
+
+        // ============================================================
+        // Tab switching
+        // ============================================================
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
+            document.querySelectorAll('.query-form').forEach(f => f.style.display = 'none');
+            document.getElementById(`form-${tab}`).style.display = 'block';
+        }
+
+        // ============================================================
+        // Query 1: Entity by name
+        // ============================================================
+        async function queryEntity() {
+            const name = document.getElementById('entity-name').value.trim();
+            if (!name) { alert('请输入实体名称'); return; }
+
+            const resp = await fetch(`/api/query/entity?name=${encodeURIComponent(name)}`);
+            const data = await resp.json();
+
+            document.getElementById('cypher-display').textContent = data.cypher || '// 无结果';
+            document.getElementById('result-count').textContent = data.count || 0;
+
+            const list = document.getElementById('results-list');
+            if (data.results && data.results.length > 0) {
+                list.innerHTML = data.results.map(r => `
+                    <div class="result-item" onclick="loadEntityDetail('${r.entity_id}')">
+                        <div><strong>${escapeHtml(r.entity_name)}</strong>
+                            <span class="badge badge-${r.entity_type}">${r.entity_type}</span>
+                        </div>
+                        <div class="label">ID: ${r.entity_id}</div>
+                    </div>
+                `).join('');
+            } else {
+                list.innerHTML = '<div class="empty-state">未找到匹配的实体</div>';
+            }
+        }
+
+        // ============================================================
+        // Query 2: Relation by name
+        // ============================================================
+        async function queryRelation() {
+            const name = document.getElementById('rel-name').value.trim();
+            if (!name) { alert('请输入关系名称'); return; }
+
+            const resp = await fetch(`/api/query/relation?name=${encodeURIComponent(name)}`);
+            const data = await resp.json();
+
+            document.getElementById('cypher-display').textContent = data.cypher || '// 无结果';
+            document.getElementById('result-count').textContent = data.count || 0;
+
+            const list = document.getElementById('results-list');
+            if (data.results && data.results.length > 0) {
+                list.innerHTML = data.results.map(r => `
+                    <div class="result-item" onclick="loadEntityDetail('${r.sub_id}')">
+                        <div><strong>${escapeHtml(r.subject)}</strong>
+                            <span class="arrow">—${escapeHtml(r.rel_name)}→</span>
+                            <strong>${escapeHtml(r.object)}</strong>
+                        </div>
+                        <div class="label">${r.rel_desc || ''}</div>
+                    </div>
+                `).join('');
+            } else {
+                list.innerHTML = '<div class="empty-state">未找到匹配的关系</div>';
+            }
+        }
+
+        // ============================================================
+        // Query 3: Triple search
+        // ============================================================
+        async function queryTriple() {
+            const subject = document.getElementById('triple-subject').value.trim();
+            const relation = document.getElementById('triple-relation').value.trim();
+            const object = document.getElementById('triple-object').value.trim();
+
+            if (!subject && !relation && !object) {
+                alert('请至少输入一个查询条件'); return;
+            }
+
+            const params = new URLSearchParams();
+            if (subject) params.append('subject', subject);
+            if (relation) params.append('relation', relation);
+            if (object) params.append('object', object);
+
+            const resp = await fetch(`/api/query/triple?${params.toString()}`);
+            const data = await resp.json();
+
+            document.getElementById('cypher-display').textContent = data.cypher || '// 无结果';
+            document.getElementById('result-count').textContent = data.count || 0;
+
+            const list = document.getElementById('results-list');
+            if (data.results && data.results.length > 0) {
+                list.innerHTML = data.results.map(r => `
+                    <div class="result-item" onclick="loadEntityDetail('${r.sub_id}')">
+                        <div>
+                            <strong>${escapeHtml(r.subject)}</strong>
+                            <span class="type-badge">[${r.sub_type}]</span>
+                            <span class="arrow">—${escapeHtml(r.rel_name)}→</span>
+                            <strong>${escapeHtml(r.object)}</strong>
+                            <span class="type-badge">[${r.obj_type}]</span>
+                        </div>
+                        <div class="label">${r.rel_desc || ''}</div>
+                    </div>
+                `).join('');
+            } else {
+                list.innerHTML = '<div class="empty-state">未找到匹配的三元组</div>';
+            }
+        }
+
+        // ============================================================
+        // Entity detail panel
+        // ============================================================
+        async function loadEntityDetail(entityId) {
+            try {
+                const resp = await fetch(`/api/entity/${entityId}`);
+                const data = await resp.json();
+
+                if (data.error) { alert(data.error); return; }
+
+                const e = data.entity;
+                const color = TYPE_COLORS[e.entity_type] || '#888';
+                let html = `
+                    <h3 style="color:${color}">${escapeHtml(e.entity_name)}</h3>
+                    <div class="detail-meta">
+                        <span class="badge badge-${e.entity_type}">${e.entity_type}</span>
+                        ID: ${e.entity_id}
+                    </div>
+                `;
+
+                if (data.outgoing && data.outgoing.length > 0) {
+                    html += `<div class="detail-block">
+                        <h4>出度关系 (${data.outgoing.length})</h4>`;
+                    data.outgoing.forEach(r => {
+                        html += `<div class="detail-item" onclick="loadEntityDetail('${r.obj_id}')">
+                            <span class="arrow">→</span> ${escapeHtml(r.rel_name)}
+                            → <strong>${escapeHtml(r.obj_name)}</strong>
+                            <span class="type-badge">[${r.obj_type}]</span>
+                        </div>`;
+                    });
+                    html += `</div>`;
+                }
+
+                if (data.incoming && data.incoming.length > 0) {
+                    html += `<div class="detail-block">
+                        <h4>入度关系 (${data.incoming.length})</h4>`;
+                    data.incoming.forEach(r => {
+                        html += `<div class="detail-item" onclick="loadEntityDetail('${r.sub_id}')">
+                            <strong>${escapeHtml(r.sub_name)}</strong>
+                            <span class="type-badge">[${r.sub_type}]</span>
+                            <span class="arrow">→</span> ${escapeHtml(r.rel_name)} →
+                        </div>`;
+                    });
+                    html += `</div>`;
+                }
+
+                if ((!data.outgoing || data.outgoing.length === 0) && (!data.incoming || data.incoming.length === 0)) {
+                    html += `<div class="empty-state">该实体无关联关系</div>`;
+                }
+
+                // Add button to load subgraph
+                html += `<button class="btn-query" style="margin-top:14px;" onclick="loadSubGraph('${entityId}')">在图谱中查看邻居</button>`;
+
+                document.getElementById('detail-panel').innerHTML = html;
+
+                // Also focus the node in the graph
+                if (network && nodesDataset.get(entityId)) {
+                    network.focus(entityId, { scale: 1.2, animation: true });
+                    network.selectNodes([entityId]);
+                }
+            } catch (e) {
+                alert('加载详情失败: ' + e.message);
+            }
+        }
+
+        function showEdgeDetail(edge) {
+            const subNode = nodesDataset.get(edge.source);
+            const objNode = nodesDataset.get(edge.target);
+            const html = `
+                <h3>关系详情</h3>
+                <div class="detail-meta">关系ID: ${edge.rel_id || '-'}</div>
+                <div class="detail-block">
+                    <h4>三元组</h4>
+                    <div class="detail-item">
+                        <strong>${escapeHtml(subNode ? subNode.entity_name : edge.source)}</strong>
+                        <span class="arrow">—${escapeHtml(edge.rel_name)}→</span>
+                        <strong>${escapeHtml(objNode ? objNode.entity_name : edge.target)}</strong>
+                    </div>
+                </div>
+                ${edge.rel_desc ? `<div class="detail-block"><h4>关系说明</h4><div class="detail-item">${escapeHtml(edge.rel_desc)}</div></div>` : ''}
+            `;
+            document.getElementById('detail-panel').innerHTML = html;
+        }
+
+        // ============================================================
+        // GraphRAG QA: Local Search & Global Search
+        // ============================================================
+
+        function getSelectedMethod() {
+            return document.querySelector('input[name="search-method"]:checked')?.value || 'local';
+        }
+
+        function onMethodChange() {
+            const method = getSelectedMethod();
+            const desc = document.getElementById('method-desc');
+            const commSection = document.getElementById('community-section');
+
+            if (method === 'local') {
+                desc.innerHTML = '🔍 <strong>Local Search</strong>：基于实体邻域的局部检索，适合具体实体相关问题';
+                commSection.style.display = 'none';
+            } else {
+                desc.innerHTML = '🌍 <strong>Global Search</strong>：基于社区摘要向量的全局检索 (Map-Reduce)，适合宏观/跨领域问题';
+                commSection.style.display = 'block';
+                checkCommunityStatus();
+            }
+        }
+
+        async function checkCommunityStatus() {
+            try {
+                const resp = await fetch('/api/graphrag/community-status');
+                const data = await resp.json();
+                const box = document.getElementById('community-status-box');
+                const btn = document.getElementById('build-btn');
+
+                if (data.built) {
+                    box.style.background = '#e8f5e9';
+                    box.style.color = '#2e7d32';
+                    box.innerHTML = `✅ 社区已构建 | 算法: ${data.algorithm} | 社区数: ${data.community_count} | 向量模型: ${data.embedding_model}<br>构建时间: ${data.built_at}`;
+                    btn.textContent = '重新构建社区摘要';
+                    btn.style.background = '#00897b';
+                } else {
+                    box.style.background = '#fff3e0';
+                    box.style.color = '#e65100';
+                    box.innerHTML = '⚠️ 社区摘要尚未构建，请先点击下方按钮构建';
+                    btn.textContent = '构建社区摘要 + 向量';
+                    btn.style.background = '#fb8c00';
+                }
+            } catch (e) {
+                document.getElementById('community-status-box').innerHTML = '检查状态失败: ' + e.message;
+            }
+        }
+
+        async function buildCommunities() {
+            const btn = document.getElementById('build-btn');
+            btn.disabled = true;
+            btn.textContent = '正在构建社区摘要... (可能需要1-2分钟)';
+            document.getElementById('results-list').innerHTML =
+                '<div class="rag-loading"><span class="spinner"></span>正在执行：加载图谱 → Louvain社区检测 → LLM生成摘要 → 向量嵌入...</div>';
+
+            try {
+                const resp = await fetch('/api/graphrag/build-communities', { method: 'POST' });
+                const data = await resp.json();
+
+                if (data.success) {
+                    document.getElementById('results-list').innerHTML =
+                        `<div class="rag-answer">
+                            <h5>✅ 社区摘要构建完成</h5>
+                            <div class="answer-text">
+                                算法: ${data.algorithm}<br>
+                                社区数量: ${data.community_count}<br>
+                                实体总数: ${data.total_entities}<br>
+                                关系总数: ${data.total_edges}<br>
+                                向量模型: ${data.embedding_model}<br>
+                                构建时间: ${data.built_at}
+                            </div>
+                        </div>`;
+                    checkCommunityStatus();
+                } else {
+                    document.getElementById('results-list').innerHTML =
+                        `<div class="empty-state">构建失败: ${escapeHtml(data.error || '未知错误')}</div>`;
+                }
+            } catch (e) {
+                document.getElementById('results-list').innerHTML =
+                    `<div class="empty-state">构建失败: ${escapeHtml(e.message)}</div>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '构建社区摘要 + 向量';
+            }
+        }
+
+        async function graphragQuery() {
+            const question = document.getElementById('graphrag-question').value.trim();
+            if (!question) { alert('请输入问题'); return; }
+
+            const method = getSelectedMethod();
+            const endpoint = method === 'local'
+                ? '/api/graphrag/local-search'
+                : '/api/graphrag/global-search';
+
+            const btn = document.getElementById('graphrag-btn');
+            btn.disabled = true;
+            btn.textContent = method === 'local' ? 'Local Search 查询中...' : 'Global Search 查询中...';
+            document.getElementById('cypher-display').textContent =
+                `// ${method === 'local' ? 'Local Search' : 'Global Search'} 查询中...`;
+            document.getElementById('result-count').textContent = '...';
+            document.getElementById('results-list').innerHTML =
+                `<div class="rag-loading"><span class="spinner"></span>正在执行 ${method === 'local' ? 'Local Search' : 'Global Search'} 查询流水线...</div>`;
+
+            try {
+                const resp = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question: question }),
+                });
+                const data = await resp.json();
+
+                if (data.error) {
+                    document.getElementById('results-list').innerHTML =
+                        `<div class="empty-state">${escapeHtml(data.error)}</div>`;
+                    document.getElementById('result-count').textContent = '0';
+                    return;
+                }
+
+                // Display Cypher (for local) or embedding info (for global)
+                if (method === 'local') {
+                    const cypher = data.steps[1]?.sent?.cypher || '// 无 Cypher';
+                    document.getElementById('cypher-display').textContent = cypher;
+                } else {
+                    const embInfo = data.steps[0]?.returned?.embedding_dim || 0;
+                    const commCount = data.steps[1]?.sent?.total_communities || 0;
+                    document.getElementById('cypher-display').textContent =
+                        `// Global Search (Map-Reduce)\n// 问题向量维度: ${embInfo}\n// 匹配社区数: ${commCount}`;
+                }
+                document.getElementById('result-count').textContent = `${data.steps.length} 步骤`;
+
+                // Build step-by-step HTML
+                let html = `<div style="font-size:12px;color:#1a73e8;font-weight:600;margin-bottom:8px;">` +
+                    `查询方式: ${data.method === 'local' ? '🔍 Local Search (局部搜索)' : '🌍 Global Search (全局搜索)'}` +
+                    `</div>`;
+
+                data.steps.forEach(step => {
+                    html += `<div class="rag-step">`;
+                    html += `<h5>${escapeHtml(step.title)}</h5>`;
+                    html += `<div class="step-desc">${escapeHtml(step.description || '')}</div>`;
+
+                    // Input / output (step 1 local)
+                    if (step.input) {
+                        html += `<div class="step-section"><div class="step-label">输入</div>`;
+                        html += `<div class="step-data">问题: ${escapeHtml(step.input.question)}</div></div>`;
+                    }
+                    if (step.output) {
+                        html += `<div class="step-section"><div class="step-label">输出</div>`;
+                        html += `<div class="step-data">`;
+                        if (step.output.matched_entities?.length > 0) {
+                            html += `匹配实体 (${step.output.matched_entities.length}): `;
+                            html += step.output.matched_entities.map(e =>
+                                `${escapeHtml(e.name)} [${escapeHtml(e.type)}]`).join(', ');
+                        } else { html += `无直接匹配实体`; }
+                        if (step.output.general_keywords?.length > 0) {
+                            html += `<br>通用关键词: ${step.output.general_keywords.map(escapeHtml).join(', ')}`;
+                        }
+                        html += `</div></div>`;
+                    }
+
+                    // Sent info
+                    if (step.sent) {
+                        html += `<div class="step-section"><div class="step-label">发送的信息</div>`;
+                        if (step.sent.cypher) {
+                            html += `<div class="step-code">${escapeHtml(step.sent.cypher)}</div>`;
+                        }
+                        if (step.sent.params && Object.keys(step.sent.params).length > 0) {
+                            html += `<div class="step-data" style="margin-top:4px;">参数: ${escapeHtml(JSON.stringify(step.sent.params, null, 2))}</div>`;
+                        }
+                        if (step.sent.model) {
+                            html += `<div class="step-data" style="margin-top:4px;">`;
+                            html += `模型: ${escapeHtml(step.sent.model)}`;
+                            if (step.sent.text) html += `<br>输入文本: ${escapeHtml(step.sent.text)}`;
+                            if (step.sent.metric) html += `<br>相似度度量: ${escapeHtml(step.sent.metric)}`;
+                            if (step.sent.total_communities !== undefined)
+                                html += `<br>社区总数: ${step.sent.total_communities}`;
+                            if (step.sent.count !== undefined)
+                                html += `<br>中间回答数: ${step.sent.count}`;
+                            if (step.sent.system_prompt) {
+                                html += `<br>System Prompt: ${escapeHtml(step.sent.system_prompt)}`;
+                            }
+                            if (step.sent.user_prompt) {
+                                html += `<br>User Prompt: <pre style="white-space:pre-wrap;margin-top:4px;">${escapeHtml(step.sent.user_prompt)}</pre>`;
+                            }
+                            if (step.sent.reduce_context) {
+                                html += `<br>Reduce Context: <pre style="white-space:pre-wrap;margin-top:4px;max-height:200px;overflow-y:auto;">${escapeHtml(step.sent.reduce_context)}</pre>`;
+                            }
+                            html += `</div>`;
+                        }
+                        html += `</div>`;
+                    }
+
+                    // Returned info
+                    if (step.returned) {
+                        html += `<div class="step-section"><div class="step-label">返回结果</div>`;
+                        const r = step.returned;
+                        if (r.embedding_dim !== undefined) {
+                            html += `<div class="step-data">向量维度: ${r.embedding_dim} | 成功: ${r.success}</div>`;
+                        }
+                        if (r.entity_count !== undefined) {
+                            html += `<div class="step-data">找到 ${r.entity_count} 个实体`;
+                            if (r.results?.length > 0) {
+                                html += '<br>' + r.results.slice(0, 5).map(e =>
+                                    `  ${escapeHtml(e.entity_name)} [${escapeHtml(e.entity_type)}]`).join('<br>');
+                                if (r.results.length > 5)
+                                    html += `<br>  ... 还有 ${r.results.length - 5} 个`;
+                            }
+                            html += `</div>`;
+                        }
+                        if (r.all_scores) {
+                            html += `<div class="step-data">所有社区相似度得分:<br>`;
+                            html += r.all_scores.map(s =>
+                                `  社区#${s.community_id}: ${s.similarity} (${s.entity_count}实体) — ${escapeHtml(s.summary_preview)}...`
+                            ).join('<br>');
+                            html += `</div>`;
+                        }
+                        if (r.map_results) {
+                            r.map_results.forEach(mr => {
+                                html += `<div class="step-data" style="margin-top:4px;">`;
+                                html += `社区 #${mr.community_id} (相似度: ${mr.similarity}, ${mr.entity_count}实体)<br>`;
+                                html += `摘要: ${escapeHtml(mr.summary)}<br>`;
+                                html += `中间回答: ${escapeHtml(mr.intermediate_answer)}`;
+                                html += `</div>`;
+                            });
+                        }
+                        if (r.answer) {
+                            html += `<div class="step-context">${escapeHtml(r.answer)}</div>`;
+                        }
+                        html += `</div>`;
+                    }
+
+                    // Selected communities (step 3 global)
+                    if (step.selected) {
+                        html += `<div class="step-section"><div class="step-label">选中的社区</div>`;
+                        html += `<div class="step-data">`;
+                        step.selected.forEach(s => {
+                            html += `社区#${s.community_id}: 相似度=${s.similarity} (${s.entity_count}实体)<br>`;
+                        });
+                        html += `</div></div>`;
+                    }
+
+                    // Assembled context
+                    if (step.assembled_context) {
+                        html += `<div class="step-section"><div class="step-label">组装的 Context</div>`;
+                        html += `<div class="step-context">${escapeHtml(step.assembled_context)}</div></div>`;
+                    }
+
+                    html += `</div>`;
+                });
+
+                // Final answer
+                if (data.answer) {
+                    html += `<div class="rag-answer">`;
+                    html += `<h5>✅ ${data.method === 'local' ? 'Local Search' : 'Global Search'} 最终回答</h5>`;
+                    html += `<div class="answer-text">${escapeHtml(data.answer)}</div>`;
+                    html += `</div>`;
+                }
+
+                document.getElementById('results-list').innerHTML = html;
+            } catch (e) {
+                document.getElementById('results-list').innerHTML =
+                    `<div class="empty-state">查询失败: ${escapeHtml(e.message)}</div>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '提问 (GraphRAG)';
+            }
+        }
+
+        // ============================================================
+        // Utility
+        // ============================================================
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        // ============================================================
+        // Initialize
+        // ============================================================
+        window.addEventListener('load', () => {
+            initNetwork();
+            loadStats();
+            loadFullGraph();
+        });
+    </script>
+</body>
+</html>

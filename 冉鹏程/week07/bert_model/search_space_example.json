@@ -1,0 +1,10 @@
+{
+  "lr": [1e-5, 2e-5, 3e-5],
+  "batch_size": [16, 32],
+  "dropout": [0.1, 0.3],
+  "head_lr_mult": [2.0, 5.0],
+  "warmup_ratio": [0.1],
+  "grad_accum": [1],
+  "max_length": [150],
+  "epochs": [5]
+}

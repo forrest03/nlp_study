@@ -1,0 +1,10 @@
+../week11/.idea
+*/.vscode
+*/.git
+*/.DS_Store
+*/.env
+*/dist
+*/.venv
+*/output
+.DS_Store
+*/.env

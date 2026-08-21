@@ -1,0 +1,1285 @@
+{
+  "description": "初中数学习题→知识点匹配评估集（脱敏抽样）",
+  "questions": [
+    {
+      "id": 1,
+      "category": "ratio_simplify",
+      "topic_name": "三个数的最简整数比",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n判断下面的比是最简整数比吗？\n\n$(1)3:\\frac{1}{12}:5$（ ）；\n\n$(2)6:7:8$（ ）。\n（第1组）\nA. 是\nB. 不是\n（第2组）\nA. 是\nB. 不是",
+      "problem_body": "判断下面的比是最简整数比吗？\n\n$(1)3:\\frac{1}{12}:5$（ ）；\n\n$(2)6:7:8$（ ）。\n（第1组）\nA. 是\nB. 不是\n（第2组）\nA. 是\nB. 不是",
+      "ground_truth": {
+        "required": [
+          "三个数的最简整数比"
+        ],
+        "forbidden": [
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 2,
+      "category": "ratio_simplify",
+      "topic_name": "三个数的最简整数比",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n判断下面的比是最简整数比吗？\n\n$(1)12:8:4.5$（ ）；\n\n$(2)4:6:3$（ ）。\n（第1组）\nA. 是\nB. 不是\n（第2组）\nA. 是\nB. 不是",
+      "problem_body": "判断下面的比是最简整数比吗？\n\n$(1)12:8:4.5$（ ）；\n\n$(2)4:6:3$（ ）。\n（第1组）\nA. 是\nB. 不是\n（第2组）\nA. 是\nB. 不是",
+      "ground_truth": {
+        "required": [
+          "三个数的最简整数比"
+        ],
+        "forbidden": [
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 3,
+      "category": "ratio_simplify",
+      "topic_name": "三个数的最简整数比",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n找到下面的最简整数比，是的选“$\\checkmark$”，不是的选“$\\times$”。\n\n$(1)3:11:14$（ ）；\n\n$(2)18:4:10$（ ）。\n（第1组）\nA. $\\checkmark$\nB. $\\times$\n（第2组）\nA. $\\checkmark$\nB. $\\times$",
+      "problem_body": "找到下面的最简整数比，是的选“$\\checkmark$”，不是的选“$\\times$”。\n\n$(1)3:11:14$（ ）；\n\n$(2)18:4:10$（ ）。\n（第1组）\nA. $\\checkmark$\nB. $\\times$\n（第2组）\nA. $\\checkmark$\nB. $\\times$",
+      "ground_truth": {
+        "required": [
+          "三个数的最简整数比"
+        ],
+        "forbidden": [
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 4,
+      "category": "ratio_simplify",
+      "topic_name": "三个数的最简整数比",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n豆包爷爷去田地里采摘了$\\frac{20}{6}$千克香菜，$15$千克玉米，$2.5$千克土豆。香菜、玉米和土豆质量的最简整数比是（ ）$:$（ ）$:$（ ）。",
+      "problem_body": "豆包爷爷去田地里采摘了$\\frac{20}{6}$千克香菜，$15$千克玉米，$2.5$千克土豆。香菜、玉米和土豆质量的最简整数比是（ ）$:$（ ）$:$（ ）。",
+      "ground_truth": {
+        "required": [
+          "三个数的最简整数比"
+        ],
+        "forbidden": [
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 5,
+      "category": "ratio_simplify",
+      "topic_name": "三个数的最简整数比",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n草坪旁放着三桶水$A$、$B$、$C$。$A$水桶中有$\\frac{4}{5}$升水，$B$水桶中有$\\frac{5}{6}$升水，$C$水桶中有$\\frac{2}{3}$升水。$A$、$B$、$C$三桶水存水量的最简整数比是（ ）。\nA. $24:25:20$\nB. $\\frac{4}{5}:\\frac{5}{6}:\\frac{2}{3}$\nC. $5:6:8$",
+      "problem_body": "草坪旁放着三桶水$A$、$B$、$C$。$A$水桶中有$\\frac{4}{5}$升水，$B$水桶中有$\\frac{5}{6}$升水，$C$水桶中有$\\frac{2}{3}$升水。$A$、$B$、$C$三桶水存水量的最简整数比是（ ）。\nA. $24:25:20$\nB. $\\frac{4}{5}:\\frac{5}{6}:\\frac{2}{3}$\nC. $5:6:8$",
+      "ground_truth": {
+        "required": [
+          "三个数的最简整数比"
+        ],
+        "forbidden": [
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 6,
+      "category": "ratio_simplify",
+      "topic_name": "三个数的最简整数比",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n制作一块大蛋糕需要牛奶$1.2$千克，白糖$\\frac{8}{15}$千克，面粉$2$千克。牛奶、白糖、面粉质量的最简整数比是（ ）$:$（ ）$:$（ ）。",
+      "problem_body": "制作一块大蛋糕需要牛奶$1.2$千克，白糖$\\frac{8}{15}$千克，面粉$2$千克。牛奶、白糖、面粉质量的最简整数比是（ ）$:$（ ）$:$（ ）。",
+      "ground_truth": {
+        "required": [
+          "三个数的最简整数比"
+        ],
+        "forbidden": [
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 7,
+      "category": "ratio_simplify",
+      "topic_name": "三个数的最简整数比",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n从学校到电影院，小锤要走$\\frac{1}{4}$小时，豆花要走$\\frac{2}{3}$小时，狗蛋要走$\\frac{2}{5}$小时。小锤、豆花和狗蛋所用时间的最简整数比是（ ）。\nA. $\\frac{1}{4}:\\frac{2}{3}:\\frac{2}{5}$\nB. $15:40:24$\nC. $5:6:8$",
+      "problem_body": "从学校到电影院，小锤要走$\\frac{1}{4}$小时，豆花要走$\\frac{2}{3}$小时，狗蛋要走$\\frac{2}{5}$小时。小锤、豆花和狗蛋所用时间的最简整数比是（ ）。\nA. $\\frac{1}{4}:\\frac{2}{3}:\\frac{2}{5}$\nB. $15:40:24$\nC. $5:6:8$",
+      "ground_truth": {
+        "required": [
+          "三个数的最简整数比"
+        ],
+        "forbidden": [
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 8,
+      "category": "ratio_simplify",
+      "topic_name": "三个数的最简整数比",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n体育课上，狗蛋绕操场跑了$\\frac{1}{2}$圈，豆包绕操场跑了$\\frac{3}{8}$圈，上官绕操场跑了$\\frac{7}{10}$圈，狗蛋、豆包和上官所跑圈数的最简整数比是（ ）。\nA. $\\frac{1}{2}:\\frac{3}{8}:\\frac{7}{10}$\nB. $5:5:7$\nC. $20:15:28$",
+      "problem_body": "体育课上，狗蛋绕操场跑了$\\frac{1}{2}$圈，豆包绕操场跑了$\\frac{3}{8}$圈，上官绕操场跑了$\\frac{7}{10}$圈，狗蛋、豆包和上官所跑圈数的最简整数比是（ ）。\nA. $\\frac{1}{2}:\\frac{3}{8}:\\frac{7}{10}$\nB. $5:5:7$\nC. $20:15:28$",
+      "ground_truth": {
+        "required": [
+          "三个数的最简整数比"
+        ],
+        "forbidden": [
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 9,
+      "category": "vieta",
+      "topic_name": "韦达定理（根与系数的关系）",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n已知方程的两根分别是$3+ \\sqrt {10}$，$ \\sqrt {10}-3$，则方程的一般形式可以是（$\\:\\:\\:$）\nA. $2x^2-4 \\sqrt {10}x+2=0$\nB. $x^2-6x-1=0$\nC. $3x^2+18x-3=0$\nD. $ax^2-2 \\sqrt {10}x-a=0(a \\ne 0)$",
+      "problem_body": "已知方程的两根分别是$3+ \\sqrt {10}$，$ \\sqrt {10}-3$，则方程的一般形式可以是（$\\:\\:\\:$）\nA. $2x^2-4 \\sqrt {10}x+2=0$\nB. $x^2-6x-1=0$\nC. $3x^2+18x-3=0$\nD. $ax^2-2 \\sqrt {10}x-a=0(a \\ne 0)$",
+      "ground_truth": {
+        "required": [
+          "韦达定理（根与系数的关系）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 10,
+      "category": "vieta",
+      "topic_name": "韦达定理（根与系数的关系）",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n已知方程$x^2+bx+c=0$的两根分别为$-1+\\sqrt{5}$和$-1-\\sqrt{5}$，则这个一元二次方程的一般形式为（ ）\nA. $x^2+2x-4=0$\nB. $x^2-2x+4=0$\nC. $x^2-2x-4=0$",
+      "problem_body": "已知方程$x^2+bx+c=0$的两根分别为$-1+\\sqrt{5}$和$-1-\\sqrt{5}$，则这个一元二次方程的一般形式为（ ）\nA. $x^2+2x-4=0$\nB. $x^2-2x+4=0$\nC. $x^2-2x-4=0$",
+      "ground_truth": {
+        "required": [
+          "韦达定理（根与系数的关系）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 11,
+      "category": "vieta",
+      "topic_name": "韦达定理（根与系数的关系）",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n已知方程的两根分别是$2+ \\sqrt {3}$，$2- \\sqrt {3}$，则方程的一般形式可以是（$\\:\\:\\:$）\nA. $x^2+4x+1=0$\nB. $2x^2-8x+2=0$\nC. $3x^2-12x-3=0$\nD. $ax^2+4ax-a=0$",
+      "problem_body": "已知方程的两根分别是$2+ \\sqrt {3}$，$2- \\sqrt {3}$，则方程的一般形式可以是（$\\:\\:\\:$）\nA. $x^2+4x+1=0$\nB. $2x^2-8x+2=0$\nC. $3x^2-12x-3=0$\nD. $ax^2+4ax-a=0$",
+      "ground_truth": {
+        "required": [
+          "韦达定理（根与系数的关系）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 12,
+      "category": "vieta",
+      "topic_name": "韦达定理（根与系数的关系）",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如果关于$x$的一元二次方程$x^2+px+q=0$的两根分别为$x_1=-1$，$x_2=5$，那么这个一元二次方程是（ ）．\nA. $x^2-x+5=0$\nB. $x^2+x-5=0$\nC. $x^2-4x-5=0$\nD. $x^2+4x+5=0$",
+      "problem_body": "如果关于$x$的一元二次方程$x^2+px+q=0$的两根分别为$x_1=-1$，$x_2=5$，那么这个一元二次方程是（ ）．\nA. $x^2-x+5=0$\nB. $x^2+x-5=0$\nC. $x^2-4x-5=0$\nD. $x^2+4x+5=0$",
+      "ground_truth": {
+        "required": [
+          "韦达定理（根与系数的关系）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 13,
+      "category": "vieta",
+      "topic_name": "韦达定理（根与系数的关系）",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n已知$-4$，$7$是关于$x$的一元二次方程$x^2+px+q=0$的两个实数根，则方程应是（$\\:\\:\\:$）\nA. $(x+4)(x+7)=0$\nB. $x^2-3x+28=0$\nC. $a(x-4)(x+7)=0(a \\ne 0)$\nD. $x^2-3x-28=0$",
+      "problem_body": "已知$-4$，$7$是关于$x$的一元二次方程$x^2+px+q=0$的两个实数根，则方程应是（$\\:\\:\\:$）\nA. $(x+4)(x+7)=0$\nB. $x^2-3x+28=0$\nC. $a(x-4)(x+7)=0(a \\ne 0)$\nD. $x^2-3x-28=0$",
+      "ground_truth": {
+        "required": [
+          "韦达定理（根与系数的关系）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 14,
+      "category": "vieta",
+      "topic_name": "韦达定理（根与系数的关系）",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n已知$1$，$2$是关于$x$的一元二次方程$ax^2+bx+c=0$的两个实数根，则方程可以是（$\\:\\:\\:$）\nA. $x^2-3x+2=0$\nB. $(x+1)(x+2)=0$\nC. $a(x-1)(x+2)=0(a \\ne 0)$\nD. $x^2+3x-2=0$",
+      "problem_body": "已知$1$，$2$是关于$x$的一元二次方程$ax^2+bx+c=0$的两个实数根，则方程可以是（$\\:\\:\\:$）\nA. $x^2-3x+2=0$\nB. $(x+1)(x+2)=0$\nC. $a(x-1)(x+2)=0(a \\ne 0)$\nD. $x^2+3x-2=0$",
+      "ground_truth": {
+        "required": [
+          "韦达定理（根与系数的关系）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 15,
+      "category": "vieta",
+      "topic_name": "韦达定理（根与系数的关系）",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n已知$5$，$-12$是关于$x$的一元二次方程$x^2+mx+n=0$的两个实数根，则方程应是（$\\:\\:\\:$）\nA. $ax^2+7ax+60a=0(a \\ne 0)$\nB. $(x-5)(x+12)=0$\nC. $x^2-7x-60=0$\nD. $(x-5)(x-12)=0$",
+      "problem_body": "已知$5$，$-12$是关于$x$的一元二次方程$x^2+mx+n=0$的两个实数根，则方程应是（$\\:\\:\\:$）\nA. $ax^2+7ax+60a=0(a \\ne 0)$\nB. $(x-5)(x+12)=0$\nC. $x^2-7x-60=0$\nD. $(x-5)(x-12)=0$",
+      "ground_truth": {
+        "required": [
+          "韦达定理（根与系数的关系）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 16,
+      "category": "vieta",
+      "topic_name": "韦达定理（根与系数的关系）",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n已知$- \\frac{1}{4} $ ，$- \\frac{3}{8} $ 是关于$x$的一元二次方程$ax^2+bx+c=0$的两个实数根，则方程可以是（$\\:\\:\\:$）\nA. $ax^2+ \\frac{5a}{8} x- \\frac{3a}{32} =0(a \\ne 0)$\nB. $x^2+ \\frac{3}{32} x+ \\frac{5}{8} =0$\nC. $x^2- \\frac{5}{8…",
+      "problem_body": "已知$- \\frac{1}{4} $ ，$- \\frac{3}{8} $ 是关于$x$的一元二次方程$ax^2+bx+c=0$的两个实数根，则方程可以是（$\\:\\:\\:$）\nA. $ax^2+ \\frac{5a}{8} x- \\frac{3a}{32} =0(a \\ne 0)$\nB. $x^2+ \\frac{3}{32} x+ \\frac{5}{8} =0$\nC. $x^2- \\frac{5}{8…",
+      "ground_truth": {
+        "required": [
+          "韦达定理（根与系数的关系）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "配方法解一元二次方程",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": true
+    },
+    {
+      "id": 17,
+      "category": "completing_square",
+      "topic_name": "配方法解一元二次方程",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n一元二次方程$x^2+3x-18=0$的根是 （$\\:\\:\\:$）\nA. $x_1=3$，$x_2=-6$\nB. $x_1= \\frac{5}{6} $ ，$x_2=- \\frac{10}{3} $\nC. $x_1=- \\frac{5}{6} $ ，$x_2= \\frac{10}{3} $\nD. $x_1=-3$，$x_2=6$",
+      "problem_body": "一元二次方程$x^2+3x-18=0$的根是 （$\\:\\:\\:$）\nA. $x_1=3$，$x_2=-6$\nB. $x_1= \\frac{5}{6} $ ，$x_2=- \\frac{10}{3} $\nC. $x_1=- \\frac{5}{6} $ ，$x_2= \\frac{10}{3} $\nD. $x_1=-3$，$x_2=6$",
+      "ground_truth": {
+        "required": [
+          "配方法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 18,
+      "category": "completing_square",
+      "topic_name": "配方法解一元二次方程",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n用配方法解一元二次方程$x^2-4x+1=0$时，下列变形正确的是（ ）\nA. $(x-2)^2=1$\nB. $(x-2)^2=5$\nC. $(x+2)^2=3$\nD. $(x-2)^2=3$",
+      "problem_body": "用配方法解一元二次方程$x^2-4x+1=0$时，下列变形正确的是（ ）\nA. $(x-2)^2=1$\nB. $(x-2)^2=5$\nC. $(x+2)^2=3$\nD. $(x-2)^2=3$",
+      "ground_truth": {
+        "required": [
+          "配方法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 19,
+      "category": "completing_square",
+      "topic_name": "配方法解一元二次方程",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n一元二次方程$x^2-4x+2=0$的根是 （$\\:\\:\\:$）\nA. $x_1=2+ \\sqrt {2} $，$x_2=2-\\sqrt {2}$\nB. $x_1= \\frac{5}{2} $ ，$x_2=- \\frac{7}{2} $\nC. $x_1=2+\\sqrt {6} $，$x_2=2-\\sqrt {6} $\nD. $x_1=3$，$x_2=-4$",
+      "problem_body": "一元二次方程$x^2-4x+2=0$的根是 （$\\:\\:\\:$）\nA. $x_1=2+ \\sqrt {2} $，$x_2=2-\\sqrt {2}$\nB. $x_1= \\frac{5}{2} $ ，$x_2=- \\frac{7}{2} $\nC. $x_1=2+\\sqrt {6} $，$x_2=2-\\sqrt {6} $\nD. $x_1=3$，$x_2=-4$",
+      "ground_truth": {
+        "required": [
+          "配方法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 20,
+      "category": "completing_square",
+      "topic_name": "配方法解一元二次方程",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n一元二次方程$x^2-4x-1=0$的解为$x_1=$（ ），$x_2=$（ ）.",
+      "problem_body": "一元二次方程$x^2-4x-1=0$的解为$x_1=$（ ），$x_2=$（ ）.",
+      "ground_truth": {
+        "required": [
+          "配方法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 21,
+      "category": "completing_square",
+      "topic_name": "配方法解一元二次方程",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n一元二次方程$4x^2+4x+1=0$的根为（ ）.",
+      "problem_body": "一元二次方程$4x^2+4x+1=0$的根为（ ）.",
+      "ground_truth": {
+        "required": [
+          "配方法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 22,
+      "category": "completing_square",
+      "topic_name": "配方法解一元二次方程",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n方程$x^2-4x+1=0$的解为$x=$（ ）.",
+      "problem_body": "方程$x^2-4x+1=0$的解为$x=$（ ）.",
+      "ground_truth": {
+        "required": [
+          "配方法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 23,
+      "category": "completing_square",
+      "topic_name": "配方法解一元二次方程",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n用配方法解关于$x$的一元二次方程\n$x^2+2mx-n=0(n+m^2 \\geqslant 0)$\n\n思路分析：\n\n（$1$）配方得（ ）\n\n（$2$）解得$x_1=$（ ）， $x_2=$（ ）\n（第1组）\nA. $(x-m)^2=n+m^2$\nB. $(x+m)^2=n-m^2$\nC. $(x+m)^2=n+m^2$\n（第2组）\nA. $ \\sqrt{n +m^2}+m$\nB. $ \\sqr…",
+      "problem_body": "用配方法解关于$x$的一元二次方程\n$x^2+2mx-n=0(n+m^2 \\geqslant 0)$\n\n思路分析：\n\n（$1$）配方得（ ）\n\n（$2$）解得$x_1=$（ ）， $x_2=$（ ）\n（第1组）\nA. $(x-m)^2=n+m^2$\nB. $(x+m)^2=n-m^2$\nC. $(x+m)^2=n+m^2$\n（第2组）\nA. $ \\sqrt{n +m^2}+m$\nB. $ \\sqr…",
+      "ground_truth": {
+        "required": [
+          "配方法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 24,
+      "category": "completing_square",
+      "topic_name": "配方法解一元二次方程",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n一元二次方程$2x^2-8x+1=0$配方的结果为$(x-$（ ）$)^2=$（ ），解得$x_1=$（ ），$x_2=$（ ）.\n（第1组）\nA. $ \\frac{ \\sqrt{14}}{2} -2$\nB. $ \\frac{ \\sqrt{14}}{2} +2$\n（第2组）\nA. $- \\frac{ \\sqrt{14}}{2} +2$\nB. $- \\frac{ \\sqrt{14}}{2} -2$",
+      "problem_body": "一元二次方程$2x^2-8x+1=0$配方的结果为$(x-$（ ）$)^2=$（ ），解得$x_1=$（ ），$x_2=$（ ）.\n（第1组）\nA. $ \\frac{ \\sqrt{14}}{2} -2$\nB. $ \\frac{ \\sqrt{14}}{2} +2$\n（第2组）\nA. $- \\frac{ \\sqrt{14}}{2} +2$\nB. $- \\frac{ \\sqrt{14}}{2} -2$",
+      "ground_truth": {
+        "required": [
+          "配方法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "公式法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 25,
+      "category": "quadratic_formula",
+      "topic_name": "公式法解一元二次方程",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n下列一元二次方程中，适合用因式分解法求解的是 （$\\:\\:\\:$）\nA. $(2x+1)^2=25$\nB. $5x^2+7x-1=0$\nC. $x(x-4)=5(x-4)$\nD. $x^2+4x-86=0$",
+      "problem_body": "下列一元二次方程中，适合用因式分解法求解的是 （$\\:\\:\\:$）\nA. $(2x+1)^2=25$\nB. $5x^2+7x-1=0$\nC. $x(x-4)=5(x-4)$\nD. $x^2+4x-86=0$",
+      "ground_truth": {
+        "required": [
+          "公式法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 26,
+      "category": "quadratic_formula",
+      "topic_name": "公式法解一元二次方程",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n计算：\n$(1) (\\sqrt{2} -3)^0+(- \\frac{ 1}{2})^{-2}-|-2|-2 \\cos 60 ^\\circ $\n$(2)$解方程：$2x^2-4x-1=0$．",
+      "problem_body": "计算：\n$(1) (\\sqrt{2} -3)^0+(- \\frac{ 1}{2})^{-2}-|-2|-2 \\cos 60 ^\\circ $\n$(2)$解方程：$2x^2-4x-1=0$．",
+      "ground_truth": {
+        "required": [
+          "公式法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 27,
+      "category": "quadratic_formula",
+      "topic_name": "公式法解一元二次方程",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n下列方程解法正确的是（ ）\nA. 由$(x-1)x=2(x-1),$两边除以$(x-1),$得$x=2$\nB. 由$x^2=1,$得$x=1$\nC. 由$(x-2)(x+3)=1,$得$x-2=1,x+3=1,$得$x_1=3,x_2=-2$\nD. 由$x^2-2x-1=0,$得${(x-1)^2}=2,$得${x_1}=1+\\sqrt{2},{x_2}=1-\\sqrt{2}$",
+      "problem_body": "下列方程解法正确的是（ ）\nA. 由$(x-1)x=2(x-1),$两边除以$(x-1),$得$x=2$\nB. 由$x^2=1,$得$x=1$\nC. 由$(x-2)(x+3)=1,$得$x-2=1,x+3=1,$得$x_1=3,x_2=-2$\nD. 由$x^2-2x-1=0,$得${(x-1)^2}=2,$得${x_1}=1+\\sqrt{2},{x_2}=1-\\sqrt{2}$",
+      "ground_truth": {
+        "required": [
+          "公式法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 28,
+      "category": "quadratic_formula",
+      "topic_name": "公式法解一元二次方程",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n解方程：$x^2-4x-45=0$；\n\n解得$x_1=$（ ）；$x_2=$（ ）.",
+      "problem_body": "解方程：$x^2-4x-45=0$；\n\n解得$x_1=$（ ）；$x_2=$（ ）.",
+      "ground_truth": {
+        "required": [
+          "公式法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 29,
+      "category": "quadratic_formula",
+      "topic_name": "公式法解一元二次方程",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n解方程：$x^2+8x-9=0. $",
+      "problem_body": "解方程：$x^2+8x-9=0. $",
+      "ground_truth": {
+        "required": [
+          "公式法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 30,
+      "category": "quadratic_formula",
+      "topic_name": "公式法解一元二次方程",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n方程$x^2=4|x|$的解为（ ）\nA. $\\pm4$\nB. $0$或$4$\nC. $4$\nD. $\\pm4$或$0$",
+      "problem_body": "方程$x^2=4|x|$的解为（ ）\nA. $\\pm4$\nB. $0$或$4$\nC. $4$\nD. $\\pm4$或$0$",
+      "ground_truth": {
+        "required": [
+          "公式法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 31,
+      "category": "quadratic_formula",
+      "topic_name": "公式法解一元二次方程",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n$(1)$解方程$x^2-5x+6=0$的最佳方法是（ ）；\n\n$(2)$解方程$x^2-5x-1= 0$的最佳方法是（ ）；\n\n$(3)$关于方程$2x(x+7)=3(x+7)$的解，下列说法正确的是（ ）.\n\n①方程的解是$x=-7$\n\n②方程的解是$x= \\frac{3}{2} $\n\n③方程的解是$x=-7$或$x= \\frac{3}{2} $\n\n④这个方程是自相矛盾的，无解\n（第1组）\nA…",
+      "problem_body": "$(1)$解方程$x^2-5x+6=0$的最佳方法是（ ）；\n\n$(2)$解方程$x^2-5x-1= 0$的最佳方法是（ ）；\n\n$(3)$关于方程$2x(x+7)=3(x+7)$的解，下列说法正确的是（ ）.\n\n①方程的解是$x=-7$\n\n②方程的解是$x= \\frac{3}{2} $\n\n③方程的解是$x=-7$或$x= \\frac{3}{2} $\n\n④这个方程是自相矛盾的，无解\n（第1组）\nA…",
+      "ground_truth": {
+        "required": [
+          "公式法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 32,
+      "category": "quadratic_formula",
+      "topic_name": "公式法解一元二次方程",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n解方程$x^2-2x=4$的最佳方法是（ ），$x$的值是（ ）.\n（第1组）\nA. 直接开平方法\nB. 公式法\nC. 因式分解法\nD. 配方法\n（第2组）\nA. $\\sqrt{5}-1$或$\\sqrt{5}+1$\nB. $-\\sqrt{5}+1$或$\\sqrt{5}+1$\nC. $-\\sqrt{5}+1$或$-\\sqrt{5}-1$",
+      "problem_body": "解方程$x^2-2x=4$的最佳方法是（ ），$x$的值是（ ）.\n（第1组）\nA. 直接开平方法\nB. 公式法\nC. 因式分解法\nD. 配方法\n（第2组）\nA. $\\sqrt{5}-1$或$\\sqrt{5}+1$\nB. $-\\sqrt{5}+1$或$\\sqrt{5}+1$\nC. $-\\sqrt{5}+1$或$-\\sqrt{5}-1$",
+      "ground_truth": {
+        "required": [
+          "公式法解一元二次方程"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 33,
+      "category": "pythagorean",
+      "topic_name": "勾股定理",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图，在平行四边形$OABC$中，$OA=2 \\sqrt {2}\n$，$\\angle AOC=45\\degree $，点$C$在$y$轴上，点$D$是$BC$的中点，反比例函数$y=\\frac{k}{x} (x>0)$的图象经过点$A$、$D. $\n\n$(1)k=$（ ）；\n\n$(2)$点$D$的坐标为$($（ ）$,$（ ）$). $<img src=\"https://course.yangco…",
+      "problem_body": "如图，在平行四边形$OABC$中，$OA=2 \\sqrt {2}\n$，$\\angle AOC=45\\degree $，点$C$在$y$轴上，点$D$是$BC$的中点，反比例函数$y=\\frac{k}{x} (x>0)$的图象经过点$A$、$D. $\n\n$(1)k=$（ ）；\n\n$(2)$点$D$的坐标为$($（ ）$,$（ ）$). $<img src=\"https://course.yangco…",
+      "ground_truth": {
+        "required": [
+          "勾股定理"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 34,
+      "category": "pythagorean",
+      "topic_name": "勾股定理",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图，在平行四边形$OABC$中，$OA=2 \\sqrt {2}\n$，$\\angle AOC=45\\degree $，点$C$在$y$轴上，点$D$是$BC$的中点，反比例函数$y=\\frac{k}{x} (x>0)$的图象经过点$A$、$D. $\n\n$(1)$求$k$的值；\n\n$(2)$求点$D$的坐标$. $<img src=\"",
+      "problem_body": "如图，在平行四边形$OABC$中，$OA=2 \\sqrt {2}\n$，$\\angle AOC=45\\degree $，点$C$在$y$轴上，点$D$是$BC$的中点，反比例函数$y=\\frac{k}{x} (x>0)$的图象经过点$A$、$D. $\n\n$(1)$求$k$的值；\n\n$(2)$求点$D$的坐标$. $<img src=\"",
+      "ground_truth": {
+        "required": [
+          "勾股定理"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 35,
+      "category": "pythagorean",
+      "topic_name": "勾股定理",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图，$A(4,3)$是反比例函数$y=\\frac{k}{x}$在第一象限图象上一点，连接$OA$，过$A$作$AB// x$轴，截取$AB=OA(B$在$A$右侧$)$，连接$OB$，交反比例函数$y=\\frac{k}{x}$的图象于点$P. $\n\n$(1)$反比例函数的表达式为$y=$（ ）；\n\n$(2)$点$B$的坐标为$($（ ）$,$（ ）$)$；\n\n$(3)\\triangle OAP$…",
+      "problem_body": "如图，$A(4,3)$是反比例函数$y=\\frac{k}{x}$在第一象限图象上一点，连接$OA$，过$A$作$AB// x$轴，截取$AB=OA(B$在$A$右侧$)$，连接$OB$，交反比例函数$y=\\frac{k}{x}$的图象于点$P. $\n\n$(1)$反比例函数的表达式为$y=$（ ）；\n\n$(2)$点$B$的坐标为$($（ ）$,$（ ）$)$；\n\n$(3)\\triangle OAP$…",
+      "ground_truth": {
+        "required": [
+          "勾股定理"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 36,
+      "category": "pythagorean",
+      "topic_name": "勾股定理",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图，在平面直角坐标系中，菱形$ABCD$的顶点$A$，$B$在反比例函数$y=\\frac{k}{x}(k>0$，$x>0)$的图象上，横坐标分别为$1$，$4$，对角线$BD//x$轴$. $若菱形$ABCD$的面积为$\\frac{45}{2}$，则$k$的值为（ ）<img src=\"",
+      "problem_body": "如图，在平面直角坐标系中，菱形$ABCD$的顶点$A$，$B$在反比例函数$y=\\frac{k}{x}(k>0$，$x>0)$的图象上，横坐标分别为$1$，$4$，对角线$BD//x$轴$. $若菱形$ABCD$的面积为$\\frac{45}{2}$，则$k$的值为（ ）<img src=\"",
+      "ground_truth": {
+        "required": [
+          "勾股定理"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 37,
+      "category": "pythagorean",
+      "topic_name": "勾股定理",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图，在平面直角坐标系中，菱形$ABCD$的边$BC$与$x$轴平行，$A$，$B$两点纵坐标分别为$4$，$2$，反比例函数$y = \\frac{k}{x}$经过$A$，$B$两点，若菱形$ABCD$边长为$4$，则$k$值为（ ）$.$<img src=\"",
+      "problem_body": "如图，在平面直角坐标系中，菱形$ABCD$的边$BC$与$x$轴平行，$A$，$B$两点纵坐标分别为$4$，$2$，反比例函数$y = \\frac{k}{x}$经过$A$，$B$两点，若菱形$ABCD$边长为$4$，则$k$值为（ ）$.$<img src=\"",
+      "ground_truth": {
+        "required": [
+          "勾股定理"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 38,
+      "category": "pythagorean",
+      "topic_name": "勾股定理",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图，四边形$ABCD$为菱形，点$A$在$y$轴正半轴上，$AB//x$轴，点$B$，$C$在反比例函数$y= \\frac{3}{x} $ 上，点$D$在反比例函数$y= \\frac{-12}{x} $ 上，那么点$D$的坐标为（ ）．<img src=\"",
+      "problem_body": "如图，四边形$ABCD$为菱形，点$A$在$y$轴正半轴上，$AB//x$轴，点$B$，$C$在反比例函数$y= \\frac{3}{x} $ 上，点$D$在反比例函数$y= \\frac{-12}{x} $ 上，那么点$D$的坐标为（ ）．<img src=\"",
+      "ground_truth": {
+        "required": [
+          "勾股定理"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 39,
+      "category": "pythagorean",
+      "topic_name": "勾股定理",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图，平行四边形$OABC$位于平面直角坐标系中，点$B$在$x$轴正半轴上，点$A$及$AB$的中点$D$在反比例函数$y= \\frac{k}{x}$的图象上，点$C$在反比例函数$y= - \\frac{4}{x}(x>0)$的图象上，则$k$的值为（ ）$.$<img src=\"",
+      "problem_body": "如图，平行四边形$OABC$位于平面直角坐标系中，点$B$在$x$轴正半轴上，点$A$及$AB$的中点$D$在反比例函数$y= \\frac{k}{x}$的图象上，点$C$在反比例函数$y= - \\frac{4}{x}(x>0)$的图象上，则$k$的值为（ ）$.$<img src=\"",
+      "ground_truth": {
+        "required": [
+          "勾股定理"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 40,
+      "category": "pythagorean",
+      "topic_name": "勾股定理",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图，在平面直角坐标系中，$OA=AB$，$\\angle OAB=90\\degree $，反比例函数$y=\\frac{k}{x}(x>0)$的图象经过$A$，$B$两点$. $若点$A$的坐标为$(n,1)$，则$k$的值为（ ）$. $<img src=\"",
+      "problem_body": "如图，在平面直角坐标系中，$OA=AB$，$\\angle OAB=90\\degree $，反比例函数$y=\\frac{k}{x}(x>0)$的图象经过$A$，$B$两点$. $若点$A$的坐标为$(n,1)$，则$k$的值为（ ）$. $<img src=\"",
+      "ground_truth": {
+        "required": [
+          "勾股定理"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 41,
+      "category": "congruent_triangle",
+      "topic_name": "全等三角形的判定（SSS）",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图， 已知在四边形$ABDC$中，$AD$同时平分 $ \\angle BAC$和 $ \\angle BDC$，则可以判断$AD$是$BC$的垂直平分线吗？</probimg>----如图，由$AD$同时平分$ \\angle BAC$和$ \\angle BDC$，可以…",
+      "problem_body": "如图， 已知在四边形$ABDC$中，$AD$同时平分 $ \\angle BAC$和 $ \\angle BDC$，则可以判断$AD$是$BC$的垂直平分线吗？</probimg>----如图，由$AD$同时平分$ \\angle BAC$和$ \\angle BDC$，可以…",
+      "ground_truth": {
+        "required": [
+          "全等三角形的判定（SSS）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 42,
+      "category": "congruent_triangle",
+      "topic_name": "全等三角形的判定（SSS）",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图$,$在$\\triangle ABC$中$,$点$D$在边$BC$上$,$且$BC=BD+AD,$则点$D$在（ ）\nA. $AB$的垂直平分线上\nB. $\\angle BAC$的平分线上\nC. $BC$的中点上\nD. $AC$的垂直平分…",
+      "problem_body": "如图$,$在$\\triangle ABC$中$,$点$D$在边$BC$上$,$且$BC=BD+AD,$则点$D$在（ ）\nA. $AB$的垂直平分线上\nB. $\\angle BAC$的平分线上\nC. $BC$的中点上\nD. $AC$的垂直平分…",
+      "ground_truth": {
+        "required": [
+          "全等三角形的判定（SSS）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 43,
+      "category": "congruent_triangle",
+      "topic_name": "全等三角形的判定（SSS）",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图，在四边形$ABCD$中，$AD//BC$，$E$是$AB$的中点，连接$DE$并延长交$CB$的延长线于点$F$，点$M$在$BC$边上，且 $ \\angle MDF= \\angle ADF$．\n\n$(1)$求证： $ \\triangle ADE$≌ $ \\triangle BFE$．\n\n$(2)$连接$EM$，如果$FM=DM$，则（ ），并说明理由．\n\n<img src=\"https:/…",
+      "problem_body": "如图，在四边形$ABCD$中，$AD//BC$，$E$是$AB$的中点，连接$DE$并延长交$CB$的延长线于点$F$，点$M$在$BC$边上，且 $ \\angle MDF= \\angle ADF$．\n\n$(1)$求证： $ \\triangle ADE$≌ $ \\triangle BFE$．\n\n$(2)$连接$EM$，如果$FM=DM$，则（ ），并说明理由．\n\n<img src=\"https:/…",
+      "ground_truth": {
+        "required": [
+          "全等三角形的判定（SSS）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 44,
+      "category": "congruent_triangle",
+      "topic_name": "全等三角形的判定（SSS）",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图，在$\\triangle ABC$中，$AB=AC$，$AD$交$BC$于点$D$，$E$是$AD$上的一点，连接$BE$、$CE$，如果$BE=CE. $\n\n$(1)\\triangle ABE$与$\\triangle ACE$全等吗？说明理由\n\n$(2)AD$与$BC$有什么样的位置关系？说明理由$. $<img src=\"",
+      "problem_body": "如图，在$\\triangle ABC$中，$AB=AC$，$AD$交$BC$于点$D$，$E$是$AD$上的一点，连接$BE$、$CE$，如果$BE=CE. $\n\n$(1)\\triangle ABE$与$\\triangle ACE$全等吗？说明理由\n\n$(2)AD$与$BC$有什么样的位置关系？说明理由$. $<img src=\"",
+      "ground_truth": {
+        "required": [
+          "全等三角形的判定（SSS）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 45,
+      "category": "congruent_triangle",
+      "topic_name": "全等三角形的判定（SSS）",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图，已知等腰三角形$ABC$中，$AB=AC$，点$D$、$E$分别在边$AB$、$AC$上，且$AD=AE$，连接$BE$、$CD$，交于点$F. $\n\n$(1)$判断$\\angle ABE$与$\\angle ACD$的数量关系，并说明理由；\n\n$(2)$求证：过点$A$、$F$的直线垂直平分线段$BC. $<img src=\"",
+      "problem_body": "如图，已知等腰三角形$ABC$中，$AB=AC$，点$D$、$E$分别在边$AB$、$AC$上，且$AD=AE$，连接$BE$、$CD$，交于点$F. $\n\n$(1)$判断$\\angle ABE$与$\\angle ACD$的数量关系，并说明理由；\n\n$(2)$求证：过点$A$、$F$的直线垂直平分线段$BC. $<img src=\"",
+      "ground_truth": {
+        "required": [
+          "全等三角形的判定（SSS）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 46,
+      "category": "congruent_triangle",
+      "topic_name": "全等三角形的判定（SSS）",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图，$\\text{Rt}\\triangle ABC$中，$\\angle ACB=90\\degree $，$D$是$AB$上一点，$BD=BC$，过点$D$作$AB$的垂线交$AC$于点$E$，求证：$BE$垂直平分$CD. $<img src=\"",
+      "problem_body": "如图，$\\text{Rt}\\triangle ABC$中，$\\angle ACB=90\\degree $，$D$是$AB$上一点，$BD=BC$，过点$D$作$AB$的垂线交$AC$于点$E$，求证：$BE$垂直平分$CD. $<img src=\"",
+      "ground_truth": {
+        "required": [
+          "全等三角形的判定（SSS）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 47,
+      "category": "congruent_triangle",
+      "topic_name": "全等三角形的判定（SSS）",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图，已知在四边形$ABDC$中，$AD$同时平分 $ \\angle BAC$和 $ \\angle BDC$，则可以判断$AD$是$BC$的垂直平分线吗？\n\n----由 $ \\triangle ABD$≌ $ \\triangle ACD$，可得（）</probimg>\nA…",
+      "problem_body": "如图，已知在四边形$ABDC$中，$AD$同时平分 $ \\angle BAC$和 $ \\angle BDC$，则可以判断$AD$是$BC$的垂直平分线吗？\n\n----由 $ \\triangle ABD$≌ $ \\triangle ACD$，可得（）</probimg>\nA…",
+      "ground_truth": {
+        "required": [
+          "全等三角形的判定（SSS）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 48,
+      "category": "congruent_triangle",
+      "topic_name": "全等三角形的判定（SSS）",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n如图，在四边形$ABCD$中，$AD//BC$，$E$是$AB$的中点，连接$DE$并延长交$CB$的延长线于点$F$，点$M$在$BC$边上，且 $ \\angle MDF= \\angle ADF$．\n\n$(1)$求证： $ \\triangle ADE$≌ $ \\triangle BFE$．\n\n$(2)$连接$EM$，如果$FM=DM$，判断$EM$与$DF$的关系，并说明理由．\n\n<img sr…",
+      "problem_body": "如图，在四边形$ABCD$中，$AD//BC$，$E$是$AB$的中点，连接$DE$并延长交$CB$的延长线于点$F$，点$M$在$BC$边上，且 $ \\angle MDF= \\angle ADF$．\n\n$(1)$求证： $ \\triangle ADE$≌ $ \\triangle BFE$．\n\n$(2)$连接$EM$，如果$FM=DM$，判断$EM$与$DF$的关系，并说明理由．\n\n<img sr…",
+      "ground_truth": {
+        "required": [
+          "全等三角形的判定（SSS）"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 49,
+      "category": "fractional_eq",
+      "topic_name": "分式方程的实际应用",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n某商店用$1000$元人民币购进水果销售，过了一段时间，又用$2400$元人民币购进这种水果，所购数量是第一次购进数量的$2$倍，但每千克的价格比第一次购进的贵了$2$元．\n\n$(1)$该商店第一次购进水果多少千克？\n\n$(2)$假设该商店两次购进的水果按相同的标价销售，最后剩下的$20$千克按标价的五折优惠销售．若两次购进水果全部售完，利润不低于$950$元，则每千克水果的标价至少是多少元？\n\n…",
+      "problem_body": "某商店用$1000$元人民币购进水果销售，过了一段时间，又用$2400$元人民币购进这种水果，所购数量是第一次购进数量的$2$倍，但每千克的价格比第一次购进的贵了$2$元．\n\n$(1)$该商店第一次购进水果多少千克？\n\n$(2)$假设该商店两次购进的水果按相同的标价销售，最后剩下的$20$千克按标价的五折优惠销售．若两次购进水果全部售完，利润不低于$950$元，则每千克水果的标价至少是多少元？\n\n…",
+      "ground_truth": {
+        "required": [
+          "分式方程的实际应用"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 50,
+      "category": "fractional_eq",
+      "topic_name": "分式方程的实际应用",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n某超市预测某饮料会畅销、先用$1800$元购进一批这种饮料，面市后果然供不应求，又用$8100$元购进这种饮料，第二批饮料的数量是第一批的$3$倍，但单价比第一批贵$2$元．\n\n$(1)$第一批饮料进货单价多少元？\n\n$(2)$若两次进饮料都按同一价格销售，两批全部售完后，获利不少于$2700$元，那么销售单价至少为多少元？",
+      "problem_body": "某超市预测某饮料会畅销、先用$1800$元购进一批这种饮料，面市后果然供不应求，又用$8100$元购进这种饮料，第二批饮料的数量是第一批的$3$倍，但单价比第一批贵$2$元．\n\n$(1)$第一批饮料进货单价多少元？\n\n$(2)$若两次进饮料都按同一价格销售，两批全部售完后，获利不少于$2700$元，那么销售单价至少为多少元？",
+      "ground_truth": {
+        "required": [
+          "分式方程的实际应用"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 51,
+      "category": "fractional_eq",
+      "topic_name": "分式方程的实际应用",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n甲、乙两人加工同一种零件，甲每天加工的数量是乙每天加工数量的$1.5$倍，两人各加工$600$个这种零件，甲比乙少用$5$天．\n\n$(1)$求甲、乙两人每天各加工多少个这种零件？\n\n$(2)$已知甲、乙两人加工这种零件每天的加工费分别是$150$元和$120$元，现有$3000$个这种零件的加工任务，甲单独加工一段时间后另有安排，剩余任务由乙单独完成．如果总加工费不超过$7800$元，那么甲至少加…",
+      "problem_body": "甲、乙两人加工同一种零件，甲每天加工的数量是乙每天加工数量的$1.5$倍，两人各加工$600$个这种零件，甲比乙少用$5$天．\n\n$(1)$求甲、乙两人每天各加工多少个这种零件？\n\n$(2)$已知甲、乙两人加工这种零件每天的加工费分别是$150$元和$120$元，现有$3000$个这种零件的加工任务，甲单独加工一段时间后另有安排，剩余任务由乙单独完成．如果总加工费不超过$7800$元，那么甲至少加…",
+      "ground_truth": {
+        "required": [
+          "分式方程的实际应用"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 52,
+      "category": "fractional_eq",
+      "topic_name": "分式方程的实际应用",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n某工厂现在平均每天比原计划多生产$25$个零件，现在生产$600$个零件所需时间与原计划生产$450$个零件所需时间相同，设原计划平均每天生产$x$个零件，根据题意可列方程为（ ）\nA. $\\frac{600}{x-25}=\\frac{450}{x}$\nB. $\\frac{600}{x}=\\frac{450}{x-25}$\nC. $\\frac{600}{x+25}=\\frac{450}{x}$\nD…",
+      "problem_body": "某工厂现在平均每天比原计划多生产$25$个零件，现在生产$600$个零件所需时间与原计划生产$450$个零件所需时间相同，设原计划平均每天生产$x$个零件，根据题意可列方程为（ ）\nA. $\\frac{600}{x-25}=\\frac{450}{x}$\nB. $\\frac{600}{x}=\\frac{450}{x-25}$\nC. $\\frac{600}{x+25}=\\frac{450}{x}$\nD…",
+      "ground_truth": {
+        "required": [
+          "分式方程的实际应用"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 53,
+      "category": "fractional_eq",
+      "topic_name": "分式方程的实际应用",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n甲、乙两个搬运工搬运某种货物，已知乙比甲每小时多搬运$600\\:\\text{kg}$，甲搬运$5000\\:\\text{kg}$所用时间与乙搬运$8000\\:\\text{kg}$所用时间相等，求甲、乙两人每小时分别搬运多少$\\text{kg}$货物，设甲每小时搬运$x\\:\\text{kg}$货物，则可列方程为（ ）\nA. $\\frac{5000}{x-600}=\\frac{8000}{x}$\nB. …",
+      "problem_body": "甲、乙两个搬运工搬运某种货物，已知乙比甲每小时多搬运$600\\:\\text{kg}$，甲搬运$5000\\:\\text{kg}$所用时间与乙搬运$8000\\:\\text{kg}$所用时间相等，求甲、乙两人每小时分别搬运多少$\\text{kg}$货物，设甲每小时搬运$x\\:\\text{kg}$货物，则可列方程为（ ）\nA. $\\frac{5000}{x-600}=\\frac{8000}{x}$\nB. …",
+      "ground_truth": {
+        "required": [
+          "分式方程的实际应用"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 54,
+      "category": "fractional_eq",
+      "topic_name": "分式方程的实际应用",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n$A$，$B$两市相距$200$千米，甲车从$A$市到$B$市，乙车从$B$市到$A$市，两车同时出发，已知甲车速度比乙车速度快$15$千米$/$小时，且甲车比乙车早半小时到达目的地．若设乙车的速度是$x$千米$/$小时，则根据题意，可列方程$（ ）.$\nA. $\\frac{200}{x-15}-\\frac{200}{x}=\\frac{1}{2}$\nB. $\\frac{200}{x+15}-\\fr…",
+      "problem_body": "$A$，$B$两市相距$200$千米，甲车从$A$市到$B$市，乙车从$B$市到$A$市，两车同时出发，已知甲车速度比乙车速度快$15$千米$/$小时，且甲车比乙车早半小时到达目的地．若设乙车的速度是$x$千米$/$小时，则根据题意，可列方程$（ ）.$\nA. $\\frac{200}{x-15}-\\frac{200}{x}=\\frac{1}{2}$\nB. $\\frac{200}{x+15}-\\fr…",
+      "ground_truth": {
+        "required": [
+          "分式方程的实际应用"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 55,
+      "category": "fractional_eq",
+      "topic_name": "分式方程的实际应用",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n星期天，小明和小芳从同一小区门口同时出发，沿同一路线去离该小区$1800$米的少年宫参加活动，为响应“节能环保，绿色出行”的号召，两人都步行，已知小明的速度是小芳的速度的$1.2$倍，结果小明比小芳早$6$分钟到达，则小芳的速度为（ ）米/分钟．",
+      "problem_body": "星期天，小明和小芳从同一小区门口同时出发，沿同一路线去离该小区$1800$米的少年宫参加活动，为响应“节能环保，绿色出行”的号召，两人都步行，已知小明的速度是小芳的速度的$1.2$倍，结果小明比小芳早$6$分钟到达，则小芳的速度为（ ）米/分钟．",
+      "ground_truth": {
+        "required": [
+          "分式方程的实际应用"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 56,
+      "category": "fractional_eq",
+      "topic_name": "分式方程的实际应用",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n星期天，小明和小芳从同一小区门口同时出发，沿同一路线去离该小区$1800$米的少年宫参加活动，为响应“节能环保，绿色出行”的号召，两人都步行，已知小明的速度是小芳的速度的$1.2$倍，结果小明比小芳早$6$分钟到达，求小芳的速度．",
+      "problem_body": "星期天，小明和小芳从同一小区门口同时出发，沿同一路线去离该小区$1800$米的少年宫参加活动，为响应“节能环保，绿色出行”的号召，两人都步行，已知小明的速度是小芳的速度的$1.2$倍，结果小明比小芳早$6$分钟到达，求小芳的速度．",
+      "ground_truth": {
+        "required": [
+          "分式方程的实际应用"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 57,
+      "category": "polynomial_sub",
+      "topic_name": "整式代入求值",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n先化简，再求值：$-(x^2-1)+2(x^2-2x-\\frac{1}{2})$，其中$x=-2$．",
+      "problem_body": "先化简，再求值：$-(x^2-1)+2(x^2-2x-\\frac{1}{2})$，其中$x=-2$．",
+      "ground_truth": {
+        "required": [
+          "整式代入求值"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 58,
+      "category": "polynomial_sub",
+      "topic_name": "整式代入求值",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n$(1)-2^3-(1-0.5)\\times|-\\frac{1}{3}|\\times[2-(-3)^2].$\n$(2)(-\\frac{1}{2}-\\frac{2}{3}+\\frac{5}{6})\\div(-\\frac{1}{24}).$\n$(3)$先化简，再求值$-3(ab-a^2)-[2b^2-(5ab-a^2)-2ab]$其中$|a^2-b^2-1|$与$(ab+2)^2$互为相反数．",
+      "problem_body": "$(1)-2^3-(1-0.5)\\times|-\\frac{1}{3}|\\times[2-(-3)^2].$\n$(2)(-\\frac{1}{2}-\\frac{2}{3}+\\frac{5}{6})\\div(-\\frac{1}{24}).$\n$(3)$先化简，再求值$-3(ab-a^2)-[2b^2-(5ab-a^2)-2ab]$其中$|a^2-b^2-1|$与$(ab+2)^2$互为相反数．",
+      "ground_truth": {
+        "required": [
+          "整式代入求值"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 59,
+      "category": "polynomial_sub",
+      "topic_name": "整式代入求值",
+      "difficulty": "easy",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n先化简，再求值：$4x^2-(2x^2+x-1)+(2-2x^2-3x)$，其中$x=-\\frac{1}{2}. $",
+      "problem_body": "先化简，再求值：$4x^2-(2x^2+x-1)+(2-2x^2-3x)$，其中$x=-\\frac{1}{2}. $",
+      "ground_truth": {
+        "required": [
+          "整式代入求值"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 60,
+      "category": "polynomial_sub",
+      "topic_name": "整式代入求值",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n先化简，再求值：$\\frac{1}{2}x-2(x-\\frac{1}{3}y^2)+(-\\frac{3}{2}x+\\frac{1}{3}y^2)$，化简结果为（ ），其中$x=-2$，$y=-1$，则原式$=$（ ）．",
+      "problem_body": "先化简，再求值：$\\frac{1}{2}x-2(x-\\frac{1}{3}y^2)+(-\\frac{3}{2}x+\\frac{1}{3}y^2)$，化简结果为（ ），其中$x=-2$，$y=-1$，则原式$=$（ ）．",
+      "ground_truth": {
+        "required": [
+          "整式代入求值"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 61,
+      "category": "polynomial_sub",
+      "topic_name": "整式代入求值",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n先化简，再求值：$x^2-3(2x^2-4y)+2(x^2-y)$，化简结果为（ ），其中$x=-2$，$y=\\frac{1}{5}$，则原式$=$（ ）．",
+      "problem_body": "先化简，再求值：$x^2-3(2x^2-4y)+2(x^2-y)$，化简结果为（ ），其中$x=-2$，$y=\\frac{1}{5}$，则原式$=$（ ）．",
+      "ground_truth": {
+        "required": [
+          "整式代入求值"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 62,
+      "category": "polynomial_sub",
+      "topic_name": "整式代入求值",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n化简求值$(3x^2 -8y^2)-3(x^2 -4y^2+y)-(4y^2-2y)$；其中$x=107.5$，$y=106$，则代数式的值$=$（ ）.",
+      "problem_body": "化简求值$(3x^2 -8y^2)-3(x^2 -4y^2+y)-(4y^2-2y)$；其中$x=107.5$，$y=106$，则代数式的值$=$（ ）.",
+      "ground_truth": {
+        "required": [
+          "整式代入求值"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 63,
+      "category": "polynomial_sub",
+      "topic_name": "整式代入求值",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n先化简，再求值，当$a=-1$，$b=1$时，则$2(2a^2+a-1)-3(a^2+\\frac{2}{3}a-b)-2b$的值是$(\\: \\: ). $\nA. $-6$\nB. $-2$\nC. $0$\nD. $4$",
+      "problem_body": "先化简，再求值，当$a=-1$，$b=1$时，则$2(2a^2+a-1)-3(a^2+\\frac{2}{3}a-b)-2b$的值是$(\\: \\: ). $\nA. $-6$\nB. $-2$\nC. $0$\nD. $4$",
+      "ground_truth": {
+        "required": [
+          "整式代入求值"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    },
+    {
+      "id": 64,
+      "category": "polynomial_sub",
+      "topic_name": "整式代入求值",
+      "difficulty": "medium",
+      "question": "请判断下面这道题考查的知识点是什么？只输出知识点名称。\n\n先化简，再求值，当$m=-2$，$n=3$时，则$3(m^2n+mn^2)+\\lbrack 5m^2n-3(n^2m-1)\\rbrack \\: $的值是$(\\: \\: ). $\nA. $-66$\nB. $-99$\nC. $66$\nD. $99$",
+      "problem_body": "先化简，再求值，当$m=-2$，$n=3$时，则$3(m^2n+mn^2)+\\lbrack 5m^2n-3(n^2m-1)\\rbrack \\: $的值是$(\\: \\: ). $\nA. $-66$\nB. $-99$\nC. $66$\nD. $99$",
+      "ground_truth": {
+        "required": [
+          "整式代入求值"
+        ],
+        "forbidden": [
+          "三个数的最简整数比",
+          "韦达定理（根与系数的关系）",
+          "配方法解一元二次方程"
+        ],
+        "_note": "答案须包含完整知识点名称"
+      },
+      "initial_skill_handles": false
+    }
+  ]
+}

@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReAct Financial Agent — 多轮对话 Prompt 可视化</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0a0e16;
+    --panel:     #10151f;
+    --panel-2:   #141a26;
+    --border:    #1e2635;
+    --border-hi: #2c3648;
+    --ink:       #e6ebf4;
+    --ink-dim:   #8b95a8;
+    --ink-faint: #566073;
+    --violet:    #a78bfa;
+    --violet-deep:#7c3aed;
+    --c-system:  #a78bfa;
+    --c-user:    #60a5fa;
+    --c-assist:  #4ade80;
+    --c-tool:    #fbbf24;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --disp: "Space Grotesk", -apple-system, "PingFang SC", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--disp);
+    background: var(--bg);
+    color: var(--ink);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  /* 点阵网格背景，增加层次 */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image: radial-gradient(circle, #1c2433 1px, transparent 1px);
+    background-size: 26px 26px;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── 顶栏 ── */
+  header {
+    position: relative; z-index: 2;
+    background: linear-gradient(180deg, #121826, #0e1320);
+    border-bottom: 1px solid var(--border-hi);
+    padding: 12px 22px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .brand { display: flex; align-items: baseline; gap: 12px; }
+  .brand h1 {
+    font-size: 19px; font-weight: 700; letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .brand h1 .accent { color: var(--violet); }
+  .brand .tag {
+    font-family: var(--mono); font-size: 10px; color: var(--ink-faint);
+    border: 1px solid var(--border-hi); border-radius: 4px; padding: 2px 7px;
+    letter-spacing: 0.08em;
+  }
+  .header-actions { display: flex; gap: 8px; align-items: center; }
+  .mode-btn {
+    font-family: var(--mono); font-size: 11px;
+    padding: 6px 14px; border-radius: 6px;
+    border: 1px solid var(--border-hi); background: transparent;
+    color: var(--ink-dim); cursor: pointer; transition: all 0.18s;
+  }
+  .mode-btn:hover { border-color: var(--violet-deep); color: var(--violet); }
+  .mode-btn.active { background: var(--violet-deep); border-color: var(--violet-deep); color: #fff; }
+  .reset-btn {
+    font-family: var(--mono); font-size: 11px;
+    padding: 6px 14px; border-radius: 6px;
+    border: 1px solid #4c1d2d; background: transparent;
+    color: #f87171; cursor: pointer; transition: all 0.18s;
+  }
+  .reset-btn:hover { background: #7f1d1d33; border-color: #7f1d1d; }
+
+  /* ── 主区：左右分栏 ── */
+  .main {
+    position: relative; z-index: 1;
+    flex: 1; display: flex; min-height: 0;
+  }
+
+  /* 左栏：对话 */
+  .chat-pane {
+    flex: 1.15; min-width: 0;
+    display: flex; flex-direction: column;
+    border-right: 1px solid var(--border-hi);
+  }
+  .pane-head {
+    flex-shrink: 0;
+    padding: 10px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+    background: #0d1220;
+  }
+  .pane-head .pane-title {
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-dim);
+  }
+  .pane-head .pane-count {
+    font-family: var(--mono); font-size: 10px; color: var(--ink-faint);
+    margin-left: auto;
+  }
+  .chat-scroll {
+    flex: 1; overflow-y: auto; padding: 18px;
+    scrollbar-width: thin; scrollbar-color: var(--border-hi) transparent;
+  }
+  .chat-inner { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+
+  .empty-hint {
+    text-align: center; color: var(--ink-faint);
+    font-size: 13px; padding: 60px 0; line-height: 2;
+  }
+  .empty-hint .big { font-size: 30px; display: block; margin-bottom: 8px; opacity: 0.5; }
+
+  /* 用户消息气泡 */
+  .user-msg {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #6d28d9, #7c3aed);
+    border-radius: 14px 14px 3px 14px;
+    padding: 10px 16px; max-width: 78%;
+    font-size: 14px; line-height: 1.55;
+    box-shadow: 0 4px 16px #7c3aed2e;
+    animation: slideUp 0.3s ease;
+  }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  .agent-reply { align-self: flex-start; width: 100%; animation: slideUp 0.3s ease; }
+  .turn-label {
+    font-family: var(--mono); font-size: 10px; color: var(--ink-faint);
+    margin-bottom: 7px; display: flex; align-items: center; gap: 8px;
+    letter-spacing: 0.06em;
+  }
+  .turn-badge {
+    background: var(--panel-2); border: 1px solid var(--border-hi);
+    border-radius: 4px; padding: 2px 7px; color: var(--ink-dim);
+  }
+
+  /* 步骤卡片 */
+  .step-card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; margin-bottom: 8px;
+    transition: border-color 0.2s;
+  }
+  .step-card:hover { border-color: var(--border-hi); }
+  .step-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 13px; cursor: pointer; user-select: none;
+  }
+  .step-badge {
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    background: var(--panel-2); border-radius: 4px; padding: 2px 7px; color: var(--ink-faint);
+  }
+  .step-title { font-family: var(--mono); font-size: 12px; flex: 1; color: var(--ink-dim); }
+  .step-toggle { color: var(--ink-faint); font-size: 10px; }
+  .step-toggle.open::before { content: "▾"; }
+  .step-toggle:not(.open)::before { content: "▸"; }
+  .step-body { padding: 0 13px 11px; }
+  .step-body.collapsed { display: none; }
+
+  .thought-block { border-left: 2px solid #38bdf8; padding-left: 10px; margin-bottom: 8px; }
+  .action-block  { border-left: 2px solid var(--c-tool); padding-left: 10px; margin-bottom: 8px; }
+  .obs-block     { border-left: 2px solid var(--c-assist); padding-left: 10px; }
+  .block-label {
+    font-family: var(--mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 3px;
+  }
+  .thought-block .block-label { color: #38bdf8; }
+  .action-block  .block-label { color: var(--c-tool); }
+  .obs-block     .block-label { color: var(--c-assist); }
+  .block-content {
+    font-size: 12px; line-height: 1.6; color: var(--ink-dim);
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .obs-block .block-content {
+    max-height: 160px; overflow-y: auto;
+    background: #0a0f18; border-radius: 4px; padding: 6px 10px;
+    font-family: var(--mono); font-size: 11px;
+    scrollbar-width: thin; scrollbar-color: var(--border-hi) transparent;
+  }
+  .tool-pill {
+    display: inline-block; background: #241a4d; border: 1px solid #4c1d95;
+    border-radius: 4px; padding: 1px 8px;
+    font-family: var(--mono); font-size: 11px; color: var(--violet); margin-bottom: 4px;
+  }
+  .args-code {
+    background: #0a0f18; border-radius: 4px; padding: 5px 10px; margin-top: 3px;
+    font-family: var(--mono); font-size: 11px; color: var(--ink-dim);
+  }
+
+  .final-card {
+    background: var(--panel); border: 1px solid #4c1d95; border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .final-card h3 {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    color: var(--violet); margin-bottom: 8px; text-transform: uppercase;
+  }
+  .final-card .answer-text { font-size: 14px; line-height: 1.7; white-space: pre-wrap; }
+  .meta-row {
+    margin-top: 10px; font-family: var(--mono); font-size: 10px;
+    color: var(--ink-faint); display: flex; gap: 14px;
+  }
+  .err-card { border-color: #7f1d1d !important; }
+  .err-card h3 { color: #f87171 !important; }
+
+  /* ── 右栏：Prompt 拼接过程 ── */
+  .prompt-pane {
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column;
+    background: #0c1019;
+  }
+  .prompt-scroll {
+    flex: 1; overflow-y: auto; padding: 18px;
+    scrollbar-width: thin; scrollbar-color: var(--border-hi) transparent;
+  }
+  .prompt-inner { max-width: 640px; margin: 0 auto; }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;
+    font-family: var(--mono); font-size: 10px; color: var(--ink-faint);
+  }
+  .legend .dot { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }
+
+  /* 轮次分隔 */
+  .turn-divider {
+    display: flex; align-items: center; gap: 12px; margin: 18px 0 12px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    color: var(--violet); text-transform: uppercase;
+  }
+  .turn-divider::before, .turn-divider::after {
+    content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, #4c1d95, transparent);
+  }
+
+  /* LLM 调用卡片 */
+  .call-card {
+    position: relative;
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 8px; margin-bottom: 12px; overflow: hidden;
+    animation: slideUp 0.35s ease;
+  }
+  .call-card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(180deg, var(--violet-deep), #4c1d95);
+  }
+  .call-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px 10px 16px; cursor: pointer; user-select: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .call-index {
+    font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--violet);
+  }
+  .call-desc { font-family: var(--mono); font-size: 11px; color: var(--ink-dim); flex: 1; }
+  .call-count {
+    font-family: var(--mono); font-size: 10px; color: var(--ink-faint);
+    background: var(--panel-2); border-radius: 4px; padding: 2px 8px;
+  }
+  .call-count .grow { color: var(--c-assist); font-weight: 600; }
+  .call-body { padding: 12px 14px 12px 16px; }
+  .call-body.collapsed { display: none; }
+
+  /* 消息块 */
+  .msg {
+    position: relative;
+    border-radius: 6px; padding: 7px 11px; margin-bottom: 7px;
+    font-family: var(--mono); font-size: 11px; line-height: 1.55;
+    border: 1px solid transparent;
+    transition: transform 0.15s;
+  }
+  .msg:hover { transform: translateX(3px); }
+  .msg:last-child { margin-bottom: 0; }
+  .msg .msg-role {
+    display: inline-block; font-size: 9px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 3px;
+  }
+  .msg .msg-text { white-space: pre-wrap; word-break: break-word; display: block; }
+  .msg .msg-toolcall {
+    display: block; margin-top: 3px; padding: 3px 8px; border-radius: 4px;
+    background: #00000040; font-size: 10px; color: var(--c-tool);
+  }
+
+  .msg.role-system   { background: #a78bfa14; border-color: #a78bfa30; }
+  .msg.role-system .msg-role { color: var(--c-system); }
+  .msg.role-system .msg-text { color: #c4b5fd; }
+
+  .msg.role-user     { background: #60a5fa14; border-color: #60a5fa30; }
+  .msg.role-user .msg-role { color: var(--c-user); }
+  .msg.role-user .msg-text { color: #93c5fd; }
+
+  .msg.role-assistant{ background: #4ade8012; border-color: #4ade802b; }
+  .msg.role-assistant .msg-role { color: var(--c-assist); }
+  .msg.role-assistant .msg-text { color: #86efac; }
+
+  .msg.role-tool     { background: #fbbf2412; border-color: #fbbf242b; }
+  .msg.role-tool .msg-role { color: var(--c-tool); }
+  .msg.role-tool .msg-text { color: #fcd34d; }
+
+  /* 新增消息高亮 */
+  .msg.is-new {
+    border-color: var(--c-assist) !important;
+    box-shadow: 0 0 0 1px var(--c-assist), 0 0 14px #4ade8033;
+    animation: newPulse 1.2s ease;
+  }
+  @keyframes newPulse {
+    0% { box-shadow: 0 0 0 1px var(--c-assist), 0 0 22px #4ade8066; }
+    100% { box-shadow: 0 0 0 1px var(--c-assist), 0 0 14px #4ade8033; }
+  }
+  .new-tag {
+    position: absolute; top: -7px; right: 8px;
+    background: var(--c-assist); color: #052e16;
+    font-size: 8px; font-weight: 700; letter-spacing: 0.1em;
+    border-radius: 3px; padding: 1px 6px;
+  }
+
+  /* 连接箭头 */
+  .call-arrow {
+    text-align: center; color: var(--ink-faint); font-size: 13px;
+    margin: -4px 0 8px; opacity: 0.6;
+  }
+
+  .spinner {
+    width: 13px; height: 13px; display: inline-block; vertical-align: middle; margin-right: 6px;
+    border: 2px solid var(--border-hi); border-top-color: var(--violet);
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── 底部输入区 ── */
+  .input-area {
+    position: relative; z-index: 2; flex-shrink: 0;
+    background: linear-gradient(180deg, #0e1320, #121826);
+    border-top: 1px solid var(--border-hi);
+    padding: 13px 22px;
+  }
+  .input-inner { max-width: 900px; margin: 0 auto; }
+  .input-row { display: flex; gap: 10px; align-items: flex-end; }
+  textarea {
+    flex: 1; background: #0a0f18; border: 1px solid var(--border-hi);
+    border-radius: 8px; color: var(--ink);
+    padding: 11px 14px; font-size: 14px; font-family: var(--disp);
+    resize: none; min-height: 44px; max-height: 120px; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s; line-height: 1.4;
+  }
+  textarea:focus { border-color: var(--violet-deep); box-shadow: 0 0 0 3px #7c3aed26; }
+  .send-btn {
+    padding: 0 26px; height: 44px;
+    background: linear-gradient(135deg, #6d28d9, #7c3aed);
+    border: none; border-radius: 8px; color: #fff;
+    font-family: var(--disp); font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.18s; white-space: nowrap;
+  }
+  .send-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 18px #7c3aed45; }
+  .send-btn:disabled { background: var(--border-hi); cursor: not-allowed; }
+  .input-hint {
+    font-family: var(--mono); font-size: 10px; color: var(--ink-faint);
+    margin-top: 7px; display: flex; align-items: center; gap: 8px;
+  }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-assist); display: inline-block; }
+  .status-dot.busy { background: var(--c-tool); animation: pulse 1s infinite; }
+  @keyframes pulse { 50% { opacity: 0.35; } }
+
+  @media (max-width: 900px) {
+    .main { flex-direction: column; }
+    .chat-pane { border-right: none; border-bottom: 1px solid var(--border-hi); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1>ReAct<span class="accent">·</span>Financial Agent</h1>
+    <span class="tag">PROMPT INSPECTOR</span>
+  </div>
+  <div class="header-actions">
+    <button class="mode-btn active" data-mode="fc" onclick="setMode('fc',this)">function_calling</button>
+    <button class="mode-btn" data-mode="manual" onclick="setMode('manual',this)">manual_prompt</button>
+    <button class="reset-btn" onclick="resetSession()">reset()</button>
+  </div>
+</header>
+
+<div class="main">
+  <!-- 左栏：对话 -->
+  <div class="chat-pane">
+    <div class="pane-head">
+      <span class="pane-title">Conversation</span>
+      <span class="pane-count" id="turnCounter">0 turns</span>
+    </div>
+    <div class="chat-scroll" id="chatScroll">
+      <div class="chat-inner" id="chatContainer">
+        <div class="empty-hint">
+          <span class="big">⚡</span>
+          输入一个金融问题开始对话<br>
+          右侧面板会实时展示每一轮 Prompt 是如何拼接的
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 右栏：Prompt 拼接过程 -->
+  <div class="prompt-pane">
+    <div class="pane-head">
+      <span class="pane-title">Prompt 拼接过程</span>
+      <span class="pane-count" id="promptCounter">0 calls · 0 msgs</span>
+    </div>
+    <div class="prompt-scroll" id="promptScroll">
+      <div class="prompt-inner" id="promptContainer">
+        <div class="legend">
+          <span><span class="dot" style="background:var(--c-system)"></span>system</span>
+          <span><span class="dot" style="background:var(--c-user)"></span>user</span>
+          <span><span class="dot" style="background:var(--c-assist)"></span>assistant</span>
+          <span><span class="dot" style="background:var(--c-tool)"></span>tool</span>
+          <span style="margin-left:auto;"><span class="dot" style="background:var(--c-assist);box-shadow:0 0 6px var(--c-assist)"></span>高亮 = 本次新增</span>
+        </div>
+        <div class="empty-hint" id="promptEmpty">
+          每次调用 LLM 前，这里会显示<br>完整拼接好的 messages 数组
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 底部输入 -->
+<div class="input-area">
+  <div class="input-inner">
+    <div class="input-row">
+      <textarea id="question" rows="1" placeholder="例如：贵州茅台2023年毛利率是多少？（Enter 发送 / Shift+Enter 换行）"></textarea>
+      <button class="send-btn" id="sendBtn" onclick="sendQuery()">发送</button>
+    </div>
+    <div class="input-hint">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusText">ready</span>
+      <span style="margin-left:auto;">session: <span id="sessionIdDisplay">—</span></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentMode = 'fc';
+  let isRunning   = false;
+  let sessionId   = null;
+  let turnCount   = 0;
+  let callCount   = 0;
+  let prevMsgCount = 0;   // 上一次 LLM 调用时的消息数，用于判断"新增"
+
+  function setMode(mode, btn) {
+    currentMode = mode;
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function resetSession() {
+    if (sessionId) {
+      fetch('/session/reset', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({session_id: sessionId})
+      }).catch(() => {});
+    }
+    sessionId = null; turnCount = 0; callCount = 0; prevMsgCount = 0;
+    document.getElementById('sessionIdDisplay').textContent = '—';
+    document.getElementById('turnCounter').textContent = '0 turns';
+    document.getElementById('promptCounter').textContent = '0 calls · 0 msgs';
+    document.getElementById('chatContainer').innerHTML =
+      '<div class="empty-hint"><span class="big">⚡</span>对话已重置，开始新一轮提问</div>';
+    document.getElementById('promptContainer').innerHTML =
+      document.getElementById('promptContainer').querySelector('.legend').outerHTML +
+      '<div class="empty-hint" id="promptEmpty">每次调用 LLM 前，这里会显示<br>完整拼接好的 messages 数组</div>';
+    setStatus('ready', false);
+  }
+
+  function setStatus(text, busy) {
+    document.getElementById('statusText').textContent = text;
+    document.getElementById('statusDot').classList.toggle('busy', busy);
+  }
+  function setSendEnabled(enabled) {
+    const btn = document.getElementById('sendBtn');
+    btn.disabled = !enabled;
+    btn.textContent = enabled ? '发送' : '···';
+    isRunning = !enabled;
+  }
+  function scrollChat()   { const el = document.getElementById('chatScroll');  el.scrollTop = el.scrollHeight; }
+  function scrollPrompt() { const el = document.getElementById('promptScroll'); el.scrollTop = el.scrollHeight; }
+  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  // ── 渲染一次 LLM 调用的 prompt 快照 ──
+  function renderLlmCall(data) {
+    const container = document.getElementById('promptContainer');
+    const empty = document.getElementById('promptEmpty');
+    if (empty) empty.remove();
+
+    callCount++;
+    const msgs = data.messages || [];
+    const newStart = prevMsgCount;   // 从这里开始都是新增的
+    const grow = msgs.length - newStart;
+
+    // 轮次分隔（每轮第一次调用）
+    if (data.step === 1) {
+      const div = document.createElement('div');
+      div.className = 'turn-divider';
+      div.textContent = `Turn ${turnCount} · 第 ${turnCount} 轮对话`;
+      container.appendChild(div);
+    }
+
+    const card = document.createElement('div');
+    card.className = 'call-card';
+
+    let msgsHtml = '';
+    msgs.forEach((m, i) => {
+      const isNew = i >= newStart;
+      const role = m.role || '?';
+      let text = m.content || '';
+      let toolcallHtml = '';
+      if (m.tool_calls) {
+        toolcallHtml = m.tool_calls.map(tc =>
+          `<span class="msg-toolcall">→ ${esc(tc.name)}(${esc(tc.arguments)})</span>`).join('');
+      }
+      if (role === 'tool' && m.tool_call_id) {
+        text = `[${m.tool_call_id}] ${text}`;
+      }
+      msgsHtml += `<div class="msg role-${role}${isNew ? ' is-new' : ''}">
+        ${isNew ? '<span class="new-tag">NEW</span>' : ''}
+        <span class="msg-role">${esc(role)}</span>
+        <span class="msg-text">${esc(text) || '(空)'}</span>
+        ${toolcallHtml}
+      </div>`;
+    });
+
+    card.innerHTML = `
+      <div class="call-head" onclick="this.nextElementSibling.classList.toggle('collapsed')">
+        <span class="call-index">#${callCount}</span>
+        <span class="call-desc">LLM 调用 · step ${data.step}</span>
+        <span class="call-count">${msgs.length} msgs${grow > 0 ? ` <span class="grow">+${grow}</span>` : ''}</span>
+        <span class="step-toggle open"></span>
+      </div>
+      <div class="call-body">${msgsHtml}</div>`;
+    container.appendChild(card);
+
+    // 调用之间的箭头
+    const arrow = document.createElement('div');
+    arrow.className = 'call-arrow';
+    arrow.textContent = '↓ 追加工具结果 / 下一轮提问后再次调用';
+    container.appendChild(arrow);
+
+    prevMsgCount = msgs.length;
+    document.getElementById('promptCounter').textContent = `${callCount} calls · ${msgs.length} msgs`;
+    scrollPrompt();
+  }
+
+  // ── 步骤卡片 ──
+  function createStepCard(stepData) {
+    const isManual = (currentMode === 'manual');
+    const card = document.createElement('div');
+    card.className = 'step-card';
+    let thoughtHtml = '';
+    if (isManual && stepData.thought) {
+      thoughtHtml = `<div class="thought-block"><div class="block-label">Thought</div><div class="block-content">${esc(stepData.thought)}</div></div>`;
+    }
+    card.innerHTML = `
+      <div class="step-header" onclick="this.nextElementSibling.classList.toggle('collapsed');this.querySelector('.step-toggle').classList.toggle('open')">
+        <span class="step-badge">step ${stepData.step}</span>
+        <span class="step-title">🔧 ${esc(stepData.action)}</span>
+        <span class="step-toggle open"></span>
+      </div>
+      <div class="step-body">
+        ${thoughtHtml}
+        <div class="action-block">
+          <div class="block-label">Action</div>
+          <span class="tool-pill">${esc(stepData.action)}</span>
+          <div class="args-code">${esc(JSON.stringify(stepData.action_input||{}, null, 2))}</div>
+        </div>
+        <div class="obs-block">
+          <div class="block-label">Observation</div>
+          <div class="block-content">${esc((stepData.observation||'').trim())}</div>
+        </div>
+      </div>`;
+    return card;
+  }
+
+  // ── 主发送逻辑 ──
+  async function sendQuery() {
+    if (isRunning) return;
+    const input = document.getElementById('question');
+    const question = input.value.trim();
+    if (!question) return;
+    input.value = ''; input.style.height = 'auto';
+
+    const container = document.getElementById('chatContainer');
+    if (turnCount === 0) container.innerHTML = '';
+
+    turnCount++;
+    document.getElementById('turnCounter').textContent = `${turnCount} turns`;
+    setSendEnabled(false);
+    setStatus('thinking…', true);
+
+    const userDiv = document.createElement('div');
+    userDiv.className = 'user-msg';
+    userDiv.textContent = question;
+    container.appendChild(userDiv);
+    scrollChat();
+
+    const replyDiv = document.createElement('div');
+    replyDiv.className = 'agent-reply';
+    replyDiv.innerHTML = `<div class="turn-label">
+      <span class="turn-badge">turn ${turnCount}</span>
+      <span><span class="spinner"></span>thinking…</span>
+    </div>`;
+    container.appendChild(replyDiv);
+    scrollChat();
+
+    const endpoint = `/query/${currentMode}`;
+    const startTime = Date.now();
+    let actionStepCount = 0;
+
+    try {
+      const body = { question, max_steps: 10 };
+      if (sessionId) body.session_id = sessionId;
+
+      const resp = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+      const reader  = resp.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          let data;
+          try { data = JSON.parse(line.slice(6)); } catch { continue; }
+
+          if (data.type === 'start') {
+            if (data.session_id) {
+              sessionId = data.session_id;
+              document.getElementById('sessionIdDisplay').textContent = sessionId.slice(0, 8) + '…';
+            }
+
+          } else if (data.type === 'llm_call') {
+            renderLlmCall(data);
+
+          } else if (data.type === 'action') {
+            actionStepCount++;
+            setStatus(`step ${data.step} · ${data.action}()`, true);
+            replyDiv.appendChild(createStepCard(data));
+            scrollChat();
+
+          } else if (data.type === 'final') {
+            const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+            const finalCard = document.createElement('div');
+            finalCard.className = 'final-card';
+            finalCard.innerHTML = `
+              <h3>✅ Final Answer</h3>
+              <div class="answer-text">${esc(data.answer)}</div>
+              <div class="meta-row">
+                <span>${actionStepCount} tool calls</span>
+                <span>${elapsed}s</span>
+                <span>${currentMode}</span>
+              </div>`;
+            replyDiv.appendChild(finalCard);
+            scrollChat();
+
+          } else if (data.type === 'max_steps' || data.type === 'error') {
+            const errCard = document.createElement('div');
+            errCard.className = 'final-card err-card';
+            errCard.innerHTML = `<h3>⚠️ error</h3><div class="answer-text">${esc(data.answer || data.observation || '未知错误')}</div>`;
+            replyDiv.appendChild(errCard);
+
+          } else if (data.type === 'done') {
+            if (data.session_id) sessionId = data.session_id;
+          }
+        }
+      }
+    } catch (err) {
+      const errCard = document.createElement('div');
+      errCard.className = 'final-card err-card';
+      errCard.innerHTML = `<h3>⚠️ request failed</h3><div class="answer-text">${esc(err.message)}</div>`;
+      replyDiv.appendChild(errCard);
+    } finally {
+      const label = replyDiv.querySelector('.turn-label');
+      if (label) label.innerHTML = `<span class="turn-badge">turn ${turnCount}</span><span style="color:var(--ink-faint)">${currentMode}</span>`;
+      setSendEnabled(true);
+      setStatus('ready', false);
+      scrollChat();
+    }
+  }
+
+  const textarea = document.getElementById('question');
+  textarea.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendQuery(); }
+  });
+  textarea.addEventListener('input', () => {
+    textarea.style.height = 'auto';
+    textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+  });
+</script>
+</body>
+</html>

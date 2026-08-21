@@ -1,0 +1,653 @@
+import os
+import re
+import json
+import time
+import threading
+from queue import Queue
+from abc import ABC, abstractmethod
+import jieba
+import jieba.posseg as pseg
+import networkx as nx
+from pyvis.network import Network
+from collections import defaultdict, Counter
+from typing import Dict, List, Set, Tuple, Optional
+
+# 尝试导入community，如果没有则使用networkx的替代方法
+try:
+    import community.community_louvain as community_louvain
+    HAS_LOUVAIN = True
+except ImportError:
+    HAS_LOUVAIN = False
+    print("[警告] python-louvain未安装，将使用NetworkX内置社区检测")
+    print("[提示] 运行: pip install python-louvain 获得更好效果")
+
+import numpy as np
+
+# --- 配置 ---
+BASE_PATH = r"C:\Users\PC\Desktop\book"
+BOOKS_CONFIG = [
+    {"name": "红楼梦", "file": "红楼梦.txt"},
+    {"name": "三国演义", "file": "三国演义.txt"}
+]
+
+class Message:
+    """智能体间通信消息"""
+    def __init__(self, sender: str, receiver: str, msg_type: str, content: any):
+        self.sender = sender
+        self.receiver = receiver
+        self.msg_type = msg_type
+        self.content = content
+        self.timestamp = time.time()
+        self.id = f"{sender}_{receiver}_{int(self.timestamp)}"
+
+class MessageBus:
+    """消息总线 - 智能体间通信中枢"""
+    def __init__(self):
+        self.message_queues: Dict[str, Queue] = {}
+        self.message_history: List[Message] = []
+        self.lock = threading.Lock()
+        self.running = True
+        
+    def register_agent(self, agent_id: str):
+        with self.lock:
+            self.message_queues[agent_id] = Queue()
+            print(f"[消息总线] 智能体 {agent_id} 已注册")
+    
+    def unregister_agent(self, agent_id: str):
+        with self.lock:
+            if agent_id in self.message_queues:
+                del self.message_queues[agent_id]
+                print(f"[消息总线] 智能体 {agent_id} 已注销")
+    
+    def send_message(self, message: Message):
+        with self.lock:
+            if message.receiver in self.message_queues:
+                self.message_queues[message.receiver].put(message)
+                self.message_history.append(message)
+                # print(f"[消息总线] {message.sender} -> {message.receiver}: {message.msg_type}")
+            else:
+                print(f"[消息总线] 警告: 接收者 {message.receiver} 不存在")
+    
+    def broadcast(self, sender: str, msg_type: str, content: any, exclude: List[str] = None):
+        exclude = exclude or []
+        with self.lock:
+            for agent_id in self.message_queues.keys():
+                if agent_id != sender and agent_id not in exclude:
+                    msg = Message(sender, agent_id, msg_type, content)
+                    self.message_queues[agent_id].put(msg)
+                    self.message_history.append(msg)
+    
+    def get_message(self, agent_id: str, timeout: float = 1.0) -> Optional[Message]:
+        if agent_id in self.message_queues:
+            try:
+                return self.message_queues[agent_id].get(timeout=timeout)
+            except:
+                return None
+        return None
+    
+    def stop(self):
+        self.running = False
+
+class BaseAgent(ABC):
+    """智能体基类"""
+    def __init__(self, agent_id: str, message_bus: MessageBus):
+        self.agent_id = agent_id
+        self.message_bus = message_bus
+        self.message_bus.register_agent(agent_id)
+        self.is_running = False
+        self.thread = None
+        print(f"[{agent_id}] 智能体初始化完成")
+    
+    @abstractmethod
+    def process_message(self, message: Message):
+        pass
+    
+    def send_message(self, receiver: str, msg_type: str, content: any):
+        msg = Message(self.agent_id, receiver, msg_type, content)
+        self.message_bus.send_message(msg)
+    
+    def broadcast(self, msg_type: str, content: any, exclude: List[str] = None):
+        self.message_bus.broadcast(self.agent_id, msg_type, content, exclude)
+    
+    def run(self):
+        self.is_running = True
+        self.thread = threading.Thread(target=self._run_loop, daemon=True)
+        self.thread.start()
+        print(f"[{self.agent_id}] 智能体已启动")
+    
+    def _run_loop(self):
+        while self.is_running:
+            message = self.message_bus.get_message(self.agent_id, timeout=0.5)
+            if message:
+                self.process_message(message)
+    
+    def stop(self):
+        self.is_running = False
+        self.message_bus.unregister_agent(self.agent_id)
+        print(f"[{self.agent_id}] 智能体已停止")
+
+class MasterAgent(BaseAgent):
+    """主控智能体"""
+    def __init__(self, message_bus: MessageBus):
+        super().__init__("MasterAgent", message_bus)
+        self.sub_agents: Dict[str, Dict] = {}
+        self.tasks: Dict[str, Dict] = {}
+        self.results: Dict[str, any] = {}
+        self.pending_tasks = 0
+        self.completed_tasks = 0
+        
+    def process_message(self, message: Message):
+        if message.msg_type == "TASK_COMPLETE":
+            self.handle_task_complete(message)
+        elif message.msg_type == "STATUS_UPDATE":
+            self.handle_status_update(message)
+        elif message.msg_type == "REQUEST_HELP":
+            self.handle_help_request(message)
+    
+    def handle_task_complete(self, message: Message):
+        self.results[message.sender] = message.content
+        self.completed_tasks += 1
+        print(f"[MasterAgent] 子智能体 {message.sender} 完成任务")
+        
+        if self.completed_tasks >= self.pending_tasks:
+            print(f"[MasterAgent] 🎉 所有任务完成！")
+            self.aggregate_results()
+    
+    def handle_status_update(self, message: Message):
+        status = message.content.get('status', '')
+        progress = message.content.get('progress', 0)
+        # print(f"[MasterAgent] {message.sender} 进度: {progress}%")
+    
+    def handle_help_request(self, message: Message):
+        print(f"[MasterAgent] 收到帮助请求: {message.content}")
+    
+    def discover_and_dispatch(self):
+        print(f"\n[MasterAgent] 正在扫描目录: {BASE_PATH}")
+        
+        if not os.path.exists(BASE_PATH):
+            print(f"[MasterAgent] 错误！目录不存在：{BASE_PATH}")
+            return
+        
+        for book_info in BOOKS_CONFIG:
+            file_name = book_info["file"]
+            full_path = os.path.join(BASE_PATH, file_name)
+            
+            if os.path.exists(full_path):
+                task_id = f"{book_info['name']}_task"
+                self.tasks[task_id] = {
+                    "book_name": book_info["name"],
+                    "file_path": full_path,
+                    "status": "pending"
+                }
+                
+                sub_agent = BookAnalysisAgent(
+                    agent_id=f"{book_info['name']}Agent",
+                    message_bus=self.message_bus,
+                    book_name=book_info["name"],
+                    file_path=full_path
+                )
+                self.sub_agents[sub_agent.agent_id] = {
+                    "agent": sub_agent,
+                    "task": task_id,
+                    "status": "running"
+                }
+                sub_agent.run()
+                self.pending_tasks += 1
+            else:
+                print(f"[MasterAgent] 警告：找不到文件 {file_name}")
+        
+        print(f"[MasterAgent] 已分发 {self.pending_tasks} 个任务")
+    
+    def aggregate_results(self):
+        print("\n" + "=" * 60)
+        print("[MasterAgent] 汇总分析结果")
+        print("=" * 60)
+        
+        for agent_id, result in self.results.items():
+            print(f"\n--- {agent_id} 的结果 ---")
+            nodes = result.get('node_count', 0)
+            edges = result.get('edge_count', 0)
+            communities = result.get('community_count', 0)
+            print(f"  节点数: {nodes}")
+            print(f"  关系数: {edges}")
+            print(f"  社区数: {communities}")
+    
+    def run_system(self):
+        print("\n" + "=" * 60)
+        print("[MasterAgent] 系统启动")
+        print("=" * 60)
+        self.run()
+        self.discover_and_dispatch()
+        
+        while self.completed_tasks < self.pending_tasks:
+            time.sleep(1)
+        
+        for agent_id, info in self.sub_agents.items():
+            info['agent'].stop()
+        
+        self.stop()
+        print("\n" + "=" * 60)
+        print("[MasterAgent] 系统结束")
+        print("=" * 60)
+
+class BookAnalysisAgent(BaseAgent):
+    """书籍分析子智能体 - 带社区检测"""
+    def __init__(self, agent_id: str, message_bus: MessageBus, book_name: str, file_path: str):
+        super().__init__(agent_id, message_bus)
+        self.book_name = book_name
+        self.file_path = file_path
+        self.content = ""
+        self.all_names: Set[str] = set()
+        self.relationships = defaultdict(int)
+        self.graph = nx.Graph()
+        self.communities = {}
+        self.community_colors = {}
+        self.progress = 0
+        
+        # 定义每个书籍的势力/家族
+        self.factions = self.define_factions()
+        
+    def define_factions(self) -> Dict[str, List[str]]:
+        """定义已知的势力/家族"""
+        if self.book_name == "红楼梦":
+            return {
+                "贾府": ["贾宝玉", "贾母", "贾政", "王夫人", "贾琏", "贾珍", "贾蓉", 
+                        "贾探春", "贾惜春", "贾迎春", "贾环", "贾兰", "贾赦", "贾代善"],
+                "王家": ["王熙凤", "王夫人", "薛姨妈", "王子腾"],
+                "薛家": ["薛宝钗", "薛蟠", "薛姨妈", "薛蝌", "薛宝琴"],
+                "史家": ["史湘云", "贾母", "史鼎", "史鼐"]
+            }
+        elif self.book_name == "三国演义":
+            return {
+                "蜀汉": ["刘备", "关羽", "张飞", "诸葛亮", "赵云", "黄忠", "马超", 
+                        "魏延", "姜维", "庞统", "法正", "马谡", "黄月英", "刘禅"],
+                "曹魏": ["曹操", "曹丕", "曹植", "司马懿", "郭嘉", "荀彧", "程昱", 
+                        "张辽", "许褚", "典韦", "夏侯惇", "夏侯渊", "徐晃", "张郃",
+                        "曹仁", "曹洪", "司马昭", "司马师"],
+                "东吴": ["孙权", "孙策", "孙坚", "周瑜", "鲁肃", "吕蒙", "陆逊", 
+                        "甘宁", "黄盖", "韩当", "凌统", "太史慈", "孙尚香"]
+            }
+        return {}
+    
+    def process_message(self, message: Message):
+        if message.msg_type == "REQUEST_STATUS":
+            self.send_status_update()
+        elif message.msg_type == "STOP":
+            self.stop()
+    
+    def send_status_update(self):
+        self.send_message(
+            "MasterAgent", 
+            "STATUS_UPDATE", 
+            {
+                "status": "processing",
+                "progress": self.progress,
+                "book": self.book_name
+            }
+        )
+    
+    def process_book(self):
+        print(f"\n[{self.agent_id}] 开始分析 {self.book_name}")
+        
+        # 1. 读取文件
+        self.progress = 10
+        self.send_status_update()
+        
+        if not os.path.exists(self.file_path):
+            print(f"[{self.agent_id}] 错误：文件不存在")
+            self.send_message("MasterAgent", "TASK_COMPLETE", 
+                            {"status": "error", "error": "文件不存在"})
+            return
+        
+        try:
+            with open(self.file_path, 'r', encoding='utf-8') as f:
+                self.content = f.read()
+        except UnicodeDecodeError:
+            with open(self.file_path, 'r', encoding='gb18030') as f:
+                self.content = f.read()
+        
+        # 2. 提取所有人名
+        self.progress = 30
+        self.send_status_update()
+        self.all_names = self.extract_all_names(self.content)
+        print(f"[{self.agent_id}] 提取到 {len(self.all_names)} 个人名")
+        
+        # 3. 分析共现关系
+        self.progress = 50
+        self.send_status_update()
+        self.analyze_cooccurrence()
+        print(f"[{self.agent_id}] 提取到 {len(self.relationships)} 对共现关系")
+        
+        # 4. 构建知识图谱
+        self.progress = 70
+        self.send_status_update()
+        self.build_graph()
+        print(f"[{self.agent_id}] 构建图: {self.graph.number_of_nodes()} 节点, {self.graph.number_of_edges()} 边")
+        
+        # 5. 社区检测
+        self.progress = 80
+        self.send_status_update()
+        self.detect_communities()
+        print(f"[{self.agent_id}] 检测到 {len(set(self.communities.values()))} 个社区")
+        
+        # 6. 生成可视化
+        self.progress = 90
+        self.send_status_update()
+        html_file = self.visualize_with_communities()
+        
+        # 7. 完成任务
+        self.progress = 100
+        self.send_status_update()
+        
+        result = {
+            "status": "completed",
+            "book_name": self.book_name,
+            "node_count": self.graph.number_of_nodes(),
+            "edge_count": self.graph.number_of_edges(),
+            "community_count": len(set(self.communities.values())),
+            "html_file": html_file
+        }
+        
+        self.send_message("MasterAgent", "TASK_COMPLETE", result)
+        print(f"[{self.agent_id}] 完成分析!")
+    
+    def extract_all_names(self, text: str) -> Set[str]:
+        """提取所有可能的人名"""
+        names = set()
+        words = pseg.cut(text)
+        
+        for word, flag in words:
+            if flag.startswith('nr') and len(word) >= 2:
+                if not self.is_common_word(word):
+                    names.add(word)
+        
+        # 加入已知势力中的人物
+        for faction, members in self.factions.items():
+            for member in members:
+                if member in text:
+                    names.add(member)
+        
+        common_names = {'一个', '两个', '三个', '什么', '怎么', '如何', '没有', 
+                       '不是', '可以', '已经', '还是', '这个', '那个', '自己', 
+                       '你们', '我们', '他们', '人家', '别人', '大家', '这么', 
+                       '那么', '这样', '那样', '哪里', '这里', '那里'}
+        names = {name for name in names if name not in common_names}
+        
+        return names
+    
+    def is_common_word(self, word: str) -> bool:
+        common = {'一个', '两个', '三个', '什么', '怎么', '如何', '没有', '不是', 
+                 '可以', '已经', '还是', '这个', '那个', '自己', '你们', '我们', 
+                 '他们', '人家', '别人', '大家'}
+        return word in common
+    
+    def analyze_cooccurrence(self):
+        """分析共现关系"""
+        sentences = re.split(r'[。！？；\n]+', self.content)
+        name_list = list(self.all_names)
+        
+        for sent in sentences:
+            if not sent.strip() or len(sent) < 5:
+                continue
+            
+            found = []
+            for name in name_list:
+                if name in sent:
+                    found.append(name)
+            
+            if len(found) >= 2:
+                found = sorted(found)
+                for i in range(len(found)):
+                    for j in range(i + 1, len(found)):
+                        pair = (found[i], found[j])
+                        self.relationships[pair] += 1
+    
+    def build_graph(self):
+        """构建图"""
+        # 只保留共现2次以上的关系
+        name_counts = Counter()
+        for (a, b), count in self.relationships.items():
+            if count >= 2:
+                name_counts[a] += count
+                name_counts[b] += count
+        
+        # 保留有足够关系的人物
+        active_names = {name for name, count in name_counts.items() if count >= 3}
+        
+        for name in active_names:
+            self.graph.add_node(name)
+        
+        for (char1, char2), weight in self.relationships.items():
+            if char1 in active_names and char2 in active_names and weight >= 2:
+                self.graph.add_edge(char1, char2, weight=weight)
+    
+    def detect_communities(self):
+        """检测社区"""
+        if self.graph.number_of_nodes() < 3:
+            self.communities = {node: 0 for node in self.graph.nodes()}
+            return
+        
+        try:
+            if HAS_LOUVAIN:
+                # 使用Louvain算法
+                partition = community_louvain.best_partition(self.graph)
+                self.communities = partition
+            else:
+                # 使用NetworkX的greedy modularity
+                from networkx.algorithms.community import greedy_modularity_communities
+                communities = list(greedy_modularity_communities(self.graph))
+                partition = {}
+                for i, comm in enumerate(communities):
+                    for node in comm:
+                        partition[node] = i
+                self.communities = partition
+            
+            # 为每个社区分配颜色
+            num_communities = len(set(self.communities.values()))
+            colors = self.generate_distinct_colors(num_communities)
+            
+            for node, community_id in self.communities.items():
+                self.community_colors[node] = colors[community_id % len(colors)]
+                
+        except Exception as e:
+            print(f"[{self.agent_id}] 社区检测失败: {e}")
+            # 使用默认颜色
+            for node in self.graph.nodes():
+                self.community_colors[node] = '#4D96FF'
+            self.communities = {node: 0 for node in self.graph.nodes()}
+    
+    def generate_distinct_colors(self, n: int) -> List[str]:
+        """生成n个不同的颜色"""
+        colors = [
+            '#FF6B6B', '#4ECDC4', '#FFE66D', '#45B7D1', '#96CEB4',
+            '#FF9A76', '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE',
+            '#85C1E9', '#F8C471', '#82E0AA', '#F1948A', '#85C1E9',
+            '#D7BDE2', '#A3E4D7', '#FAD7A0', '#AED6F1', '#A9DFBF'
+        ]
+        return colors[:n] if n <= len(colors) else colors * (n // len(colors) + 1)
+    
+    def get_faction_for_node(self, node: str) -> str:
+        """获取节点所属的势力"""
+        for faction, members in self.factions.items():
+            if node in members:
+                return faction
+        return None
+    
+    def visualize_with_communities(self) -> str:
+        """生成带社区色彩的可视化图谱"""
+        if self.graph.number_of_nodes() == 0:
+            print(f"[{self.agent_id}] 警告：没有节点可显示")
+            return None
+        
+        net = Network(height="1400px", width="100%", bgcolor="#0a0a1a", 
+                     font_color="#e0e0e0")
+        
+        # 计算度中心性
+        degree_dict = dict(self.graph.degree())
+        max_degree = max(degree_dict.values()) if degree_dict else 1
+        
+        # 添加节点
+        for node in self.graph.nodes():
+            degree = degree_dict.get(node, 0)
+            size = 12 + (degree / max_degree) * 45
+            
+            # 获取颜色
+            color = self.community_colors.get(node, '#4D96FF')
+            
+            # 检查是否属于某个势力
+            faction = self.get_faction_for_node(node)
+            
+            # 构建标题
+            title = f"人物: {node}\n关联人物: {degree}\n"
+            if faction:
+                title += f"🏴 {faction}\n"
+            if node in self.communities:
+                title += f"社区: {self.communities[node]}"
+            
+            # 如果是主要人物，使用特殊形状
+            shape = 'dot'
+            if faction and degree > 5:
+                shape = 'star'
+            
+            net.add_node(
+                node,
+                label=node,
+                title=title,
+                size=size,
+                color=color,
+                shape=shape,
+                borderWidth=2,
+                font={'size': 14, 'face': 'SimHei'}
+            )
+        
+        # 添加边
+        for edge in self.graph.edges(data=True):
+            weight = edge[2].get('weight', 1)
+            width = 0.5 + (weight / 20) * 4
+            
+            # 根据是否同社区调整边的透明度
+            opacity = 0.8 if self.communities.get(edge[0]) == self.communities.get(edge[1]) else 0.3
+            
+            net.add_edge(
+                edge[0],
+                edge[1],
+                weight=weight,
+                title=f"共现次数: {weight}",
+                width=min(width, 8),
+                color={'opacity': opacity}
+            )
+        
+        # 物理引擎配置
+        net.barnes_hut(
+            gravity=-5000,
+            central_gravity=0.3,
+            spring_length=200,
+            damping=0.08,
+            overlap=0.1
+        )
+        
+        net.set_options("""
+        {
+          "nodes": {
+            "shadow": true,
+            "shape": "dot",
+            "font": {
+              "size": 16,
+              "face": "SimHei",
+              "strokeWidth": 2,
+              "strokeColor": "#000000"
+            }
+          },
+          "edges": {
+            "smooth": {
+              "enabled": true,
+              "type": "dynamic"
+            }
+          },
+          "physics": {
+            "enabled": true,
+            "stabilization": {"iterations": 150}
+          },
+          "interaction": {
+            "hover": true,
+            "navigationButtons": true,
+            "keyboard": true,
+            "tooltipDelay": 300
+          }
+        }
+        """)
+        
+        output_file = f"KG_{self.book_name}_communities.html"
+        net.save_graph(output_file)
+        print(f"[{self.agent_id}] 图谱已保存: {output_file}")
+        
+        # 导出详细数据
+        self.export_detailed_data()
+        
+        return output_file
+    
+    def export_detailed_data(self):
+        """导出详细分析数据"""
+        data = {
+            "book": self.book_name,
+            "nodes": [],
+            "edges": [],
+            "communities": {},
+            "factions": {}
+        }
+        
+        for node in self.graph.nodes():
+            node_data = {
+                "id": node,
+                "degree": self.graph.degree(node),
+                "community": self.communities.get(node, -1),
+                "faction": self.get_faction_for_node(node),
+                "color": self.community_colors.get(node, '#4D96FF')
+            }
+            data["nodes"].append(node_data)
+            
+            if node in self.communities:
+                comm_id = self.communities[node]
+                if comm_id not in data["communities"]:
+                    data["communities"][comm_id] = []
+                data["communities"][comm_id].append(node)
+        
+        for edge in self.graph.edges(data=True):
+            data["edges"].append({
+                "source": edge[0],
+                "target": edge[1],
+                "weight": edge[2].get('weight', 1)
+            })
+        
+        for faction, members in self.factions.items():
+            data["factions"][faction] = [m for m in members if m in self.graph.nodes()]
+        
+        json_file = f"KG_{self.book_name}_detailed.json"
+        with open(json_file, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        print(f"[{self.agent_id}] 详细数据已保存: {json_file}")
+    
+    def run(self):
+        super().run()
+        processing_thread = threading.Thread(target=self.process_book, daemon=True)
+        processing_thread.start()
+
+def main():
+    import warnings
+    warnings.filterwarnings("ignore")
+    
+    # 检查并安装依赖
+    try:
+        import community
+    except ImportError:
+        print("正在安装 python-louvain...")
+        os.system("pip install python-louvain")
+        import community.community_louvain as community_louvain
+    
+    message_bus = MessageBus()
+    master = MasterAgent(message_bus)
+    master.run_system()
+    time.sleep(2)
+
+if __name__ == "__main__":
+    main()
