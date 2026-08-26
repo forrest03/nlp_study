@@ -1,0 +1,10 @@
+# 模型权重（体积过大，不入库：grpo_ckpt* 含 953MB 的 model.safetensors）
+outputs/grpo_ckpt*/
+outputs/grpo_lora_ckpt*/
+
+# Python 生成物
+__pycache__/
+*.pyc
+
+# 系统文件
+.DS_Store

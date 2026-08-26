@@ -1,0 +1,32 @@
+[
+  {
+    "train_runtime": 43.131,
+    "train_samples_per_second": 2.226,
+    "train_steps_per_second": 0.07,
+    "total_flos": 0.0,
+    "train_loss": -0.16186147928237915,
+    "num_tokens": 7572.0,
+    "completions/mean_length": 9.875,
+    "completions/min_length": 3.6666666666666665,
+    "completions/max_length": 23.666666666666668,
+    "completions/clipped_ratio": 0.0,
+    "completions/mean_terminated_length": 9.875,
+    "completions/min_terminated_length": 3.6666666666666665,
+    "completions/max_terminated_length": 23.666666666666668,
+    "rewards/reward_correct/mean": 0.8125,
+    "rewards/reward_correct/std": 0.390836626291275,
+    "rewards/reward_format/mean": 0.05625000037252903,
+    "rewards/reward_format/std": 0.08553063124418259,
+    "reward": 0.868749996026357,
+    "reward_std": 0.28819326559702557,
+    "frac_reward_zero_std": 0.0,
+    "entropy": 0.21020089586575827,
+    "clip_ratio/low_mean": 0.0,
+    "clip_ratio/low_min": 0.0,
+    "clip_ratio/high_mean": 0.0,
+    "clip_ratio/high_max": 0.0,
+    "clip_ratio/region_mean": 0.0,
+    "epoch": 0.012,
+    "step": 3
+  }
+]
