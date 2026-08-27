@@ -1,0 +1,7 @@
+# 使用 64 位 Python 3.12+（32 位 Python 无法加载 PyTorch CUDA 版）
+# 本机已验证环境：Python 3.13 + CUDA 12.8 显卡（RTX 4060 Laptop 8GB）
+torch>=2.6
+transformers>=5.0
+trl>=1.0
+peft>=0.15
+datasets>=3.0
