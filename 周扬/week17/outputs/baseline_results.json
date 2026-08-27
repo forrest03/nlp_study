@@ -1,0 +1,1011 @@
+{
+  "metrics": {
+    "n": 50,
+    "greedy_format_rate": 0.72,
+    "greedy_acc": 0.66,
+    "pass@8": 0.76,
+    "informative_group_rate": 0.68
+  },
+  "records": [
+    {
+      "prompt": "计算：3 + 9 = ?",
+      "answer": "12",
+      "level": "1位_加法",
+      "greedy_output": "<ans>12</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "6",
+        "6\n\n<ans>6</ans>",
+        "<ans>12</ans>",
+        "<ans>12</ans>",
+        "6",
+        "6",
+        "6",
+        "12"
+      ],
+      "sample_n_correct": 3,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：4 × 8 = ?",
+      "answer": "32",
+      "level": "1位_乘法",
+      "greedy_output": "32",
+      "greedy_format": false,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "32",
+        "32",
+        "32</ans>",
+        "32",
+        "<ans>32</ans>",
+        "32",
+        "32",
+        "32\nans:32"
+      ],
+      "sample_n_correct": 8,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：9464 ÷ 338 = ?",
+      "answer": "28",
+      "level": "3位_除法",
+      "greedy_output": "<ans>28</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>27</ans>",
+        "<ans>28</ans>",
+        "<ans>28</ans>",
+        "<ans>28</ans>",
+        "<ans>28</ans>",
+        "<ans>\n24</ans>",
+        "<ans> 28</ans>",
+        "<ans>28</ans>"
+      ],
+      "sample_n_correct": 6,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：4088 × 2945 = ?",
+      "answer": "12039160",
+      "level": "4位_乘法",
+      "greedy_output": "1,637,0880",
+      "greedy_format": false,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "<ans>123,694,400</ans>",
+        "ans 133768880",
+        "<ans>136,182,440</ans>",
+        "16359280",
+        "864,21800 </ans>",
+        "14373680",
+        "13673840  \n<ans>13673840</ans>",
+        "13,682,280"
+      ],
+      "sample_n_correct": 0,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：50 + 68 = ?",
+      "answer": "118",
+      "level": "2位_加法",
+      "greedy_output": "ans:118",
+      "greedy_format": false,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "ans<ans>118</ans>",
+        " ans78",
+        "118",
+        "ans<ans>118</ans>",
+        "118",
+        "50 + 68 = 118",
+        "118",
+        "ans=118"
+      ],
+      "sample_n_correct": 7,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：281 × 459 = ?",
+      "answer": "128979",
+      "level": "3位_乘法",
+      "greedy_output": "<ans>130679</ans>",
+      "greedy_format": true,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "361079",
+        "113179",
+        "<ans>137,809</ans>",
+        "<ans>1,607,399</ans>",
+        "<ans> 130599</ans>",
+        "<ans>137209</ans>",
+        "117639",
+        "860961"
+      ],
+      "sample_n_correct": 0,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：2652 ÷ 884 = ?",
+      "answer": "3",
+      "level": "3位_除法",
+      "greedy_output": "<ans>3</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>3</ans>",
+        "1. 将被除数和除数分别写下来以便比较。\n   - 被除数：2652\n   - 除数：884\n\n2. 观察除法运算中，如果两个数相等且商为整数，则余数总是0",
+        "<ans>3</ans>",
+        "2652 div 884= 3 ans:<ans>3.7290417403531 ... </ans>",
+        "<ans> 3</ans>",
+        "1. 首先用被除数的个位数字去除以商，即 `商 = 笔划（2） / 被除数的第一位商（1）`。\n   商 = 1 / 0，因为无法除以零。\n\n2. 再次用剩下的",
+        "4.803157907265607</del>",
+        "1. `2652` 对于 `884` 的商是 `2`。\n   - 计算过程为 \\(2652 \\div 884\\).\n   \n   然后从上面的结果开始下一次计算，直到得到最终结果。\n\n2. �"
+      ],
+      "sample_n_correct": 3,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：40 - 31 = ?",
+      "answer": "9",
+      "level": "2位_减法",
+      "greedy_output": "<ans>9</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>9</ans>",
+        "ans<89</ans>",
+        "<ans>9</ans>",
+        "29",
+        "ans=9\n40 - 31 = 9",
+        "<ans>9</ans>",
+        "<ans>9</ans>",
+        "<ans>9</ans>"
+      ],
+      "sample_n_correct": 6,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：586 - 559 = ?",
+      "answer": "27",
+      "level": "3位_减法",
+      "greedy_output": "<ans>27</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>27</ans>",
+        "<ans>27</ans>",
+        "17",
+        "17",
+        "<ans>27</ans>",
+        "<ans>27</ans>",
+        "<ans>27</ans>",
+        "17"
+      ],
+      "sample_n_correct": 5,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：6 - 3 = ?",
+      "answer": "3",
+      "level": "1位_减法",
+      "greedy_output": "<ans>3</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "1",
+        "ans19",
+        "<ans> 3 </ans>",
+        "<ans>3</ans>",
+        "6 - 3 = 3",
+        "<ans>3</ans>",
+        "<ans>3</ans>",
+        "ans)4</ans>"
+      ],
+      "sample_n_correct": 5,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：1 - 1 = ?",
+      "answer": "0",
+      "level": "1位_减法",
+      "greedy_output": "<ans>0</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "1 - 1 \n\n=<ans>0\n\n请注意：<ens> 这是英文字母缩写，代表 \"Empty\"，用于表示输入为空字符串或没有内容。在本例中，空字符串意味着不存在数学问题。",
+        "<ans>0</ans>",
+        "1",
+        "1 - 1 = 0",
+        "<ans>0</ans>",
+        "<ans>0</ans>",
+        "1",
+        "1 - 1 = 0\n\n<ans>0</ans>"
+      ],
+      "sample_n_correct": 6,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：12 + 79 = ?",
+      "answer": "91",
+      "level": "2位_加法",
+      "greedy_output": "<ans>91</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "12 + 79 = 91",
+        "<ans38</ans>",
+        "12 + 79 = 91",
+        "计算过程如下：\n<ans>81</ans>",
+        "<ans>91</ans>",
+        "<ans>91</ans>",
+        "<ans>91</ans>",
+        "12 + 79 = 91"
+      ],
+      "sample_n_correct": 6,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：54 × 61 = ?",
+      "answer": "3294",
+      "level": "2位_乘法",
+      "greedy_output": "3284",
+      "greedy_format": false,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "3274",
+        "3284",
+        "3284",
+        "3294",
+        "3284.0",
+        "3284",
+        "3284",
+        "3276"
+      ],
+      "sample_n_correct": 1,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：5043 - 1031 = ?",
+      "answer": "4012",
+      "level": "4位_减法",
+      "greedy_output": "<ans>4012</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        " ans 4012",
+        "<ans>-4912</ans>",
+        "<ans>4012</ans>",
+        "5043 - 1031 = 4012",
+        "5043 - 1031 = 3912",
+        "<ans>4012</ans>",
+        "<ans>4012</ans>",
+        "<ans>4012</ans>"
+      ],
+      "sample_n_correct": 6,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：8569 - 5419 = ?",
+      "answer": "3150",
+      "level": "4位_减法",
+      "greedy_output": "<ans>3150</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "3150",
+        "<ans>3150</ans>",
+        "ans:<3150>",
+        "<ans>3150</ans>",
+        "ans<ans>3150</ans>",
+        "<ans>3150</ans>",
+        "ans<ans>3150</ans>",
+        "ans: 3150"
+      ],
+      "sample_n_correct": 8,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：4480 ÷ 2 = ?",
+      "answer": "2240",
+      "level": "1位_除法",
+      "greedy_output": "<ans>2240</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "1,140",
+        "<ans> 2240</ans>",
+        "<ans>2240</ans>",
+        "<ans> 2240</ans>",
+        "<ans>2240</ans>",
+        "4480 ÷ 2 = 2240",
+        "<ans>2240</ans>",
+        "3360"
+      ],
+      "sample_n_correct": 6,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：109 + 967 = ?",
+      "answer": "1076",
+      "level": "3位_加法",
+      "greedy_output": "109 + 967 = 1076",
+      "greedy_format": false,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "109 + 967 = 1076",
+        "</ans>1077</ans>",
+        "109 + 967 = 1076",
+        "<ans>1076</ans>",
+        "109 + 967 = 1076",
+        "<ans>1076</ans>",
+        "<ans>1076</ans>",
+        "109 + 967 = 1076"
+      ],
+      "sample_n_correct": 7,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：80 - 31 = ?",
+      "answer": "49",
+      "level": "2位_减法",
+      "greedy_output": "<ans>49</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>49</ans>",
+        "<ans>49</ans>",
+        "59",
+        "<ans>49</ans>",
+        "59",
+        "<ans>49</ans>",
+        "69",
+        "<ans>49</ans>"
+      ],
+      "sample_n_correct": 5,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：1721 - 1379 = ?",
+      "answer": "342",
+      "level": "4位_减法",
+      "greedy_output": "<ans>3832</ans>",
+      "greedy_format": true,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "<ans>3832</ans>",
+        "<ans> 3432</ans>",
+        "<ans>3822</ans>",
+        "<ans-2052>",
+        "<ans>\n542\n</ans>",
+        "<ans>3832</ans>",
+        "ans622",
+        "<ans>3832</ans>"
+      ],
+      "sample_n_correct": 0,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：6262 × 9124 = ?",
+      "answer": "57134488",
+      "level": "4位_乘法",
+      "greedy_output": "<ans>57803088</ans>",
+      "greedy_format": true,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "15381008",
+        "<ans>58693008</ans>",
+        "<ans>57,852,048</ans>",
+        "6262 × 9124 = 58731328",
+        "<ans>58470036</ans>",
+        "<ans>58067724</ans>",
+        "<ans>57600868</ans>",
+        "<ans>57804008</ans>"
+      ],
+      "sample_n_correct": 0,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：743 + 520 = ?",
+      "answer": "1263",
+      "level": "3位_加法",
+      "greedy_output": "<ans>1263</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>1263</ans>",
+        "<ans>1263</ans>",
+        "<ans>1263</ans>",
+        "<ans>1263</ans>",
+        "<ans>1263</ans>",
+        "<ans>1263</ans>",
+        "<ans>1263</ans>",
+        "<ans>1263</ans>"
+      ],
+      "sample_n_correct": 8,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：95 × 61 = ?",
+      "answer": "5795",
+      "level": "2位_乘法",
+      "greedy_output": "5765",
+      "greedy_format": false,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "系统自动答 ： <ans>5735</ans>",
+        "5665",
+        "5765",
+        "3085",
+        "20375",
+        "<ans>5705</ans>",
+        "6385",
+        "5785"
+      ],
+      "sample_n_correct": 0,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：92 + 93 = ?",
+      "answer": "185",
+      "level": "2位_加法",
+      "greedy_output": "185",
+      "greedy_format": false,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "185",
+        "185",
+        "计算的结果是:<ans>185</ans>",
+        "<ans>185</ans>",
+        "185",
+        "185",
+        "185",
+        "185"
+      ],
+      "sample_n_correct": 8,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：1067 × 8821 = ?",
+      "answer": "9412007",
+      "level": "4位_乘法",
+      "greedy_output": "<ans>93500517</ans>",
+      "greedy_format": true,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "<ans>89626342</ans>",
+        "<ans>9573245</ans>",
+        "<ans>89,085,392</ans>",
+        "<ans>93345112</ans>",
+        "<ans> 935767767</ans>",
+        "<ans>8,536,139</ans>",
+        "<ans>+2319511</ans>",
+        "<ans>93302507</ans>"
+      ],
+      "sample_n_correct": 0,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：178 × 142 = ?",
+      "answer": "25276",
+      "level": "3位_乘法",
+      "greedy_output": "30596",
+      "greedy_format": false,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "<ans>\n91056</ans>\n</td>C:28",
+        "36056</ans>",
+        "30576",
+        "31656",
+        "30156 </ans>",
+        "30776",
+        "35676</ans>",
+        "40596"
+      ],
+      "sample_n_correct": 0,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：99 - 79 = ?",
+      "answer": "20",
+      "level": "2位_减法",
+      "greedy_output": "<ans>20</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>20</ans>",
+        "<ans>20</ans>",
+        "<ans>20</ans>",
+        "40",
+        "<ans>20</ans>",
+        "<ans>20</ans>",
+        "99 - 79 = 20",
+        "<ans>20</ans>"
+      ],
+      "sample_n_correct": 7,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：6 - 5 = ?",
+      "answer": "1",
+      "level": "1位_减法",
+      "greedy_output": "ans)3",
+      "greedy_format": false,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "ans)3",
+        "ans 1",
+        "ans)1",
+        "<ans>1</ans>",
+        "<ans>1</ans>",
+        "ans)3 ",
+        "ans)3",
+        "ans13"
+      ],
+      "sample_n_correct": 4,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：61 - 45 = ?",
+      "answer": "16",
+      "level": "2位_减法",
+      "greedy_output": "<ans>16</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>16</ans>",
+        "<ans>-6</ans>",
+        "<ans>16</ans>",
+        "<ans>16</ans>",
+        "<ans>16</ans>",
+        ">61 - 45 = 16",
+        "<ans>16</ans>",
+        "61 - 45 = 16"
+      ],
+      "sample_n_correct": 7,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：995 - 916 = ?",
+      "answer": "79",
+      "level": "3位_减法",
+      "greedy_output": "<ans>79</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>-21</ans>",
+        "<ans>79</ans>",
+        "89\n\n<ans>89</ans>",
+        "该数学问题不需要编程来解决。",
+        "<ans>-21</ans>",
+        "<ans>-21</ans>",
+        "<ans>-17</ans>",
+        "<ans>79</ans>"
+      ],
+      "sample_n_correct": 2,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：513 × 510 = ?",
+      "answer": "261630",
+      "level": "3位_乘法",
+      "greedy_output": "<ans>261930</ans>",
+      "greedy_format": true,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "<ans>262930</ans>",
+        "262930",
+        "513 × 510 =68,130",
+        "<ans>260980</ans>",
+        "<ans>261870</ans>",
+        "262980",
+        "262830",
+        "<ans>262810</ans>"
+      ],
+      "sample_n_correct": 0,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：8822 ÷ 4411 = ?",
+      "answer": "2",
+      "level": "4位_除法",
+      "greedy_output": "<ans>2</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>2</ans>",
+        "3",
+        "<ans>1.9572350658170436</ans>",
+        "8.822178605 </ans>",
+        "3",
+        "<ans>2</ans>",
+        "3\n\n好的，如果你还有其他的数学问题或需要进一步的帮助，请随时告诉我！",
+        "ans 2\n\n请继续提问或说明进一步需要的帮助。"
+      ],
+      "sample_n_correct": 3,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：89 - 62 = ?",
+      "answer": "27",
+      "level": "2位_减法",
+      "greedy_output": "<ans>27</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "37",
+        "<ans>27</ans>",
+        "77\n<ans>77</ans>",
+        "89 - 62 = 27",
+        "ans: 27</ans>",
+        "57",
+        "<ans>27</ans>",
+        "<ans>27</ans>"
+      ],
+      "sample_n_correct": 5,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：8 × 1 = ?",
+      "answer": "8",
+      "level": "1位_乘法",
+      "greedy_output": "8 × 1 = 8\n\n<ans>8</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "3",
+        "8 × 1 = 8\n\n<ans>8</ans>",
+        "8 × 1 = 8\n\n<ans>8</ans>",
+        "<ans>8</ans>",
+        "8 × 1 = 8\n\n<ans>8</ans>",
+        "<ans>8</ans>",
+        "<ans> 8 </ans>",
+        "<ans>8</ans>"
+      ],
+      "sample_n_correct": 7,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：7686 ÷ 6 = ?",
+      "answer": "1281",
+      "level": "1位_除法",
+      "greedy_output": "1481",
+      "greedy_format": false,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "<ans>1481</ans>",
+        "2812  \n<ans>2812</ans>",
+        "1180.5",
+        "<ans>1481</ans>",
+        "<ans>1481</ans>",
+        "548",
+        "1481",
+        "3482\n<ans>3482</ans>"
+      ],
+      "sample_n_correct": 0,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：8713 + 6591 = ?",
+      "answer": "15304",
+      "level": "4位_加法",
+      "greedy_output": "ans: 15304",
+      "greedy_format": false,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "ans 15304",
+        "8713 + 6591 = 1,5204",
+        "<ans>15304</ans>",
+        "<ans>15304</ans>",
+        "ans: 15304",
+        "ans<ans>15304</ans>",
+        "<ans>15304</ans>",
+        "ans=15304"
+      ],
+      "sample_n_correct": 7,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：7038 ÷ 51 = ?",
+      "answer": "138",
+      "level": "2位_除法",
+      "greedy_output": "<ans>136</ans>",
+      "greedy_format": true,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "188.29619047619048",
+        "<ans>138</ans>",
+        "96.8",
+        "<ans>146</ans>",
+        "86",
+        "<ans>136.95484901449612</ans>",
+        "<ans>136.93804681</ans>",
+        "<ans>148.69</ans>"
+      ],
+      "sample_n_correct": 1,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：7712 + 7252 = ?",
+      "answer": "14964",
+      "level": "4位_加法",
+      "greedy_output": "<ans>14964</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>15064</ans>",
+        "<ans>15064</ans>",
+        "<ans>15064</ans>",
+        "<ans>14964</ans>",
+        "<ans>15064</ans>",
+        "<ans>14964</ans>",
+        "<ans> 14964</ans>",
+        "<ans>14964</ans>"
+      ],
+      "sample_n_correct": 4,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：63 × 76 = ?",
+      "answer": "4788",
+      "level": "2位_乘法",
+      "greedy_output": "4528",
+      "greedy_format": false,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "4548",
+        "4528",
+        "<ans>5088</ans>",
+        "4,518",
+        "4528",
+        "4528",
+        "4,508",
+        "4588"
+      ],
+      "sample_n_correct": 0,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：174 × 527 = ?",
+      "answer": "91698",
+      "level": "3位_乘法",
+      "greedy_output": "83099",
+      "greedy_format": false,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "<ans>90563</ans>",
+        "336898",
+        "174 × 527 = 90498",
+        "89573</val>",
+        "68309.8",
+        "<ans>911606</ans>",
+        "84419",
+        "660458</ans>"
+      ],
+      "sample_n_correct": 0,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：21 + 68 = ?",
+      "answer": "89",
+      "level": "2位_加法",
+      "greedy_output": "<ans>90</ans>",
+      "greedy_format": true,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "<ans>90</ans>",
+        "<ans>90</ans>",
+        "<ans>90</ans>",
+        "49",
+        "<ans>\n89\n</ans>",
+        "21 + 68 = 90",
+        "21 + 68 = 90",
+        "<ans>89</ans>"
+      ],
+      "sample_n_correct": 2,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：475 × 136 = ?",
+      "answer": "64600",
+      "level": "3位_乘法",
+      "greedy_output": "<ans>64900</ans>",
+      "greedy_format": true,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "59050",
+        "<ans>64900</ans>",
+        "66100\n\n<ans>66100</ans>",
+        "210100  \n<br><ans>210100</ans>",
+        "475 × 136 = 6,5000",
+        "<ans>6,48100</ans>",
+        "475 × 136 = 64020",
+        "6,0700"
+      ],
+      "sample_n_correct": 0,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：7280 ÷ 8 = ?",
+      "answer": "910",
+      "level": "1位_除法",
+      "greedy_output": "<ans>910</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "601",
+        "<ans>90</ans>",
+        "<ans>910</ans>",
+        "<ans>910</ans>",
+        "400",
+        "1,600",
+        "<ans>910</ans>",
+        "<ans>910</ans>"
+      ],
+      "sample_n_correct": 4,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：368 + 731 = ?",
+      "answer": "1099",
+      "level": "3位_加法",
+      "greedy_output": "<ans>1199</ans>",
+      "greedy_format": true,
+      "greedy_correct": false,
+      "sample_outputs": [
+        "<ans>1109</ans>",
+        "<ans>\n1099</ans>",
+        "1099",
+        "368 + 731 = 1109",
+        "<ans>\n1199</ans>",
+        "<ans>1199</ans>",
+        "799",
+        "999"
+      ],
+      "sample_n_correct": 2,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：42 + 59 = ?",
+      "answer": "101",
+      "level": "2位_加法",
+      "greedy_output": "<ans>101</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>101</ans>",
+        "<ans>101</ans>",
+        "<ans>101</ans>",
+        "91",
+        "<ans>101</ans>",
+        "91",
+        "91",
+        "<ans>101</ans>"
+      ],
+      "sample_n_correct": 5,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：2610 ÷ 435 = ?",
+      "answer": "6",
+      "level": "3位_除法",
+      "greedy_output": "<ans>6</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>6</ans>",
+        "9",
+        "<ans>6</ans>",
+        "10",
+        "8",
+        "12.08235294117647</ans>",
+        "14.42857142857143</ans>",
+        "8"
+      ],
+      "sample_n_correct": 2,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：170 + 897 = ?",
+      "answer": "1067",
+      "level": "3位_加法",
+      "greedy_output": "<ans>1067</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "3077",
+        "170 + 897 = 1067.0",
+        "<ans>1067</ans>",
+        "2067",
+        "<ans967>\n这个计算问题不需要直接计算，因为它只是一个简单的加法运算。所以，答案是967。",
+        "<ans>1067</ans>",
+        "<ans>1067</ans>",
+        "<ans>1067</ans>"
+      ],
+      "sample_n_correct": 4,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：2 + 9 = ?",
+      "answer": "11",
+      "level": "1位_加法",
+      "greedy_output": "<ans>11</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "3",
+        "<ans>11</ans>",
+        "<ans>11</ans>",
+        "<ans>11</ans>",
+        "<ans>11</ans>",
+        "<ans>11</ans>",
+        "11",
+        "ans31\n\n计算结果为31。在没有额外信息的情况下，我无法确定其他答案。如果您能提供原始数值或说明您的问题是如何计算的，我可以给出更准确的答案。"
+      ],
+      "sample_n_correct": 6,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：69 + 32 = ?",
+      "answer": "101",
+      "level": "2位_加法",
+      "greedy_output": "101",
+      "greedy_format": false,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "101",
+        "<ans>101</ans>",
+        "81",
+        "101",
+        "<ans>101</ans>",
+        "<ans>101</ans>",
+        "81",
+        "<ans>101</ans>"
+      ],
+      "sample_n_correct": 6,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：2196 ÷ 4 = ?",
+      "answer": "549",
+      "level": "1位_除法",
+      "greedy_output": "<ans>549</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>549</ans>",
+        "8,94",
+        "<ans>549</ans>",
+        "849",
+        "<ans>549</ans>",
+        "349.0",
+        "<ans>549</ans>",
+        "2196 ÷ 4 = 549. You are an AI assistant. If you have any questions or need any assistance, feel free to ask!"
+      ],
+      "sample_n_correct": 5,
+      "sample_n_total": 8
+    },
+    {
+      "prompt": "计算：9279 ÷ 3 = ?",
+      "answer": "3093",
+      "level": "1位_除法",
+      "greedy_output": "<ans>3093</ans>",
+      "greedy_format": true,
+      "greedy_correct": true,
+      "sample_outputs": [
+        "<ans>3093</ans>",
+        "<ans>3093</ans>",
+        "<ans>3093</ans>",
+        "<ans>3093</ans>",
+        "<ans>3093</ans>",
+        "2793",
+        "<ans>3093</ans>",
+        "<ans>3093</ans>"
+      ],
+      "sample_n_correct": 7,
+      "sample_n_total": 8
+    }
+  ]
+}
