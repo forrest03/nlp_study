@@ -1,0 +1,312 @@
+{
+  "L1_add_1digit": {
+    "n": 50,
+    "k": 8,
+    "greedy_format_rate": 1.0,
+    "greedy_strict_acc": 1.0,
+    "greedy_loose_acc": 1.0,
+    "sample_strict_acc": 0.9625,
+    "sample_loose_acc": 0.995,
+    "pass@8": 1.0,
+    "loose_pass@8": 1.0,
+    "informative_group_rate": 0.26,
+    "loose_informative_group_rate": 0.04,
+    "elapsed_sec": 3.3,
+    "examples": [
+      {
+        "expr": "2 + 1",
+        "answer": 3.0,
+        "greedy_output": "<answer>3</answer>"
+      },
+      {
+        "expr": "5 + 4",
+        "answer": 9.0,
+        "greedy_output": "<answer>9</answer>"
+      },
+      {
+        "expr": "4 + 3",
+        "answer": 7.0,
+        "greedy_output": "<answer>7</answer>"
+      }
+    ]
+  },
+  "L2_addsub_2digit": {
+    "n": 50,
+    "k": 8,
+    "greedy_format_rate": 1.0,
+    "greedy_strict_acc": 0.98,
+    "greedy_loose_acc": 0.98,
+    "sample_strict_acc": 0.9275,
+    "sample_loose_acc": 0.955,
+    "pass@8": 1.0,
+    "loose_pass@8": 1.0,
+    "informative_group_rate": 0.44,
+    "loose_informative_group_rate": 0.22,
+    "elapsed_sec": 3.0,
+    "examples": [
+      {
+        "expr": "27 + 75",
+        "answer": 102.0,
+        "greedy_output": "<answer>102</answer>"
+      },
+      {
+        "expr": "16 + 24",
+        "answer": 40.0,
+        "greedy_output": "<answer>40</answer>"
+      },
+      {
+        "expr": "30 + 97",
+        "answer": 127.0,
+        "greedy_output": "<answer>127</answer>"
+      }
+    ]
+  },
+  "L3_addsub_3digit": {
+    "n": 50,
+    "k": 8,
+    "greedy_format_rate": 1.0,
+    "greedy_strict_acc": 0.9,
+    "greedy_loose_acc": 0.9,
+    "sample_strict_acc": 0.7575,
+    "sample_loose_acc": 0.8,
+    "pass@8": 0.98,
+    "loose_pass@8": 0.98,
+    "informative_group_rate": 0.76,
+    "loose_informative_group_rate": 0.52,
+    "elapsed_sec": 3.3,
+    "examples": [
+      {
+        "expr": "902 - 848",
+        "answer": 54.0,
+        "greedy_output": "<answer>54</answer>"
+      },
+      {
+        "expr": "835 + 598",
+        "answer": 1433.0,
+        "greedy_output": "<answer>1433</answer>"
+      },
+      {
+        "expr": "403 - 322",
+        "answer": 81.0,
+        "greedy_output": "<answer>81</answer>"
+      }
+    ]
+  },
+  "L4_mul_1digit": {
+    "n": 50,
+    "k": 8,
+    "greedy_format_rate": 1.0,
+    "greedy_strict_acc": 1.0,
+    "greedy_loose_acc": 1.0,
+    "sample_strict_acc": 0.95,
+    "sample_loose_acc": 0.9875,
+    "pass@8": 1.0,
+    "loose_pass@8": 1.0,
+    "informative_group_rate": 0.36,
+    "loose_informative_group_rate": 0.1,
+    "elapsed_sec": 2.9,
+    "examples": [
+      {
+        "expr": "8 × 2",
+        "answer": 16.0,
+        "greedy_output": "<answer>16</answer>"
+      },
+      {
+        "expr": "4 × 7",
+        "answer": 28.0,
+        "greedy_output": "<answer>28</answer>"
+      },
+      {
+        "expr": "8 × 5",
+        "answer": 40.0,
+        "greedy_output": "<answer>40</answer>"
+      }
+    ]
+  },
+  "L5_mul_2x1digit": {
+    "n": 50,
+    "k": 8,
+    "greedy_format_rate": 1.0,
+    "greedy_strict_acc": 0.84,
+    "greedy_loose_acc": 0.84,
+    "sample_strict_acc": 0.7475,
+    "sample_loose_acc": 0.7925,
+    "pass@8": 0.94,
+    "loose_pass@8": 0.96,
+    "informative_group_rate": 0.44,
+    "loose_informative_group_rate": 0.32,
+    "elapsed_sec": 3.5,
+    "examples": [
+      {
+        "expr": "28 × 8",
+        "answer": 224.0,
+        "greedy_output": "<answer>224</answer>"
+      },
+      {
+        "expr": "98 × 3",
+        "answer": 294.0,
+        "greedy_output": "<answer>304</answer>"
+      },
+      {
+        "expr": "23 × 9",
+        "answer": 207.0,
+        "greedy_output": "<answer>197</answer>"
+      }
+    ]
+  },
+  "L6_mul_2x2digit": {
+    "n": 50,
+    "k": 8,
+    "greedy_format_rate": 0.98,
+    "greedy_strict_acc": 0.24,
+    "greedy_loose_acc": 0.24,
+    "sample_strict_acc": 0.195,
+    "sample_loose_acc": 0.2025,
+    "pass@8": 0.4,
+    "loose_pass@8": 0.4,
+    "informative_group_rate": 0.36,
+    "loose_informative_group_rate": 0.32,
+    "elapsed_sec": 3.6,
+    "examples": [
+      {
+        "expr": "59 × 53",
+        "answer": 3127.0,
+        "greedy_output": "<answer>3107</answer>"
+      },
+      {
+        "expr": "95 × 96",
+        "answer": 9120.0,
+        "greedy_output": "<answer>8710</answer>"
+      },
+      {
+        "expr": "61 × 31",
+        "answer": 1891.0,
+        "greedy_output": "<answer>1891</answer>"
+      }
+    ]
+  },
+  "L7_decimal_addsub": {
+    "n": 50,
+    "k": 8,
+    "greedy_format_rate": 0.98,
+    "greedy_strict_acc": 0.66,
+    "greedy_loose_acc": 0.68,
+    "sample_strict_acc": 0.52,
+    "sample_loose_acc": 0.575,
+    "pass@8": 0.88,
+    "loose_pass@8": 0.88,
+    "informative_group_rate": 0.74,
+    "loose_informative_group_rate": 0.58,
+    "elapsed_sec": 4.6,
+    "examples": [
+      {
+        "expr": "72.8 - 63.5",
+        "answer": 9.3,
+        "greedy_output": "<answer>9.3</answer>"
+      },
+      {
+        "expr": "91.25 + 68.8",
+        "answer": 160.05,
+        "greedy_output": "<answer>160.0</answer>"
+      },
+      {
+        "expr": "76.1 + 93.9",
+        "answer": 170.0,
+        "greedy_output": "<answer>160.0</answer>"
+      }
+    ]
+  },
+  "L8_word_problem": {
+    "n": 50,
+    "k": 8,
+    "greedy_format_rate": 1.0,
+    "greedy_strict_acc": 0.0,
+    "greedy_loose_acc": 0.0,
+    "sample_strict_acc": 0.0075,
+    "sample_loose_acc": 0.0075,
+    "pass@8": 0.04,
+    "loose_pass@8": 0.04,
+    "informative_group_rate": 0.04,
+    "loose_informative_group_rate": 0.04,
+    "elapsed_sec": 7.2,
+    "examples": [
+      {
+        "expr": "小明有 88 元，买了 2 个单价 8 元的苹果（共 16 元），又买了 1 个单价 5 元的橘子（共 5 元），还剩多少元？",
+        "answer": 67.0,
+        "greedy_output": "<answer>10</answer>"
+      },
+      {
+        "expr": "小明有 85 元，买了 2 个单价 7 元的苹果（共 14 元），又买了 2 个单价 3 元的橘子（共 6 元），还剩多少元？",
+        "answer": 65.0,
+        "greedy_output": "<answer>10</answer>"
+      },
+      {
+        "expr": "小明有 64 元，买了 2 个单价 6 元的苹果（共 12 元），又买了 1 个单价 8 元的橘子（共 8 元），还剩多少元？",
+        "answer": 44.0,
+        "greedy_output": "<answer>40</answer>"
+      }
+    ]
+  },
+  "L9_paren_mixed": {
+    "n": 50,
+    "k": 8,
+    "greedy_format_rate": 1.0,
+    "greedy_strict_acc": 0.0,
+    "greedy_loose_acc": 0.0,
+    "sample_strict_acc": 0.0075,
+    "sample_loose_acc": 0.01,
+    "pass@8": 0.06,
+    "loose_pass@8": 0.08,
+    "informative_group_rate": 0.06,
+    "loose_informative_group_rate": 0.08,
+    "elapsed_sec": 4.6,
+    "examples": [
+      {
+        "expr": "(28 + 6) × 8 - 6",
+        "answer": 266.0,
+        "greedy_output": "<answer>190</answer>"
+      },
+      {
+        "expr": "(44 + 6) × 6 - 6",
+        "answer": 294.0,
+        "greedy_output": "<answer>300</answer>"
+      },
+      {
+        "expr": "(40 + 5) × 7 - 4",
+        "answer": 311.0,
+        "greedy_output": "<answer>319</answer>"
+      }
+    ]
+  },
+  "L10_chain_3num": {
+    "n": 50,
+    "k": 8,
+    "greedy_format_rate": 1.0,
+    "greedy_strict_acc": 0.16,
+    "greedy_loose_acc": 0.16,
+    "sample_strict_acc": 0.1225,
+    "sample_loose_acc": 0.1325,
+    "pass@8": 0.24,
+    "loose_pass@8": 0.24,
+    "informative_group_rate": 0.2,
+    "loose_informative_group_rate": 0.2,
+    "elapsed_sec": 3.2,
+    "examples": [
+      {
+        "expr": "32 + 17 × 9",
+        "answer": 185.0,
+        "greedy_output": "<answer>508</answer>"
+      },
+      {
+        "expr": "22 + 8 × 3",
+        "answer": 46.0,
+        "greedy_output": "<answer>100</answer>"
+      },
+      {
+        "expr": "32 × 5 + 6",
+        "answer": 166.0,
+        "greedy_output": "<answer>178</answer>"
+      }
+    ]
+  }
+}
