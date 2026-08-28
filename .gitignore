@@ -25,6 +25,19 @@ text2vec-*/
 
 # ================ Python ================
 __pycache__/
+.conda/
+.DS_Store
+outputs/
+
+# model 权重目录（下载产物，勿提交）
+models/
+
+# 向量库产物（FAISS 索引，生成物）
+*.faiss
+*.pkl
+
+# Node 依赖
+node_modules/
 *.py[cod]
 *.pyc
 .egg-info/

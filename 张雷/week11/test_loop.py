@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """桩掉 openai/src 后导入真实 run_function_call，用假 client 验证多轮循环逻辑。
-不联网、不发 API。验证三条路径：天气多轮 / 无工具直答 / 触顶强制收尾。"""
+不联网、不发 API。验证四条路径：天气多轮(两步) / 无工具直答 / 触顶强制收尾 / 并行两步对比。"""
 import sys, types, json
 
 # ── 桩依赖 ────────────────────────────────────────────────────────────────
@@ -12,7 +12,9 @@ sys.modules["openai"] = openai_mod
 
 src_pkg = types.ModuleType("src"); sys.modules["src"] = src_pkg
 w_mod = types.ModuleType("src.weather_backend")
-w_mod.get_weather = lambda city: f"WEATHER({city})"
+# 两步工具的 mock：geocode 返回 dict（FC loop 会 JSON 序列化成字符串），get_weather_by_coords 返回字符串
+w_mod.geocode = lambda city: {"lat": 1.0, "lon": 2.0, "name": city, "country": "C", "admin1": "A"}
+w_mod.get_weather_by_coords = lambda **kw: f"WEATHER({kw.get('name')})"
 sys.modules["src.weather_backend"] = w_mod
 
 sys.path.insert(0, "/Users/zhanglei/projects/hub-TroE/张雷/week11")
@@ -60,13 +62,20 @@ def run_case(name, resps, expect_rounds, expect_tools, expect_answer_contains=No
 
 results = []
 
-# 1) 天气多轮：宁德 -> (条件命中)哈尔滨 -> 最终回答  => 3 次请求，2 次工具调用
+# 坐标参数模板（模拟 geocode 返回、再由模型转发给 get_weather_by_coords）
+COORDS = {"lat": 1.0, "lon": 2.0, "country": "C", "admin1": "A"}
+
+# 1) 天气多轮(两步)：geocode(宁德)->weather(宁德)->见气温->geocode(哈尔滨)->weather(哈尔滨)->答
+#    每个城市 = geocode + get_weather_by_coords 两步，坐标数据依赖强制多轮 => 5 次请求，4 次工具调用
 results.append(run_case(
-    "天气多轮",
-    [Resp(Msg(tool_calls=[TC("get_weather", {"city": "宁德"})])),
-     Resp(Msg(tool_calls=[TC("get_weather", {"city": "哈尔滨"})])),
+    "天气多轮两步",
+    [Resp(Msg(tool_calls=[TC("geocode", {"city": "宁德"})])),
+     Resp(Msg(tool_calls=[TC("get_weather_by_coords", {**COORDS, "name": "宁德"})])),
+     Resp(Msg(tool_calls=[TC("geocode", {"city": "哈尔滨"})])),
+     Resp(Msg(tool_calls=[TC("get_weather_by_coords", {**COORDS, "name": "哈尔滨"})])),
      Resp(Msg(content="宁德和哈尔滨天气对比完毕"))],
-    expect_rounds=3, expect_tools=["get_weather", "get_weather"],
+    expect_rounds=5,
+    expect_tools=["geocode", "get_weather_by_coords", "geocode", "get_weather_by_coords"],
     expect_answer_contains="对比完毕"))
 
 # 2) 无工具直答：模型第一轮就给答案 => rounds=1，0 次工具调用
@@ -75,13 +84,26 @@ results.append(run_case(
     [Resp(Msg(content="直接回答"))],
     expect_rounds=1, expect_tools=[], expect_answer_contains="直接回答"))
 
-# 3) 触顶强制收尾：连续 8 轮都调天气 => 第 9 次请求 tool_choice=none
+# 3) 触顶强制收尾：连续 8 轮都调 geocode => 第 9 次请求 tool_choice=none
 results.append(run_case(
     "触顶收尾",
-    [Resp(Msg(tool_calls=[TC("get_weather", {"city": "宁德"})]))] * 8
+    [Resp(Msg(tool_calls=[TC("geocode", {"city": "宁德"})]))] * 8
      + [Resp(Msg(content="强制收尾答案"))],
-    expect_rounds=8, expect_tools=["get_weather"] * 8,
+    expect_rounds=8, expect_tools=["geocode"] * 8,
     expect_answer_contains="强制收尾", expect_last_tool_choice="none"))
+
+# 4) 并行两步对比：R1 同时 geocode(北京+上海) -> R2 同时 weather(北京+上海) -> R3 答
+#    验证单轮多工具调用 + 两步数据依赖（weather 必须等 geocode 出坐标才能调）
+results.append(run_case(
+    "并行两步对比",
+    [Resp(Msg(tool_calls=[TC("geocode", {"city": "北京"}, cid="c1"),
+                          TC("geocode", {"city": "上海"}, cid="c2")])),
+     Resp(Msg(tool_calls=[TC("get_weather_by_coords", {**COORDS, "name": "北京"}, cid="c3"),
+                          TC("get_weather_by_coords", {**COORDS, "name": "上海"}, cid="c4")])),
+     Resp(Msg(content="北京和上海对比完毕"))],
+    expect_rounds=3,
+    expect_tools=["geocode", "geocode", "get_weather_by_coords", "get_weather_by_coords"],
+    expect_answer_contains="对比完毕"))
 
 print("\n==== 全部通过" if all(results) else "\n==== 存在失败", "====")
 sys.exit(0 if all(results) else 1)

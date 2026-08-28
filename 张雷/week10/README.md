@@ -2,11 +2,15 @@
 
 年报/论文 PDF 的 RAG 问答系统，包含文档解析、分块、向量索引和 LLM 生成。
 
+提供两种实现方式：
+- **原生版**（`src/`）：手写流程控制，透明可调试
+- **LangChain 版**（`src_langchain/`）：LCEL 链式编排，代码更简洁
+
 ## 项目结构
 
 ```
 week10/
-├── src/
+├── src/                       # 原生版 RAG
 │   ├── download_reports.py   # 下载年报 PDF（从巨潮资讯网）
 │   ├── parse_pdf.py           # PDF → 结构化 JSON（表格+文字+章节）
 │   ├── chunk_documents.py     # 语义分块（fixed/semantic/hierarchical 三种策略）
@@ -15,14 +19,22 @@ week10/
 │   ├── serve.py               # FastAPI HTTP 服务
 │   └── static/
 │       └── index.html         # 教学可视化页面
+├── src_langchain/              # LangChain 版 RAG
+│   ├── download_model.py      # 下载本地 BGE embedding 模型
+│   ├── build_index_lc.py      # LangChain 全链路建库（Loader → Splitter → FAISS）
+│   └── rag_chain_lc.py        # LCEL 链式问答
+├── models/
+│   └── bge-small-zh-v1.5/     # 本地 BGE embedding 模型（~90MB）
 ├── data/
 │   ├── raw_pdf/               # 原始 PDF 文件
 │   ├── parsed/                # 解析后的 JSON
 │   ├── chunks/                # 分块 JSON
 │   └── manifest.json          # 下载清单（可选）
 ├── vectorstore/
-│   ├── faiss_index.bin        # FAISS 索引
-│   └── faiss_meta.json        # 向量元数据
+│   ├── faiss_index.bin        # 原生版 FAISS 索引
+│   ├── faiss_meta.json        # 原生版向量元数据
+│   └── faiss_lc/              # LangChain 版 FAISS 索引
+│       └── index.faiss
 ├── requirements.txt           # 依赖
 └── README.md
 ```
@@ -107,6 +119,81 @@ uvicorn src.serve:app --host 0.0.0.0 --port 8000
 python src/rag_pipeline.py              # 交互式问答
 python src/rag_pipeline.py --query "xxx" # 单次查询
 ```
+
+---
+
+## LangChain 版（src_langchain/）
+
+使用 **本地 BGE 模型**做 embedding，**LangChain 全家桶**统一管理 Loader、Splitter、FAISS 和 LCEL 链路。
+
+### 步骤 1：下载 BGE 模型（可选，已有则跳过）
+
+```bash
+python src_langchain/download_model.py
+```
+
+约 90MB，下载到 `models/bge-small-zh-v1.5/`。可从外部硬盘复制已有模型跳过此步。
+
+### 步骤 2：构建 LangChain 向量库
+
+```bash
+python src_langchain/build_index_lc.py
+```
+
+- **Loader**：`PyMuPDFLoader` 逐页加载 PDF，每页一个 Document
+- **Splitter**：`RecursiveCharacterTextSplitter`，chunk_size=500，overlap=50
+- **Embedding**：`HuggingFaceEmbeddings` + 本地 `BAAI/bge-small-zh-v1.5`（维度 512）
+- **向量库**：`FAISS.from_documents()` 一行建库
+- 输出 `vectorstore/faiss_lc/`
+
+### 步骤 3：运行 LCEL 问答
+
+```bash
+# 交互式
+python src_langchain/rag_chain_lc.py
+
+# 单次查询
+python src_langchain/rag_chain_lc.py --query "这篇论文研究了什么内容"
+
+# 附带来源文档
+python src_langchain/rag_chain_lc.py --query "这篇论文用了什么方法" --with-sources
+```
+
+### LCEL 数据流
+
+```
+question
+   │
+   ├── retriever → format_docs → "context"
+   └── RunnablePassthrough() → "question"
+   │
+   └──────────┬──────────┘
+              │
+         {"context": ..., "question": ...}
+              │
+           prompt
+              │
+             llm
+              │
+       StrOutputParser
+              │
+          answer (str)
+```
+
+### 与原生版对比
+
+| 环节 | 原生版 (`src/`) | LangChain 版 (`src_langchain/`) |
+|------|-----------------|--------------------------------|
+| Embedding | DashScope API `text-embedding-v3` | 本地 `bge-small-zh-v1.5` |
+| 维度 | 1024 | 512 |
+| 分块 | 语义分块（感知标题/表格） | RecursiveCharacterTextSplitter |
+| 检索 | FAISS + BM25 + RRF 混合 | FAISS 单路 |
+| Rerank | CrossEncoder 可选 | 无 |
+| 链组织 | 手写流程控制 | LCEL `\|` 操作符 |
+| 代码量 | ~300 行 | ~120 行 |
+| 外部依赖 | 需要 DASHSCOPE_API_KEY | 无需 API Key（本地 embedding） |
+
+---
 
 ## API 接口
 

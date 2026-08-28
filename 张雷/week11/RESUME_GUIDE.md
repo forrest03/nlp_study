@@ -4,9 +4,9 @@
 
 | 指标 | 数值 | 说明 |
 |------|------|------|
-| 工具数 | 1 个（get_weather） | 三方式共用同一份后端 |
+| 工具数 | 2 个（geocode + get_weather_by_coords） | 三方式共用同一份后端；坐标数据依赖强制多轮 |
 | 对比方式数 | 4 种（Function Call / MCP / CLI-named / CLI-bash） | 同一问题集横向对比 |
-| 多轮循环 | MAX_ROUNDS=8，触顶 tool_choice=none 强制收尾 | 天气条件题跨多轮，不静默截断 |
+| 多轮循环 | MAX_ROUNDS=8，触顶 tool_choice=none 强制收尾 | 坐标依赖使单城市也跨 2 轮；条件题跨更多轮，不静默截断 |
 | 延迟差异 | Function Call 进程内直调最快；MCP/CLI 有子进程或 IPC 开销 | 具体数值以 `compare.py` 实跑为准 |
 | 沙箱规则 | 22 条危险模式正则 + 10 个命令头白名单 + 超时 15s + 工作目录锁定 | CLI(bash) 形态安全兜底 |
 | 地名歧义处理 | geocoding 候选按行政级别（PPLA/ADM）+ 人口排序，裸城市名追加"市"重查 | 避免"宁德"查到西藏同名点 |
@@ -78,7 +78,7 @@
    单轮闭环无法处理"先查 A 再根据 A 的结果决定查 B"的链式依赖。本项目用多轮循环：模型输出 tool_call -> 执行 -> role=tool 回填 -> 再请求，只要模型还在调工具就继续，直到给出不带 tool_call 的最终答案。天气条件题（"若气温低于20度则查A城，否则查B城"）天然跨多轮。安全上限 MAX_ROUNDS=8，触顶用 tool_choice=none 强制收尾，不静默截断。
 
 7. **MCP tool 函数为什么会递归调用自己？**
-   `from src.weather_backend import get_weather` 后又用 `@mcp.tool()` 定义同名 `def get_weather`，后者遮蔽了前者，函数体内 `return get_weather(...)` 解析到自身。用 `as` 别名导入（`get_weather as _get_weather`）隔离命名空间即可。
+   `from src.weather_backend import geocode` 后又用 `@mcp.tool()` 定义同名 `def geocode`，后者遮蔽了前者，函数体内 `return geocode(...)` 解析到自身。用 `as` 别名导入（`geocode as _geocode`）隔离命名空间即可。
 
 8. **如何选型？**
    快速原型/单模型 -> Function Call（接入成本最低）；多工具生态/跨产品复用 -> MCP（写一次到处接）；工程师场景/现成命令多 -> CLI+沙箱（零封装、与模型无关）。

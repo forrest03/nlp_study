@@ -4,11 +4,12 @@ weather_backend.py — 天气查询后端（三种方式共享的业务逻辑）
 教学重点：
   1. 纯业务逻辑，与协议层解耦，被三种方式复用
   2. 内部两次 HTTP 请求：Geocoding（城市名→经纬度）+ 天气查询
-  3. 错误处理返回可读字符串而非抛异常，方便 LLM 直接消费
+  3. 错误处理不抛异常：geocode 未找到城市返回 None；天气查询失败返回可读字符串
 
 使用方式（作为模块）：
-  from src.weather_backend import get_weather
-  print(get_weather("宁德"))
+  from src.weather_backend import geocode, get_weather_by_coords
+  loc = geocode("宁德")                       # 城市名 -> 经纬度
+  print(get_weather_by_coords(loc["lat"], loc["lon"], loc["name"], loc["country"], loc["admin1"]))
 
 依赖：
   pip install httpx
@@ -32,22 +33,22 @@ WEATHER_CODE_MAP = {
 }
 
 
-def get_weather(city: str) -> str:
+def geocode(city: str) -> dict | None:
     """
-    查询指定城市的当前天气及未来3天预报。
+    城市名 -> 经纬度（含地名歧义处理）。
+
+    中国地名常有歧义：裸“宁德”会命中西藏那曲市的一个村（PPL），
+    而宁德时代总部所在的福建宁德是地级市“宁德市”（PPLA2）。
+    策略：先按用户输入查；若命中的只是低级行政点（feature_code 纯 PPL），
+    且用户没带“市/县/区”后缀，就用 city+"市" 重查一次并优先采用。
 
     Args:
-        city: 城市名称，支持中文，例如 "宁德"、"北京"、"上海"
+        city: 城市名称，支持中文，例如 “宁德”、“北京”、“上海”
 
     Returns:
-        包含温度、湿度、风速、天气状况和3天预报的文字描述
+        {"lat", "lon", "name", "country", "admin1"} 或 None（未找到）
     """
     with httpx.Client(timeout=10.0) as client:
-        # Step 1：Geocoding — 城市名 → 经纬度
-        # 中国地名常有歧义：裸"宁德"会命中西藏那曲市的一个村（PPL），
-        # 而宁德时代总部所在的福建宁德是地级市"宁德市"（PPLA2）。
-        # 策略：先按用户输入查；若命中的只是低级行政点（feature_code 纯 PPL），
-        # 且用户没带"市/县/区"后缀，就用 city+"市" 重查一次并优先采用。
         def _geocode(name: str):
             resp = client.get(GEOCODING_URL, params={
                 "name": name, "count": 10, "language": "zh", "format": "json",
@@ -68,7 +69,7 @@ def get_weather(city: str) -> str:
                 results = retry
 
         if not results:
-            return f"未找到城市 '{city}'，请尝试其他写法（如'宁德市'改'宁德'）"
+            return None
 
         # 在候选里优先取行政级别更高的（feature_code 含 A = 某级政府驻地），
         # 其次取有人口数据的，避免落到同名小村庄
@@ -79,13 +80,30 @@ def get_weather(city: str) -> str:
             return (admin_priority, pop)
 
         loc = max(results, key=_rank)
-        lat = loc["latitude"]
-        lon = loc["longitude"]
-        city_name = loc.get("name", city)
-        country = loc.get("country", "")
-        admin1 = loc.get("admin1", "")  # 省/州级行政区
+        return {
+            "lat": loc["latitude"],
+            "lon": loc["longitude"],
+            "name": loc.get("name", city),
+            "country": loc.get("country", ""),
+            "admin1": loc.get("admin1", ""),  # 省/州级行政区
+        }
 
-        # Step 2：天气查询
+
+def get_weather_by_coords(lat: float, lon: float, name: str = "", country: str = "", admin1: str = "") -> str:
+    """
+    经纬度 -> 当前天气及未来3天预报（格式化字符串）。
+
+    Args:
+        lat: 纬度
+        lon: 经度
+        name: 城市名（用于报告标题，可选）
+        country: 国家（用于报告标题，可选）
+        admin1: 省/州级行政区（用于报告标题，可选）
+
+    Returns:
+        包含温度、湿度、风速、天气状况和3天预报的文字描述；网络错误时返回可读字符串
+    """
+    with httpx.Client(timeout=10.0) as client:
         try:
             weather_resp = client.get(WEATHER_URL, params={
                 "latitude": lat,
@@ -103,9 +121,9 @@ def get_weather(city: str) -> str:
         cur = data["current"]
         daily = data["daily"]
 
-        # Step 3：格式化输出
+        # 格式化输出
         weather_desc = WEATHER_CODE_MAP.get(cur["weather_code"], f"代码{cur['weather_code']}")
-        location_str = f"{country} {admin1} {city_name}".strip()
+        location_str = f"{country} {admin1} {name}".strip() or f"{lat:.2f}°N, {lon:.2f}°E"
 
         lines = [
             f"【{location_str}】天气报告",
@@ -134,4 +152,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--city", required=True)
     args = parser.parse_args()
-    print(get_weather(args.city))
+    # 演示两步：先 geocode 拿坐标，再 get_weather_by_coords 取天气
+    loc = geocode(args.city)
+    if loc is None:
+        print(f"未找到城市 '{args.city}'，请尝试其他写法（如'宁德市'改'宁德'）")
+    else:
+        print(get_weather_by_coords(
+            loc["lat"], loc["lon"], loc["name"], loc["country"], loc["admin1"]
+        ))

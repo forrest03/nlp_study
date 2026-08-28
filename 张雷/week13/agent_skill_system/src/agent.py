@@ -11,7 +11,7 @@ import tempfile
 
 from .bash_tool import BashExecutor
 from .llm_client import PROVIDERS
-from .logging import log_event
+from .logging import log_event, log_error
 from .skill_loader import SkillLoader, ToolSpec, programs_in_template
 from .whitelist import Whitelist, WhitelistExtension
 
@@ -72,14 +72,18 @@ class Agent:
             '返回 JSON {"skill":"技能name"} 或 {"skill":null}。'
         )
         try:
+            log_event("llm_request", purpose="skill_pick", question=question[:100])
             resp = self.client.chat.completions.create(
                 model=self.model,
                 messages=[{"role": "user", "content": prompt}],
                 response_format={"type": "json_object"},
             )
-            data = json.loads(resp.choices[0].message.content or "{}")
+            content = resp.choices[0].message.content or "{}"
+            data = json.loads(content)
             name = data.get("skill")
-        except (ValueError, AttributeError, TypeError):
+            log_event("llm_response", purpose="skill_pick", skill=name, raw=content[:100])
+        except (ValueError, AttributeError, TypeError) as e:
+            log_error("skill_pick_failed", error=repr(e), question=question[:100])
             name = None
         if not name:
             return None
@@ -132,13 +136,14 @@ class Agent:
                 cmd = spec.command_template.format(**args)
             return self.executor.run(cmd)
         except (KeyError, IndexError, ValueError) as e:
+            log_error("tool_render_failed", name=name, error=repr(e), args=args_json[:200])
             return f"工具参数渲染失败：{e}"
         finally:
             if tmp:
                 try:
                     os.unlink(tmp)
-                except OSError:
-                    pass
+                except OSError as e:
+                    log_error("temp_cleanup_failed", path=tmp, error=repr(e))
 
     # ── agent loop（复用 week12）──────────────────────────────
     def run_turn(self, messages: list, question: str) -> str:
@@ -148,6 +153,8 @@ class Agent:
             self._activate_skill(picked)
         try:
             for step in range(1, MAX_STEPS + 1):
+                log_event("llm_request", purpose="turn", step=step,
+                          tools=len(self._tools_schema()))
                 resp = self.client.chat.completions.create(
                     model=self.model,
                     messages=messages,
@@ -155,9 +162,12 @@ class Agent:
                     tool_choice="auto",
                 )
                 msg = resp.choices[0].message
+                log_event("llm_response", purpose="turn", step=step,
+                          has_tool_calls=bool(msg.tool_calls),
+                          content_len=len(msg.content or ""))
                 if not msg.tool_calls:
                     messages.append({"role": "assistant", "content": msg.content or ""})
-                    log_event("turn_done", steps=step)
+                    log_event("turn_done", steps=step, answer=(msg.content or "")[:200])
                     return msg.content or ""
                 messages.append(msg)
                 for tc in msg.tool_calls:
@@ -165,6 +175,7 @@ class Agent:
                     args = tc.function.arguments
                     log_event("tool_call", name=name, args=args)
                     result = self._dispatch(name, args)
+                    log_event("tool_result", name=name, output=result[:200])
                     messages.append({"role": "tool", "tool_call_id": tc.id, "content": result})
             messages.append({"role": "assistant", "content": "（达到最大步数，未给出最终回答）"})
             return "（达到最大步数，未给出最终回答）"

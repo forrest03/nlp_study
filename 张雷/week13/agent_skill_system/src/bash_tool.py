@@ -9,6 +9,7 @@ from __future__ import annotations
 import os
 import subprocess
 
+from .logging import log_error
 from .whitelist import (BLOCK_MESSAGE, BlockResult, Reason, Whitelist,
                         WhitelistExtension, normalize_program, parse_segments, validate)
 
@@ -27,7 +28,8 @@ class BashExecutor:
             return br.to_json()
         try:
             segments, ops = parse_segments(command)
-        except ValueError:
+        except ValueError as e:
+            log_error("parse_segments_failed", command=command, error=repr(e))
             return BlockResult(True, command, Reason.NOT_IN_WHITELIST, BLOCK_MESSAGE).to_json()
         return self._execute(segments, ops)
 
@@ -44,7 +46,8 @@ class BashExecutor:
             try:
                 p = subprocess.run(seg, shell=False, cwd=self.cwd,
                                    input=stdin_data, capture_output=True, text=True)
-            except FileNotFoundError:
+            except FileNotFoundError as e:
+                log_error("command_not_found", program=seg[0], error=repr(e))
                 return f"命令未找到：{seg[0]}"
             prev_stdout = p.stdout
             if p.stdout:

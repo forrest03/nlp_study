@@ -8,8 +8,8 @@ state_dict = bert.state_dict()
 bert.eval()
 x = [2450, 15486, 102, 2110] #假想成4个字的句子
 torch_x = torch.LongTensor([x])          #pytorch形式输入
-seqence_output, pooler_output = bert(torch_x)
-print(seqence_output.shape, pooler_output.shape)
+# seqence_output, pooler_output = bert(torch_x)
+# print(seqence_output.shape, pooler_output.shape)
 # print(seqence_output, pooler_output)
 
 # print(bert.state_dict().keys())  #查看所有的权值矩阵名称
@@ -200,6 +200,8 @@ db = DiyBert(state_dict)
 diy_sequence_output, diy_pooler_output = db.forward(x)
 #torch
 torch_sequence_output, torch_pooler_output = bert(torch_x)
+
+print(torch_sequence_output.shape, torch_pooler_output.shape)
 
 print(diy_sequence_output)
 print(torch_sequence_output)
